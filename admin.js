@@ -6,8 +6,8 @@ const $=id=>document.getElementById(id);
 const sdk=window.supabase,url=window.EVIE_SUPABASE_URL,key=window.EVIE_SUPABASE_PUBLISHABLE_KEY;
 const ready=Boolean(sdk&&url&&key&&typeof sdk.createClient==='function');
 const sb=ready?sdk.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'evie-admin-ephemeral'}}):null;
-const sections=['overview','connections','automations','docker','members','activity'];
-let current='overview',data=null,page=1,hasMore=false,opening=false;
+const sections=['inbox','overview','connections','automations','docker','members','activity'];
+let current='inbox',data=null,page=1,hasMore=false,opening=false;
 const presets={
  telegram:{name:'NightShift Telegram Bot',kind:'bot',platform:'render',render_service_id:'srv-db78airbc2fs73e6eakg',endpoint_url:'https://nightshift-telegram-bot.onrender.com',notes:'Existing Render Node service; reference only, no bot access granted.'},
  evieadmin:{name:'EvieAdmin Control',kind:'agent',platform:'render',render_service_id:'srv-db6o577f3r2c73brjcp0',endpoint_url:'https://evieadmin-control.onrender.com',notes:'Existing Render Python service; reference only, no commands issued.'}
@@ -31,9 +31,14 @@ function section(view){
   if(isCurrent)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current')
  });
  if(view==='members')loadMembers(1);
+ if(view==='inbox')window.EvieAdminInbox?.refresh?.();
  window.scrollTo({top:0,behavior:'smooth'});
 }
-function showDashboard(){$('adminGate').hidden=true;$('adminWorkspace').hidden=false;section(current)}
+function showDashboard(){
+ $('adminGate').hidden=true;$('adminWorkspace').hidden=false;
+ window.EvieAdminInbox?.start?.({request,client:sb});
+ section(current);
+}
 async function request(action,content=null,query=null){
  if(!sb)throw Error('Supabase Auth is unavailable. Reload this page.');
  const {data:auth,error}=await sb.auth.getSession();
@@ -66,6 +71,7 @@ async function authorize(){
  }finally{opening=false}
 }
 async function signOut(){
+ window.EvieAdminInbox?.stop?.();
  try{await sb?.auth.signOut()}catch(_){}
  data=null;page=1;$('adminLoginForm').reset();gate('login');gateStatus('Signed out of Evie Admin.');
 }

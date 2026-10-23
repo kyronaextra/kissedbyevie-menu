@@ -7,3 +7,91 @@ h1,h2,h3,p{margin-top:0}h1,h2{font-weight:400}h1 em,h2 em{color:var(--pink);font
 @media(max-width:790px){.globalbar{height:68px;padding:0 17px}.globalright>span:not(.small-dot){display:none}.globalright a{font-size:10px}.gate{grid-template-columns:1fr;min-height:calc(100dvh - 68px);gap:28px;padding:45px 18px}.gate-copy h1{font-size:62px}.gate-card{max-width:550px;width:100%;margin:auto}.workspace{display:block}.sidebar{position:sticky;top:68px;height:auto;min-height:0;z-index:4;padding:8px 12px;border-right:0;border-bottom:1px solid var(--line);background:rgba(12,20,19,.97)}.sidebar-kicker,.sidebar-bottom{display:none}.nav-group{flex-direction:row;overflow:auto;scrollbar-width:none;gap:6px}.nav-group::-webkit-scrollbar{display:none}.sidebar-link{flex:none;width:auto;padding:9px 12px;min-height:39px;font-size:11px;white-space:nowrap}.nav-icon{font-size:15px;width:15px}.workspace-main{padding:0 14px}.workspace-bar{min-height:78px;margin-bottom:20px}.workspace-bar .overline{font-size:8px}.workspace-controls{gap:8px}.access-pill{font-size:8px}.stat-grid{gap:10px}.overview-columns{grid-template-columns:1fr}.panel-hero{min-height:235px;padding:28px 23px}.panel-hero h1,.section-heading h1{font-size:58px}.stack-grid{grid-template-columns:1fr}.stack-grid .architecture-card{grid-column:auto}.architecture{flex-direction:column}.architecture>span{transform:rotate(90deg)}}
 @media(max-width:460px){.brand{font-size:11px;letter-spacing:.07em}.brand-mark{width:36px;height:36px;font-size:21px}.globalright{gap:5px}.globalright a{border:0;padding-left:0}.stat-grid{grid-template-columns:1fr 1fr}.stat{padding:15px;min-height:125px}.stat>strong{font-size:33px}.stat>span{font-size:8px}.stat>small{font-size:9px}.panel-hero h1,.section-heading h1{font-size:48px}.hero-glyph{display:none}.two-fields{grid-template-columns:1fr}.admin-foot{flex-direction:column}.workspace-controls .access-pill{display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+
+/* Follow-up radar — verified worker events never masquerade as manual notes. */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important}
+.inbox-nav-badge{margin-left:auto;border:1px solid rgba(231,168,192,.65);border-radius:99px;
+ background:rgba(231,168,192,.15);color:#ffd5e5;padding:1px 7px;font:10px var(--mono)}
+.inbox-heading{display:flex;align-items:end;justify-content:space-between;gap:18px}
+.inbox-heading .section-heading{margin:0}
+.inbox-live-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;padding-bottom:4px}
+.inbox-realtime-status{color:var(--mint);font:10px var(--mono);letter-spacing:.02em;display:inline-flex;gap:9px;align-items:center;border:1px solid var(--line);padding:10px 13px;border-radius:4px;white-space:nowrap}
+.inbox-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0 15px}
+.inbox-stat{background:var(--surface);padding:22px;border:1px solid var(--line);min-width:0;border-radius:6px;display:flex;flex-direction:column;min-height:139px}
+.inbox-stat.urgent{background:linear-gradient(125deg,#34202b,#141d1c);border-color:rgba(231,168,192,.3)}
+.inbox-stat>span{color:var(--mint);font:9px/1.55 var(--mono);letter-spacing:.05em}
+.inbox-stat>strong{font:normal 43px var(--display);line-height:1.1;margin:14px 0 9px}
+.inbox-stat>strong.inbox-last-check{font:600 14px var(--mono);margin-top:22px}
+.inbox-stat>small{font-size:10px;color:var(--muted);margin-top:auto}
+.inbox-platforms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:25px}
+.inbox-platform{display:flex;gap:12px;align-items:center;background:rgba(173,217,188,.045);border:1px solid var(--line);
+ border-radius:6px;padding:16px;min-width:0}
+.inbox-platform-icon{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:9px;
+ font-size:25px;font-weight:700}
+.inbox-platform-icon.telegram{color:#93d8f5;background:rgba(73,175,214,.15)}
+.inbox-platform-icon.x{color:#fafafa;background:rgba(244,241,242,.08)}
+.inbox-platform-icon.snapchat{color:#f4e98d;background:rgba(246,226,53,.09)}
+.inbox-platform>div{min-width:0;display:flex;flex-direction:column;gap:4px}
+.inbox-platform strong{font-size:12px}.inbox-platform small{font-size:10px;color:var(--muted);line-height:1.4}
+.inbox-connection-indicator{font:9px var(--mono);color:var(--gold);margin-left:auto;border:1px solid rgba(227,197,161,.2);padding:6px;border-radius:3px}
+.inbox-workspace{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,.75fr);gap:16px;align-items:start}
+.inbox-main{min-height:470px}
+.inbox-main .surface-title{margin-bottom:17px}
+.inbox-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.inbox-filters label{font-size:10px;color:var(--muted)}
+.inbox-filters select,.inbox-filters input{
+ min-height:40px;padding:10px 11px;border:1px solid var(--line);background:#0c1314;color:var(--text);border-radius:4px;font-size:11px}
+.inbox-filters input{flex:1;min-width:130px}
+.inbox-filters select{min-width:120px}
+.inbox-error{padding:12px 16px;border-radius:4px;border:1px solid rgba(236,151,166,.4);color:#f4c9ce;background:rgba(124,39,55,.12);font-size:12px}
+.inbox-queue{display:flex;flex-direction:column;gap:11px;min-height:200px}
+.inbox-thread{padding:17px 18px;background:#0e1717;border:1px solid var(--line);border-radius:6px;min-width:0}
+.inbox-thread.needs_reply{border-left:3px solid var(--pink)}
+.inbox-thread.high{box-shadow:inset 3px 0 rgba(240,207,139,.7)}
+.inbox-thread-header{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.inbox-contact{min-width:0}
+.inbox-contact>strong{display:block;font-size:15px;overflow-wrap:anywhere}
+.inbox-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:5px;font-size:10px;color:var(--muted)}
+.inbox-meta .source-manual{color:var(--gold)}
+.inbox-meta .source-worker{color:var(--mint)}
+.inbox-when{text-align:right;font-size:10px;color:var(--muted);white-space:nowrap}
+.inbox-thread-preview{color:var(--text);font-size:12px;line-height:1.65;margin:16px 0 12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.inbox-thread-note{color:var(--muted);font-size:11px;line-height:1.6;margin:4px 0 13px;overflow-wrap:anywhere}
+.inbox-thread-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.inbox-thread-actions button,.inbox-thread-actions a{min-height:34px;border:1px solid rgba(184,224,200,.21);padding:6px 11px;border-radius:4px;
+ font-size:10px;background:rgba(255,255,255,.02);color:var(--text);text-decoration:none}
+.inbox-thread-actions button:hover,.inbox-thread-actions a:hover{color:var(--mint);border-color:var(--mint)}
+.inbox-thread-actions .inbox-action-primary{background:rgba(231,168,192,.13);border-color:rgba(231,168,192,.34);color:#f4d4df}
+.inbox-state-badge{border:1px solid rgba(184,224,200,.25);border-radius:4px;padding:3px 7px;color:var(--muted);font:9px var(--mono)}
+.inbox-state-badge.urgent{color:#ffe2bb;border-color:rgba(240,196,128,.47)}
+.inbox-unread-dot{display:inline-flex;align-items:center;color:#f7c5d4;font:9px var(--mono)}
+.inbox-disclaimer{color:var(--muted);font-size:10px;line-height:1.6;margin:14px 0 0}
+.inbox-side{display:flex;flex-direction:column;gap:15px}
+.inbox-side .surface{padding:23px}
+.inbox-hint{font-size:11px!important;color:var(--muted);line-height:1.8}
+.inbox-how h2{font:normal 33px var(--display);line-height:1.1;margin:15px 0}
+.inbox-how h2 em{color:var(--pink)}
+.inbox-how p{font-size:11px;color:var(--muted);line-height:1.75}
+.inbox-how p strong{color:var(--text)}
+@media(max-width:1250px){
+ .inbox-workspace{grid-template-columns:1fr}
+ .inbox-side{display:grid;grid-template-columns:1fr 1fr}
+ .inbox-stats{grid-template-columns:repeat(2,1fr)}
+ .inbox-platforms{grid-template-columns:1fr 1fr 1fr}
+ .inbox-platform{flex-wrap:wrap}
+}
+@media(max-width:820px){
+ .inbox-heading{flex-direction:column;align-items:start}
+ .inbox-platforms{grid-template-columns:1fr}
+ .inbox-platform{flex-wrap:nowrap}
+ .inbox-side{grid-template-columns:1fr}
+ .inbox-live-tools{justify-content:flex-start}
+}
+@media(max-width:440px){
+ .inbox-stats{grid-template-columns:1fr 1fr}
+ .inbox-stat{padding:15px;min-height:118px}
+ .inbox-stat>strong{font-size:33px}
+ .inbox-filters select{min-width:90px}
+ .inbox-live-tools{gap:6px}
+}

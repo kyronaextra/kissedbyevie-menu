@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="admin.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
   <script defer src="member-config.js"></script>
+  <script defer src="admin-inbox.js"></script>
   <script defer src="admin.js"></script>
 </head>
 <body>
@@ -56,7 +57,8 @@
       <aside class="sidebar" aria-label="Admin sections">
         <p class="sidebar-kicker">THE CONTROL DESK</p>
         <div class="nav-group">
-          <button class="sidebar-link selected" type="button" data-admin-view="overview" aria-current="page"><span class="nav-icon">◈</span> Overview</button>
+          <button class="sidebar-link selected" type="button" data-admin-view="inbox" aria-current="page"><span class="nav-icon">✉</span> Message Inbox <span id="inboxNavBadge" class="inbox-nav-badge" hidden>0</span></button>
+          <button class="sidebar-link" type="button" data-admin-view="overview"><span class="nav-icon">◈</span> Overview</button>
           <button class="sidebar-link" type="button" data-admin-view="connections"><span class="nav-icon">⌘</span> Bots &amp; Connections</button>
           <button class="sidebar-link" type="button" data-admin-view="automations"><span class="nav-icon">⧖</span> Automations</button>
           <button class="sidebar-link" type="button" data-admin-view="docker"><span class="nav-icon">⬡</span> Docker &amp; Render</button>
@@ -64,7 +66,7 @@
           <button class="sidebar-link" type="button" data-admin-view="activity"><span class="nav-icon">⌁</span> Activity Log</button>
         </div>
         <div class="sidebar-bottom">
-          <span class="secure-dot" aria-hidden="true"></span><small>ADMIN + MFA VERIFIED</small>
+          <span class="secure-dot" aria-hidden="true"></span><small>APPROVED ADMIN ACCOUNT</small>
           <a href="https://dashboard.render.com/" target="_blank" rel="noopener noreferrer">Render Dashboard ↗</a>
           <a href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol" target="_blank" rel="noopener noreferrer">Supabase Project ↗</a>
           <button id="adminLogout" type="button">Sign out ↗</button>
@@ -90,6 +92,7 @@
           </div>
           <div class="overview-columns">
             <div class="surface"><div class="surface-title"><h2>Quick actions</h2><span>START HERE</span></div>
+              <button type="button" class="quick-action" data-jump="inbox"><span>00</span><strong>See who needs a reply</strong><b aria-hidden="true">↗</b></button>
               <button type="button" class="quick-action" data-jump="connections"><span>01</span><strong>Register a bot or agent</strong><b aria-hidden="true">↗</b></button>
               <button type="button" class="quick-action" data-jump="automations"><span>02</span><strong>Plan an automation</strong><b aria-hidden="true">↗</b></button>
               <button type="button" class="quick-action" data-jump="docker"><span>03</span><strong>Connect a Docker service</strong><b aria-hidden="true">↗</b></button>
@@ -99,6 +102,92 @@
               <p>Bot passwords, Telegram sessions, Render API keys and Supabase secret keys should live only on trusted servers. This page tracks configurations—it doesn't run containers or access bots without a connected worker.</p>
               <a href="https://dashboard.render.com/" target="_blank" rel="noopener noreferrer" class="text-link">Open Render ↗</a>
             </div>
+          </div>
+        </section>
+
+
+        <section id="panel-inbox" class="panel" aria-labelledby="inboxTitle" hidden>
+          <div class="section-heading inbox-heading">
+            <div>
+              <p class="overline">YOUR MESSAGES / FOLLOW-UP RADAR</p>
+              <h1 id="inboxTitle">Who needs <em>you back?</em></h1>
+              <p>One place to prioritize Telegram, X, and Snapchat conversations. Incoming messages appear only after you connect an authorized source.</p>
+            </div>
+            <div class="inbox-live-tools">
+              <span id="inboxRealtimeStatus" class="inbox-realtime-status"><span aria-hidden="true" class="small-dot"></span> Connecting…</span>
+              <button type="button" id="inboxRefresh" class="secondary small">↻ Refresh messages</button>
+              <button type="button" id="inboxNotify" class="secondary small">Enable alerts</button>
+            </div>
+          </div>
+
+          <div class="inbox-stats" role="group" aria-label="Follow-up totals">
+            <div class="inbox-stat urgent"><span>NEEDS A RESPONSE</span><strong id="inboxNeedCount">0</strong><small>Waiting for your attention</small></div>
+            <div class="inbox-stat"><span>HIGH PRIORITY</span><strong id="inboxUrgentCount">0</strong><small>Marked important</small></div>
+            <div class="inbox-stat"><span>UNREAD EVENTS</span><strong id="inboxUnreadCount">0</strong><small>New incoming worker updates</small></div>
+            <div class="inbox-stat"><span>LAST CHECK</span><strong class="inbox-last-check" id="inboxLastCheck">—</strong><small id="inboxSyncNote">Not yet checked</small></div>
+          </div>
+
+          <div class="inbox-platforms" role="group" aria-label="Platform connection status">
+            <div class="inbox-platform"><span class="inbox-platform-icon telegram">✈</span><div><strong>Telegram</strong><small id="inboxTelegramStatus">Waiting for authorized worker</small></div><span class="inbox-connection-indicator">SETUP</span></div>
+            <div class="inbox-platform"><span class="inbox-platform-icon x">𝕏</span><div><strong>X / Twitter</strong><small id="inboxXStatus">Account API not connected</small></div><span class="inbox-connection-indicator">SETUP</span></div>
+            <div class="inbox-platform"><span class="inbox-platform-icon snapchat">◉</span><div><strong>Snapchat</strong><small id="inboxSnapStatus">Manual follow-up reminders</small></div><span class="inbox-connection-indicator">MANUAL</span></div>
+          </div>
+
+          <div class="inbox-workspace">
+            <section class="surface inbox-main" aria-labelledby="inboxQueueTitle">
+              <div class="surface-title"><h2 id="inboxQueueTitle">Response queue</h2><span id="inboxQueueLabel">0 CONTACTS</span></div>
+              <div class="inbox-filters" aria-label="Message filters">
+                <label for="inboxStateFilter">Show</label>
+                <select id="inboxStateFilter">
+                  <option value="needs_reply">Needs reply</option>
+                  <option value="all">All</option>
+                  <option value="waiting">Waiting</option>
+                  <option value="handled">Handled</option>
+                </select>
+                <label for="inboxPlatformFilter">Platform</label>
+                <select id="inboxPlatformFilter">
+                  <option value="all">All platforms</option>
+                  <option value="telegram">Telegram</option>
+                  <option value="x">X</option>
+                  <option value="snapchat">Snapchat</option>
+                </select>
+                <label for="inboxSearch" class="sr-only">Search contacts</label>
+                <input id="inboxSearch" type="search" maxlength="80" placeholder="Search contacts…" autocomplete="off">
+              </div>
+              <p id="inboxError" class="inbox-error" role="alert" hidden></p>
+              <div id="inboxQueue" class="inbox-queue" aria-live="polite" aria-relevant="additions text">
+                <p class="empty">No messages loaded. Sign in to check your response queue.</p>
+              </div>
+              <p class="inbox-disclaimer">“Mark replied elsewhere” records a reminder status only. It does not send a message or verify that you replied on the original platform.</p>
+            </section>
+
+            <aside class="inbox-side">
+              <form id="inboxManualForm" class="surface stack-form">
+                <div class="surface-title"><h2>Add a follow-up</h2><span>MANUAL NOTE</span></div>
+                <p class="inbox-hint">For Snapchat and any chat we can't sync, add the person you want to get back to. Manual notes are never shown as incoming live messages.</p>
+                <label for="inboxManualPlatform">Platform</label>
+                <select id="inboxManualPlatform">
+                  <option value="snapchat">Snapchat</option><option value="x">X / Twitter</option><option value="telegram">Telegram</option>
+                </select>
+                <label for="inboxManualName">Who?</label>
+                <input id="inboxManualName" type="text" maxlength="100" required placeholder="Their display name or nickname">
+                <label for="inboxManualHandle">Username (optional)</label>
+                <input id="inboxManualHandle" type="text" maxlength="80" spellcheck="false" autocomplete="off" placeholder="@username">
+                <label for="inboxManualSummary">Why follow up?</label>
+                <textarea id="inboxManualSummary" rows="2" maxlength="280" placeholder="Asked about custom content…"></textarea>
+                <label for="inboxManualPriority">Priority</label>
+                <select id="inboxManualPriority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select>
+                <button type="submit" class="primary">Add to my queue →</button>
+              </form>
+              <div class="surface inbox-how">
+                <p class="overline">HOW THE LIVE FEED WORKS</p>
+                <h2>Messages in. <em>You decide.</em></h2>
+                <p><strong>Telegram:</strong> connect a worker that is authorized to receive the messages you choose to monitor.</p>
+                <p><strong>X:</strong> requires account-approved API access and may incur usage costs.</p>
+                <p><strong>Snapchat:</strong> personal chats can't be imported through a general public inbox API; use manual reminders for now.</p>
+                <p class="inbox-hint">We don't connect to your personal inboxes automatically, and no automatic replies are enabled.</p>
+              </div>
+            </aside>
           </div>
         </section>
 
