@@ -251,22 +251,26 @@
   </div>
 
   <div class="section">
-    <h2>Content Bundles</h2>
+    <h2>Content Bundles <span style="font-size:12px; color:#ffb6c1;">(choose 1)</span></h2>
     <div class="item">
       <div class="name">10 pics/videos</div>
-      <div class="price">$15 <button class="add-btn" onclick="addToCart('10 pics/videos', 15)">+ Add</button></div>
+      <div class="price">$15 <button class="add-btn" onclick="selectBundle('10 pics/videos', 15)">SELECT</button></div>
     </div>
     <div class="item">
       <div class="name">20 pics/videos</div>
-      <div class="price">$30 <button class="add-btn" onclick="addToCart('20 pics/videos', 30)">+ Add</button></div>
+      <div class="price">$30 <button class="add-btn" onclick="selectBundle('20 pics/videos', 30)">SELECT</button></div>
     </div>
     <div class="item">
       <div class="name">50 pics/videos</div>
-      <div class="price">$60 <button class="add-btn" onclick="addToCart('50 pics/videos', 60)">+ Add</button></div>
+      <div class="price">$60 <button class="add-btn" onclick="selectBundle('50 pics/videos', 60)">SELECT</button></div>
     </div>
     <div class="item">
-      <div class="name">B/G Dropbox<br><span style="font-size:13px;color:#ffd1dc;">15+ videos</span></div>
+      <div class="name">Add-on: B/G Dropbox<br><span style="font-size:13px;color:#ffd1dc;">15+ videos</span></div>
       <div class="price">$35 <button class="add-btn" onclick="addToCart('B/G Dropbox', 35)">+ Add</button></div>
+    </div>
+    <div class="item">
+      <div class="name">Add-on: detailed 🍆 rate</div>
+      <div class="price">$25 <button class="add-btn" onclick="addToCart('Detailed 🍆 rate', 25)">+ Add</button></div>
     </div>
   </div>
 
@@ -370,6 +374,11 @@
 <script>
 let cart = [];
 function addToCart(name, price) {
+  cart.push({name, price});
+  updateCart();
+}
+function selectBundle(name, price) {
+  cart = cart.filter(i => !i.name.includes('pics/videos'));
   cart.push({name, price});
   updateCart();
 }
