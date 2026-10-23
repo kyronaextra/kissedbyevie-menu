@@ -25,7 +25,7 @@ Database member tables and RLS were deployed previously:
 Docs: https://supabase.com/docs/guides/auth/passwords
 
 ## Daddy Members private gallery
-- Database migration: `supabase/migrations/20261023_evie_daddy_private_gallery.sql`.
+- Database migration: `supabase/migrations/20261023223713_evie_daddy_private_gallery_and_favorites.sql`.
 - Live Supabase tables: `evie_daddy_media` and `evie_daddy_favorites`.
 - Private storage bucket: `evie-daddy-vault`. **Never make it public.**
 - Photo/video cards sorted by `sort_at` (Dropbox server_modified as available), grouped by date; default newest first.
