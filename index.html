@@ -202,12 +202,26 @@
         <button id="memberTabSignup" type="button" role="tab" aria-selected="false" aria-controls="memberSignupForm" data-auth-view="signup" tabindex="-1">Create account</button>
       </div>
       <form class="member-form" id="memberLoginForm" autocomplete="on">
-        <label for="memberLoginEmail">Email address</label>
-        <input type="email" id="memberLoginEmail" name="email" autocomplete="email" placeholder="you@example.com" maxlength="254" spellcheck="false" autocapitalize="none" required>
-        <label for="memberLoginPin">Your 8-digit PIN</label>
+        <label for="memberLoginPlatform">Sign in with</label>
+        <select id="memberLoginPlatform" required><option value="telegram">Telegram</option><option value="snapchat">Snapchat</option></select>
+        <label for="memberLoginUsername">Your social username</label>
+        <input type="text" id="memberLoginUsername" autocomplete="username" maxlength="51" placeholder="@yourusername" spellcheck="false" autocapitalize="none" required>
+        <label for="memberLoginPin">Your private 8-digit PIN</label>
         <input type="password" id="memberLoginPin" inputmode="numeric" autocomplete="current-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="••••••••">
         <button class="primary-btn" type="submit">Sign in →</button>
+        <p class="fine-print">Evie must verify and approve your social username before it can be used for login.</p>
+        <button type="button" id="memberEmailFallback" class="member-inline-button">Just registered? Finish setup with email</button>
         <button type="button" id="memberForgot" class="member-inline-button">Need your PIN reset?</button>
+      </form>
+      <form class="member-form" id="memberEmailLoginForm" hidden autocomplete="on">
+        <h3>Finish account setup</h3>
+        <p>Use your verified email until Evie approves your Telegram or Snapchat login username.</p>
+        <label for="memberEmailLoginEmail">Verified email address</label>
+        <input type="email" id="memberEmailLoginEmail" autocomplete="email" placeholder="you@example.com" maxlength="254" spellcheck="false" autocapitalize="none" required>
+        <label for="memberEmailLoginPin">Private 8-digit PIN</label>
+        <input type="password" id="memberEmailLoginPin" inputmode="numeric" autocomplete="current-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="••••••••">
+        <button class="primary-btn" type="submit">Finish setup →</button>
+        <button type="button" id="memberEmailLoginBack" class="member-inline-button">← Back to username sign in</button>
       </form>
 
       <form class="member-form" id="memberSignupForm" hidden autocomplete="on">
@@ -217,22 +231,21 @@
         <input type="password" id="memberSignupPin" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="Eight numbers">
         <label for="memberSignupConfirm">Confirm your PIN</label>
         <input type="password" id="memberSignupConfirm" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="Repeat your PIN">
-        <p class="fine-print">Choose eight numbers that aren't easy to guess. You'll verify your email before you can sign in.</p>
+        <p class="fine-print">Choose eight numbers that are not your phone number. Email verification is needed for account setup and admin-assisted recovery.</p>
         <div class="member-socials">
-          <span class="eyebrow">OPTIONAL · ONE SOCIAL ACCOUNT</span>
-          <p>Choose Telegram, X, or Snapchat and add your username — or skip this step.</p>
-          <label for="memberSignupPlatform">Your social platform (optional)</label>
-          <select id="memberSignupPlatform">
-            <option value="">Skip for now</option>
+          <span class="eyebrow">YOUR SIGN-IN USERNAME</span>
+          <p>Choose the Telegram or Snapchat username you own. Evie will verify the account before activating username sign-in.</p>
+          <label for="memberSignupPlatform">Sign-in platform</label>
+          <select id="memberSignupPlatform" required>
+            <option value="" selected disabled>Choose Telegram or Snapchat</option>
             <option value="telegram">Telegram</option>
-            <option value="x">X / Twitter</option>
             <option value="snapchat">Snapchat</option>
           </select>
-          <label for="memberSignupHandle">Social username (optional)</label>
-          <input type="text" id="memberSignupHandle" maxlength="80" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="@yourusername">
+          <label for="memberSignupHandle">Your social username</label>
+          <input type="text" id="memberSignupHandle" maxlength="51" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="@yourusername" required>
         </div>
         <label class="member-consent"><input type="checkbox" id="memberAgeConfirmed" required> I confirm I am 18 or older and agree to use my email and optional social username for account and membership administration.</label>
-        <p class="fine-print">Creating an account does not activate paid access. Check your inbox for a verification link, then sign in with your email and PIN.</p>
+        <p class="fine-print">Check your inbox to verify your email. Evie separately approves your social username, Daddy membership and age verification.</p>
         <button class="primary-btn" type="submit">Create account →</button>
       </form>
 
@@ -268,7 +281,7 @@
         <a class="text-link" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Questions about membership? Message Evie ↗</a>
       </div>
       <form id="memberSocialForm" class="member-form">
-        <h3>Your social <small>(optional)</small></h3>
+        <h3>Your social profile <small>(optional)</small></h3><p class="fine-print">Your approved login username does not change when you edit this profile. Ask Evie to verify a new login username.</p>
         <label for="memberProfilePlatform">Social platform</label>
         <select id="memberProfilePlatform">
           <option value="">None / remove my social</option>

@@ -307,3 +307,7 @@ html{scroll-behavior:auto}
   .evie-gallery-filter{padding:9px 12px;font-size:12px}
   .evie-media-dialog{padding:15px}
 }
+
+/* Username first; verified-email setup is available for pending accounts. */
+#memberLoginPlatform{width:100%;min-height:48px}
+#memberEmailFallback{margin:0 auto}
