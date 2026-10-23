@@ -42,8 +42,11 @@ function validateConnection(payload:any){
  const platform=text(payload.platform||"custom",40,"platform",true);
  const renderId=text(payload.render_service_id,52,"Render service ID")||null;
  if(renderId&&!renderID.test(renderId))throw new Error("Enter a valid Render service ID");
- const envName=text(payload.secret_env_name,80,"secret variable name")||null;
- if(envName&&!/^[A-Z][A-Z0-9_]{2,79}$/.test(envName))throw new Error("Enter an environment VARIABLE NAME, not a credential");
+ // A VARIABLE NAME is not a credential. Validate its syntax, never its value.
+ const envName=typeof payload.secret_env_name==="string"?payload.secret_env_name.trim():null;
+ if(envName&&(!/^[A-Z][A-Z0-9_]{2,79}$/.test(envName)||envName.length>80)){
+  throw new Error("Enter an environment VARIABLE NAME, not a credential");
+ }
  const rawUrl=text(payload.endpoint_url,500,"public URL")||null;
  let safeUrl:null|string=null;
  if(rawUrl){
