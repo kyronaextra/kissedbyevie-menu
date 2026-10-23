@@ -3,263 +3,245 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@kissedbyevie</title>
+<title>Kissed by Evie</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: #070406;
     color: #f5f0f2;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     overflow-x: hidden;
   }
-  .hero {
-    height: 70vh;
-    min-height: 480px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1), #070406 85%),
-                url('https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg') center 30%/cover no-repeat;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 40px 24px 60px; text-align: left;
-  }
-  .hero h1 {
-    font-size: clamp(48px, 14vw, 72px); font-weight: 300; letter-spacing: -1px;
-    line-height: 0.9; font-style: italic;
-  }
-  .hero .handle { color: #c9a0b0; margin-top: 12px; letter-spacing: 3px; font-size: 13px; text-transform: uppercase; }
-
-  .entrances { max-width: 440px; margin: -40px auto 0; padding: 0 20px 140px; position: relative; z-index: 2; }
-  .entrance {
-    background: #120a0e; border-radius: 20px; padding: 28px 24px; margin-bottom: 16px;
-    cursor: pointer; border: 1px solid #2a1a22; transition: transform 0.3s ease, border-color 0.3s;
-  }
-  .entrance:active { transform: scale(0.98); }
-  .entrance h2 { font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 6px; }
-  .entrance p { color: #a09098; font-size: 15px; }
-  .entrance.vip { background: linear-gradient(135deg, #1a0e14, #0f080c); }
-  .entrance.vault { background: linear-gradient(135deg, #140c12, #0a0608); }
-
-  .panel {
-    position: fixed; inset: 0; background: #070406; z-index: 100;
-    transform: translateX(100%); transition: transform 0.4s cubic-bezier(.4,0,.2,1);
-    overflow-y: auto; padding: 24px 20px 100px;
-  }
-  .panel.open { transform: translateX(0); }
-  .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-  .panel-header h2 { font-size: 28px; font-weight: 500; }
-  .close { background: none; border: none; color: #e8a0b8; font-size: 28px; cursor: pointer; }
-
-  .vip-wrap { perspective: 900px; margin: 20px 0 32px; }
-  .vip-card {
-    height: 200px; border-radius: 18px; cursor: pointer; transform-style: preserve-3d;
-    transition: transform 0.7s; position: relative;
-  }
-  .vip-card.flipped { transform: rotateY(180deg); }
-  .vip-front, .vip-back {
-    position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden;
-    background: linear-gradient(145deg, #2c1a24, #160c12);
-    border: 1px solid #6a4050; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; text-align: center; padding: 24px;
-  }
-  .vip-front::after {
-    content: ''; position: absolute; inset: 0; border-radius: 18px;
-    background: linear-gradient(115deg, transparent 35%, rgba(255,180,200,0.3) 50%, transparent 65%);
-    animation: shine 4s infinite;
-  }
-  @keyframes shine { 0% { transform: translateX(-130%); } 100% { transform: translateX(130%); } }
-  .vip-back { transform: rotateY(180deg); }
-  .vip-card h3 { font-size: 26px; letter-spacing: 1px; }
-  .benefits { font-size: 14px; line-height: 1.7; color: #ddd; margin: 12px 0; }
-  .vip-btns { display: flex; gap: 10px; }
-  .vip-btns button, .add-btn {
-    background: #e8a0b8; color: #070406; border: none; padding: 10px 16px;
-    border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer;
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
   }
 
-  .vault-visual {
-    height: 160px; background: linear-gradient(180deg, #1a1016, #0c060a);
-    border-radius: 16px; margin: 16px 0; display: flex; align-items: center; justify-content: center;
-    box-shadow: inset 0 0 40px rgba(232,160,184,0.08); position: relative;
+  .hero-strip {
+    height: 100vh;
+    min-height: 560px;
+    position: relative;
   }
-  .vault-visual span { font-size: 48px; color: #e8a0b8; }
-  .cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
-  .cats span { background: #1a1016; color: #c9a0b0; padding: 6px 12px; border-radius: 20px; font-size: 13px; }
+  .swiper { width: 100%; height: 100%; }
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+    display: flex; align-items: flex-end; padding: 40px 24px 80px;
+  }
+  .slide-caption {
+    max-width: 420px;
+  }
+  .slide-caption h1 {
+    font-size: clamp(42px, 12vw, 68px);
+    font-weight: 300; font-style: italic; line-height: 0.9;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+  }
+  .slide-caption p {
+    margin-top: 12px; color: #e8c8d4; letter-spacing: 2px; font-size: 13px; text-transform: uppercase;
+  }
 
-  .opt-list { display: flex; flex-direction: column; gap: 10px; }
-  .opt {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 16px; background: #120a0e; border-radius: 12px;
+  .chapter {
+    min-height: 100vh;
+    padding: 80px 24px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
   }
-  .opt span { font-size: 15px; }
-  .opt small { color: #a09098; display: block; font-size: 12px; }
+  .chapter.quiet { background: #070406; }
+  .chapter.burgundy { background: #1a0a12; }
+  .chapter.rose { background: #14080e; }
+  .chapter h2 {
+    font-size: clamp(36px, 9vw, 52px);
+    font-weight: 300; font-style: italic; margin-bottom: 16px; line-height: 1;
+  }
+  .chapter p { max-width: 360px; color: #c9a8b4; font-size: 16px; line-height: 1.6; }
+
+  .photo-strip {
+    width: 100%;
+    overflow: hidden;
+    padding: 40px 0;
+  }
+  .photo-strip .swiper-slide {
+    width: 280px; height: 380px;
+    background-size: cover; background-position: center;
+    border-radius: 12px;
+  }
+
+  .note {
+    font-style: italic; color: #e8a0b8; font-size: 18px; max-width: 320px; margin: 20px 0;
+  }
+
+  .vip-entrance {
+    text-align: center; padding: 100px 24px;
+    background: linear-gradient(180deg, #0c060a, #1a0a12);
+  }
+  .vip-entrance h2 { font-size: clamp(40px, 10vw, 60px); font-weight: 300; font-style: italic; }
+  .vip-btn {
+    display: inline-block; margin-top: 24px; background: #e8a0b8; color: #070406;
+    padding: 14px 32px; border-radius: 40px; text-decoration: none; font-weight: 600;
+    letter-spacing: 1px;
+  }
 
   .bag-pill {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
     background: #e8a0b8; color: #070406; padding: 12px 22px; border-radius: 40px;
-    font-weight: 700; font-size: 15px; cursor: pointer; z-index: 50;
-    box-shadow: 0 6px 24px rgba(232,160,184,0.35);
+    font-weight: 700; z-index: 50; cursor: pointer; display: none;
   }
-  .drawer {
-    position: fixed; top: 0; right: -100%; width: 88%; max-width: 360px; height: 100%;
-    background: #10080c; z-index: 200; transition: right 0.35s ease; padding: 24px 20px; overflow-y: auto;
+  .bag-pill.show { display: block; }
+
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 300;
+    display: none; align-items: center; justify-content: center;
   }
-  .drawer.open { right: 0; }
-  .cart-line { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; }
-  .checkout {
-    display: block; background: #e8a0b8; color: #070406; text-align: center;
-    text-decoration: none; padding: 14px; border-radius: 12px; font-weight: 700; margin-top: 20px;
-  }
-  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 150; display: none; }
-  .overlay.show { display: block; }
-  .sparkle { position: fixed; pointer-events: none; color: #e8a0b8; animation: float 0.9s ease forwards; }
-  @keyframes float { to { transform: translateY(-50px); opacity: 0; } }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90%; max-height: 80vh; border-radius: 8px; }
+  .lightbox .close { position: absolute; top: 20px; right: 24px; color: #fff; font-size: 32px; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <h1>Kissed<br>by Evie</h1>
-  <div class="handle">@kissedbyevie</div>
-</div>
-
-<div class="entrances">
-  <div class="entrance vip" onclick="openPanel('vipPanel')">
-    <h2>Become a VIP</h2>
-    <p>Daily attention, full vault access, priority everything.</p>
-  </div>
-  <div class="entrance vault" onclick="openPanel('vaultPanel')">
-    <h2>Explore My Vault</h2>
-    <p>800+ constantly updated pics & videos.</p>
-  </div>
-  <div class="entrance" onclick="openPanel('customPanel')">
-    <h2>Create Something Custom</h2>
-    <p>Tell me the vibe. I’ll build it for you.</p>
-  </div>
-</div>
-
-<div id="vipPanel" class="panel">
-  <div class="panel-header">
-    <h2>Become a VIP</h2>
-    <button class="close" onclick="closePanels()">×</button>
-  </div>
-  <div class="vip-wrap">
-    <div class="vip-card" onclick="this.classList.toggle('flipped')">
-      <div class="vip-front">
-        <h3>DADDY<br>PACKAGE</h3>
-        <div style="color:#e8a0b8; margin-top:8px;">Tap to open</div>
-      </div>
-      <div class="vip-back">
-        <div class="benefits">Deluxe Dropbox included<br>Daily content & priority replies<br>1 complimentary live<br>3 months free OnlyFans</div>
-        <div class="vip-btns">
-          <button onclick="event.stopPropagation(); addItem('Daddy Package Monthly', 150)">$150 / mo</button>
-          <button onclick="event.stopPropagation(); addItem('Daddy Package One-time', 350)">$350</button>
+<div class="hero-strip">
+  <div class="swiper heroSwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg')">
+        <div class="slide-caption">
+          <h1>Kissed<br>by Evie</h1>
+          <p>@kissedbyevie</p>
         </div>
       </div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HS3eluHbsAAuNxr.jpg')"></div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HU2FhiLbgAA9HPS.jpg')"></div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HUxyhppaYAAxpLh.jpg')"></div>
     </div>
   </div>
-  <p style="color:#a09098; font-size:14px; text-align:center;">Customs still extra. Tips make it better.</p>
 </div>
 
-<div id="vaultPanel" class="panel">
-  <div class="panel-header">
-    <h2>The Vault</h2>
-    <button class="close" onclick="closePanels()">×</button>
-  </div>
-  <div class="vault-visual"><span>✦</span></div>
-  <div class="cats">
-    <span>Squirt</span><span>Solo</span><span>Feet</span><span>Striptease</span>
-    <span>Selfies</span><span>Oil</span><span>Some B/G</span><span>Some Anal</span>
-  </div>
-  <p style="margin:12px 0 20px; color:#ddd; line-height:1.5;">800+ pics & videos. Constantly updated. Includes free 1-month OnlyFans trial.</p>
-  <button class="add-btn" style="width:100%;" onclick="addItem('Deluxe Dropbox', 75)">Add Full Vault — $75</button>
-</div>
+<section class="chapter quiet">
+  <h2>You can build your dream girl…</h2>
+  <p>or meet a real one.</p>
+</section>
 
-<div id="customPanel" class="panel">
-  <div class="panel-header">
-    <h2>Create Something</h2>
-    <button class="close" onclick="closePanels()">×</button>
-  </div>
-  <div class="opt-list">
-    <div class="opt"><div><span>10 pics/videos</span><small>$15</small></div><button class="add-btn" onclick="selectBundle('10 pics/videos', 15)">Select</button></div>
-    <div class="opt"><div><span>20 pics/videos</span><small>$30</small></div><button class="add-btn" onclick="selectBundle('20 pics/videos', 30)">Select</button></div>
-    <div class="opt"><div><span>50 pics/videos</span><small>$60</small></div><button class="add-btn" onclick="selectBundle('50 pics/videos', 60)">Select</button></div>
-    <div class="opt"><div><span>B/G Dropbox</span><small>15+ videos • $35</small></div><button class="add-btn" onclick="addItem('B/G Dropbox', 35)">Add</button></div>
-    <div class="opt"><div><span>Live 🍆 rate</span><small>$25</small></div><button class="add-btn" onclick="addItem('🍆 rate', 25)">Add</button></div>
-    <div class="opt"><div><span>5 min video chat</span><small>$50</small></div><button class="add-btn" onclick="addItem('5 min Video Chat', 50)">Add</button></div>
-    <div class="opt"><div><span>10 min video chat</span><small>$85</small></div><button class="add-btn" onclick="addItem('10 min Video Chat', 85)">Add</button></div>
-    <div class="opt"><div><span>2 min custom</span><small>$90</small></div><button class="add-btn" onclick="addItem('2 min Custom', 90)">Add</button></div>
-    <div class="opt"><div><span>45 sec short custom</span><small>$45</small></div><button class="add-btn" onclick="addItem('45 sec Custom', 45)">Add</button></div>
-  </div>
-  <p style="margin:20px 0 10px; color:#e8a0b8;">Make a Deal</p>
-  <div style="display:flex; gap:8px; flex-wrap:wrap;">
-    <button class="add-btn" onclick="addItem('Make a Deal $50', 50)">$50</button>
-    <button class="add-btn" onclick="addItem('Make a Deal $100', 100)">$100</button>
-    <button class="add-btn" onclick="addItem('Make a Deal $150', 150)">$150</button>
-    <button class="add-btn" onclick="addItem('Make a Deal $200', 200)">$200</button>
+<div class="photo-strip">
+  <div class="swiper stripSwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg')" onclick="openLightbox(this)"></div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HS3eluHbsAAuNxr.jpg')" onclick="openLightbox(this)"></div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HU2FhiZa4AAz9i9.jpg')" onclick="openLightbox(this)"></div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HUxsmjNaAAABEJJ.jpg')" onclick="openLightbox(this)"></div>
+    </div>
   </div>
 </div>
 
-<div class="bag-pill" onclick="document.getElementById('bagDrawer').classList.add('open'); document.getElementById('overlay').classList.add('show')">
+<section class="chapter burgundy">
+  <h2>Some days I live in my living room.</h2>
+  <p class="note">“I don’t need NVIDIA’s 5090. I’m fine on the 2070.”</p>
+</section>
+
+<div class="photo-strip">
+  <div class="swiper stripSwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HUxyhppaYAAxpLh.jpg')" onclick="openLightbox(this)"></div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HU2FhiVbcAA45Zo.jpg')" onclick="openLightbox(this)"></div>
+      <div class="swiper-slide" style="background-image:url('https://pbs.twimg.com/media/HS3elt-aQAA3x0C.jpg')" onclick="openLightbox(this)"></div>
+    </div>
+  </div>
+</div>
+
+<section class="chapter rose">
+  <h2>muah!</h2>
+  <p>A little note from me to you.</p>
+</section>
+
+<section class="vip-entrance" id="vip">
+  <h2>The door is open.</h2>
+  <p style="margin:16px auto; max-width:300px; color:#c9a8b4;">Daily attention. Full vault. Priority everything.</p>
+  <a class="vip-btn" href="#" onclick="addVIP(); return false;">Become VIP — $150/mo</a>
+  <div style="margin-top:12px;">
+    <a class="vip-btn" style="background:#2a1820; color:#e8a0b8;" href="#" onclick="addItem('Deluxe Dropbox',75); return false;">Or just the Vault — $75</a>
+  </div>
+</section>
+
+<div class="bag-pill" id="bagPill" onclick="document.getElementById('bagDrawer').classList.add('open')">
   Order <span id="bagTotal">$0</span>
 </div>
 
-<div id="overlay" class="overlay" onclick="closeDrawers()"></div>
-<div id="bagDrawer" class="drawer">
-  <h3 style="color:#e8a0b8; margin-bottom:16px;">Your Order</h3>
+<div id="bagDrawer" style="position:fixed;top:0;right:-100%;width:85%;max-width:340px;height:100%;background:#10080c;z-index:200;transition:right .35s;padding:24px 20px;overflow-y:auto;">
+  <h3 style="color:#e8a0b8;margin-bottom:16px;">Your Order</h3>
   <div id="cartLines"></div>
-  <div style="margin-top:16px; font-weight:700; font-size:18px;">Total: $<span id="drawerTotal">0</span></div>
-  <a class="checkout" href="https://cash.app/$TaylorGann90" target="_blank">Pay with Cash App</a>
-  <p style="text-align:center; color:#a09098; font-size:13px; margin-top:10px;">Then message the total + list to @kissedbyevie on Telegram</p>
+  <div style="margin-top:16px;font-weight:700;">Total: $<span id="drawerTotal">0</span></div>
+  <a href="https://cash.app/$TaylorGann90" target="_blank" style="display:block;background:#e8a0b8;color:#070406;text-align:center;padding:14px;border-radius:12px;text-decoration:none;font-weight:700;margin-top:16px;">Pay with Cash App</a>
+  <p style="text-align:center;color:#a09098;font-size:13px;margin-top:10px;">Then message the total + list to @kissedbyevie on Telegram</p>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="close">×</span>
+  <img id="lightboxImg" src="">
 </div>
 
 <script>
+gsap.registerPlugin(ScrollTrigger);
+
+new Swiper('.heroSwiper', {
+  effect: 'fade',
+  fadeEffect: { crossFade: true },
+  autoplay: { delay: 4500, disableOnInteraction: false },
+  loop: true,
+  speed: 1200
+});
+
+document.querySelectorAll('.stripSwiper').forEach(el => {
+  new Swiper(el, {
+    slidesPerView: 'auto',
+    spaceBetween: 12,
+    freeMode: true,
+    grabCursor: true
+  });
+});
+
+gsap.utils.toArray('.chapter').forEach(ch => {
+  gsap.from(ch.querySelectorAll('h2, p'), {
+    y: 40, opacity: 0, duration: 1.1, stagger: 0.15,
+    scrollTrigger: { trigger: ch, start: 'top 75%' }
+  });
+});
+
+gsap.from('.vip-entrance', {
+  opacity: 0, y: 60, duration: 1.2,
+  scrollTrigger: { trigger: '#vip', start: 'top 80%' }
+});
+
+ScrollTrigger.create({
+  trigger: '#vip',
+  start: 'top 60%',
+  onEnter: () => document.getElementById('bagPill').classList.add('show')
+});
+
 let cart = [];
-function openPanel(id) { document.getElementById(id).classList.add('open'); }
-function closePanels() { document.querySelectorAll('.panel').forEach(p => p.classList.remove('open')); }
-function closeDrawers() {
-  document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
-  document.getElementById('overlay').classList.remove('show');
-}
+function addVIP() { addItem('Daddy Package Monthly', 150); }
 function addItem(name, price) {
   const ex = cart.find(i => i.name === name);
-  if (ex) ex.qty++; else cart.push({name, price, qty:1, id:Date.now()+Math.random()});
-  render(); sparkle();
-}
-function selectBundle(name, price) {
-  cart = cart.filter(i => !i.name.includes('pics/videos'));
-  addItem(name, price);
-}
-function changeQty(id, d) {
-  const item = cart.find(i => i.id === id);
-  if (!item) return;
-  item.qty += d;
-  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  if (ex) ex.qty++; else cart.push({name, price, qty:1});
   render();
+  document.getElementById('bagPill').classList.add('show');
 }
 function render() {
   const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
-  document.getElementById('bagTotal').textContent = '$'+total;
+  document.getElementById('bagTotal').textContent = '$' + total;
   document.getElementById('drawerTotal').textContent = total;
-  const lines = document.getElementById('cartLines');
-  if (!cart.length) { lines.innerHTML = '<p style="color:#666">Nothing yet</p>'; return; }
-  lines.innerHTML = cart.map(i => `
-    <div class="cart-line">
-      <div>${i.name} ×${i.qty}</div>
-      <div>
-        <button onclick="changeQty(${i.id},-1)">−</button>
-        <span style="margin:0 6px">$${i.price*i.qty}</span>
-        <button onclick="changeQty(${i.id},1)">+</button>
-      </div>
-    </div>`).join('');
+  document.getElementById('cartLines').innerHTML = cart.map(i =>
+    `<div style="display:flex;justify-content:space-between;margin:8px 0;">${i.name} ×${i.qty} <span>$${i.price*i.qty}</span></div>`
+  ).join('') || '<p style="color:#666">Nothing yet</p>';
 }
-function sparkle() {
-  for (let i=0; i<6; i++) {
-    const s = document.createElement('div');
-    s.className = 'sparkle'; s.textContent = '✦';
-    s.style.left = (Math.random()*70+15)+'%';
-    s.style.bottom = '70px';
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),900);
-  }
+
+function openLightbox(slide) {
+  const img = document.getElementById('lightboxImg');
+  img.src = slide.style.backgroundImage.slice(5, -2);
+  document.getElementById('lightbox').classList.add('open');
 }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 </script>
 
 </body>
