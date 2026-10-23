@@ -7,7 +7,7 @@ const originAllowlist = new Set(["https://kissedbyevie-menu.onrender.com"]);
 const projectUrl = (Deno.env.get("SUPABASE_URL") || "").replace(/\/$/, "");
 const anonKey = Deno.env.get("SUPABASE_ANON_KEY") || "";
 const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-const failText = "Sign-in failed. Check your Telegram/Snapchat username, private PIN, or admin approval.";
+const failText = "Sign-in failed. Check your username and private PIN.";
 
 function cors(origin: string): Headers {
   const headers = new Headers({
@@ -61,21 +61,19 @@ Deno.serve(async (request) => {
     const text = await request.text();
     if (text.length > 1200) return reply(origin, 413, { error: "Request too large" });
     const value = JSON.parse(text);
-    const platform = typeof value.platform === "string" ? value.platform.trim().toLowerCase() : "";
     const username = typeof value.username === "string" ? value.username.trim().replace(/^@/, "").toLowerCase() : "";
     const pin = typeof value.pin === "string" ? value.pin : "";
     if (
-      !["telegram", "snapchat"].includes(platform) ||
-      !/^[a-z0-9._-]{3,50}$/.test(username) ||
+      !/^[a-z0-9._-]{3,30}$/.test(username) ||
       !/^[0-9]{8}$/.test(pin)
-    ) return reply(origin, 400, { error: "Enter a valid platform, username and 8-digit PIN." });
+    ) return reply(origin, 400, { error: "Enter a valid username and 8-digit PIN." });
 
     // Throttle BOTH by username and by caller IP. The per-username limit still
     // applies if a client attempts to spoof its forwarded IP address.
     const callerIp = (request.headers.get("cf-connecting-ip")
       || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
       || request.headers.get("x-real-ip") || "unknown").slice(0, 120);
-    const identityHash = await sha256(platform + ":" + username);
+    const identityHash = await sha256("username:" + username);
     const ipHash = await sha256(callerIp);
     const limit = await getServiceJson(
       projectUrl + "/rest/v1/rpc/evie_username_login_rate_check",
@@ -92,11 +90,10 @@ Deno.serve(async (request) => {
 
     const params = new URLSearchParams({
       select: "user_id",
-      platform: "eq." + platform,
       normalized_username: "eq." + username,
       limit: "1",
     });
-    const mapping = await getServiceJson(projectUrl + "/rest/v1/evie_username_logins?" + params);
+    const mapping = await getServiceJson(projectUrl + "/rest/v1/evie_member_usernames?" + params);
     if (!mapping.ok || !Array.isArray(mapping.data)) {
       return reply(origin, 503, { error: "Sign-in temporarily unavailable." });
     }
