@@ -8,193 +8,193 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #0a0608;
-    color: #f8f4f6;
+    background: #070406;
+    color: #f5f0f2;
     overflow-x: hidden;
   }
   .hero {
-    height: 45vh;
-    min-height: 300px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.15), #0a0608),
-                url('https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg') center/cover no-repeat;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; padding: 20px;
+    height: 70vh;
+    min-height: 480px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), #070406 85%),
+                url('https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg') center 30%/cover no-repeat;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 40px 24px 60px; text-align: left;
   }
   .hero h1 {
-    font-size: clamp(36px, 9vw, 52px); font-weight: 500; letter-spacing: 1px;
-    font-style: italic; opacity: 0; animation: reveal 1.2s ease forwards;
+    font-size: clamp(48px, 14vw, 72px); font-weight: 300; letter-spacing: -1px;
+    line-height: 0.9; font-style: italic;
   }
-  @keyframes reveal { to { opacity: 1; } }
-  .hero .handle { color: #e8a0b8; margin-top: 8px; letter-spacing: 2px; font-size: 13px; }
+  .hero .handle { color: #c9a0b0; margin-top: 12px; letter-spacing: 3px; font-size: 13px; text-transform: uppercase; }
 
-  .menu { max-width: 420px; margin: 0 auto; padding: 24px 16px 120px; }
+  .entrances { max-width: 440px; margin: -40px auto 0; padding: 0 20px 140px; position: relative; z-index: 2; }
+  .entrance {
+    background: #120a0e; border-radius: 20px; padding: 28px 24px; margin-bottom: 16px;
+    cursor: pointer; border: 1px solid #2a1a22; transition: transform 0.3s ease, border-color 0.3s;
+  }
+  .entrance:active { transform: scale(0.98); }
+  .entrance h2 { font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .entrance p { color: #a09098; font-size: 15px; }
+  .entrance.vip { background: linear-gradient(135deg, #1a0e14, #0f080c); }
+  .entrance.vault { background: linear-gradient(135deg, #140c12, #0a0608); }
 
-  .vip-wrap { perspective: 1000px; margin-bottom: 28px; }
+  .panel {
+    position: fixed; inset: 0; background: #070406; z-index: 100;
+    transform: translateX(100%); transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+    overflow-y: auto; padding: 24px 20px 100px;
+  }
+  .panel.open { transform: translateX(0); }
+  .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .panel-header h2 { font-size: 28px; font-weight: 500; }
+  .close { background: none; border: none; color: #e8a0b8; font-size: 28px; cursor: pointer; }
+
+  .vip-wrap { perspective: 900px; margin: 20px 0 32px; }
   .vip-card {
-    position: relative; height: 180px; border-radius: 16px; cursor: pointer;
-    transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(.4,0,.2,1);
+    height: 200px; border-radius: 18px; cursor: pointer; transform-style: preserve-3d;
+    transition: transform 0.7s; position: relative;
   }
   .vip-card.flipped { transform: rotateY(180deg); }
   .vip-front, .vip-back {
-    position: absolute; inset: 0; border-radius: 16px; backface-visibility: hidden;
-    background: linear-gradient(135deg, #2a1a22, #1a0e14);
-    border: 1px solid #5a3a48; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    padding: 20px; text-align: center;
+    position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden;
+    background: linear-gradient(145deg, #2c1a24, #160c12);
+    border: 1px solid #6a4050; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center; padding: 24px;
   }
   .vip-front::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(110deg, transparent 30%, rgba(255,182,193,0.25) 50%, transparent 70%);
-    animation: shine 3.5s infinite;
+    content: ''; position: absolute; inset: 0; border-radius: 18px;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,180,200,0.3) 50%, transparent 65%);
+    animation: shine 4s infinite;
   }
-  @keyframes shine { 0% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+  @keyframes shine { 0% { transform: translateX(-130%); } 100% { transform: translateX(130%); } }
   .vip-back { transform: rotateY(180deg); }
-  .vip-card h2 { font-size: 22px; letter-spacing: 1px; margin-bottom: 6px; }
-  .vip-card .sub { color: #e8a0b8; font-size: 13px; }
-  .vip-back .benefits { font-size: 13px; line-height: 1.6; color: #ddd; margin: 10px 0; }
-  .vip-prices { display: flex; gap: 12px; margin-top: 8px; }
-  .vip-prices button {
-    background: #e8a0b8; color: #0a0608; border: none; padding: 8px 14px;
-    border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;
+  .vip-card h3 { font-size: 26px; letter-spacing: 1px; }
+  .benefits { font-size: 14px; line-height: 1.7; color: #ddd; margin: 12px 0; }
+  .vip-btns { display: flex; gap: 10px; }
+  .vip-btns button, .add-btn {
+    background: #e8a0b8; color: #070406; border: none; padding: 10px 16px;
+    border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer;
   }
 
-  .vault {
-    background: #140c10; border: 1px solid #3a2830; border-radius: 16px;
-    padding: 18px; margin-bottom: 24px; cursor: pointer; position: relative;
+  .vault-visual {
+    height: 160px; background: linear-gradient(180deg, #1a1016, #0c060a);
+    border-radius: 16px; margin: 16px 0; display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 40px rgba(232,160,184,0.08); position: relative;
   }
-  .vault h3 { color: #e8a0b8; margin-bottom: 8px; }
-  .vault-door {
-    height: 80px; background: linear-gradient(180deg, #2a1820, #1a1014);
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    margin: 10px 0; box-shadow: 0 0 20px rgba(232,160,184,0.15);
-  }
-  .vault-door span { font-size: 28px; }
-  .vault-cats { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; color: #aaa; }
-  .vault-cats span { background: #1f1418; padding: 3px 8px; border-radius: 12px; }
+  .vault-visual span { font-size: 48px; color: #e8a0b8; }
+  .cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .cats span { background: #1a1016; color: #c9a0b0; padding: 6px 12px; border-radius: 20px; font-size: 13px; }
 
-  .step { margin-bottom: 20px; }
-  .step h3 { font-size: 15px; color: #e8a0b8; margin-bottom: 8px; }
-  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-list { display: flex; flex-direction: column; gap: 10px; }
   .opt {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 12px; background: #140c10; border-radius: 10px; font-size: 14px;
+    padding: 14px 16px; background: #120a0e; border-radius: 12px;
   }
-  .opt button {
-    background: #e8a0b8; color: #0a0608; border: none; padding: 5px 12px;
-    border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;
-  }
+  .opt span { font-size: 15px; }
+  .opt small { color: #a09098; display: block; font-size: 12px; }
 
   .bag-pill {
-    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-    background: #e8a0b8; color: #0a0608; padding: 10px 18px; border-radius: 30px;
-    font-weight: 700; font-size: 14px; cursor: pointer; z-index: 50;
-    box-shadow: 0 4px 20px rgba(232,160,184,0.3);
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #e8a0b8; color: #070406; padding: 12px 22px; border-radius: 40px;
+    font-weight: 700; font-size: 15px; cursor: pointer; z-index: 50;
+    box-shadow: 0 6px 24px rgba(232,160,184,0.35);
   }
   .drawer {
-    position: fixed; top: 0; right: -100%; width: 85%; max-width: 340px; height: 100%;
-    background: #120a0e; border-left: 1px solid #3a2830; z-index: 200;
-    transition: right 0.35s ease; padding: 20px 16px; overflow-y: auto;
+    position: fixed; top: 0; right: -100%; width: 88%; max-width: 360px; height: 100%;
+    background: #10080c; z-index: 200; transition: right 0.35s ease; padding: 24px 20px; overflow-y: auto;
   }
   .drawer.open { right: 0; }
-  .drawer h3 { color: #e8a0b8; margin-bottom: 12px; }
-  .cart-line { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; font-size: 14px; }
-  .qty { display: flex; gap: 6px; align-items: center; }
-  .qty button { background: #2a1820; color: #fff; border: none; width: 22px; height: 22px; border-radius: 4px; cursor: pointer; }
+  .cart-line { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; }
   .checkout {
-    display: block; background: #e8a0b8; color: #0a0608; text-align: center;
-    text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 16px;
+    display: block; background: #e8a0b8; color: #070406; text-align: center;
+    text-decoration: none; padding: 14px; border-radius: 12px; font-weight: 700; margin-top: 20px;
   }
-  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 150; display: none; }
   .overlay.show { display: block; }
-
-  .sparkle { position: fixed; pointer-events: none; font-size: 18px; animation: float 0.8s ease forwards; }
-  @keyframes float { to { transform: translateY(-40px); opacity: 0; } }
-  .note { font-size: 13px; color: #aaa; }
+  .sparkle { position: fixed; pointer-events: none; color: #e8a0b8; animation: float 0.9s ease forwards; }
+  @keyframes float { to { transform: translateY(-50px); opacity: 0; } }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>Kissed by Evie</h1>
+  <h1>Kissed<br>by Evie</h1>
   <div class="handle">@kissedbyevie</div>
 </div>
 
-<div class="menu">
+<div class="entrances">
+  <div class="entrance vip" onclick="openPanel('vipPanel')">
+    <h2>Become a VIP</h2>
+    <p>Daily attention, full vault access, priority everything.</p>
+  </div>
+  <div class="entrance vault" onclick="openPanel('vaultPanel')">
+    <h2>Explore My Vault</h2>
+    <p>800+ constantly updated pics & videos.</p>
+  </div>
+  <div class="entrance" onclick="openPanel('customPanel')">
+    <h2>Create Something Custom</h2>
+    <p>Tell me the vibe. I’ll build it for you.</p>
+  </div>
+</div>
 
+<div id="vipPanel" class="panel">
+  <div class="panel-header">
+    <h2>Become a VIP</h2>
+    <button class="close" onclick="closePanels()">×</button>
+  </div>
   <div class="vip-wrap">
-    <div class="vip-card" id="vipCard" onclick="this.classList.toggle('flipped')">
+    <div class="vip-card" onclick="this.classList.toggle('flipped')">
       <div class="vip-front">
-        <h2>DADDY PACKAGE</h2>
-        <div class="sub">Tap to reveal</div>
+        <h3>DADDY<br>PACKAGE</h3>
+        <div style="color:#e8a0b8; margin-top:8px;">Tap to open</div>
       </div>
       <div class="vip-back">
-        <div class="benefits">Deluxe Dropbox • Daily content<br>Priority replies • 1 free live<br>3 months free OnlyFans</div>
-        <div class="vip-prices">
-          <button onclick="event.stopPropagation(); addItem('Daddy Package Monthly', 150)">$150/mo</button>
+        <div class="benefits">Deluxe Dropbox included<br>Daily content & priority replies<br>1 complimentary live<br>3 months free OnlyFans</div>
+        <div class="vip-btns">
+          <button onclick="event.stopPropagation(); addItem('Daddy Package Monthly', 150)">$150 / mo</button>
           <button onclick="event.stopPropagation(); addItem('Daddy Package One-time', 350)">$350</button>
         </div>
       </div>
     </div>
   </div>
+  <p style="color:#a09098; font-size:14px; text-align:center;">Customs still extra. Tips make it better.</p>
+</div>
 
-  <div class="vault" onclick="document.getElementById('vaultPanel').classList.add('open')">
-    <h3>Deluxe Dropbox / Full Vault</h3>
-    <div class="vault-door"><span>✦</span></div>
-    <div class="vault-cats">
-      <span>Squirt</span><span>Solo</span><span>Feet</span><span>Striptease</span><span>Selfies</span><span>Oil</span><span>Some B/G</span><span>Some Anal</span>
-    </div>
-    <p class="note" style="margin-top:8px;">800+ items • Constantly updated • Free 1-mo OF trial</p>
+<div id="vaultPanel" class="panel">
+  <div class="panel-header">
+    <h2>The Vault</h2>
+    <button class="close" onclick="closePanels()">×</button>
   </div>
-
-  <div id="vaultPanel" class="drawer">
-    <h3>Full Vault — $75</h3>
-    <p style="font-size:14px; line-height:1.5; margin-bottom:12px;">800+ pics & videos. Squirt, some B/G, solo, feet folder, striptease, selfies, up close, oil, some anal. Constantly updated. Includes free 1-month OnlyFans trial.</p>
-    <button style="width:100%; padding:12px; background:#e8a0b8; color:#0a0608; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="addItem('Deluxe Dropbox', 75); closeDrawers()">Add to Order</button>
+  <div class="vault-visual"><span>✦</span></div>
+  <div class="cats">
+    <span>Squirt</span><span>Solo</span><span>Feet</span><span>Striptease</span>
+    <span>Selfies</span><span>Oil</span><span>Some B/G</span><span>Some Anal</span>
   </div>
+  <p style="margin:12px 0 20px; color:#ddd; line-height:1.5;">800+ pics & videos. Constantly updated. Includes free 1-month OnlyFans trial.</p>
+  <button class="add-btn" style="width:100%;" onclick="addItem('Deluxe Dropbox', 75)">Add Full Vault — $75</button>
+</div>
 
-  <div class="step">
-    <h3>1. Choose a collection</h3>
-    <div class="options">
-      <div class="opt"><div>10 pics/videos <small style="color:#aaa">$15</small></div><button onclick="selectBundle('10 pics/videos', 15)">Select</button></div>
-      <div class="opt"><div>20 pics/videos <small style="color:#aaa">$30</small></div><button onclick="selectBundle('20 pics/videos', 30)">Select</button></div>
-      <div class="opt"><div>50 pics/videos <small style="color:#aaa">$60</small></div><button onclick="selectBundle('50 pics/videos', 60)">Select</button></div>
-    </div>
+<div id="customPanel" class="panel">
+  <div class="panel-header">
+    <h2>Create Something</h2>
+    <button class="close" onclick="closePanels()">×</button>
   </div>
-
-  <div class="step">
-    <h3>2. Add extras</h3>
-    <div class="options">
-      <div class="opt"><div>B/G Dropbox (15+ videos)</div><button onclick="addItem('B/G Dropbox', 35)">$35</button></div>
-      <div class="opt"><div>Live 🍆 rate</div><button onclick="addItem('🍆 rate', 25)">$25</button></div>
-      <div class="opt"><div>3 snaps + 2 pics</div><button onclick="addItem('3 snaps + 2 pics', 20)">$20</button></div>
-    </div>
+  <div class="opt-list">
+    <div class="opt"><div><span>10 pics/videos</span><small>$15</small></div><button class="add-btn" onclick="selectBundle('10 pics/videos', 15)">Select</button></div>
+    <div class="opt"><div><span>20 pics/videos</span><small>$30</small></div><button class="add-btn" onclick="selectBundle('20 pics/videos', 30)">Select</button></div>
+    <div class="opt"><div><span>50 pics/videos</span><small>$60</small></div><button class="add-btn" onclick="selectBundle('50 pics/videos', 60)">Select</button></div>
+    <div class="opt"><div><span>B/G Dropbox</span><small>15+ videos • $35</small></div><button class="add-btn" onclick="addItem('B/G Dropbox', 35)">Add</button></div>
+    <div class="opt"><div><span>Live 🍆 rate</span><small>$25</small></div><button class="add-btn" onclick="addItem('🍆 rate', 25)">Add</button></div>
+    <div class="opt"><div><span>5 min video chat</span><small>$50</small></div><button class="add-btn" onclick="addItem('5 min Video Chat', 50)">Add</button></div>
+    <div class="opt"><div><span>10 min video chat</span><small>$85</small></div><button class="add-btn" onclick="addItem('10 min Video Chat', 85)">Add</button></div>
+    <div class="opt"><div><span>2 min custom</span><small>$90</small></div><button class="add-btn" onclick="addItem('2 min Custom', 90)">Add</button></div>
+    <div class="opt"><div><span>45 sec short custom</span><small>$45</small></div><button class="add-btn" onclick="addItem('45 sec Custom', 45)">Add</button></div>
   </div>
-
-  <div class="step">
-    <h3>3. Live & Custom</h3>
-    <div class="options">
-      <div class="opt"><div>5 min video chat</div><button onclick="addItem('5 min Video Chat', 50)">$50</button></div>
-      <div class="opt"><div>10 min video chat</div><button onclick="addItem('10 min Video Chat', 85)">$85</button></div>
-      <div class="opt"><div>15 / 30 / 60 min live snaps</div><button onclick="addItem('15 min Live Snaps', 45)">from $45</button></div>
-      <div class="opt"><div>2–4 min custom</div><button onclick="addItem('2 min Custom', 90)">from $90</button></div>
-      <div class="opt"><div>45 sec short custom</div><button onclick="addItem('45 sec Custom', 45)">$45</button></div>
-    </div>
+  <p style="margin:20px 0 10px; color:#e8a0b8;">Make a Deal</p>
+  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+    <button class="add-btn" onclick="addItem('Make a Deal $50', 50)">$50</button>
+    <button class="add-btn" onclick="addItem('Make a Deal $100', 100)">$100</button>
+    <button class="add-btn" onclick="addItem('Make a Deal $150', 150)">$150</button>
+    <button class="add-btn" onclick="addItem('Make a Deal $200', 200)">$200</button>
   </div>
-
-  <div class="step">
-    <h3>Make a Deal</h3>
-    <div class="options">
-      <div class="opt"><div>Custom offer</div>
-        <div>
-          <button onclick="addItem('Make a Deal $50', 50)">$50</button>
-          <button onclick="addItem('Make a Deal $100', 100)">$100</button>
-          <button onclick="addItem('Make a Deal $150', 150)">$150</button>
-          <button onclick="addItem('Make a Deal $200', 200)">$200</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <div class="bag-pill" onclick="document.getElementById('bagDrawer').classList.add('open'); document.getElementById('overlay').classList.add('show')">
@@ -202,64 +202,62 @@
 </div>
 
 <div id="overlay" class="overlay" onclick="closeDrawers()"></div>
-
 <div id="bagDrawer" class="drawer">
-  <h3>Your Order</h3>
+  <h3 style="color:#e8a0b8; margin-bottom:16px;">Your Order</h3>
   <div id="cartLines"></div>
-  <div style="margin-top:12px; font-weight:700;">Total: $<span id="drawerTotal">0</span></div>
+  <div style="margin-top:16px; font-weight:700; font-size:18px;">Total: $<span id="drawerTotal">0</span></div>
   <a class="checkout" href="https://cash.app/$TaylorGann90" target="_blank">Pay with Cash App</a>
-  <p class="note" style="text-align:center; margin-top:8px;">Then message the total + list to @kissedbyevie on Telegram</p>
+  <p style="text-align:center; color:#a09098; font-size:13px; margin-top:10px;">Then message the total + list to @kissedbyevie on Telegram</p>
 </div>
 
 <script>
 let cart = [];
+function openPanel(id) { document.getElementById(id).classList.add('open'); }
+function closePanels() { document.querySelectorAll('.panel').forEach(p => p.classList.remove('open')); }
+function closeDrawers() {
+  document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
+  document.getElementById('overlay').classList.remove('show');
+}
 function addItem(name, price) {
-  const existing = cart.find(i => i.name === name);
-  if (existing) existing.qty++;
-  else cart.push({name, price, qty: 1, id: Date.now() + Math.random()});
-  render();
-  sparkle();
+  const ex = cart.find(i => i.name === name);
+  if (ex) ex.qty++; else cart.push({name, price, qty:1, id:Date.now()+Math.random()});
+  render(); sparkle();
 }
 function selectBundle(name, price) {
   cart = cart.filter(i => !i.name.includes('pics/videos'));
   addItem(name, price);
 }
-function changeQty(id, delta) {
+function changeQty(id, d) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
-  item.qty += delta;
+  item.qty += d;
   if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
   render();
 }
 function render() {
-  const lines = document.getElementById('cartLines');
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  document.getElementById('bagTotal').textContent = '$' + total;
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  document.getElementById('bagTotal').textContent = '$'+total;
   document.getElementById('drawerTotal').textContent = total;
-  if (!cart.length) { lines.innerHTML = '<p style="color:#aaa">Nothing yet</p>'; return; }
+  const lines = document.getElementById('cartLines');
+  if (!cart.length) { lines.innerHTML = '<p style="color:#666">Nothing yet</p>'; return; }
   lines.innerHTML = cart.map(i => `
     <div class="cart-line">
-      <div>${i.name} × ${i.qty}</div>
-      <div class="qty">
-        <button onclick="changeQty(${i.id}, -1)">−</button>
-        <span>$${i.price * i.qty}</span>
-        <button onclick="changeQty(${i.id}, 1)">+</button>
+      <div>${i.name} ×${i.qty}</div>
+      <div>
+        <button onclick="changeQty(${i.id},-1)">−</button>
+        <span style="margin:0 6px">$${i.price*i.qty}</span>
+        <button onclick="changeQty(${i.id},1)">+</button>
       </div>
     </div>`).join('');
 }
-function closeDrawers() {
-  document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
-  document.getElementById('overlay').classList.remove('show');
-}
 function sparkle() {
-  for (let i = 0; i < 5; i++) {
+  for (let i=0; i<6; i++) {
     const s = document.createElement('div');
-    s.className = 'sparkle';
-    s.textContent = '✦';
-    s.style.left = (Math.random() * 80 + 10) + '%';
-    s.style.bottom = '80px';
+    s.className = 'sparkle'; s.textContent = '✦';
+    s.style.left = (Math.random()*70+15)+'%';
+    s.style.bottom = '70px';
     document.body.appendChild(s);
-    setTimeout(() => s.remove(), 800);
+    setTimeout(()=>s.remove(),900);
   }
 }
 </script>
