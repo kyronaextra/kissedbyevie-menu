@@ -48,3 +48,11 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 - Admin can find new members through SQL Editor:
   `select n.username,u.email,m.tier,m.status,p.snapchat_handle,p.x_handle from public.evie_member_usernames n join auth.users u on u.id=n.user_id left join public.evie_memberships m on m.user_id=n.user_id left join public.evie_member_profiles p on p.user_id=n.user_id order by n.created_at desc;`
 - Private Daddy media access still requires separate administrator approval and verified adult age. Dropbox content is not imported.
+
+## Remembered sign-in
+- Supabase Auth `persistSession: true` and `autoRefreshToken: true` restore the session on the same browser/device; the home-page member button displays "My Daddy Account" while a session exists.
+- The member can sign out at any time. A session can expire or be revoked; a new login may then be required.
+- We do **not** use or store IP addresses as identity/login credentials: IPs change and multiple people can share one.
+- The server-side login throttle may hash incoming network addresses to prevent abuse, separately from persistent authentication.
+- Persisted sessions on a shared device can expose the account to other people using that device. Members should sign out on shared/public devices.
+- Paid media access and age verification are checked independently for each gallery request.

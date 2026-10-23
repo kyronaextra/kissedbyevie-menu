@@ -49,6 +49,11 @@ function showAccount(){
   $('memberAuthArea').hidden=true;
   $('memberDashboard').hidden=false;
 }
+function updateAccountButton(signedIn){
+  const button=$('openMemberAccount');
+  if(!button)return;
+  button.textContent=signedIn?'My Daddy Account ↗':'Daddy Members Access Here ↗';
+}
 function handleValue(s){
   const value=String(s||'').trim();
   if(!value)return null;
@@ -106,6 +111,7 @@ async function loadStatus(){
     const {data,error}=await client.auth.getUser();
     if(error)throw error;
     const user=data?.user;
+    updateAccountButton(Boolean(user));
     if(!user){visibleView('login');return}
     showAccount();
     $('memberAccountEmail').textContent=user.email||'Verified member account';
@@ -333,7 +339,10 @@ $('memberSignOut').addEventListener('click',async ()=>{
   }catch(error){writeMessage('Unable to sign out. Please try again.')}
 });
 if(client){
-  client.auth.onAuthStateChange(event=>{
+  // INITIAL_SESSION restores a remembered account on a returning device.
+  // Account access is still rechecked with getUser() and server-side RLS.
+  client.auth.onAuthStateChange((event,session)=>{
+    updateAccountButton(Boolean(session?.user));
     if(event==='SIGNED_OUT'){window.EvieDaddyGallery?.deactivate();visibleView('login')}
   });
 }
