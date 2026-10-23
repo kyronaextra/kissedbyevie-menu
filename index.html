@@ -155,6 +155,17 @@
     color: #ffb6c1;
     border: 1px solid #ff69b4;
   }
+  .add-btn {
+    background: #ff1493;
+    color: #fff;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 8px;
+    cursor: pointer;
+  }
   .footer {
     text-align: center;
     font-size: 12px;
@@ -173,15 +184,22 @@
 
 <div class="menu">
 
+  <div class="section" id="order-summary" style="position:sticky; bottom:0; z-index:10; background:#1a0a10; border:2px solid #ff1493;">
+    <h2>Your Order</h2>
+    <div id="cart-items" style="font-size:14px; margin-bottom:8px;">Nothing added yet</div>
+    <div style="font-weight:700; color:#ffb6c1; font-size:18px;">Estimated Total: $<span id="cart-total">0</span></div>
+    <p class="note">Add items below, then pay and send me the total + what you ordered on Telegram.</p>
+  </div>
+
   <div class="section highlight">
     <h2>Daddy Package <span class="badge">MOST EXCLUSIVE</span></h2>
     <div class="item">
       <div class="name">Monthly continuous attention</div>
-      <div class="price">$150 / mo</div>
+      <div class="price">$150 / mo <button class="add-btn" onclick="addToCart('Daddy Package Monthly', 150)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">One-time payment <span class="badge">BEST VALUE</span></div>
-      <div class="price">$350</div>
+      <div class="price">$350 <button class="add-btn" onclick="addToCart('Daddy Package One-time', 350)">+ Add</button></div>
     </div>
     <p class="note">Daily content, full vault access, priority replies, 1 complimentary live, 3 months free OnlyFans. Customs still extra. Tips make it better.</p>
   </div>
@@ -190,7 +208,7 @@
     <h2>Full Vault <span class="badge">BEST VALUE</span></h2>
     <div class="item">
       <div class="name">800+ pics & videos<br><span style="font-size:13px;color:#ffd1dc;">Constantly updated</span></div>
-      <div class="price">$75</div>
+      <div class="price">$75 <button class="add-btn" onclick="addToCart('Full Vault', 75)">+ Add</button></div>
     </div>
   </div>
 
@@ -209,7 +227,7 @@
     <h2>Content Bundles</h2>
     <div class="item">
       <div class="name">10 pics/videos</div>
-      <div class="price">$15</div>
+      <div class="price">$15 <button class="add-btn" onclick="addToCart('10 pics/videos', 15)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">20 pics/videos</div>
@@ -217,7 +235,7 @@
     </div>
     <div class="item">
       <div class="name">50 pics/videos</div>
-      <div class="price">$60</div>
+      <div class="price">$60 <button class="add-btn" onclick="addToCart('50 pics/videos', 60)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">B/G Dropbox<br><span style="font-size:13px;color:#ffd1dc;">15+ videos</span></div>
@@ -321,6 +339,26 @@
     18+ ONLY • DIGITAL CONTENT
   </div>
 </div>
+
+<script>
+let cart = [];
+function addToCart(name, price) {
+  cart.push({name, price});
+  updateCart();
+}
+function updateCart() {
+  const itemsEl = document.getElementById('cart-items');
+  const totalEl = document.getElementById('cart-total');
+  if (cart.length === 0) {
+    itemsEl.innerHTML = 'Nothing added yet';
+    totalEl.textContent = '0';
+    return;
+  }
+  itemsEl.innerHTML = cart.map(i => `${i.name} — $${i.price}`).join('<br>');
+  const total = cart.reduce((sum, i) => sum + i.price, 0);
+  totalEl.textContent = total;
+}
+</script>
 
 </body>
 </html>
