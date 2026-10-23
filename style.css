@@ -212,7 +212,7 @@ html{scroll-behavior:auto}
 #confirmOrder:disabled,#submitCheckout:disabled{opacity:.5;cursor:not-allowed}
 @media(max-width:650px){.checkout-dialog{width:100vw}}
 
-/* Daddy Members: phone + PIN / optional social accounts */
+/* Daddy Members: email + PIN / optional social accounts */
 .member-dialog{position:fixed;margin:auto;width:min(calc(100% - 24px),590px);max-height:92dvh;overflow-y:auto;border:1px solid var(--line);border-radius:12px;padding:clamp(24px,5vw,45px);background:radial-gradient(ellipse at top right,#492037,#190b14 55%,#10070d);color:var(--ivory);box-shadow:0 25px 100px rgba(0,0,0,.6)}
 .member-dialog::backdrop{background:rgba(8,3,7,.84);backdrop-filter:blur(6px)}
 .member-dialog-top{display:flex;gap:15px;justify-content:space-between;align-items:start}
@@ -260,3 +260,5 @@ html{scroll-behavior:auto}
   border:1px solid rgba(255,255,255,.25);border-radius:5px;font:16px var(--body)
 }
 .member-socials select:focus-visible,.member-form>select:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+
+.member-help-link{display:block;text-align:center;text-decoration:none;font-size:13px;border-radius:4px}

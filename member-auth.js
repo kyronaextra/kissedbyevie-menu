@@ -1,39 +1,34 @@
 (function(){
 'use strict';
 const $=id=>document.getElementById(id);
-const dialog=$('memberDialog'),notice=$('memberSetupNotice');
-const sdk=window.supabase;
-const enabled=Boolean(window.EVIE_SMS_READY===true&&window.EVIE_SUPABASE_URL&&window.EVIE_SUPABASE_PUBLISHABLE_KEY&&sdk&&typeof sdk.createClient==='function');
+const dialog=$('memberDialog'),notice=$('memberSetupNotice'),sdk=window.supabase;
+const enabled=Boolean(window.EVIE_SUPABASE_URL&&window.EVIE_SUPABASE_PUBLISHABLE_KEY&&sdk&&typeof sdk.createClient==='function');
 const client=enabled?sdk.createClient(window.EVIE_SUPABASE_URL,window.EVIE_SUPABASE_PUBLISHABLE_KEY,{
   auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}
 }):null;
 const forms={
   login:$('memberLoginForm'),signup:$('memberSignupForm'),
-  verify:$('memberVerifyForm'),reset:$('memberResetForm'),newpin:$('memberNewPinForm')
+  verify:$('memberVerifyForm'),reset:$('memberResetForm')
 };
 const tabs=[$('memberTabLogin'),$('memberTabSignup')];
-let activeView='login';
-let verifyPhone='';
-let resetPhone='';
-let pendingHandles=null;
-let pendingProfileSave=false;
-let statusLoading=false;
-const validPin=x=>/^[0-9]{8}$/.test(x);
-const validOtp=x=>/^[0-9]{6}$/.test(x);
-function phoneFrom(value){
-  const phone=String(value||'').replace(/[\s().-]/g,'');
-  if(!/^\+[1-9][0-9]{7,14}$/.test(phone))throw new Error('Enter your number with country code, for example +1 253 555 0100.');
-  return phone;
+const redirectTo=window.EVIE_AUTH_REDIRECT_URL||window.location.origin+window.location.pathname;
+let verificationEmail='',pendingHandles=null,statusLoading=false;
+const validPin=value=>/^[0-9]{8}$/.test(value);
+const strongPin=value=>validPin(value)&&!/^([0-9])\1{7}$/.test(value)&&!['12345678','87654321','00000000','11111111','12341234','12121212'].includes(value);
+function emailFrom(value){
+  const email=String(value||'').trim().toLowerCase();
+  if(email.length>254||!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))
+    throw new Error('Enter a valid email address.');
+  return email;
 }
 function textValue(id){return $(id).value.trim()}
 function writeMessage(value){$('memberMessage').textContent=value||''}
 function safeError(error){return error&&typeof error.message==='string'?error.message:'Unable to complete that request. Please try again.'}
 function busy(form,value){
-  const submit=form.querySelector('button[type=submit]');
+  const submit=form.querySelector('button[type="submit"]');
   if(submit){submit.disabled=value;submit.setAttribute('aria-busy',String(value))}
 }
 function visibleView(view){
-  activeView=view;
   for(const key of Object.keys(forms))forms[key].hidden=key!==view;
   $('memberAuthArea').hidden=false;$('memberDashboard').hidden=true;
   const isTab=view==='login'||view==='signup';
@@ -49,42 +44,29 @@ function showAccount(){
   $('memberAuthArea').hidden=true;
   $('memberDashboard').hidden=false;
 }
-async function profileSave(handles){
-  if(!client||!handles)return;
-  const {data,error}=await client.auth.getUser();
-  if(error||!data||!data.user)throw error||new Error('Sign in before saving your socials.');
-  const payload={
-    user_id:data.user.id,
-    telegram_handle:handles.telegram,
-    x_handle:handles.x,
-    snapchat_handle:handles.snapchat
-  };
-  const {error:upsertError}=await client.from('evie_member_profiles').upsert(payload,{onConflict:'user_id'});
-  if(upsertError)throw upsertError;
-}
 function handleValue(s){
   const value=String(s||'').trim();
   if(!value)return null;
-  if(!/^@?[A-Za-z0-9._-]{1,79}$/.test(value))throw new Error('Social handles may contain letters, numbers, underscores, periods and an optional @.');
+  if(!/^@?[A-Za-z0-9._-]{1,79}$/.test(value))throw new Error('Username can contain letters, numbers, underscores, periods, dashes and an optional @.');
   return value;
 }
 function handlesFrom(prefix){
-  const kind=textValue(prefix+'Platform');
-  const handle=handleValue(textValue(prefix+'Handle'));
-  if(!kind && handle)throw new Error('Choose Telegram, X or Snapchat for your username, or leave both fields blank.');
-  if(kind && !handle)throw new Error('Enter your username, or select Skip for now.');
-  if(kind && !['telegram','x','snapchat'].includes(kind))throw new Error('Select a valid social platform.');
-  return {
-    telegram:kind==='telegram'?handle:null,
-    x:kind==='x'?handle:null,
-    snapchat:kind==='snapchat'?handle:null
-  };
+  const platform=textValue(prefix+'Platform'),handle=handleValue(textValue(prefix+'Handle'));
+  if(!platform&&handle)throw new Error('Choose Telegram, X or Snapchat for your username, or leave both blank.');
+  if(platform&&!handle)throw new Error('Enter your username, or select Skip for now.');
+  if(platform&&!['telegram','x','snapchat'].includes(platform))throw new Error('Select a valid social platform.');
+  return {telegram:platform==='telegram'?handle:null,x:platform==='x'?handle:null,snapchat:platform==='snapchat'?handle:null};
 }
 function displaySocial(handles){
-  if(!handles)return;
-  const kind=handles.telegram?'telegram':handles.x?'x':handles.snapchat?'snapchat':'';
-  $('memberProfilePlatform').value=kind;
-  $('memberProfileHandle').value=kind?handles[kind]||'':'';
+  const platform=handles?.telegram?'telegram':handles?.x?'x':handles?.snapchat?'snapchat':'';
+  $('memberProfilePlatform').value=platform;
+  $('memberProfileHandle').value=platform?handles[platform]||'':'';
+}
+async function profileSave(user,handles){
+  const {error}=await client.from('evie_member_profiles').upsert({
+    user_id:user.id,telegram_handle:handles.telegram,x_handle:handles.x,snapchat_handle:handles.snapchat
+  },{onConflict:'user_id'});
+  if(error)throw error;
 }
 async function loadStatus(){
   if(!client||statusLoading)return;
@@ -92,39 +74,42 @@ async function loadStatus(){
   try{
     const {data,error}=await client.auth.getUser();
     if(error)throw error;
-    const user=data&&data.user;
+    const user=data?.user;
     if(!user){visibleView('login');return}
     showAccount();
-    $('memberAccountPhone').textContent=user.phone||'Verified member account';
+    $('memberAccountEmail').textContent=user.email||'Verified member account';
     $('memberStatusName').textContent='Checking access…';
     $('memberStatusDescription').textContent='Confirming your membership status.';
     $('memberGalleryEntry').hidden=true;
-    // Member profile is readable/editable by only its own authenticated user via RLS.
     const {data:profile,error:pErr}=await client.from('evie_member_profiles')
       .select('telegram_handle,x_handle,snapchat_handle').eq('user_id',user.id).maybeSingle();
     if(pErr)throw pErr;
-    if(pendingHandles){
-      await profileSave(pendingHandles);
-      displaySocial(pendingHandles);
-      pendingHandles=null;
-    }else{
-      displaySocial(profile?{
-        telegram:profile.telegram_handle,x:profile.x_handle,snapchat:profile.snapchat_handle
-      }:null);
+    let social=pendingHandles;
+    if(!social&&!profile){
+      const kind=user.user_metadata?.evie_social_platform;
+      const handle=user.user_metadata?.evie_social_handle;
+      if(['telegram','x','snapchat'].includes(kind)&&handle){
+        try{social={telegram:null,x:null,snapchat:null};social[kind]=handleValue(handle)}
+        catch(_){social=null}
+      }
     }
+    if(!profile&&social){
+      await profileSave(user,social);
+      displaySocial(social);
+    }else{
+      displaySocial(profile?{telegram:profile.telegram_handle,x:profile.x_handle,snapchat:profile.snapchat_handle}:null);
+    }
+    pendingHandles=null;
     let {data:membership,error:mErr}=await client.from('evie_memberships')
       .select('tier,status,expires_at').eq('user_id',user.id).maybeSingle();
     if(mErr)throw mErr;
     if(!membership){
-      // Users can create ONLY their own pending record; RLS refuses paid access.
-      const {error:createError}=await client.from('evie_memberships').insert({
-        user_id:user.id,tier:'none',status:'pending'
-      });
-      if(createError && createError.code!=='23505')throw createError;
-      const {data:newMember,error:readError}=await client.from('evie_memberships')
+      const {error:createError}=await client.from('evie_memberships').insert({user_id:user.id,tier:'none',status:'pending'});
+      if(createError&&createError.code!=='23505')throw createError;
+      const {data:newMembership,error:readError}=await client.from('evie_memberships')
         .select('tier,status,expires_at').eq('user_id',user.id).maybeSingle();
       if(readError)throw readError;
-      membership=newMember;
+      membership=newMembership;
     }
     if(!membership){
       $('memberStatusName').textContent='Pending review';
@@ -132,7 +117,7 @@ async function loadStatus(){
       return;
     }
     const expired=membership.expires_at&&Date.parse(membership.expires_at)<=Date.now();
-    if(membership.status==='active'&&!expired&&membership.tier!=='none'){
+    if(membership.status==='active'&&!expired&&['daddy','vault'].includes(membership.tier)){
       $('memberStatusName').textContent=membership.tier==='daddy'?'Daddy Member · Active':'Vault Member · Active';
       $('memberStatusDescription').textContent='Your paid access has been approved'+
         (membership.expires_at?' through '+new Date(membership.expires_at).toLocaleDateString():'')+'.';
@@ -147,144 +132,128 @@ async function loadStatus(){
   }catch(error){
     showAccount();
     $('memberStatusName').textContent='Unable to check membership';
-    $('memberStatusDescription').textContent='Membership data is not available yet. Your access has not been confirmed.';
+    $('memberStatusDescription').textContent='Membership information could not be confirmed yet.';
     $('memberGalleryEntry').hidden=true;
     writeMessage(safeError(error));
   }finally{statusLoading=false}
 }
 function open(){
-  dialog.showModal();
+  if(!dialog.open)dialog.showModal();
   if(!enabled){
-    notice.hidden=false;
-    $('memberAuthArea').hidden=true;
-    $('memberDashboard').hidden=true;
+    notice.hidden=false;$('memberAuthArea').hidden=true;$('memberDashboard').hidden=true;
     return;
   }
-  notice.hidden=true;
-  loadStatus();
+  notice.hidden=true;loadStatus();
 }
 $('openMemberAccount').addEventListener('click',open);
 $('closeMemberAccount').addEventListener('click',()=>dialog.close());
-dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
 tabs.forEach(tab=>{
   tab.addEventListener('click',()=>visibleView(tab.dataset.authView));
-  tab.addEventListener('keydown',e=>{
+  tab.addEventListener('keydown',event=>{
     const index=tabs.indexOf(tab);
-    if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
-    e.preventDefault();const next=tabs[(index+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];
+    if(event.key!=='ArrowLeft'&&event.key!=='ArrowRight')return;
+    event.preventDefault();
+    const next=tabs[(index+(event.key==='ArrowRight'?1:tabs.length-1))%tabs.length];
     visibleView(next.dataset.authView);next.focus();
   });
 });
-forms.login.addEventListener('submit',async e=>{
-  e.preventDefault();if(!client||!forms.login.reportValidity())return;
-  let phone;
-  try{phone=phoneFrom(textValue('memberLoginPhone'))}catch(err){writeMessage(safeError(err));return}
+forms.login.addEventListener('submit',async event=>{
+  event.preventDefault();if(!client||!forms.login.reportValidity())return;
+  let email;
+  try{email=emailFrom(textValue('memberLoginEmail'))}
+  catch(error){writeMessage(safeError(error));return}
   const pin=$('memberLoginPin').value;
   if(!validPin(pin)){writeMessage('Your PIN must contain exactly 8 digits.');return}
   busy(forms.login,true);writeMessage('Checking your account…');
   try{
-    const {error}=await client.auth.signInWithPassword({phone,password:pin});
+    const {error}=await client.auth.signInWithPassword({email,password:pin});
     if(error)throw error;
     forms.login.reset();
-    writeMessage('');await loadStatus();
-  }catch(err){writeMessage('Could not sign in. Check your phone number, PIN and SMS verification status.')}
-  finally{busy(forms.login,false)}
+    await loadStatus();writeMessage('');
+  }catch(error){
+    if(/email not confirmed/i.test(safeError(error))){
+      verificationEmail=email;
+      visibleView('verify');
+      writeMessage('Please confirm your email before signing in.');
+    }else{writeMessage('Could not sign in. Check your email and PIN, then try again.')}
+  }finally{busy(forms.login,false)}
 });
-forms.signup.addEventListener('submit',async e=>{
-  e.preventDefault();if(!client||!forms.signup.reportValidity())return;
-  let phone,handles;
-  try{phone=phoneFrom(textValue('memberSignupPhone'));handles=handlesFrom('memberSignup')}
-  catch(err){writeMessage(safeError(err));return}
+forms.signup.addEventListener('submit',async event=>{
+  event.preventDefault();if(!client||!forms.signup.reportValidity())return;
+  let email,handles;
+  try{email=emailFrom(textValue('memberSignupEmail'));handles=handlesFrom('memberSignup')}
+  catch(error){writeMessage(safeError(error));return}
   const pin=$('memberSignupPin').value;
-  if(!validPin(pin)||pin!==$('memberSignupConfirm').value){writeMessage('Choose an 8-digit PIN and enter it the same way twice.');return}
-  if(!/^(?!([0-9])\1{7})[0-9]{8}$/.test(pin)){writeMessage('Choose a less predictable eight-digit PIN.');return}
-  busy(forms.signup,true);writeMessage('Creating your account…');
+  if(!strongPin(pin)||pin!==$('memberSignupConfirm').value){
+    writeMessage('Choose a less predictable 8-digit PIN and enter it the same way twice.');return;
+  }
+  busy(forms.signup,true);writeMessage('Creating your private account…');
   try{
+    const platform=handles.telegram?'telegram':handles.x?'x':handles.snapchat?'snapchat':'';
+    const handle=platform?handles[platform]:'';
     const {data,error}=await client.auth.signUp({
-      phone,password:pin,
-      options:{data:{age_asserted_18_plus:true}}
+      email,password:pin,
+      options:{emailRedirectTo:redirectTo,data:{
+        age_asserted_18_plus:true,evie_social_platform:platform,evie_social_handle:handle
+      }}
     });
     if(error)throw error;
-    pendingHandles=handles;
-    verifyPhone=phone;
+    verificationEmail=email;pendingHandles=handles;
     $('memberSignupPin').value='';$('memberSignupConfirm').value='';
-    // The production Supabase project must have phone confirmation AND an SMS provider enabled.
-    if(data.session){
-      writeMessage('');
+    if(data?.session){
       await loadStatus();
+      writeMessage('Your account was created. Membership approval is separate.');
     }else{
       visibleView('verify');
-      writeMessage('Enter the separate six-digit SMS verification code to finish registration.');
+      $('memberVerifyDescription').textContent='Check '+email+' for a confirmation link. After verifying, return and sign in with email and PIN.';
+      writeMessage('Account request received. Check your email to verify.');
     }
-  }catch(err){writeMessage(safeError(err))}
+  }catch(error){writeMessage(safeError(error))}
   finally{busy(forms.signup,false)}
 });
-forms.verify.addEventListener('submit',async e=>{
-  e.preventDefault();if(!client||!forms.verify.reportValidity())return;
-  const token=textValue('memberSmsCode');
-  if(!validOtp(token)||!verifyPhone){writeMessage('Enter the six-digit SMS code sent during signup.');return}
-  busy(forms.verify,true);writeMessage('Verifying phone…');
+$('memberResendConfirmation').addEventListener('click',async ()=>{
+  if(!client||!verificationEmail){
+    writeMessage('Enter your email in the sign-in form first.');return;
+  }
+  const button=$('memberResendConfirmation');button.disabled=true;writeMessage('Requesting a new email…');
   try{
-    const {error}=await client.auth.verifyOtp({phone:verifyPhone,token,type:'sms'});
+    const {error}=await client.auth.resend({type:'signup',email:verificationEmail,options:{emailRedirectTo:redirectTo}});
     if(error)throw error;
-    forms.verify.reset();
-    await loadStatus();
-    writeMessage('Phone verified. Your account is pending membership approval.');
-  }catch(err){writeMessage(safeError(err))}
-  finally{busy(forms.verify,false)}
+    writeMessage('If the account is awaiting verification, another link will be sent.');
+  }catch(error){writeMessage('Unable to resend right now. Please wait and try again.')}
+  finally{button.disabled=false}
 });
 $('memberVerifyBack').addEventListener('click',()=>visibleView('login'));
 $('memberForgot').addEventListener('click',()=>visibleView('reset'));
 $('memberResetBack').addEventListener('click',()=>visibleView('login'));
-forms.reset.addEventListener('submit',async e=>{
-  e.preventDefault();if(!client||!forms.reset.reportValidity())return;
-  try{resetPhone=phoneFrom(textValue('memberResetPhone'))}
-  catch(err){writeMessage(safeError(err));return}
-  busy(forms.reset,true);writeMessage('Requesting a verification code…');
-  try{
-    const {error}=await client.auth.signInWithOtp({phone:resetPhone,options:{shouldCreateUser:false}});
-    if(error)throw error;
-    visibleView('newpin');
-    writeMessage('If the number has an account, a six-digit verification code has been sent.');
-  }catch(err){writeMessage('Unable to send the code. Check the phone number or try again later.')}
-  finally{busy(forms.reset,false)}
-});
-forms.newpin.addEventListener('submit',async e=>{
-  e.preventDefault();if(!client||!forms.newpin.reportValidity())return;
-  const pin=$('memberNewPin').value,token=textValue('memberResetCode');
-  if(!validPin(pin)||pin!==$('memberNewPinConfirm').value||!validOtp(token)){
-    writeMessage('Please enter the SMS code and matching eight-digit PINs.');return;
-  }
-  busy(forms.newpin,true);writeMessage('Updating PIN…');
-  try{
-    const {error:vError}=await client.auth.verifyOtp({phone:resetPhone,token,type:'sms'});
-    if(vError)throw vError;
-    const {error:pError}=await client.auth.updateUser({password:pin});
-    if(pError)throw pError;
-    forms.newpin.reset();
-    await loadStatus();writeMessage('PIN changed. Your account is ready.');
-  }catch(err){writeMessage('Unable to update your PIN. Verify the SMS code or request a new one.')}
-  finally{busy(forms.newpin,false)}
-});
-$('memberSocialForm').addEventListener('submit',async e=>{
-  e.preventDefault();if(!client)return;
+$('memberSocialForm').addEventListener('submit',async event=>{
+  event.preventDefault();if(!client)return;
   let handles;
   try{handles=handlesFrom('memberProfile')}
-  catch(err){writeMessage(safeError(err));return}
-  busy($('memberSocialForm'),true);writeMessage('Saving your socials…');
-  try{await profileSave(handles);writeMessage('Your optional social profiles were saved.')}
-  catch(err){writeMessage('Could not save your socials. Please try again.')}
-  finally{busy($('memberSocialForm'),false)}
+  catch(error){writeMessage(safeError(error));return}
+  const form=$('memberSocialForm');busy(form,true);writeMessage('Saving username…');
+  try{
+    const {data,error}=await client.auth.getUser();
+    if(error||!data?.user)throw error||new Error('Sign in first.');
+    await profileSave(data.user,handles);
+    displaySocial(handles);
+    writeMessage('Your optional social username has been saved.');
+  }catch(error){writeMessage('Could not save your social username. Please try again.')}
+  finally{busy(form,false)}
 });
 $('memberSignOut').addEventListener('click',async ()=>{
   if(!client)return;
   writeMessage('Signing out…');
-  try{const {error}=await client.auth.signOut();if(error)throw error;visibleView('login');writeMessage('Signed out.')}
-  catch(err){writeMessage('Unable to sign out. Please try again.')}
+  try{
+    const {error}=await client.auth.signOut();
+    if(error)throw error;
+    pendingHandles=null;visibleView('login');writeMessage('Signed out.');
+  }catch(error){writeMessage('Unable to sign out. Please try again.')}
 });
 if(client){
   client.auth.onAuthStateChange(event=>{
-    if(event==='SIGNED_OUT'){visibleView('login')}
+    if(event==='SIGNED_OUT')visibleView('login');
   });
 }
 })();
