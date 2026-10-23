@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0a0f10">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://cmjhecwwjoeqpcownkol.supabase.co; frame-src 'none'; upgrade-insecure-requests">
+  <title>Evie Admin — Private Control Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+  <script defer src="member-config.js"></script>
+  <script defer src="admin.js"></script>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+  <header class="globalbar">
+    <a class="brand" href="index.html" aria-label="Kissed by Evie public homepage"><span class="brand-mark">E<span>✦</span></span><span>EVIE<span class="brand-light">ADMIN</span><small>PRIVATE CONTROL ROOM</small></span></a>
+    <div class="globalright"><span class="small-dot" aria-hidden="true"></span><span>SECURE CONSOLE</span><a href="index.html">← Public site</a></div>
+  </header>
+
+  <main>
+    <section id="adminGate" class="gate" aria-labelledby="gateTitle">
+      <div class="gate-mark" aria-hidden="true">E</div>
+      <div class="gate-copy">
+        <p class="overline">RESTRICTED ACCESS / EVIE ADMIN</p>
+        <h1 id="gateTitle">Your own <em>control room.</em></h1>
+        <p>One private place to organize your members, bots, agents, automations, and Docker services.</p>
+      </div>
+      <div class="gate-card">
+        <div class="gate-card-top"><span>ADMIN AUTHENTICATION</span><span class="lock-symbol" aria-hidden="true">♙</span></div>
+        <form id="adminLoginForm" class="stack-form">
+          <label for="adminEmail">Administrator email</label>
+          <input id="adminEmail" type="email" autocomplete="username" spellcheck="false" autocapitalize="none" maxlength="254" placeholder="you@example.com" required>
+          <label for="adminPassword">Admin password</label>
+          <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Your dedicated admin password" required>
+          <button type="submit" class="primary">Sign in securely <span aria-hidden="true">→</span></button>
+          <p>Requires an approved admin account and authenticator-app verification. Member PINs cannot unlock the control room.</p>
+        </form>
+        <div id="adminMfaGate" hidden>
+          <p class="overline">SECOND SECURITY CHECK</p>
+          <h2>Verify it’s you.</h2>
+          <p id="mfaInstructions">Enter the six-digit code from your authenticator app.</p>
+          <div id="mfaEnrollBox" hidden>
+            <button id="adminMfaEnroll" type="button" class="secondary">Set up authenticator app</button>
+            <img id="adminMfaQRCode" class="mfa-qr" alt="Authenticator setup QR code" hidden>
+            <p class="mfa-secret">Or enter this setup key in your authenticator app: <code id="adminMfaSecret"></code></p>
+          </div>
+          <form id="adminMfaForm" class="stack-form">
+            <label for="adminMfaCode">Authenticator code</label>
+            <input id="adminMfaCode" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="123456" required>
+            <button type="submit" class="primary">Unlock control room →</button>
+          </form>
+        </div>
+        <div id="adminDenied" hidden>
+          <p class="overline">ACCESS NOT GRANTED</p>
+          <h2>No admin permission.</h2>
+          <p>Your account is signed in, but it hasn't been approved as an Evie administrator. The site owner needs to assign the administrator role in Supabase.</p>
+        </div>
+        <p id="adminGateStatus" role="status" aria-live="polite"></p>
+        <button id="adminGateSignOut" type="button" class="plain-link" hidden>Sign out and use another account</button>
+      </div>
+      <p class="gate-foot">No hardcoded admin key. No passwords or bot tokens saved in your public site.</p>
+    </section>
+
+    <section id="adminWorkspace" class="workspace" aria-label="Evie Admin workspace" hidden>
+      <aside class="sidebar" aria-label="Admin sections">
+        <p class="sidebar-kicker">THE CONTROL DESK</p>
+        <div class="nav-group">
+          <button class="sidebar-link selected" type="button" data-admin-view="overview" aria-current="page"><span class="nav-icon">◈</span> Overview</button>
+          <button class="sidebar-link" type="button" data-admin-view="connections"><span class="nav-icon">⌘</span> Bots &amp; Connections</button>
+          <button class="sidebar-link" type="button" data-admin-view="automations"><span class="nav-icon">⧖</span> Automations</button>
+          <button class="sidebar-link" type="button" data-admin-view="docker"><span class="nav-icon">⬡</span> Docker &amp; Render</button>
+          <button class="sidebar-link" type="button" data-admin-view="members"><span class="nav-icon">♡</span> Members</button>
+          <button class="sidebar-link" type="button" data-admin-view="activity"><span class="nav-icon">⌁</span> Activity Log</button>
+        </div>
+        <div class="sidebar-bottom">
+          <span class="secure-dot" aria-hidden="true"></span><small>ADMIN + MFA VERIFIED</small>
+          <a href="https://dashboard.render.com/" target="_blank" rel="noopener noreferrer">Render Dashboard ↗</a>
+          <a href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol" target="_blank" rel="noopener noreferrer">Supabase Project ↗</a>
+          <button id="adminLogout" type="button">Sign out ↗</button>
+        </div>
+      </aside>
+      <div class="workspace-main">
+        <div class="workspace-bar">
+          <div><span class="overline">KISSED BY EVIE / INTERNAL SYSTEMS</span><p id="adminIdentity">Protected workspace</p></div>
+          <div class="workspace-controls"><button id="adminRefresh" type="button" class="secondary small">↻ Refresh</button><span class="access-pill">OWNER ACCESS</span></div>
+        </div>
+
+        <section id="panel-overview" class="panel" aria-labelledby="overviewTitle">
+          <div class="panel-hero">
+            <div><p class="overline">CONTROL ROOM / HOME</p><h1 id="overviewTitle">Good to see <em>you,</em> Evie.</h1>
+              <p>Your private operating desk. All the pieces of your creator business, in one place.</p></div>
+            <div class="hero-glyph" aria-hidden="true">✦</div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat"><span>REGISTERED MEMBERS</span><strong id="statMembers">—</strong><small>Accounts with membership records</small></div>
+            <div class="stat"><span>PENDING APPROVAL</span><strong id="statPending">—</strong><small>Awaiting review</small></div>
+            <div class="stat"><span>BOT / SERVICE REFERENCES</span><strong id="statConnections">—</strong><small>Registry entries</small></div>
+            <div class="stat"><span>AUTOMATION DRAFTS</span><strong id="statAutomations">—</strong><small>Not scheduled or running</small></div>
+          </div>
+          <div class="overview-columns">
+            <div class="surface"><div class="surface-title"><h2>Quick actions</h2><span>START HERE</span></div>
+              <button type="button" class="quick-action" data-jump="connections"><span>01</span><strong>Register a bot or agent</strong><b aria-hidden="true">↗</b></button>
+              <button type="button" class="quick-action" data-jump="automations"><span>02</span><strong>Plan an automation</strong><b aria-hidden="true">↗</b></button>
+              <button type="button" class="quick-action" data-jump="docker"><span>03</span><strong>Connect a Docker service</strong><b aria-hidden="true">↗</b></button>
+              <button type="button" class="quick-action" data-jump="members"><span>04</span><strong>Review member accounts</strong><b aria-hidden="true">↗</b></button>
+            </div>
+            <div class="surface welcome-surface"><span class="overline">INFRASTRUCTURE NOTES</span><h2>Control, <em>without the chaos.</em></h2>
+              <p>Bot passwords, Telegram sessions, Render API keys and Supabase secret keys should live only on trusted servers. This page tracks configurations—it doesn't run containers or access bots without a connected worker.</p>
+              <a href="https://dashboard.render.com/" target="_blank" rel="noopener noreferrer" class="text-link">Open Render ↗</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="panel-connections" class="panel" aria-labelledby="connectionsTitle" hidden>
+          <div class="section-heading"><p class="overline">INTEGRATION REGISTRY</p><h1 id="connectionsTitle">Bots, agents <em>&amp; services.</em></h1>
+            <p>Register references to your bots, agents, webhooks, or Docker services. Secrets are kept in server environments—not entered here.</p></div>
+          <div class="split">
+            <form id="adminConnectionForm" class="surface stack-form">
+              <div class="surface-title"><h2>Add a connection</h2><span>REGISTRY ONLY</span></div>
+              <label for="connName">Friendly name</label><input id="connName" maxlength="80" required placeholder="EvieAdmin assistant">
+              <div class="two-fields"><div><label for="connKind">Type</label><select id="connKind"><option value="bot">Bot</option><option value="agent">AI agent</option><option value="docker">Docker worker</option><option value="webhook">Webhook</option><option value="service">Service</option><option value="other">Other</option></select></div>
+              <div><label for="connPlatform">Platform</label><input id="connPlatform" maxlength="40" value="render" placeholder="render / telegram / custom"></div></div>
+              <label for="connRender">Render service ID (optional)</label><input id="connRender" maxlength="52" placeholder="srv-...">
+              <label for="connUrl">Public HTTPS endpoint (optional, no tokens)</label><input id="connUrl" type="url" maxlength="500" placeholder="https://example.onrender.com">
+              <label for="connEnv">Server secret variable name (optional)</label><input id="connEnv" maxlength="80" placeholder="TELEGRAM_API_TOKEN">
+              <small class="hint">Only the variable NAME. Never paste its value.</small>
+              <label for="connNotes">Notes (no credentials)</label><textarea id="connNotes" maxlength="600" rows="3" placeholder="What this service will eventually do"></textarea>
+              <button type="submit" class="primary">Save connection reference →</button>
+              <p class="form-foot">Saving records the connection; it does not authenticate a bot, start Docker, or enable commands.</p>
+            </form>
+            <div class="surface">
+              <div class="surface-title"><h2>Registered connections</h2><span id="connCount">0 IN REGISTRY</span></div>
+              <div id="adminConnectionList" class="record-list" aria-live="polite"><p class="empty">No connections registered yet.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="panel-automations" class="panel" aria-labelledby="automationsTitle" hidden>
+          <div class="section-heading"><p class="overline">WORKFLOW STUDIO</p><h1 id="automationsTitle">Your <em>automations.</em></h1>
+            <p>Sketch out workflows now; connect a trusted Docker worker or agent before scheduling execution.</p></div>
+          <div class="subtle-alert">Automation entries are <strong>drafts only</strong>. They do not send messages, schedule tasks, process member data or run bots.</div>
+          <div class="split">
+            <form id="adminAutomationForm" class="surface stack-form">
+              <div class="surface-title"><h2>New workflow draft</h2><span>NOT RUNNING</span></div>
+              <label for="autoName">Name</label><input id="autoName" maxlength="100" placeholder="Organize new uploads" required>
+              <label for="autoTrigger">Planned trigger</label>
+              <select id="autoTrigger"><option value="manual">Manual</option><option value="schedule">Scheduled</option><option value="webhook">Webhook</option><option value="event">Event</option></select>
+              <label for="autoSchedule">Schedule / trigger description</label><input id="autoSchedule" maxlength="160" placeholder="Daily at 9 PM (not yet active)">
+              <label for="autoConnection">Related connection (optional)</label><select id="autoConnection"><option value="">Not selected</option></select>
+              <label for="autoNotes">Planned behavior (no secrets)</label><textarea id="autoNotes" maxlength="600" rows="4" placeholder="What should happen? What needs approval?"></textarea>
+              <button type="submit" class="primary">Save workflow draft →</button>
+            </form>
+            <div class="surface"><div class="surface-title"><h2>Saved drafts</h2><span id="autoCount">0 DRAFTS</span></div>
+              <div id="adminAutomationList" class="record-list" aria-live="polite"><p class="empty">No automation drafts yet.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="panel-docker" class="panel" aria-labelledby="dockerTitle" hidden>
+          <div class="section-heading"><p class="overline">INFRASTRUCTURE</p><h1 id="dockerTitle">Docker <em>&amp; Render.</em></h1>
+            <p>Keep the website fast and public-facing. Run bots, agents and scheduled jobs as separate protected services.</p></div>
+          <div class="stack-grid">
+            <div class="surface architecture-card"><h2>Recommended setup</h2>
+              <div class="architecture"><div>PRIVATE ADMIN UI<small>Owner sign-in + MFA</small></div><span>→</span><div>SUPABASE CONTROL PLANE<small>Records + authorization</small></div><span>→</span><div>DOCKER WORKER<small>Render or your server</small></div></div>
+              <p>This is the intended architecture. A bot worker needs its own deployment and server-held credentials before it can perform actions.</p>
+            </div>
+            <div class="surface">
+              <div class="surface-title"><h2>Your existing Render services</h2><span>KNOWN SERVICES</span></div>
+              <div class="presets">
+                <div class="preset"><div><strong>nightshift-telegram-bot</strong><small>Existing Render Node web service — not yet linked</small></div><button type="button" class="secondary small" data-preset="telegram">Register ↗</button></div>
+                <div class="preset"><div><strong>evieadmin-control</strong><small>Existing Render Python web service — not yet linked</small></div><button type="button" class="secondary small" data-preset="evieadmin">Register ↗</button></div>
+              </div>
+              <p class="hint">Those services were found in your Render workspace. Their current deployment or bot readiness isn't implied here.</p>
+              <a href="https://dashboard.render.com/" class="primary inline-link" target="_blank" rel="noopener noreferrer">Open Render dashboard ↗</a>
+            </div>
+            <div class="surface"><div class="surface-title"><h2>Security &amp; credentials</h2><span>SERVER SIDE</span></div>
+              <p>To enable future live Render checks, configure the <code>RENDER_API_KEY</code> as a Supabase Edge Function secret, never in the public GitHub repo.</p>
+              <p id="renderCapability" class="hint">Checking Render integration availability…</p>
+              <a class="text-link" href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol/functions" target="_blank" rel="noopener noreferrer">Supabase Edge Functions ↗</a>
+              <p class="hint">Deploy Docker workers separately through Render. This static website cannot host or execute containers.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="panel-members" class="panel" aria-labelledby="membersTitle" hidden>
+          <div class="section-heading"><p class="overline">PRIVATE MEMBER ROSTER</p><h1 id="membersTitle">Member <em>overview.</em></h1>
+            <p>Use your members' chosen usernames and optional Snapchat/X references to recognize them. Payment approval and independent age verification remain manual.</p></div>
+          <div class="surface">
+            <div class="surface-title"><h2>Accounts</h2><span>READ ONLY</span></div>
+            <div id="adminMemberList" class="table-scroll"><p class="empty">Open this section to load members.</p></div>
+            <div class="pagination"><button id="memberPrev" type="button" class="secondary small" disabled>← Previous</button><span id="memberPage">Page 1</span><button id="memberNext" type="button" class="secondary small" disabled>Next →</button></div>
+            <p class="hint">Changes to paid access and verified adult status should be performed in the dedicated approval workflow, not by editing usernames or PINs.</p>
+            <a href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol/auth/users" class="text-link" target="_blank" rel="noopener noreferrer">Open Supabase Auth users ↗</a>
+          </div>
+        </section>
+
+        <section id="panel-activity" class="panel" aria-labelledby="activityTitle" hidden>
+          <div class="section-heading"><p class="overline">CHANGE HISTORY</p><h1 id="activityTitle">Activity <em>log.</em></h1><p>A record of control-room configuration changes. Runtime logs stay with the worker provider.</p></div>
+          <div class="surface"><div class="surface-title"><h2>Recent actions</h2><span>LAST 30 CHANGES</span></div>
+            <div id="adminAuditList" class="record-list"><p class="empty">No changes recorded yet.</p></div></div>
+        </section>
+
+        <p id="adminGlobalStatus" role="status" aria-live="polite" class="global-status"></p>
+        <footer class="admin-foot"><span>EVIE ADMIN / PRIVATE CONTROL ROOM</span><span>Render • Supabase • Docker-ready registry</span></footer>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
