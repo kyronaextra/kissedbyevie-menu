@@ -5,9 +5,9 @@ Source: `admin.html`, `admin.css`, `admin.js`
 Backend: `supabase/functions/evie-admin-api/index.ts`
 Database: `supabase/migrations/20261023233503_evie_admin_control_room_registry.sql`
 
-**Status:** Admin page, role authorization, TOTP (authenticator-app) setup/verification,
+**Status:** Admin page, server-verified administrator role, email/password login,
 private registry, automation draft storage, member read-only list, and audit log
-are implemented. The public Kissed by Evie storefront and Daddy Member logins
+are implemented. An authenticator-app code is no longer required for this admin page. The public Kissed by Evie storefront and Daddy Member logins
 remain separate.
 
 This is **not** a remote command shell, and does **not** deploy, start, stop,
@@ -16,10 +16,10 @@ connections, not live verified integrations.
 
 ## 1. Bootstrap the REAL owner/admin account
 
-**No account is an admin by default.** Do not make the first registered customer
-an admin, rely on a publicly shared password, or leave a self-service admin
-signup endpoint. Only grant the role to an owner identity you have independently
-verified.
+**Two existing verified Supabase Auth accounts have been assigned the Evie Admin role**
+at the owner's request. Newly registered accounts are never admins by default.
+Do not rely on a publicly shared password or add a self-service admin signup endpoint.
+Only grant the role to identities you have independently verified.
 
 1. Create a dedicated **Supabase Auth email/password account** for the owner if
    not already available. Use a long, unique random password (16+ characters);
@@ -47,12 +47,13 @@ verified.
      and email_confirmed_at is not null;
    ```
 
-5. Open https://kissedbyevie-menu.onrender.com/admin.html, sign in with that
-   email and password, and follow the on-page instructions to enroll an
-   authenticator app (TOTP). Future logins require its six-digit code.
+5. Open https://kissedbyevie-menu.onrender.com/admin.html, and sign in using
+   either approved administrator email address and its existing password.
+   **No authenticator-app code is requested.**
 6. Verify non-admin member accounts see **Access Not Granted** and cannot retrieve
-   protected API content. The API checks fresh server-side `app_metadata` and
-   a Supabase-authenticated JWT containing the MFA `aal2` assurance level.
+   protected API content. The Edge Function validates a Supabase Auth session and
+   freshly checks the user’s server-managed `app_metadata.evie_admin` flag.
+   The admin browser session is not persisted across browser restarts.
 7. To revoke admin access, set `evie_admin` to false in `raw_app_meta_data` using
    the SQL editor; review/revoke active sessions and access tokens if an account
    may be compromised.
@@ -116,7 +117,7 @@ Render static-site environment variables or the control-room registry.
   Postgres row-level security. Dropbox files have **not** yet been imported.
 - The three admin tables intentionally deny all browser users with RLS and
   revoked grants. Only the privileged Edge Function can access them following
-  fresh admin role + MFA checks.
+  Supabase authentication and a fresh administrator-role check.
 - There is no public admin account registration, hardcoded `evieadmin` password,
   IP-as-login mechanism, secret token entry form, or browser Docker shell.
 - If a browser session is not sufficient, the admin page asks for a new login.
@@ -127,9 +128,19 @@ Render static-site environment variables or the control-room registry.
 ## Verification checklist
 
 - `evie-admin-api` Edge Function is ACTIVE with `verify_jwt=true`.
-- Only the chosen owner has `raw_app_meta_data.evie_admin=true` (manual setup).
+- Exactly the two intentionally approved existing accounts have `raw_app_meta_data.evie_admin=true`.
 - Browser cannot directly select/insert/update `evie_admin_*` rows.
-- Admin must pass TOTP; mere sign-in or membership status is insufficient.
+- Email/password sign-in is followed by a fresh server-side admin-role check. No TOTP challenge is required.
 - Registering a connection logs an event, and archiving never alters actual
   Render, Telegram, or Docker runtime state.
 - A newly saved automation is visible as **draft**, never **running**.
+
+## Password-only admin login risk
+
+At the site owner's request, Evie Admin no longer requires an authenticator app.
+This lowers security compared with multi-factor authentication, particularly
+for a dashboard containing member records and future bot controls. Use a
+strong unique password for **each** approved account, verify the registered
+email addresses, and revoke access to any account you do not control.
+This change does not automatically delete any authenticator factors already
+enrolled with Supabase Auth; it stops requiring one to enter this admin site.

@@ -39,23 +39,8 @@
           <label for="adminPassword">Admin password</label>
           <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Your dedicated admin password" required>
           <button type="submit" class="primary">Sign in securely <span aria-hidden="true">→</span></button>
-          <p>Requires an approved admin account and authenticator-app verification. Member PINs cannot unlock the control room.</p>
+          <p>Access is restricted to approved administrators. Sign in with your account password; Daddy Member PINs cannot unlock the control room.</p>
         </form>
-        <div id="adminMfaGate" hidden>
-          <p class="overline">SECOND SECURITY CHECK</p>
-          <h2>Verify it’s you.</h2>
-          <p id="mfaInstructions">Enter the six-digit code from your authenticator app.</p>
-          <div id="mfaEnrollBox" hidden>
-            <button id="adminMfaEnroll" type="button" class="secondary">Set up authenticator app</button>
-            <img id="adminMfaQRCode" class="mfa-qr" alt="Authenticator setup QR code" hidden>
-            <p class="mfa-secret">Or enter this setup key in your authenticator app: <code id="adminMfaSecret"></code></p>
-          </div>
-          <form id="adminMfaForm" class="stack-form">
-            <label for="adminMfaCode">Authenticator code</label>
-            <input id="adminMfaCode" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" placeholder="123456" required>
-            <button type="submit" class="primary">Unlock control room →</button>
-          </form>
-        </div>
         <div id="adminDenied" hidden>
           <p class="overline">ACCESS NOT GRANTED</p>
           <h2>No admin permission.</h2>

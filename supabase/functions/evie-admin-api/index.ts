@@ -81,7 +81,7 @@ async function getRole(token:string){
  }
  const claims=decodeClaims(token);
  if(!claims||claims.sub!==user.id)return {status:401,reason:"Invalid session"};
- return {status:200,user,aal:claims.aal==="aal2"?"aal2":"aal1"};
+ return {status:200,user};
 }
 async function overview(){
  const results=await Promise.all([
@@ -154,9 +154,8 @@ Deno.serve(async(req:Request)=>{
   const url=new URL(req.url);
   const action=req.method==="GET"?(url.searchParams.get("action")||"session"):null;
   if(req.method==="GET"&&action==="session"){
-   return json(origin,200,{admin:true,needs_mfa:role.aal!=="aal2",email:role.user.email||""});
+   return json(origin,200,{admin:true,email:role.user.email||""});
   }
-  if(role.aal!=="aal2")return json(origin,403,{error:"Authenticator app verification is required",code:"MFA_REQUIRED"});
   if(req.method==="GET"){
    if(action==="overview")return json(origin,200,await overview());
    if(action==="members"){

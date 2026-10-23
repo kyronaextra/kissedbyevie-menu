@@ -1,13 +1,13 @@
 (function(){
 'use strict';
 // The browser only receives a publishable key; all privileged operations
-// require a verified admin account + MFA in the separate Supabase Edge API.
+// require a verified administrator account in the separate Supabase Edge API.
 const $=id=>document.getElementById(id);
 const sdk=window.supabase,url=window.EVIE_SUPABASE_URL,key=window.EVIE_SUPABASE_PUBLISHABLE_KEY;
 const ready=Boolean(sdk&&url&&key&&typeof sdk.createClient==='function');
 const sb=ready?sdk.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'evie-admin-ephemeral'}}):null;
 const sections=['overview','connections','automations','docker','members','activity'];
-let current='overview',data=null,page=1,hasMore=false,factorId=null,opening=false;
+let current='overview',data=null,page=1,hasMore=false,opening=false;
 const presets={
  telegram:{name:'NightShift Telegram Bot',kind:'bot',platform:'render',render_service_id:'srv-db78airbc2fs73e6eakg',endpoint_url:'https://nightshift-telegram-bot.onrender.com',notes:'Existing Render Node service; reference only, no bot access granted.'},
  evieadmin:{name:'EvieAdmin Control',kind:'agent',platform:'render',render_service_id:'srv-db6o577f3r2c73brjcp0',endpoint_url:'https://evieadmin-control.onrender.com',notes:'Existing Render Python service; reference only, no commands issued.'}
@@ -20,7 +20,7 @@ function date(value){const d=new Date(value);return value&&!Number.isNaN(d.getTi
 function processing(form,yes){const button=form.querySelector('[type="submit"]');if(button){button.disabled=yes;button.setAttribute('aria-busy',String(yes))}}
 function gate(view){
  $('adminGate').hidden=false;$('adminWorkspace').hidden=true;
- $('adminLoginForm').hidden=view!=='login';$('adminMfaGate').hidden=view!=='mfa';$('adminDenied').hidden=view!=='denied';
+ $('adminLoginForm').hidden=view!=='login';$('adminDenied').hidden=view!=='denied';
  $('adminGateSignOut').hidden=view==='login';gateStatus('');
 }
 function section(view){
@@ -58,54 +58,16 @@ async function authorize(){
   const identity=await request('session');
   if(!identity?.admin)throw Error('This account is not an administrator.');
   $('adminIdentity').textContent=identity.email||'Verified administrator';
-  if(identity.needs_mfa){gate('mfa');await prepareMfa()}
-  else{showDashboard();await overview()}
+  showDashboard();
+  await overview()
  }catch(error){
   if(error.status===403){gate('denied');gateStatus('This account has not been granted administrator access.')}
   else{gate('login');gateStatus(msg(error))}
  }finally{opening=false}
 }
-async function prepareMfa(){
- factorId=null;$('adminMfaQRCode').hidden=true;$('adminMfaQRCode').removeAttribute('src');
- $('adminMfaSecret').textContent='';$('adminMfaCode').value='';
- const {data,error}=await sb.auth.mfa.listFactors();if(error)throw error;
- const verified=(data?.totp||[]).find(f=>f.status==='verified');
- if(verified){
-  factorId=verified.id;$('mfaEnrollBox').hidden=true;$('mfaInstructions').textContent='Enter the six-digit code from your authenticator app.';
-  $('adminMfaCode').disabled=false;$('adminMfaForm').querySelector('[type="submit"]').disabled=false;
- }else{
-  $('mfaEnrollBox').hidden=false;$('mfaInstructions').textContent='Set up an authenticator app to secure the control room.';
-  $('adminMfaCode').disabled=true;$('adminMfaForm').querySelector('[type="submit"]').disabled=true;
- }
-}
-async function enroll(){
- const button=$('adminMfaEnroll');button.disabled=true;gateStatus('Preparing authenticator setup…');
- try{
-  const {data,error}=await sb.auth.mfa.enroll({factorType:'totp',friendlyName:'Evie Admin'});
-  if(error)throw error;factorId=data.id;
-  if(data.totp?.qr_code){
-   $('adminMfaQRCode').src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(data.totp.qr_code);
-   $('adminMfaQRCode').hidden=false;
-  }
-  $('adminMfaSecret').textContent=data.totp?.secret||'';
-  $('adminMfaCode').disabled=false;$('adminMfaForm').querySelector('[type="submit"]').disabled=false;
-  gateStatus('Scan the QR code, then type the six-digit code from your authenticator app.');
- }catch(error){gateStatus(msg(error))}
- finally{button.disabled=false}
-}
-async function verify(event){
- event.preventDefault();const form=$('adminMfaForm');if(!form.reportValidity()||!factorId)return;
- processing(form,true);gateStatus('Verifying the authenticator…');
- try{
-  const {data:challenge,error:ce}=await sb.auth.mfa.challenge({factorId});if(ce)throw ce;
-  const {error}=await sb.auth.mfa.verify({factorId,challengeId:challenge.id,code:$('adminMfaCode').value.trim()});if(error)throw error;
-  $('adminMfaCode').value='';factorId=null;await authorize();
- }catch(error){gateStatus(msg(error))}
- finally{processing(form,false)}
-}
 async function signOut(){
  try{await sb?.auth.signOut()}catch(_){}
- data=null;factorId=null;page=1;$('adminLoginForm').reset();gate('login');gateStatus('Signed out of Evie Admin.');
+ data=null;page=1;$('adminLoginForm').reset();gate('login');gateStatus('Signed out of Evie Admin.');
 }
 function choice(id,text,value){const option=node('option','',text);option.value=value;return option}
 function renderConnections(items){
@@ -252,8 +214,6 @@ $('adminLoginForm').addEventListener('submit',async event=>{
   $('adminPassword').value='';await authorize();
  }catch(error){gateStatus(msg(error))}finally{processing(form,false)}
 });
-$('adminMfaEnroll').addEventListener('click',enroll);
-$('adminMfaForm').addEventListener('submit',verify);
 $('adminGateSignOut').addEventListener('click',signOut);
 $('adminLogout').addEventListener('click',signOut);
 $('adminMobileLogout').addEventListener('click',signOut);

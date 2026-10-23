@@ -73,7 +73,7 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 ## Evie Admin Control Room
 
 - Private URL: https://kissedbyevie-menu.onrender.com/admin.html
-- Admin page is protected by a **manually assigned** Supabase Auth `app_metadata.evie_admin` role and mandatory authenticator-app MFA (`aal2`). By default no account has this role.
+- Admin page is protected by a **manually assigned** Supabase Auth `app_metadata.evie_admin` role and email/password sign-in. The authenticator-app requirement was removed at the owner's request. Two verified accounts currently have the role; only those approved accounts can access the protected backend. Admin sessions are not persisted across browser restarts.
 - Protected backend: `evie-admin-api`; metadata registry, workflow drafts, read-only member overview and audit events.
 - Bots, agents, Docker services and automations are **references/drafts** until a real backend worker is separately connected. No credentials or Docker commands run in browser code.
 - Setup and admin-role activation instructions: [docs/ADMIN_CONTROL_ROOM.md](docs/ADMIN_CONTROL_ROOM.md).
