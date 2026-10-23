@@ -1,0 +1,4 @@
+# Public order intake validates input and uses server-side service role.
+# Deploy with verify_jwt=false; protect against abuse with rate limiting and Turnstile before public launch.
+[functions.evie-order-request]
+verify_jwt = false
