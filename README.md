@@ -68,3 +68,13 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 - The page shows an honest empty state until Dropbox files are imported; it must never pretend the collection has been populated.
 - Closing Account Settings keeps the secure session active, while Sign Out clears the lounge and private gallery.
 - CSS and behavior live in `style.css` / `daddy-lounge.js` / `member-auth.js` / `daddy-gallery.js`.
+
+
+## Evie Admin Control Room
+
+- Private URL: https://kissedbyevie-menu.onrender.com/admin.html
+- Admin page is protected by a **manually assigned** Supabase Auth `app_metadata.evie_admin` role and mandatory authenticator-app MFA (`aal2`). By default no account has this role.
+- Protected backend: `evie-admin-api`; metadata registry, workflow drafts, read-only member overview and audit events.
+- Bots, agents, Docker services and automations are **references/drafts** until a real backend worker is separately connected. No credentials or Docker commands run in browser code.
+- Setup and admin-role activation instructions: [docs/ADMIN_CONTROL_ROOM.md](docs/ADMIN_CONTROL_ROOM.md).
+- Optional non-executing Docker worker starter: [docker/evie-worker/README.md](docker/evie-worker/README.md).
