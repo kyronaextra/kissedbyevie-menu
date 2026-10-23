@@ -3,7 +3,7 @@
 const $=id=>document.getElementById(id);
 const dialog=$('memberDialog'),notice=$('memberSetupNotice');
 const sdk=window.supabase;
-const enabled=Boolean(window.EVIE_SUPABASE_URL&&window.EVIE_SUPABASE_PUBLISHABLE_KEY&&sdk&&typeof sdk.createClient==='function');
+const enabled=Boolean(window.EVIE_SMS_READY===true&&window.EVIE_SUPABASE_URL&&window.EVIE_SUPABASE_PUBLISHABLE_KEY&&sdk&&typeof sdk.createClient==='function');
 const client=enabled?sdk.createClient(window.EVIE_SUPABASE_URL,window.EVIE_SUPABASE_PUBLISHABLE_KEY,{
   auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}
 }):null;
@@ -69,11 +69,22 @@ function handleValue(s){
   return value;
 }
 function handlesFrom(prefix){
+  const kind=textValue(prefix+'Platform');
+  const handle=handleValue(textValue(prefix+'Handle'));
+  if(!kind && handle)throw new Error('Choose Telegram, X or Snapchat for your username, or leave both fields blank.');
+  if(kind && !handle)throw new Error('Enter your username, or select Skip for now.');
+  if(kind && !['telegram','x','snapchat'].includes(kind))throw new Error('Select a valid social platform.');
   return {
-    telegram:handleValue(textValue(prefix+'Telegram')),
-    x:handleValue(textValue(prefix+'X')),
-    snapchat:handleValue(textValue(prefix+'Snapchat'))
+    telegram:kind==='telegram'?handle:null,
+    x:kind==='x'?handle:null,
+    snapchat:kind==='snapchat'?handle:null
   };
+}
+function displaySocial(handles){
+  if(!handles)return;
+  const kind=handles.telegram?'telegram':handles.x?'x':handles.snapchat?'snapchat':'';
+  $('memberProfilePlatform').value=kind;
+  $('memberProfileHandle').value=kind?handles[kind]||'':'';
 }
 async function loadStatus(){
   if(!client||statusLoading)return;
@@ -94,25 +105,34 @@ async function loadStatus(){
     if(pErr)throw pErr;
     if(pendingHandles){
       await profileSave(pendingHandles);
-      $('memberProfileTelegram').value=pendingHandles.telegram||'';
-      $('memberProfileX').value=pendingHandles.x||'';
-      $('memberProfileSnapchat').value=pendingHandles.snapchat||'';
+      displaySocial(pendingHandles);
       pendingHandles=null;
     }else{
-      $('memberProfileTelegram').value=profile?.telegram_handle||'';
-      $('memberProfileX').value=profile?.x_handle||'';
-      $('memberProfileSnapchat').value=profile?.snapchat_handle||'';
+      displaySocial(profile?{
+        telegram:profile.telegram_handle,x:profile.x_handle,snapchat:profile.snapchat_handle
+      }:null);
     }
-    const {data:membership,error:mErr}=await client.from('evie_memberships')
+    let {data:membership,error:mErr}=await client.from('evie_memberships')
       .select('tier,status,expires_at').eq('user_id',user.id).maybeSingle();
     if(mErr)throw mErr;
+    if(!membership){
+      // Users can create ONLY their own pending record; RLS refuses paid access.
+      const {error:createError}=await client.from('evie_memberships').insert({
+        user_id:user.id,tier:'none',status:'pending'
+      });
+      if(createError && createError.code!=='23505')throw createError;
+      const {data:newMember,error:readError}=await client.from('evie_memberships')
+        .select('tier,status,expires_at').eq('user_id',user.id).maybeSingle();
+      if(readError)throw readError;
+      membership=newMember;
+    }
     if(!membership){
       $('memberStatusName').textContent='Pending review';
       $('memberStatusDescription').textContent='Your account exists, but membership access has not been activated.';
       return;
     }
     const expired=membership.expires_at&&Date.parse(membership.expires_at)<=Date.now();
-    if(membership.status==='active'&&!expired){
+    if(membership.status==='active'&&!expired&&membership.tier!=='none'){
       $('memberStatusName').textContent=membership.tier==='daddy'?'Daddy Member · Active':'Vault Member · Active';
       $('memberStatusDescription').textContent='Your paid access has been approved'+
         (membership.expires_at?' through '+new Date(membership.expires_at).toLocaleDateString():'')+'.';

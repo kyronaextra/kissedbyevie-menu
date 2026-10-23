@@ -254,3 +254,9 @@ html{scroll-behavior:auto}
 .member-dashboard .member-form h3 small{font:12px var(--body);color:var(--muted)}
 .member-setup[hidden],#memberAuthArea[hidden],#memberDashboard[hidden]{display:none!important}
 @media(max-width:480px){.member-dialog{padding:22px}.member-dialog-top h2{font-size:53px}}
+
+.member-socials select,.member-form>select{
+  width:100%;background:#2d1425;color:var(--ivory);padding:14px;
+  border:1px solid rgba(255,255,255,.25);border-radius:5px;font:16px var(--body)
+}
+.member-socials select:focus-visible,.member-form>select:focus-visible{outline:2px solid var(--rose);outline-offset:3px}

@@ -1,4 +1,6 @@
-// PUBLIC project URL and publishable key only. No secret or service_role key here.
-// Activate after choosing a dedicated Kissed by Evie Supabase project and enabling phone SMS verification.
-window.EVIE_SUPABASE_URL = '';
-window.EVIE_SUPABASE_PUBLISHABLE_KEY = '';
+// PUBLIC Supabase project URL and publishable key. No service-role secrets here.
+// Do not activate until the Supabase Phone provider, SMS provider, and phone confirmations work.
+// Users then verify a six-digit SMS code; their eight-digit PIN is never stored in public tables.
+window.EVIE_SUPABASE_URL = 'https://cmjhecwwjoeqpcownkol.supabase.co';
+window.EVIE_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_A-2z6K_c5v3Il8Lup5rA9g_FeQpwVeW';
+window.EVIE_SMS_READY = false;
