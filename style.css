@@ -262,3 +262,48 @@ html{scroll-behavior:auto}
 .member-socials select:focus-visible,.member-form>select:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
 
 .member-help-link{display:block;text-align:center;text-decoration:none;font-size:13px;border-radius:4px}
+
+/* Daddy Members: private, access-controlled gallery */
+.evie-gallery-dialog,.evie-media-dialog{position:fixed;margin:auto;width:100vw;max-width:none;height:100dvh;max-height:none;overflow-y:auto;padding:clamp(20px,4vw,54px);border:0;background:#10070d;color:var(--ivory)}
+.evie-gallery-dialog::backdrop,.evie-media-dialog::backdrop{background:rgba(0,0,0,.92)}
+.evie-gallery-header{display:flex;justify-content:space-between;gap:24px;align-items:start;border-bottom:1px solid var(--line);padding-bottom:22px}
+.evie-gallery-header h2{font:normal clamp(52px,7vw,100px)/1 var(--display);margin:14px 0}
+.evie-gallery-header h2 em{color:var(--rose)}
+.evie-gallery-header p,.evie-gallery-footnote{color:var(--muted);font-size:12px;line-height:1.6}
+.evie-gallery-toolbar{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:23px 0}
+.evie-gallery-filters{display:flex;flex-wrap:wrap;gap:9px}
+.evie-gallery-filter{padding:12px 17px;border:1px solid var(--line);border-radius:30px;background:#23121d;color:var(--ivory);font-size:13px;cursor:pointer}
+.evie-gallery-filter[aria-pressed=true]{background:var(--rose);color:#13080e;border-color:var(--rose)}
+.evie-gallery-sort-label{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px}
+.evie-gallery-sort-label select{background:#291521;color:var(--ivory);border:1px solid var(--line);padding:11px;border-radius:6px;font-size:13px}
+.evie-gallery-status{min-height:24px;color:var(--muted);font-size:13px;line-height:1.6}
+.evie-gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;max-width:1500px;margin:auto}
+.evie-gallery-day{grid-column:1/-1;margin:24px 0 5px;border-bottom:1px solid var(--line);padding-bottom:13px;font:normal 30px var(--display);color:var(--ivory)}
+.evie-media-card{min-width:0;background:#24121d;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.evie-media-open{display:block;width:100%;padding:0;border:0;background:#331828;cursor:pointer;aspect-ratio:4/5}
+.evie-media-open img{width:100%;height:100%;object-fit:cover;display:block}
+.evie-video-preview{display:flex;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:17px;background:linear-gradient(145deg,#512139,#170b14);color:var(--ivory)}
+.evie-video-preview span{font-size:35px;color:var(--rose)}.evie-video-preview small{font-size:11px;letter-spacing:.14em}
+.evie-media-caption{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:8px 10px}
+.evie-media-filename{font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;color:var(--ivory)}
+.evie-favorite-button{border:0;background:transparent;color:var(--rose);font-size:25px;cursor:pointer;min-width:36px;min-height:35px}
+.evie-gallery-more{max-width:270px;display:block;margin:28px auto}
+.evie-gallery-more[hidden]{display:none}
+.evie-gallery-footnote{text-align:center;margin:28px auto}
+.evie-gallery-filter:focus-visible,.evie-media-open:focus-visible,.evie-favorite-button:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+.evie-media-dialog{background:#080408;display:flex;flex-direction:column;gap:15px}
+.evie-media-dialog:not([open]){display:none}
+.evie-media-top,.evie-media-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.evie-media-stage{flex:1;min-height:0;display:flex;justify-content:center;align-items:center;overflow:hidden}
+.evie-media-stage img,.evie-media-stage video{max-width:100%;max-height:calc(100dvh - 215px);object-fit:contain}
+.evie-media-bottom h3{font:normal 23px var(--display);margin:0;max-width:72vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.evie-media-bottom p{font-size:12px;color:var(--muted)}
+.evie-media-favorite{background:#381b2c;color:var(--rose);border:1px solid var(--line);border-radius:30px;padding:12px 18px;white-space:nowrap}
+.member-gallery-placeholder .primary-btn{display:block;width:100%;margin-top:20px}
+@media(max-width:600px){
+  .evie-gallery-dialog{padding:24px 13px}
+  .evie-gallery-header h2{font-size:49px}
+  .evie-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .evie-gallery-filter{padding:9px 12px;font-size:12px}
+  .evie-media-dialog{padding:15px}
+}

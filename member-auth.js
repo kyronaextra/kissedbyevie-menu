@@ -101,28 +101,39 @@ async function loadStatus(){
     }
     pendingHandles=null;
     let {data:membership,error:mErr}=await client.from('evie_memberships')
-      .select('tier,status,expires_at').eq('user_id',user.id).maybeSingle();
+      .select('tier,status,expires_at,age_verified_at').eq('user_id',user.id).maybeSingle();
     if(mErr)throw mErr;
     if(!membership){
       const {error:createError}=await client.from('evie_memberships').insert({user_id:user.id,tier:'none',status:'pending'});
       if(createError&&createError.code!=='23505')throw createError;
       const {data:newMembership,error:readError}=await client.from('evie_memberships')
-        .select('tier,status,expires_at').eq('user_id',user.id).maybeSingle();
+        .select('tier,status,expires_at,age_verified_at').eq('user_id',user.id).maybeSingle();
       if(readError)throw readError;
       membership=newMembership;
     }
     if(!membership){
+      window.EvieDaddyGallery?.deactivate();
       $('memberStatusName').textContent='Pending review';
       $('memberStatusDescription').textContent='Your account exists, but membership access has not been activated.';
       return;
     }
     const expired=membership.expires_at&&Date.parse(membership.expires_at)<=Date.now();
-    if(membership.status==='active'&&!expired&&['daddy','vault'].includes(membership.tier)){
-      $('memberStatusName').textContent=membership.tier==='daddy'?'Daddy Member · Active':'Vault Member · Active';
-      $('memberStatusDescription').textContent='Your paid access has been approved'+
-        (membership.expires_at?' through '+new Date(membership.expires_at).toLocaleDateString():'')+'.';
+    if(membership.status==='active'&&!expired&&membership.tier==='daddy'&&membership.age_verified_at){
+      $('memberStatusName').textContent='Daddy Member · Active';
+      $('memberStatusDescription').textContent='Your private gallery is ready.'+
+        (membership.expires_at?' Approved through '+new Date(membership.expires_at).toLocaleDateString()+'.':'');
       $('memberGalleryEntry').hidden=false;
+      window.EvieDaddyGallery?.activate(client,user);
+    }else if(membership.status==='active'&&!expired&&membership.tier==='daddy'){
+      window.EvieDaddyGallery?.deactivate();
+      $('memberStatusName').textContent='Age verification required';
+      $('memberStatusDescription').textContent='Contact Evie to complete age verification before private media access can be activated.';
+    }else if(membership.status==='active'&&!expired&&membership.tier==='vault'){
+      window.EvieDaddyGallery?.deactivate();
+      $('memberStatusName').textContent='Vault Member · Active';
+      $('memberStatusDescription').textContent='Your Vault membership has been approved. Daddy gallery access is a separate membership.';
     }else{
+      window.EvieDaddyGallery?.deactivate();
       const isExpired=Boolean(expired||membership.status==='expired');
       $('memberStatusName').textContent=isExpired?'Membership expired':membership.status==='revoked'?'Access revoked':'Pending approval';
       $('memberStatusDescription').textContent=isExpired?'Your access has ended. Contact Evie about renewal.':
@@ -130,6 +141,7 @@ async function loadStatus(){
         'Your account is ready. Paid membership requires separate payment verification and approval.';
     }
   }catch(error){
+    window.EvieDaddyGallery?.deactivate();
     showAccount();
     $('memberStatusName').textContent='Unable to check membership';
     $('memberStatusDescription').textContent='Membership information could not be confirmed yet.';
@@ -148,6 +160,7 @@ function open(){
 $('openMemberAccount').addEventListener('click',open);
 $('closeMemberAccount').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+dialog.addEventListener('close',()=>window.EvieDaddyGallery?.deactivate());
 tabs.forEach(tab=>{
   tab.addEventListener('click',()=>visibleView(tab.dataset.authView));
   tab.addEventListener('keydown',event=>{
@@ -248,12 +261,12 @@ $('memberSignOut').addEventListener('click',async ()=>{
   try{
     const {error}=await client.auth.signOut();
     if(error)throw error;
-    pendingHandles=null;visibleView('login');writeMessage('Signed out.');
+    window.EvieDaddyGallery?.deactivate();pendingHandles=null;visibleView('login');writeMessage('Signed out.');
   }catch(error){writeMessage('Unable to sign out. Please try again.')}
 });
 if(client){
   client.auth.onAuthStateChange(event=>{
-    if(event==='SIGNED_OUT')visibleView('login');
+    if(event==='SIGNED_OUT'){window.EvieDaddyGallery?.deactivate();visibleView('login')}
   });
 }
 })();

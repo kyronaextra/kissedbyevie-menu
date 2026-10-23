@@ -20,6 +20,7 @@
   <script defer src="checkout.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script defer src="member-config.js"></script>
+  <script defer src="daddy-gallery.js"></script>
   <script defer src="member-auth.js"></script>
 </head>
 <body id="top">
@@ -259,8 +260,9 @@
         <p id="memberStatusDescription"></p>
         <div id="memberGalleryEntry" hidden>
           <div class="member-gallery-placeholder">
-            <span aria-hidden="true">✧</span><strong>Your Private Gallery</strong>
-            <p>Your account has approved membership access. The private Dropbox gallery is not connected yet; no private media links are exposed here.</p>
+            <span aria-hidden="true">✧</span><strong>Daddy's Private Gallery</strong>
+            <p>Browse your collection by date and save favorites to your own account.</p>
+            <button type="button" id="evieGalleryOpen" class="primary-btn">Enter private gallery ↗</button>
           </div>
         </div>
         <a class="text-link" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Questions about membership? Message Evie ↗</a>
@@ -281,6 +283,46 @@
       <button type="button" id="memberSignOut" class="secondary-btn">Sign out</button>
     </div>
     <p id="memberMessage" class="member-message" role="status" aria-live="polite"></p>
+  </dialog>
+
+  <dialog id="evieGalleryDialog" class="evie-gallery-dialog" aria-labelledby="evieGalleryTitle">
+    <header class="evie-gallery-header">
+      <div>
+        <span class="eyebrow">KISSED BY EVIE / DADDY MEMBERS</span>
+        <h2 id="evieGalleryTitle">The Private <em>Gallery.</em></h2>
+        <p>Organized by Dropbox file date, newest first. Dropbox modification dates may differ from original upload dates.</p>
+      </div>
+      <button id="evieGalleryClose" class="icon-close" type="button" aria-label="Close private gallery">×</button>
+    </header>
+    <div class="evie-gallery-toolbar">
+      <div class="evie-gallery-filters" role="group" aria-label="Gallery filters">
+        <button type="button" class="evie-gallery-filter" data-evie-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="evie-gallery-filter" data-evie-filter="photo" aria-pressed="false">Photos</button>
+        <button type="button" class="evie-gallery-filter" data-evie-filter="video" aria-pressed="false">Videos</button>
+        <button type="button" class="evie-gallery-filter" data-evie-filter="favorites" aria-pressed="false">♡ Favorites <span id="evieFavoriteCount">0</span></button>
+      </div>
+      <label class="evie-gallery-sort-label" for="evieGallerySort">Sort by
+        <select id="evieGallerySort">
+          <option value="new">Newest first</option>
+          <option value="old">Oldest first</option>
+        </select>
+      </label>
+    </div>
+    <p id="evieGalleryStatus" class="evie-gallery-status" role="status" aria-live="polite"></p>
+    <div id="evieGalleryGrid" class="evie-gallery-grid" aria-label="Daddy Members private collection"></div>
+    <button id="evieGalleryMore" class="secondary-btn evie-gallery-more" type="button" hidden>Load more</button>
+    <p class="evie-gallery-footnote">Private content is accessible only while your verified Daddy membership is active.</p>
+  </dialog>
+  <dialog id="evieMediaDialog" class="evie-media-dialog" aria-labelledby="evieMediaTitle">
+    <div class="evie-media-top">
+      <span class="eyebrow">DADDY MEMBERS / PRIVATE VIEW</span>
+      <button type="button" id="evieMediaClose" class="icon-close" aria-label="Close photo or video">×</button>
+    </div>
+    <div id="evieMediaStage" class="evie-media-stage" aria-live="polite"></div>
+    <div class="evie-media-bottom">
+      <div><h3 id="evieMediaTitle"></h3><p id="evieMediaDate"></p></div>
+      <button type="button" id="evieMediaFavorite" class="evie-media-favorite" aria-pressed="false">♡ Favorite</button>
+    </div>
   </dialog>
 
   <dialog id="bagDrawer" class="bag-drawer" aria-labelledby="bagHeading">
