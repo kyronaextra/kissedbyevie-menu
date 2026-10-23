@@ -211,3 +211,46 @@ html{scroll-behavior:auto}
 .checkout-result a{color:var(--rose)}
 #confirmOrder:disabled,#submitCheckout:disabled{opacity:.5;cursor:not-allowed}
 @media(max-width:650px){.checkout-dialog{width:100vw}}
+
+/* Daddy Members: phone + PIN / optional social accounts */
+.member-dialog{position:fixed;margin:auto;width:min(calc(100% - 24px),590px);max-height:92dvh;overflow-y:auto;border:1px solid var(--line);border-radius:12px;padding:clamp(24px,5vw,45px);background:radial-gradient(ellipse at top right,#492037,#190b14 55%,#10070d);color:var(--ivory);box-shadow:0 25px 100px rgba(0,0,0,.6)}
+.member-dialog::backdrop{background:rgba(8,3,7,.84);backdrop-filter:blur(6px)}
+.member-dialog-top{display:flex;gap:15px;justify-content:space-between;align-items:start}
+.member-dialog-top h2{font:normal clamp(55px,8vw,83px)/.96 var(--display);margin:15px 0}
+.member-dialog-top h2 em,.member-welcome h3 em{color:var(--rose)}
+.member-dialog-top .icon-close{flex:0 0 44px}
+.member-strap{font:italic 20px Georgia,serif;color:var(--muted);margin:0 0 28px}
+.member-auth-tabs{display:flex;gap:24px;border-bottom:1px solid var(--line);margin-bottom:23px}
+.member-auth-tabs button{background:transparent;border:0;color:var(--muted);padding:12px 4px 15px;font-size:14px}
+.member-auth-tabs button[aria-selected=true]{border-bottom:2px solid var(--rose);color:var(--ivory)}
+.member-form{display:flex;flex-direction:column;gap:13px}
+.member-form[hidden],.member-dashboard[hidden],.member-setup[hidden],.member-socials[hidden]{display:none!important}
+.member-form>label,.member-socials label{font-size:13px;font-weight:600;line-height:1.5}
+.member-form>input,.member-socials input{width:100%;background:#2d1425;color:var(--ivory);padding:14px;border:1px solid rgba(255,255,255,.25);border-radius:5px;font:16px var(--body)}
+.member-form input::placeholder{color:#c59aad}
+.member-form button.primary-btn{width:100%;min-height:50px;margin-top:8px}
+.member-form h3{font:normal 37px var(--display);margin:8px 0 0}
+.member-form>p,.member-socials p{font-size:13px;line-height:1.6;color:var(--muted)}
+.member-socials{display:flex;flex-direction:column;gap:11px;padding:21px 0 10px;border-top:1px solid var(--line);margin-top:9px}
+.member-socials .eyebrow{margin-bottom:0}
+.member-socials p{margin:0 0 9px}
+.member-consent{display:flex;align-items:flex-start;gap:11px;font-size:12px!important;line-height:1.65!important}
+.member-consent input{flex:0 0 19px;width:19px;height:19px;accent-color:var(--rose);margin-top:1px}
+.member-inline-button{align-self:center;background:transparent;border:0;color:var(--rose);text-decoration:underline;padding:9px;font-size:13px}
+.member-message{font-size:13px;line-height:1.6;color:var(--rose-bright);min-height:22px;margin-top:18px}
+.member-setup{padding:18px;background:rgba(233,164,190,.09);border:1px solid var(--line)}
+.member-setup p{font-size:13px;line-height:1.6;color:var(--muted)}
+.member-welcome h3{font:normal 55px var(--display);margin:12px 0}
+.member-welcome p{color:var(--muted);font-size:13px}
+.member-status{border:1px solid var(--line);background:rgba(233,164,190,.06);padding:22px;margin:25px 0}
+.member-status>strong{display:block;font:normal 32px var(--display);margin:12px 0}
+.member-status>p{font-size:13px;line-height:1.7;color:var(--muted)}
+.member-status .text-link{font-size:10px;margin:12px 0}
+.member-gallery-placeholder{padding:26px 17px;background:linear-gradient(135deg,#421e31,#1a0c17);border:1px solid var(--line);margin:18px 0}
+.member-gallery-placeholder span{display:block;font-size:40px;color:var(--rose)}
+.member-gallery-placeholder strong{font:normal 30px var(--display)}
+.member-gallery-placeholder p{color:var(--muted);font-size:12px;line-height:1.6}
+.member-dashboard .member-form{padding:20px 0;border-top:1px solid var(--line);margin-top:20px}
+.member-dashboard .member-form h3 small{font:12px var(--body);color:var(--muted)}
+.member-setup[hidden],#memberAuthArea[hidden],#memberDashboard[hidden]{display:none!important}
+@media(max-width:480px){.member-dialog{padding:22px}.member-dialog-top h2{font-size:53px}}
