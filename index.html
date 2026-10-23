@@ -3,92 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@kissedbyevie • Menu</title>
+<title>@kissedbyevie</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #0f0a0c;
-    color: #f5f5f5;
-    line-height: 1.5;
+    background: #0a0608;
+    color: #f8f4f6;
+    overflow-x: hidden;
   }
   .hero {
-    height: 42vh;
-    min-height: 280px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.2), #0f0a0c),
+    height: 45vh;
+    min-height: 300px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15), #0a0608),
                 url('https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg') center/cover no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 20px;
   }
-  .hero h1 { font-size: clamp(32px, 8vw, 48px); letter-spacing: 1px; font-weight: 600; font-style: italic; }
-  .hero .handle { color: #e8a0b8; margin-top: 6px; font-size: 14px; letter-spacing: 1px; }
+  .hero h1 {
+    font-size: clamp(36px, 9vw, 52px); font-weight: 500; letter-spacing: 1px;
+    font-style: italic; opacity: 0; animation: reveal 1.2s ease forwards;
+  }
+  @keyframes reveal { to { opacity: 1; } }
+  .hero .handle { color: #e8a0b8; margin-top: 8px; letter-spacing: 2px; font-size: 13px; }
 
-  .menu { max-width: 440px; margin: 0 auto; padding: 20px 16px 100px; }
-  details { margin-bottom: 12px; border-bottom: 1px solid #2a2024; padding-bottom: 12px; }
-  summary {
-    font-size: 16px;
-    font-weight: 600;
-    color: #e8a0b8;
-    cursor: pointer;
-    list-style: none;
-    padding: 8px 0;
+  .menu { max-width: 420px; margin: 0 auto; padding: 24px 16px 120px; }
+
+  .vip-wrap { perspective: 1000px; margin-bottom: 28px; }
+  .vip-card {
+    position: relative; height: 180px; border-radius: 16px; cursor: pointer;
+    transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(.4,0,.2,1);
   }
-  summary::-webkit-details-marker { display: none; }
-  summary::after { content: " +"; color: #888; }
-  details[open] summary::after { content: " −"; }
-  .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-top: 1px solid #1f181b;
-    font-size: 15px;
+  .vip-card.flipped { transform: rotateY(180deg); }
+  .vip-front, .vip-back {
+    position: absolute; inset: 0; border-radius: 16px; backface-visibility: hidden;
+    background: linear-gradient(135deg, #2a1a22, #1a0e14);
+    border: 1px solid #5a3a48; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 20px; text-align: center;
   }
-  .item .desc { flex: 1; padding-right: 12px; }
-  .item .desc small { display: block; color: #aaa; font-size: 12px; margin-top: 2px; }
-  .price { font-weight: 600; color: #f0c8d4; white-space: nowrap; }
-  .add-btn {
-    background: #e8a0b8;
-    color: #0f0a0c;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 10px;
-    cursor: pointer;
+  .vip-front::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,182,193,0.25) 50%, transparent 70%);
+    animation: shine 3.5s infinite;
   }
-  .note { font-size: 13px; color: #aaa; margin: 6px 0 4px; }
-  #cart {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #1a1216;
-    border-top: 1px solid #3a2830;
-    padding: 12px 16px;
-    z-index: 100;
+  @keyframes shine { 0% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+  .vip-back { transform: rotateY(180deg); }
+  .vip-card h2 { font-size: 22px; letter-spacing: 1px; margin-bottom: 6px; }
+  .vip-card .sub { color: #e8a0b8; font-size: 13px; }
+  .vip-back .benefits { font-size: 13px; line-height: 1.6; color: #ddd; margin: 10px 0; }
+  .vip-prices { display: flex; gap: 12px; margin-top: 8px; }
+  .vip-prices button {
+    background: #e8a0b8; color: #0a0608; border: none; padding: 8px 14px;
+    border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;
   }
-  #cart h3 { font-size: 14px; margin-bottom: 6px; color: #e8a0b8; }
-  .cart-line { display: flex; justify-content: space-between; font-size: 14px; margin: 3px 0; }
-  .remove { background: none; border: none; color: #e8a0b8; cursor: pointer; font-size: 16px; }
-  .total { font-weight: 700; font-size: 16px; margin-top: 6px; }
-  .pay-btn {
-    display: block;
-    background: #e8a0b8;
-    color: #0f0a0c;
-    text-align: center;
-    text-decoration: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 700;
-    margin-top: 10px;
+
+  .vault {
+    background: #140c10; border: 1px solid #3a2830; border-radius: 16px;
+    padding: 18px; margin-bottom: 24px; cursor: pointer; position: relative;
   }
-  .footer { text-align: center; font-size: 11px; color: #666; margin-top: 20px; }
+  .vault h3 { color: #e8a0b8; margin-bottom: 8px; }
+  .vault-door {
+    height: 80px; background: linear-gradient(180deg, #2a1820, #1a1014);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    margin: 10px 0; box-shadow: 0 0 20px rgba(232,160,184,0.15);
+  }
+  .vault-door span { font-size: 28px; }
+  .vault-cats { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; color: #aaa; }
+  .vault-cats span { background: #1f1418; padding: 3px 8px; border-radius: 12px; }
+
+  .step { margin-bottom: 20px; }
+  .step h3 { font-size: 15px; color: #e8a0b8; margin-bottom: 8px; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px; background: #140c10; border-radius: 10px; font-size: 14px;
+  }
+  .opt button {
+    background: #e8a0b8; color: #0a0608; border: none; padding: 5px 12px;
+    border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;
+  }
+
+  .bag-pill {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: #e8a0b8; color: #0a0608; padding: 10px 18px; border-radius: 30px;
+    font-weight: 700; font-size: 14px; cursor: pointer; z-index: 50;
+    box-shadow: 0 4px 20px rgba(232,160,184,0.3);
+  }
+  .drawer {
+    position: fixed; top: 0; right: -100%; width: 85%; max-width: 340px; height: 100%;
+    background: #120a0e; border-left: 1px solid #3a2830; z-index: 200;
+    transition: right 0.35s ease; padding: 20px 16px; overflow-y: auto;
+  }
+  .drawer.open { right: 0; }
+  .drawer h3 { color: #e8a0b8; margin-bottom: 12px; }
+  .cart-line { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; font-size: 14px; }
+  .qty { display: flex; gap: 6px; align-items: center; }
+  .qty button { background: #2a1820; color: #fff; border: none; width: 22px; height: 22px; border-radius: 4px; cursor: pointer; }
+  .checkout {
+    display: block; background: #e8a0b8; color: #0a0608; text-align: center;
+    text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 16px;
+  }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+  .overlay.show { display: block; }
+
+  .sparkle { position: fixed; pointer-events: none; font-size: 18px; animation: float 0.8s ease forwards; }
+  @keyframes float { to { transform: translateY(-40px); opacity: 0; } }
+  .note { font-size: 13px; color: #aaa; }
 </style>
 </head>
 <body>
@@ -100,147 +121,146 @@
 
 <div class="menu">
 
-  <details open>
-    <summary>Premium</summary>
-    <div class="item">
-      <div class="desc">Daddy Package — Monthly<br><small>Deluxe Dropbox, daily content, priority, 1 free live, 3 mo free OF</small></div>
-      <div><span class="price">$150/mo</span><button class="add-btn" onclick="add('Daddy Package Monthly', 150)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">Daddy Package — One-time<br><small>Same as above</small></div>
-      <div><span class="price">$350</span><button class="add-btn" onclick="add('Daddy Package One-time', 350)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">Deluxe Dropbox / Full Vault<br><small>800+ items: squirt, some B/G, solo, feet, striptease, selfies, oil, some anal. Constantly updated. Free 1-mo OF trial.</small></div>
-      <div><span class="price">$75</span><button class="add-btn" onclick="add('Deluxe Dropbox', 75)">Add</button></div>
-    </div>
-  </details>
-
-  <details>
-    <summary>Content</summary>
-    <p class="note">Choose one bundle:</p>
-    <div class="item">
-      <div class="desc">10 pics/videos</div>
-      <div><span class="price">$15</span><button class="add-btn" onclick="selectBundle('10 pics/videos', 15)">Select</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">20 pics/videos</div>
-      <div><span class="price">$30</span><button class="add-btn" onclick="selectBundle('20 pics/videos', 30)">Select</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">50 pics/videos</div>
-      <div><span class="price">$60</span><button class="add-btn" onclick="selectBundle('50 pics/videos', 60)">Select</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">B/G Dropbox<br><small>15+ videos</small></div>
-      <div><span class="price">$35</span><button class="add-btn" onclick="add('B/G Dropbox', 35)">Add</button></div>
-    </div>
-  </details>
-
-  <details>
-    <summary>Live & Custom</summary>
-    <div class="item">
-      <div class="desc">5 min video chat</div>
-      <div><span class="price">$50</span><button class="add-btn" onclick="add('5 min Video Chat', 50)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">10 min video chat</div>
-      <div><span class="price">$85</span><button class="add-btn" onclick="add('10 min Video Chat', 85)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">15 min live snaps</div>
-      <div><span class="price">$45</span><button class="add-btn" onclick="add('15 min Live Snaps', 45)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">30 min live snaps</div>
-      <div><span class="price">$75</span><button class="add-btn" onclick="add('30 min Live Snaps', 75)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">1 hour live snaps</div>
-      <div><span class="price">$130</span><button class="add-btn" onclick="add('1 hour Live Snaps', 130)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">2 min custom + photos</div>
-      <div><span class="price">$90</span><button class="add-btn" onclick="add('2 min Custom', 90)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">3 min custom + photos</div>
-      <div><span class="price">$100</span><button class="add-btn" onclick="add('3 min Custom', 100)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">4 min custom + photos</div>
-      <div><span class="price">$110</span><button class="add-btn" onclick="add('4 min Custom', 110)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">45 sec short custom</div>
-      <div><span class="price">$45</span><button class="add-btn" onclick="add('45 sec Custom', 45)">Add</button></div>
-    </div>
-    <p class="note">Customs finished within 48 hrs. Previous purchase required.</p>
-  </details>
-
-  <details>
-    <summary>Extras & Deals</summary>
-    <div class="item">
-      <div class="desc">Live / detailed 🍆 rate</div>
-      <div><span class="price">$25</span><button class="add-btn" onclick="add('🍆 rate', 25)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">3 live snaps + 2 pics</div>
-      <div><span class="price">$20</span><button class="add-btn" onclick="add('3 snaps + 2 pics', 20)">Add</button></div>
-    </div>
-    <div class="item">
-      <div class="desc">OnlyFans monthly<br><small>Includes surprise photo bundle</small></div>
-      <div><span class="price">$3/mo</span><button class="add-btn" onclick="add('OnlyFans', 3)">Add</button></div>
-    </div>
-    <p class="note">Make a Deal — pick an amount and I’ll build something worth more:</p>
-    <div class="item">
-      <div class="desc">Deal</div>
-      <div>
-        <button class="add-btn" onclick="add('Make a Deal $50', 50)">$50</button>
-        <button class="add-btn" onclick="add('Make a Deal $100', 100)">$100</button>
-        <button class="add-btn" onclick="add('Make a Deal $150', 150)">$150</button>
-        <button class="add-btn" onclick="add('Make a Deal $200', 200)">$200</button>
+  <div class="vip-wrap">
+    <div class="vip-card" id="vipCard" onclick="this.classList.toggle('flipped')">
+      <div class="vip-front">
+        <h2>DADDY PACKAGE</h2>
+        <div class="sub">Tap to reveal</div>
+      </div>
+      <div class="vip-back">
+        <div class="benefits">Deluxe Dropbox • Daily content<br>Priority replies • 1 free live<br>3 months free OnlyFans</div>
+        <div class="vip-prices">
+          <button onclick="event.stopPropagation(); addItem('Daddy Package Monthly', 150)">$150/mo</button>
+          <button onclick="event.stopPropagation(); addItem('Daddy Package One-time', 350)">$350</button>
+        </div>
       </div>
     </div>
-  </details>
+  </div>
 
-  <div class="footer">18+ ONLY • DIGITAL CONTENT</div>
+  <div class="vault" onclick="document.getElementById('vaultPanel').classList.add('open')">
+    <h3>Deluxe Dropbox / Full Vault</h3>
+    <div class="vault-door"><span>✦</span></div>
+    <div class="vault-cats">
+      <span>Squirt</span><span>Solo</span><span>Feet</span><span>Striptease</span><span>Selfies</span><span>Oil</span><span>Some B/G</span><span>Some Anal</span>
+    </div>
+    <p class="note" style="margin-top:8px;">800+ items • Constantly updated • Free 1-mo OF trial</p>
+  </div>
+
+  <div id="vaultPanel" class="drawer">
+    <h3>Full Vault — $75</h3>
+    <p style="font-size:14px; line-height:1.5; margin-bottom:12px;">800+ pics & videos. Squirt, some B/G, solo, feet folder, striptease, selfies, up close, oil, some anal. Constantly updated. Includes free 1-month OnlyFans trial.</p>
+    <button style="width:100%; padding:12px; background:#e8a0b8; color:#0a0608; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="addItem('Deluxe Dropbox', 75); closeDrawers()">Add to Order</button>
+  </div>
+
+  <div class="step">
+    <h3>1. Choose a collection</h3>
+    <div class="options">
+      <div class="opt"><div>10 pics/videos <small style="color:#aaa">$15</small></div><button onclick="selectBundle('10 pics/videos', 15)">Select</button></div>
+      <div class="opt"><div>20 pics/videos <small style="color:#aaa">$30</small></div><button onclick="selectBundle('20 pics/videos', 30)">Select</button></div>
+      <div class="opt"><div>50 pics/videos <small style="color:#aaa">$60</small></div><button onclick="selectBundle('50 pics/videos', 60)">Select</button></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h3>2. Add extras</h3>
+    <div class="options">
+      <div class="opt"><div>B/G Dropbox (15+ videos)</div><button onclick="addItem('B/G Dropbox', 35)">$35</button></div>
+      <div class="opt"><div>Live 🍆 rate</div><button onclick="addItem('🍆 rate', 25)">$25</button></div>
+      <div class="opt"><div>3 snaps + 2 pics</div><button onclick="addItem('3 snaps + 2 pics', 20)">$20</button></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h3>3. Live & Custom</h3>
+    <div class="options">
+      <div class="opt"><div>5 min video chat</div><button onclick="addItem('5 min Video Chat', 50)">$50</button></div>
+      <div class="opt"><div>10 min video chat</div><button onclick="addItem('10 min Video Chat', 85)">$85</button></div>
+      <div class="opt"><div>15 / 30 / 60 min live snaps</div><button onclick="addItem('15 min Live Snaps', 45)">from $45</button></div>
+      <div class="opt"><div>2–4 min custom</div><button onclick="addItem('2 min Custom', 90)">from $90</button></div>
+      <div class="opt"><div>45 sec short custom</div><button onclick="addItem('45 sec Custom', 45)">$45</button></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <h3>Make a Deal</h3>
+    <div class="options">
+      <div class="opt"><div>Custom offer</div>
+        <div>
+          <button onclick="addItem('Make a Deal $50', 50)">$50</button>
+          <button onclick="addItem('Make a Deal $100', 100)">$100</button>
+          <button onclick="addItem('Make a Deal $150', 150)">$150</button>
+          <button onclick="addItem('Make a Deal $200', 200)">$200</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div id="cart">
+<div class="bag-pill" onclick="document.getElementById('bagDrawer').classList.add('open'); document.getElementById('overlay').classList.add('show')">
+  Order <span id="bagTotal">$0</span>
+</div>
+
+<div id="overlay" class="overlay" onclick="closeDrawers()"></div>
+
+<div id="bagDrawer" class="drawer">
   <h3>Your Order</h3>
-  <div id="cart-items">Nothing added yet</div>
-  <div class="total">Total: $<span id="total">0</span></div>
-  <a class="pay-btn" href="https://cash.app/$TaylorGann90" target="_blank">Pay with Cash App</a>
-  <p class="note" style="text-align:center; margin-top:6px;">Then message the total + list to @kissedbyevie on Telegram</p>
+  <div id="cartLines"></div>
+  <div style="margin-top:12px; font-weight:700;">Total: $<span id="drawerTotal">0</span></div>
+  <a class="checkout" href="https://cash.app/$TaylorGann90" target="_blank">Pay with Cash App</a>
+  <p class="note" style="text-align:center; margin-top:8px;">Then message the total + list to @kissedbyevie on Telegram</p>
 </div>
 
 <script>
 let cart = [];
-function add(name, price) {
-  cart.push({name, price, id: Date.now() + Math.random()});
+function addItem(name, price) {
+  const existing = cart.find(i => i.name === name);
+  if (existing) existing.qty++;
+  else cart.push({name, price, qty: 1, id: Date.now() + Math.random()});
   render();
+  sparkle();
 }
 function selectBundle(name, price) {
   cart = cart.filter(i => !i.name.includes('pics/videos'));
-  add(name, price);
+  addItem(name, price);
 }
-function remove(id) {
-  cart = cart.filter(i => i.id !== id);
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
   render();
 }
 function render() {
-  const el = document.getElementById('cart-items');
-  const totalEl = document.getElementById('total');
-  if (!cart.length) {
-    el.innerHTML = 'Nothing added yet';
-    totalEl.textContent = '0';
-    return;
+  const lines = document.getElementById('cartLines');
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('bagTotal').textContent = '$' + total;
+  document.getElementById('drawerTotal').textContent = total;
+  if (!cart.length) { lines.innerHTML = '<p style="color:#aaa">Nothing yet</p>'; return; }
+  lines.innerHTML = cart.map(i => `
+    <div class="cart-line">
+      <div>${i.name} × ${i.qty}</div>
+      <div class="qty">
+        <button onclick="changeQty(${i.id}, -1)">−</button>
+        <span>$${i.price * i.qty}</span>
+        <button onclick="changeQty(${i.id}, 1)">+</button>
+      </div>
+    </div>`).join('');
+}
+function closeDrawers() {
+  document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
+  document.getElementById('overlay').classList.remove('show');
+}
+function sparkle() {
+  for (let i = 0; i < 5; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = '✦';
+    s.style.left = (Math.random() * 80 + 10) + '%';
+    s.style.bottom = '80px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
   }
-  el.innerHTML = cart.map(i => 
-    `<div class="cart-line">${i.name} — $${i.price} <button class="remove" onclick="remove(${i.id})">✕</button></div>`
-  ).join('');
-  totalEl.textContent = cart.reduce((s, i) => s + i.price, 0);
 }
 </script>
 
