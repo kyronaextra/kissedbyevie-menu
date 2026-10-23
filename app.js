@@ -127,7 +127,9 @@
   bag.addEventListener('click',function(e){if(e.target===bag)closeBag()});
   bag.addEventListener('close',function(){if(lastBagTrigger&&lastBagTrigger.focus)lastBagTrigger.focus()});
   function addItem(name,price,exclusive){
-    if(exclusive==='bundle')cart=cart.filter(function(item){return item.exclusive!=='bundle'});
+    if(['bundle','daddy','deal'].includes(exclusive))cart=cart.filter(function(i){return i.exclusive!==exclusive});
+    if(exclusive==='daddy')cart=cart.filter(function(i){return i.name!=='Deluxe Dropbox / Full Vault'});
+    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='daddy'})){document.getElementById('cartFeedback').textContent='Vault is included in the Daddy Package.';openBag();return;}
     var item=cart.find(function(existing){return existing.name===name});
     if(item){if(exclusive==='bundle')item.qty=1;else item.qty++}
     else cart.push({name:name,price:price,qty:1,exclusive:exclusive||null});
@@ -178,6 +180,7 @@
     document.getElementById('bagCount').textContent=String(cart.reduce(function(sum,item){return sum+item.qty},0));
     document.getElementById('monthlyNote').hidden=!cart.some(function(item){return item.name==='Daddy Package Monthly'});
     document.getElementById('copyOrder').disabled=cart.length===0;
+    document.getElementById('confirmOrder').disabled=cart.length===0;
   }
   document.getElementById('copyOrder').addEventListener('click',async function(){
     var message='Kissed by Evie order request\n'+cart.map(function(item){return item.qty+' × '+item.name+' — '+money(item.price*item.qty)}).join('\n')+'\nEstimated initial total: '+money(cartTotal())+'\nPlease confirm availability and payment instructions.';
@@ -192,6 +195,13 @@
     }catch(e){feedback.textContent='Could not copy automatically. Please select your items and total above.'}
   });
   renderCart();
+  window.EvieCart = {
+    items: function(){return cart.map(function(i){return {name:i.name,qty:i.qty,price:i.price}})},
+    total: cartTotal,
+    close: closeBag,
+    open: openBag,
+    reset: function(){cart=[];renderCart();bagPill.classList.remove('visible')}
+  };
 
   var progress=document.getElementById('scrollProgress');
   var scrollQueued=false;

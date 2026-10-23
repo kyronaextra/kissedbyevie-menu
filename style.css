@@ -185,3 +185,29 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 html{scroll-behavior:auto}
 *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* Menu and confirmation */
+.category-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px}
+.product-panel[hidden]{display:none!important}
+.checkout-dialog{width:min(100vw,490px)}
+.checkout-summary{padding:15px 0;border-bottom:1px solid var(--line);color:var(--muted);white-space:pre-line;font-size:13px;line-height:1.8}
+.checkout-form{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.checkout-form fieldset{border:0;padding:0;display:flex;gap:18px;flex-wrap:wrap}
+.checkout-form legend{width:100%;padding-bottom:10px}
+.checkout-form label,.checkout-form legend{font-size:13px;line-height:1.6}
+.checkout-form input[type=text],.checkout-form select,.checkout-form textarea{width:100%;background:#27111d;color:var(--ivory);border:1px solid var(--line);padding:13px;border-radius:4px;font-size:16px}
+.checkout-form select option{background:#27111d}
+.checkout-form textarea{resize:vertical}
+.checkout-form input[type=checkbox],.checkout-form input[type=radio]{width:18px;height:18px;accent-color:var(--rose)}
+.checkout-form .consent{display:flex;gap:10px;align-items:flex-start}
+.checkout-form .consent input{flex:0 0 18px}
+.checkout-form small{color:var(--muted);text-align:right}
+.checkout-status{font-size:13px;color:var(--rose);line-height:1.5}
+.checkout-form .anti-spam{position:absolute;left:-9999px;width:1px;opacity:0;pointer-events:none}
+.checkout-result{padding:25px 0}
+.checkout-result h3{font:normal 45px var(--display)}
+.checkout-result p{color:var(--muted);line-height:1.7}
+.checkout-result #resultPayment{padding:16px;margin:18px 0;background:#291421;font-size:13px}
+.checkout-result a{color:var(--rose)}
+#confirmOrder:disabled,#submitCheckout:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:650px){.checkout-dialog{width:100vw}}
