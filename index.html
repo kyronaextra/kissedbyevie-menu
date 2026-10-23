@@ -21,6 +21,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script defer src="member-config.js"></script>
   <script defer src="daddy-gallery.js"></script>
+  <script defer src="daddy-lounge.js"></script>
   <script defer src="member-auth.js"></script>
 </head>
 <body id="top">
@@ -307,6 +308,95 @@
       <button type="button" id="memberSignOut" class="secondary-btn">Sign out</button>
     </div>
     <p id="memberMessage" class="member-message" role="status" aria-live="polite"></p>
+  </dialog>
+
+
+  <!-- Logged-in member lounge. Media access remains controlled by Supabase RLS. -->
+  <dialog id="daddyLoungeDialog" class="dl-dialog" aria-labelledby="dlHeroTitle">
+    <div class="dl-wrap">
+      <header class="dl-top">
+        <button id="dlBackPublic" type="button" class="dl-back">← <span>Public site</span></button>
+        <div class="dl-brand">KISSED BY EVIE <span aria-hidden="true">✦</span><small>PRIVATE MEMBERS LOUNGE</small></div>
+        <button id="dlClose" type="button" class="dl-close" aria-label="Close member lounge">✕</button>
+      </header>
+      <div class="dl-layout">
+        <nav class="dl-nav" aria-label="Daddy Member navigation">
+          <p class="dl-nav-eyebrow">YOUR PRIVATE SPACE</p>
+          <button type="button" class="dl-nav-item dl-current" data-dl-action="home">✧ <span>The Lounge</span></button>
+          <button type="button" class="dl-nav-item" data-dl-action="vault">▦ <span>The Vault</span></button>
+          <button type="button" class="dl-nav-item" data-dl-action="favorites">♡ <span>My Favorites</span></button>
+          <button type="button" class="dl-nav-item" data-dl-action="latest">✦ <span>New Drops</span></button>
+          <button type="button" class="dl-nav-item" data-dl-action="membership">♛ <span>Membership</span></button>
+          <div class="dl-nav-footer">
+            <a class="dl-nav-item" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">↗ <span>Priority Contact</span></a>
+            <button id="dlAccountButton" type="button" class="dl-nav-item">⚙ <span>Account</span></button>
+            <button id="dlSignOut" type="button" class="dl-nav-item">⇥ <span>Sign Out</span></button>
+          </div>
+        </nav>
+        <div class="dl-content">
+          <section class="dl-hero" id="dlHome">
+            <div class="dl-hero-glyph" aria-hidden="true">E</div>
+            <p class="dl-eyebrow"><span class="dl-gold-dot" aria-hidden="true"></span> KISSED BY EVIE / MEMBERS ONLY</p>
+            <h1 id="dlHeroTitle">Oh, there <em>you</em> are.</h1>
+            <p class="dl-welcome">Welcome back, <strong id="dlWelcomeUsername">@member</strong> <span aria-hidden="true">✧</span></p>
+            <p class="dl-hero-sub">Your own little corner of my world. Make yourself comfortable.</p>
+            <div class="dl-hero-ctas">
+              <button type="button" data-dl-action="vault" class="dl-primary">Enter The Vault <span aria-hidden="true">↗</span></button>
+              <button type="button" data-dl-action="favorites" class="dl-secondary">Your Favorites <span aria-hidden="true">♡</span></button>
+            </div>
+          </section>
+          <section class="dl-status-strip" aria-label="Current membership status">
+            <div class="dl-status-icon" aria-hidden="true">♛</div>
+            <div class="dl-status-head"><span>YOUR MEMBERSHIP</span><strong id="dlStatusShort">Checking access…</strong></div>
+            <p id="dlStatusDetail">Checking private access.</p>
+            <span id="dlAccessSeal" class="dl-seal">PRIVATE ACCESS</span>
+          </section>
+          <section class="dl-collection" aria-labelledby="dlCollectionTitle">
+            <div class="dl-heading">
+              <div><p class="dl-eyebrow">CURATED FOR YOUR EYES ONLY</p><h2 id="dlCollectionTitle">Your private <em>collection.</em></h2></div>
+              <span>A little something just for you ✧</span>
+            </div>
+            <p id="dlInlineNotice" class="dl-notice" role="status" aria-live="polite" tabindex="-1" hidden></p>
+            <div class="dl-grid">
+              <button type="button" class="dl-card dl-card-vault" data-dl-action="vault">
+                <span class="dl-card-art"><span aria-hidden="true">E</span></span>
+                <span class="dl-card-body"><small>01 / YOUR PRIVATE LIBRARY</small><strong>The Vault</strong><span id="dlVaultSummary">Photos and videos, all in one place.</span><b aria-hidden="true">↗</b></span>
+              </button>
+              <button type="button" class="dl-card dl-card-faves" data-dl-action="favorites">
+                <span class="dl-card-art"><span aria-hidden="true">♡</span></span>
+                <span class="dl-card-body"><small>02 / ONLY YOUR PICKS</small><strong>My Favorites</strong><span id="dlFavoritesSummary">All the moments you love, saved here.</span><b aria-hidden="true">↗</b></span>
+              </button>
+              <button type="button" class="dl-card dl-card-latest" data-dl-action="latest">
+                <span class="dl-card-art"><span aria-hidden="true">✦</span></span>
+                <span class="dl-card-body"><small>03 / FRESH FROM EVIE</small><strong>Latest Drops</strong><span id="dlLatestSummary">See what's new since your last visit.</span><b aria-hidden="true">↗</b></span>
+              </button>
+            </div>
+          </section>
+          <div class="dl-lower">
+            <section class="dl-membership" id="dlMembershipSection" aria-labelledby="dlMembershipTitle">
+              <div class="dl-eyebrow">THE DETAILS <span aria-hidden="true">♛</span></div>
+              <h2 id="dlMembershipTitle">Your <em>membership.</em></h2>
+              <dl class="dl-facts">
+                <div><dt>Account</dt><dd id="dlMembershipUser">@member</dd></div>
+                <div><dt>Plan</dt><dd id="dlPlan">Awaiting approval</dd></div>
+                <div><dt>Access</dt><dd id="dlAccessStatus">Pending review</dd></div>
+                <div><dt>Valid through</dt><dd id="dlExpiration">Not set</dd></div>
+              </dl>
+              <p id="dlMembershipFootnote">Membership access is confirmed separately after approval.</p>
+            </section>
+            <section class="dl-contact" aria-labelledby="dlContactTitle">
+              <span aria-hidden="true" class="dl-contact-star">✦</span>
+              <p class="dl-eyebrow">JUST BETWEEN US</p>
+              <h2 id="dlContactTitle">Need a little <em>attention?</em></h2>
+              <p>Member perks, questions, or something on your mind? You know where to find me.</p>
+              <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer" class="dl-contact-link">Message Evie <span aria-hidden="true">↗</span></a>
+              <small>Member inquiries / Telegram</small>
+            </section>
+          </div>
+          <footer class="dl-foot"><span>KISSED BY EVIE <span aria-hidden="true">✦</span> PRIVATE MEMBERS</span><span>For the ones who stay a little longer.</span></footer>
+        </div>
+      </div>
+    </div>
   </dialog>
 
   <dialog id="evieGalleryDialog" class="evie-gallery-dialog" aria-labelledby="evieGalleryTitle">

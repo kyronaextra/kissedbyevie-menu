@@ -198,13 +198,18 @@ async function activate(nextClient,nextUser){
     if(stamp===generation)status.textContent='Favorites could not be loaded right now.';
   }
 }
-$('evieGalleryOpen').addEventListener('click',()=>{
-  if(!client||!user)return;
+function openGallery(requested='all'){
+  if(!client||!user)return false;
+  filter=requested==='favorites'?'favorites':'all';
+  if(requested==='latest')$('evieGallerySort').value='new';
   if(!gallery.open)gallery.showModal();
   refresh();
-});
+  return true;
+}
+$('evieGalleryOpen').addEventListener('click',()=>openGallery('all'));
 $('evieGalleryClose').addEventListener('click',()=>gallery.close());
 gallery.addEventListener('click',event=>{if(event.target===gallery)gallery.close()});
+gallery.addEventListener('close',()=>window.EvieDaddyLounge?.refreshStats?.());
 filters.forEach(button=>button.addEventListener('click',()=>{
   filter=button.dataset.evieFilter;refresh();
 }));
@@ -215,5 +220,5 @@ viewer.addEventListener('close',()=>{
   opened=null;$('evieMediaStage').replaceChildren();
 });
 $('evieMediaFavorite').addEventListener('click',()=>{if(opened)toggleFavorite(opened.id)});
-window.EvieDaddyGallery={activate,deactivate};
+window.EvieDaddyGallery={activate,deactivate,open:openGallery};
 })();
