@@ -192,7 +192,7 @@
   </div>
 
   <div class="section highlight">
-    <h2>Daddy Package <span class="badge">MOST EXCLUSIVE</span></h2>
+    <h2 style="cursor:pointer;" onclick="document.getElementById('daddy-details').style.display = document.getElementById('daddy-details').style.display === 'none' ? 'block' : 'none'">Daddy Package <span class="badge">MOST EXCLUSIVE</span> ▾</h2>
     <div class="item">
       <div class="name">Monthly continuous attention</div>
       <div class="price">$150 / mo <button class="add-btn" onclick="addToCart('Daddy Package Monthly', 150)">+ Add</button></div>
@@ -201,14 +201,16 @@
       <div class="name">One-time payment <span class="badge">BEST VALUE</span></div>
       <div class="price">$350 <button class="add-btn" onclick="addToCart('Daddy Package One-time', 350)">+ Add</button></div>
     </div>
-    <p class="note">Daily content, full vault access, priority replies, 1 complimentary live, 3 months free OnlyFans. Customs still extra. Tips make it better.</p>
+    <div id="daddy-details" style="display:none; margin-top:10px;">
+      <p class="note">Includes Deluxe Dropbox / Full Vault (800+ pics & videos, constantly updated), daily random selfies + nudes, priority replies & personal attention, 1 complimentary live show, 3 months free OnlyFans. Customs still extra. Tips improve the experience.</p>
+    </div>
   </div>
 
   <div class="section highlight">
-    <h2>Full Vault <span class="badge">BEST VALUE</span></h2>
+    <h2>Deluxe Dropbox / Full Vault <span class="badge">BEST VALUE</span></h2>
     <div class="item">
-      <div class="name">800+ pics & videos<br><span style="font-size:13px;color:#ffd1dc;">Constantly updated</span></div>
-      <div class="price">$75 <button class="add-btn" onclick="addToCart('Full Vault', 75)">+ Add</button></div>
+      <div class="name">800+ pics & videos<br><span style="font-size:13px;color:#ffd1dc;">Constantly updated • Included in Daddy Package</span></div>
+      <div class="price">$75 <button class="add-btn" onclick="addToCart('Deluxe Dropbox / Full Vault', 75)">+ Add</button></div>
     </div>
   </div>
 
@@ -231,7 +233,7 @@
     </div>
     <div class="item">
       <div class="name">20 pics/videos</div>
-      <div class="price">$30</div>
+      <div class="price">$30 <button class="add-btn" onclick="addToCart('20 pics/videos', 30)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">50 pics/videos</div>
@@ -239,7 +241,7 @@
     </div>
     <div class="item">
       <div class="name">B/G Dropbox<br><span style="font-size:13px;color:#ffd1dc;">15+ videos</span></div>
-      <div class="price">$35</div>
+      <div class="price">$35 <button class="add-btn" onclick="addToCart('B/G Dropbox', 35)">+ Add</button></div>
     </div>
   </div>
 
@@ -247,11 +249,11 @@
     <h2>Video Chats</h2>
     <div class="item">
       <div class="name">5 min minimum</div>
-      <div class="price">from $50</div>
+      <div class="price">from $50 <button class="add-btn" onclick="addToCart('5 min Video Chat', 50)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">10 min <span class="badge">$8.50/min</span></div>
-      <div class="price">$85</div>
+      <div class="price">$85 <button class="add-btn" onclick="addToCart('10 min Video Chat', 85)">+ Add</button></div>
     </div>
   </div>
 
@@ -259,15 +261,15 @@
     <h2>Live Snaps</h2>
     <div class="item">
       <div class="name">15 min continuous • saveable</div>
-      <div class="price">$45</div>
+      <div class="price">$45 <button class="add-btn" onclick="addToCart('15 min Live Snaps', 45)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">30 min</div>
-      <div class="price">$75</div>
+      <div class="price">$75 <button class="add-btn" onclick="addToCart('30 min Live Snaps', 75)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">1 hour <span class="badge">BEST VALUE</span></div>
-      <div class="price">$130</div>
+      <div class="price">$130 <button class="add-btn" onclick="addToCart('1 hour Live Snaps', 130)">+ Add</button></div>
     </div>
   </div>
 
@@ -275,15 +277,15 @@
     <h2>Customs</h2>
     <div class="item">
       <div class="name">2 min + photo set</div>
-      <div class="price">$90</div>
+      <div class="price">$90 <button class="add-btn" onclick="addToCart('2 min Custom + photo set', 90)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">3 min + photo set</div>
-      <div class="price">$100</div>
+      <div class="price">$100 <button class="add-btn" onclick="addToCart('3 min Custom + photo set', 100)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">4 min + photo set <span class="badge">POPULAR</span></div>
-      <div class="price">$110</div>
+      <div class="price">$110 <button class="add-btn" onclick="addToCart('4 min Custom + photo set', 110)">+ Add</button></div>
     </div>
     <p class="note">48 hrs. Previous purchase required. Payment ready or $10 consult. Taboo / labor-heavy priced individually.</p>
   </div>
@@ -292,11 +294,11 @@
     <h2>Quick Add-Ons</h2>
     <div class="item">
       <div class="name">🍆 rate + show what I’d do <span class="badge">DISCOUNTED</span></div>
-      <div class="price">$25</div>
+      <div class="price">$25 <button class="add-btn" onclick="addToCart('🍆 rate + show what I’d do', 25)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">🍆 rate + 30s snap + extras</div>
-      <div class="price">$35</div>
+      <div class="price">$35 <button class="add-btn" onclick="addToCart('🍆 rate + 30s snap + extras', 35)">+ Add</button></div>
     </div>
     <div class="item">
       <div class="name">Small extras</div>
@@ -308,7 +310,7 @@
     <h2>OnlyFans</h2>
     <div class="item">
       <div class="name">Monthly + surprise 10–20 photo bundle</div>
-      <div class="price">$3 / mo</div>
+      <div class="price">$3 / mo <button class="add-btn" onclick="addToCart('OnlyFans Monthly', 3)">+ Add</button></div>
     </div>
   </div>
 
