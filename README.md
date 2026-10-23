@@ -56,3 +56,15 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 - The server-side login throttle may hash incoming network addresses to prevent abuse, separately from persistent authentication.
 - Persisted sessions on a shared device can expose the account to other people using that device. Members should sign out on shared/public devices.
 - Paid media access and age verification are checked independently for each gallery request.
+
+## Daddy Members full-screen lounge
+
+- The public site remains the storefront. Signed-in members enter a full-screen, mobile-responsive dashboard styled in black velvet, burgundy and champagne-gold.
+- Username + PIN login, one-time email setup sign-in, and automatic remembered sessions route directly to this lounge. Returning members click "My Daddy Account" and don't need to re-enter their PIN if their session is still valid.
+- Lounge shortcuts: Vault (all media), Favorites, New Drops (newest-first), member status, priority Telegram contact, account settings and sign out.
+- The three gallery shortcuts use the existing private `EvieDaddyGallery.open(mode)` integration rather than public Dropbox URLs.
+- Approved Daddy members can see real counts of imported photos/videos and their own favorites; these are queried using their Supabase user session and protected by RLS.
+- Members who are pending, expired or not independently age verified see the lounge but **no private media previews or counts**. Calls to private gallery remain blocked.
+- The page shows an honest empty state until Dropbox files are imported; it must never pretend the collection has been populated.
+- Closing Account Settings keeps the secure session active, while Sign Out clears the lounge and private gallery.
+- CSS and behavior live in `style.css` / `daddy-lounge.js` / `member-auth.js` / `daddy-gallery.js`.

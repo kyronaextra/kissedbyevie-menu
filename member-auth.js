@@ -13,6 +13,7 @@ const forms={
 const tabs=[$('memberTabLogin'),$('memberTabSignup')];
 const redirectTo=window.EVIE_AUTH_REDIRECT_URL||window.location.origin+window.location.pathname;
 let verificationEmail='',pendingHandles=null,statusLoading=false;
+let authRevision=0;
 const validPin=value=>/^[0-9]{8}$/.test(value);
 const strongPin=value=>validPin(value)&&!/^([0-9])\1{7}$/.test(value)&&!['12345678','87654321','00000000','11111111','12341234','12121212'].includes(value);
 function emailFrom(value){
@@ -106,13 +107,19 @@ async function profileSave(user,handles){
 }
 async function loadStatus(){
   if(!client||statusLoading)return;
+  const checkRevision=authRevision;
+  let verifiedUser=null,currentMembership=null;
   statusLoading=true;
   try{
     const {data,error}=await client.auth.getUser();
     if(error)throw error;
     const user=data?.user;
+    verifiedUser=user||null;
     updateAccountButton(Boolean(user));
-    if(!user){visibleView('login');return}
+    if(!user){
+      window.EvieDaddyLounge?.clear();
+      visibleView('login');return;
+    }
     showAccount();
     $('memberAccountEmail').textContent=user.email||'Verified member account';
     await ensureUsername(user);
@@ -149,6 +156,7 @@ async function loadStatus(){
       if(readError)throw readError;
       membership=newMembership;
     }
+    currentMembership=membership;
     if(!membership){
       window.EvieDaddyGallery?.deactivate();
       $('memberStatusName').textContent='Pending review';
@@ -185,20 +193,65 @@ async function loadStatus(){
     $('memberStatusDescription').textContent='Membership information could not be confirmed yet.';
     $('memberGalleryEntry').hidden=true;
     writeMessage(safeError(error));
-  }finally{statusLoading=false}
+  }finally{
+    // One source of truth: the member tables determine current access, while
+    // Supabase Storage/database RLS independently protect all private files.
+    if(verifiedUser && checkRevision===authRevision){
+      window.EvieDaddyLounge?.update({
+        userId:verifiedUser.id,
+        username:$('memberUsernameDisplay').textContent||'member',
+        status:$('memberStatusName').textContent,
+        description:$('memberStatusDescription').textContent,
+        canAccess:!$('memberGalleryEntry').hidden,
+        tier:currentMembership?.tier||null,
+        expiresAt:currentMembership?.expires_at||null
+      },client);
+    }
+    statusLoading=false;
+  }
 }
-function open(){
-  if(!dialog.open)dialog.showModal();
+function enterLounge(){
+  if(dialog.open)dialog.close();
+  if(!window.EvieDaddyLounge?.open()){
+    // Fall back to the account screen if the private UI is unavailable.
+    if(!dialog.open)dialog.showModal();
+  }
+}
+async function open(){
   if(!enabled){
+    if(!dialog.open)dialog.showModal();
     notice.hidden=false;$('memberAuthArea').hidden=true;$('memberDashboard').hidden=true;
     return;
   }
-  notice.hidden=true;loadStatus();
+  notice.hidden=true;
+  try{
+    // A remembered session goes directly to the full-screen private lounge.
+    const {data,error}=await client.auth.getUser();
+    if(error)throw error;
+    if(data?.user){
+      await loadStatus();
+      if(window.EvieDaddyLounge?.open())return;
+    }
+  }catch(_){
+    // Expired sessions can safely return to sign in.
+  }
+  if(!dialog.open)dialog.showModal();
+  visibleView('login');
 }
 $('openMemberAccount').addEventListener('click',open);
-$('closeMemberAccount').addEventListener('click',()=>dialog.close());
+$('closeMemberAccount').addEventListener('click',()=>{
+  dialog.close();
+  // Return to the lounge if the user came from their private account.
+});
+$('dlAccountButton').addEventListener('click',async ()=>{
+  window.EvieDaddyLounge?.close();
+  if(!dialog.open)dialog.showModal();
+  await loadStatus();
+});
+$('dlSignOut').addEventListener('click',()=>$('memberSignOut').click());
 dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
-dialog.addEventListener('close',()=>window.EvieDaddyGallery?.deactivate());
+// Closing account settings must NOT invalidate a signed-in gallery session.
+// Sign out explicitly clears it; RLS checks every private media request.
 tabs.forEach(tab=>{
   tab.addEventListener('click',()=>visibleView(tab.dataset.authView));
   tab.addEventListener('keydown',event=>{
@@ -228,7 +281,10 @@ forms.login.addEventListener('submit',async event=>{
     }
     const {error}=await client.auth.setSession({access_token:body.access_token,refresh_token:body.refresh_token});
     if(error)throw error;
-    forms.login.reset();await loadStatus();writeMessage('');
+    forms.login.reset();
+    await loadStatus();
+    writeMessage('');
+    enterLounge();
   }catch(error){writeMessage(safeError(error))}
   finally{busy(forms.login,false)}
 });
@@ -244,7 +300,10 @@ forms.email.addEventListener('submit',async event=>{
   try{
     const {error}=await client.auth.signInWithPassword({email,password:pin});
     if(error)throw error;
-    forms.email.reset();await loadStatus();writeMessage('Your username is ready after setup. Paid access requires approval.');
+    forms.email.reset();
+    await loadStatus();
+    writeMessage('');
+    enterLounge();
   }catch(error){
     if(/email not confirmed/i.test(safeError(error))){
       verificationEmail=email;visibleView('verify');writeMessage('Confirm your email before finishing setup.');
@@ -259,7 +318,9 @@ $('memberUsernameForm').addEventListener('submit',async event=>{
     const {data,error}=await client.auth.getUser();
     if(error||!data?.user)throw error||new Error('Sign in first.');
     const username=await saveUsername(data.user,textValue('memberUsernameRetry'));
-    renderUsername(username);writeMessage('Username saved! You can use username + PIN next time.');
+    renderUsername(username);
+    await loadStatus();
+    writeMessage('Username saved! You can use username + PIN next time.');
   }catch(error){writeMessage(safeError(error))}
   finally{busy(form,false)}
 });
@@ -290,7 +351,8 @@ forms.signup.addEventListener('submit',async event=>{
     $('memberSignupPin').value='';$('memberSignupConfirm').value='';
     if(data?.session){
       await loadStatus();
-      writeMessage('Your account was created. Membership approval is separate.');
+      writeMessage('');
+      enterLounge();
     }else{
       visibleView('verify');
       $('memberVerifyDescription').textContent='Check '+email+' for a confirmation link. After verifying, return and finish claiming your username if needed.';
@@ -335,15 +397,28 @@ $('memberSignOut').addEventListener('click',async ()=>{
   try{
     const {error}=await client.auth.signOut();
     if(error)throw error;
-    window.EvieDaddyGallery?.deactivate();pendingHandles=null;visibleView('login');writeMessage('Signed out.');
-  }catch(error){writeMessage('Unable to sign out. Please try again.')}
+    authRevision++;
+    window.EvieDaddyLounge?.clear();
+    window.EvieDaddyGallery?.deactivate();
+    pendingHandles=null;
+    updateAccountButton(false);
+    visibleView('login');writeMessage('Signed out.');
+  }catch(error){
+    window.EvieDaddyLounge?.setNotice('Sign out failed. Please try again.');
+    writeMessage('Unable to sign out. Please try again.');
+  }
 });
 if(client){
-  // INITIAL_SESSION restores a remembered account on a returning device.
-  // Account access is still rechecked with getUser() and server-side RLS.
+  // INITIAL_SESSION restores a member's session on the same browser/device.
+  // It is not used to infer paid access; loadStatus performs a fresh server check.
   client.auth.onAuthStateChange((event,session)=>{
     updateAccountButton(Boolean(session?.user));
-    if(event==='SIGNED_OUT'){window.EvieDaddyGallery?.deactivate();visibleView('login')}
+    if(event==='SIGNED_OUT'){
+      authRevision++;
+      window.EvieDaddyLounge?.clear();
+      window.EvieDaddyGallery?.deactivate();
+      visibleView('login');
+    }
   });
 }
 })();
