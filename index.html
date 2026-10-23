@@ -1,151 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KissedByEvie — Content Menu</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@kissedbyevie • Menu</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Arial', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #1a0a10;
+    color: #fff;
+    line-height: 1.5;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.08"><circle cx="20" cy="20" r="8" fill="%23ff69b4"/><circle cx="70" cy="50" r="12" fill="%23ff1493"/><circle cx="40" cy="80" r="6" fill="%23ffb6c1"/></svg>');
+  }
+  .hero {
+    height: 100vh;
+    min-height: 600px;
+    background: linear-gradient(to bottom, rgba(255,20,147,0.25), rgba(20,5,10,0.9)),
+                url('beach-sunset.jpg') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 40px 20px;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 12vw, 80px);
+    letter-spacing: 3px;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 0 20px #ff69b4, 0 4px 10px rgba(0,0,0,0.8);
+    z-index: 1;
+    font-style: italic;
+  }
+  .hero .handle {
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: #ff69b4;
+    margin-top: 10px;
+    z-index: 1;
+    font-weight: 600;
+  }
+  .hero .tag {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #ffd1dc;
+    max-width: 340px;
+    z-index: 1;
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff69b4;
+    font-size: 14px;
+    letter-spacing: 2px;
+    animation: pulse 1.8s infinite;
+    z-index: 1;
+    font-weight: 600;
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+  .menu {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 30px 16px 60px;
+  }
+  .section {
+    background: rgba(30,10,20,0.85);
+    border: 2px solid #ff69b4;
+    border-radius: 16px;
+    padding: 18px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 15px rgba(255,105,180,0.2);
+  }
+  .section.highlight {
+    background: linear-gradient(135deg, #2a1020, #4a1530);
+    border-color: #ff1493;
+  }
+  .section h2 {
+    color: #ff69b4;
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #3a2030;
+    font-size: 15px;
+  }
+  .item:last-child { border-bottom: none; }
+  .item .name { flex: 1; }
+  .item .price {
+    color: #ffb6c1;
+    font-weight: 700;
+    white-space: nowrap;
+    margin-left: 10px;
+  }
+  .badge {
+    display: inline-block;
+    background: #ff1493;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 20px;
+    margin-left: 6px;
+  }
+  .note {
+    font-size: 13px;
+    color: #ffd1dc;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  .deal-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .deal-btn {
+    flex: 1 1 45%;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255,20,147,0.4);
+  }
+  .payments {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .btn {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, #ff69b4, #ff1493);
+    color: #fff;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .btn.secondary {
+    background: #2a1020;
+    color: #ffb6c1;
+    border: 1px solid #ff69b4;
+  }
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: #ff69b4;
+    margin-top: 24px;
+  }
+</style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="logo">KISSEDBYEVIE</div>
-    <div class="nav-links">
-      <a href="#content">Content</a>
-      <a href="#daddy">Daddy Package</a>
-      <a href="#addons">Add-ons</a>
+
+<div class="hero">
+  <h1>KISSED<br>BY EVIE</h1>
+  <div class="handle">@kissedbyevie</div>
+  <div class="tag">exclusive • private • y2k leopard energy</div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</div>
+
+<div class="menu">
+
+  <div class="section highlight">
+    <h2>Daddy Package <span class="badge">MOST EXCLUSIVE</span></h2>
+    <div class="item">
+      <div class="name">Monthly continuous attention</div>
+      <div class="price">$150 / mo</div>
     </div>
-  </nav>
-
-  <header class="hero">
-    <div class="hero-content">
-      <p class="eyebrow">EXCLUSIVE CONTENT</p>
-      <h1>Content Menu</h1>
-      <p class="subtitle">Private. Personal. Unforgettable.</p>
-      <a href="#content" class="cta">Explore the menu</a>
+    <div class="item">
+      <div class="name">One-time payment <span class="badge">BEST VALUE</span></div>
+      <div class="price">$350</div>
     </div>
-  </header>
+    <p class="note">Daily content, full vault access, priority replies, 1 complimentary live, 3 months free OnlyFans. Customs still extra. Tips make it better.</p>
+  </div>
 
-  <section id="content" class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>Content Menu</h2>
-        <div class="divider"></div>
-      </div>
-
-      <div class="of-card">
-        <h3>ONLYFANS</h3>
-        <div class="price-large">$3 <span>/ month</span></div>
-        <p>Full access to my page. Start here.</p>
-      </div>
-
-      <div class="menu-grid">
-        <div class="menu-card">
-          <h3>Content Bundles</h3>
-          <div class="item"><span>10 pics/videos</span><span class="price">$15</span></div>
-          <div class="item"><span>20 pics/videos</span><span class="price">$30</span></div>
-          <div class="item"><span>50 pics/videos</span><span class="price">$60</span></div>
-        </div>
-
-        <div class="menu-card featured">
-          <h3>Deluxe Dropbox</h3>
-          <p class="vault-title">MY WHOLE VAULT</p>
-          <div class="vault-count">800+ <span>pics & videos</span></div>
-          <div class="price-large">$75</div>
-          <p class="note">Updated regularly</p>
-        </div>
-      </div>
+  <div class="section highlight">
+    <h2>Full Vault <span class="badge">BEST VALUE</span></h2>
+    <div class="item">
+      <div class="name">800+ pics & videos<br><span style="font-size:13px;color:#ffd1dc;">Constantly updated</span></div>
+      <div class="price">$75</div>
     </div>
-  </section>
+  </div>
 
-  <section id="addons" class="section alt">
-    <div class="container">
-      <div class="section-header">
-        <h2>Add-ons</h2>
-        <div class="divider"></div>
-      </div>
-
-      <div class="addons-list">
-        <div class="addon">
-          <div class="addon-name">Dick Rates</div>
-          <div class="addon-price">$35</div>
-        </div>
-        <div class="addon">
-          <div class="addon-name">Customs</div>
-          <div class="addon-price">starting at $50</div>
-        </div>
-        <div class="addon">
-          <div class="addon-name">Ft’s</div>
-          <div class="addon-price">established clients only</div>
-        </div>
-        <div class="addon">
-          <div class="addon-name">Live Show</div>
-          <div class="addon-price">$55 (2-3 min)<br><small>customizable for extra</small></div>
-        </div>
-      </div>
-
-      <div class="available">
-        <h4>Available Content</h4>
-        <p>Squirt • B/G • Solo • Dildo</p>
-      </div>
+  <div class="section">
+    <h2>Make a Deal</h2>
+    <p class="note">Pay $50–$200 and I’ll craft a custom offer worth more than you paid. Tell me the vibe.</p>
+    <div class="deal-options">
+      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $50')">$50</button>
+      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $100')">$100</button>
+      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $150')">$150</button>
+      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $200')">$200</button>
     </div>
-  </section>
+  </div>
 
-  <section id="daddy" class="section daddy">
-    <div class="container">
-      <div class="section-header">
-        <h2>Daddy Package</h2>
-        <p class="tagline">Exclusive. Personal. Unforgettable.</p>
-        <div class="divider"></div>
-      </div>
-
-      <div class="daddy-grid">
-        <div class="included">
-          <h3>What’s Included</h3>
-          <ul>
-            <li>Daily Random Selfies + Nudes</li>
-            <li>Full Deluxe Dropbox Access</li>
-            <li>Priority Replies & Personal Attention</li>
-            <li>Complimentary Live Show (1x)</li>
-            <li>3 Months FREE OnlyFans</li>
-          </ul>
-        </div>
-
-        <div class="pricing-box">
-          <h3>Your Access • Your Choice</h3>
-          <div class="monthly">$150 <span>/ month</span></div>
-          <div class="or">or</div>
-          <div class="onetime">
-            <span class="badge">BEST VALUE</span>
-            ONE-TIME PAYMENT OF $350
-          </div>
-        </div>
-      </div>
-
-      <div class="why">
-        <h3>Why It’s Worth It</h3>
-        <p>Daily content, full vault access, and real personal connection.</p>
-        <p class="exclusive">I don’t offer this to just anyone.</p>
-      </div>
+  <div class="section">
+    <h2>Content Bundles</h2>
+    <div class="item">
+      <div class="name">10 pics/videos</div>
+      <div class="price">$15</div>
     </div>
-  </section>
+    <div class="item">
+      <div class="name">20 pics/videos</div>
+      <div class="price">$30</div>
+    </div>
+    <div class="item">
+      <div class="name">50 pics/videos</div>
+      <div class="price">$60</div>
+    </div>
+    <div class="item">
+      <div class="name">B/G Dropbox<br><span style="font-size:13px;color:#ffd1dc;">15+ videos</span></div>
+      <div class="price">$35</div>
+    </div>
+  </div>
 
-  <footer>
-    <p>18+ ONLY • DIGITAL CONTENT</p>
-    <p class="footer-note">This is your access. Private. Personal. Just between us.</p>
-  </footer>
+  <div class="section">
+    <h2>Video Chats</h2>
+    <div class="item">
+      <div class="name">5 min minimum</div>
+      <div class="price">from $50</div>
+    </div>
+    <div class="item">
+      <div class="name">10 min <span class="badge">$8.50/min</span></div>
+      <div class="price">$85</div>
+    </div>
+  </div>
 
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
-  </script>
+  <div class="section">
+    <h2>Live Snaps</h2>
+    <div class="item">
+      <div class="name">15 min continuous • saveable</div>
+      <div class="price">$45</div>
+    </div>
+    <div class="item">
+      <div class="name">30 min</div>
+      <div class="price">$75</div>
+    </div>
+    <div class="item">
+      <div class="name">1 hour <span class="badge">BEST VALUE</span></div>
+      <div class="price">$130</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Customs</h2>
+    <div class="item">
+      <div class="name">2 min + photo set</div>
+      <div class="price">$90</div>
+    </div>
+    <div class="item">
+      <div class="name">3 min + photo set</div>
+      <div class="price">$100</div>
+    </div>
+    <div class="item">
+      <div class="name">4 min + photo set <span class="badge">POPULAR</span></div>
+      <div class="price">$110</div>
+    </div>
+    <p class="note">48 hrs. Previous purchase required. Payment ready or $10 consult. Taboo / labor-heavy priced individually.</p>
+  </div>
+
+  <div class="section">
+    <h2>Quick Add-Ons</h2>
+    <div class="item">
+      <div class="name">🍆 rate + show what I’d do <span class="badge">DISCOUNTED</span></div>
+      <div class="price">$25</div>
+    </div>
+    <div class="item">
+      <div class="name">🍆 rate + 30s snap + extras</div>
+      <div class="price">$35</div>
+    </div>
+    <div class="item">
+      <div class="name">Small extras</div>
+      <div class="price">$5–$15</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>OnlyFans</h2>
+    <div class="item">
+      <div class="name">Monthly + surprise 10–20 photo bundle</div>
+      <div class="price">$3 / mo</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Pay</h2>
+    <div class="payments">
+      <a class="btn" href="https://cash.app/$kissedbyevie" target="_blank">Cash App</a>
+      <a class="btn secondary" href="https://venmo.com/kissedbyevie" target="_blank">Venmo</a>
+      <a class="btn secondary" href="https://paypal.me/kissedbyevie" target="_blank">PayPal</a>
+    </div>
+    <p class="note">Telegram @kissedbyevie • X @kissedbyevie</p>
+  </div>
+
+  <div class="footer">
+    18+ ONLY • DIGITAL CONTENT
+  </div>
+</div>
+
 </body>
 </html>
