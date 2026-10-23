@@ -21,6 +21,11 @@ function emailFrom(value){
     throw new Error('Enter a valid email address.');
   return email;
 }
+function loginName(value){
+  const name=String(value||'').trim().replace(/^@/,'');
+  if(!/^[A-Za-z0-9._-]{3,30}$/.test(name))throw new Error('Use 3–30 letters, numbers, periods, underscores or dashes for your username.');
+  return name;
+}
 function textValue(id){return $(id).value.trim()}
 function writeMessage(value){$('memberMessage').textContent=value||''}
 function safeError(error){return error&&typeof error.message==='string'?error.message:'Unable to complete that request. Please try again.'}
@@ -62,18 +67,31 @@ function displaySocial(handles){
   $('memberProfilePlatform').value=platform;
   $('memberProfileHandle').value=platform?handles[platform]||'':'';
 }
-async function registerUsernameRequest(user){
-  // Untrusted signup metadata only creates a claim; it never authorizes login.
-  const platform=user.user_metadata?.evie_social_platform;
-  const username=handleValue(user.user_metadata?.evie_social_handle);
-  if(!['telegram','snapchat'].includes(platform)||!username)return;
-  const {data:existing,error:readError}=await client.from('evie_username_requests')
-    .select('platform,username').eq('user_id',user.id).maybeSingle();
-  if(readError)throw readError;
-  if(existing)return;
-  const {error}=await client.from('evie_username_requests')
-    .insert({user_id:user.id,platform,username});
-  if(error&&error.code!=='23505')throw error;
+async function saveUsername(user,proposed){
+  const username=loginName(proposed);
+  const {error}=await client.from('evie_member_usernames').insert({user_id:user.id,username});
+  if(error){
+    if(error.code==='23505')throw new Error('This username is taken. Please choose another.');
+    throw error;
+  }
+  return username;
+}
+function renderUsername(name,warning){
+  $('memberUsernameDisplay').textContent=name?'@'+name:'Choose a username';
+  $('memberUsernameHelp').textContent=warning||(name?'Sign in using this username and your PIN. Social references are optional.':'Choose a unique username to finish account setup.');
+  $('memberUsernameForm').hidden=Boolean(name);
+}
+async function ensureUsername(user){
+  const {data:existing,error}=await client.from('evie_member_usernames').select('username').eq('user_id',user.id).maybeSingle();
+  if(error)throw error;
+  if(existing){renderUsername(existing.username);return}
+  const candidate=user.user_metadata?.evie_login_username;
+  if(!candidate){renderUsername(null);return}
+  try{renderUsername(await saveUsername(user,candidate))}
+  catch(error){
+    renderUsername(null,safeError(error));
+    $('memberUsernameRetry').value=String(candidate).replace(/^@/,'');
+  }
 }
 async function profileSave(user,handles){
   const {error}=await client.from('evie_member_profiles').upsert({
@@ -91,7 +109,7 @@ async function loadStatus(){
     if(!user){visibleView('login');return}
     showAccount();
     $('memberAccountEmail').textContent=user.email||'Verified member account';
-    await registerUsernameRequest(user);
+    await ensureUsername(user);
     $('memberStatusName').textContent='Checking access…';
     $('memberStatusDescription').textContent='Confirming your membership status.';
     $('memberGalleryEntry').hidden=true;
@@ -152,7 +170,7 @@ async function loadStatus(){
       $('memberStatusName').textContent=isExpired?'Membership expired':membership.status==='revoked'?'Access revoked':'Pending approval';
       $('memberStatusDescription').textContent=isExpired?'Your access has ended. Contact Evie about renewal.':
         membership.status==='revoked'?'This membership is no longer active. Contact Evie for details.':
-        'Your account is ready. Evie must approve your social username and paid membership separately.';
+        'Your account is ready. Paid membership and age verification remain separately approved.';
     }
   }catch(error){
     window.EvieDaddyGallery?.deactivate();
@@ -187,31 +205,24 @@ tabs.forEach(tab=>{
 });
 forms.login.addEventListener('submit',async event=>{
   event.preventDefault();if(!client||!forms.login.reportValidity())return;
-  const platform=textValue('memberLoginPlatform');
-  const username=handleValue(textValue('memberLoginUsername'));
+  let username;
+  try{username=loginName(textValue('memberLoginUsername'))}catch(error){writeMessage(safeError(error));return}
   const pin=$('memberLoginPin').value;
-  if(!['telegram','snapchat'].includes(platform)||!username||username.replace(/^@/,'').length<3||!validPin(pin)){
-    writeMessage('Enter your Telegram or Snapchat username and your private 8-digit PIN.');return;
-  }
-  busy(forms.login,true);writeMessage('Checking your private account…');
+  if(!validPin(pin)){writeMessage('The private PIN must be exactly eight digits.');return}
+  busy(forms.login,true);writeMessage('Signing in…');
   try{
     const response=await fetch(window.EVIE_SUPABASE_URL+'/functions/v1/evie-username-login',{
       method:'POST',cache:'no-store',
-      headers:{'Content-Type':'application/json','apikey':window.EVIE_SUPABASE_PUBLISHABLE_KEY},
-      body:JSON.stringify({platform,username,pin})
+      headers:{'Content-Type':'application/json',apikey:window.EVIE_SUPABASE_PUBLISHABLE_KEY},
+      body:JSON.stringify({username,pin})
     });
-    const payload=await response.json().catch(()=>null);
-    if(!response.ok||!payload?.access_token||!payload?.refresh_token){
-      const reason=response.status===429?'Too many attempts. Please try again later.':
-        'Unable to sign in. Check your username, PIN, and whether Evie approved this username.';
-      throw new Error(reason);
+    const body=await response.json().catch(()=>null);
+    if(!response.ok||!body?.access_token||!body?.refresh_token){
+      throw new Error(response.status===429?'Too many attempts. Please try again later.':'Could not sign in. Check your username/PIN or finish setup using email.');
     }
-    const {error}=await client.auth.setSession({
-      access_token:payload.access_token,refresh_token:payload.refresh_token
-    });
+    const {error}=await client.auth.setSession({access_token:body.access_token,refresh_token:body.refresh_token});
     if(error)throw error;
-    forms.login.reset();
-    await loadStatus();writeMessage('');
+    forms.login.reset();await loadStatus();writeMessage('');
   }catch(error){writeMessage(safeError(error))}
   finally{busy(forms.login,false)}
 });
@@ -220,32 +231,39 @@ $('memberEmailLoginBack').addEventListener('click',()=>visibleView('login'));
 forms.email.addEventListener('submit',async event=>{
   event.preventDefault();if(!client||!forms.email.reportValidity())return;
   let email;
-  try{email=emailFrom(textValue('memberEmailLoginEmail'))}
-  catch(error){writeMessage(safeError(error));return}
+  try{email=emailFrom(textValue('memberEmailLoginEmail'))}catch(error){writeMessage(safeError(error));return}
   const pin=$('memberEmailLoginPin').value;
-  if(!validPin(pin)){writeMessage('Your PIN must contain exactly 8 digits.');return}
-  busy(forms.email,true);writeMessage('Checking verified email…');
+  if(!validPin(pin)){writeMessage('PIN must be eight digits.');return}
+  busy(forms.email,true);writeMessage('Finishing setup…');
   try{
     const {error}=await client.auth.signInWithPassword({email,password:pin});
     if(error)throw error;
-    forms.email.reset();
-    await loadStatus();writeMessage('Your username will work for login once Evie verifies it.');
+    forms.email.reset();await loadStatus();writeMessage('Your username is ready after setup. Paid access requires approval.');
   }catch(error){
     if(/email not confirmed/i.test(safeError(error))){
       verificationEmail=email;visibleView('verify');writeMessage('Confirm your email before finishing setup.');
-    }else{writeMessage('Unable to sign in with email. Check your PIN or contact Evie.')}
+    }else{writeMessage('Could not verify email and PIN. Please try again or contact Evie.')}
   }finally{busy(forms.email,false)}
+});
+$('memberUsernameForm').addEventListener('submit',async event=>{
+  event.preventDefault();const form=$('memberUsernameForm');
+  if(!client||!form.reportValidity())return;
+  busy(form,true);writeMessage('Saving username…');
+  try{
+    const {data,error}=await client.auth.getUser();
+    if(error||!data?.user)throw error||new Error('Sign in first.');
+    const username=await saveUsername(data.user,textValue('memberUsernameRetry'));
+    renderUsername(username);writeMessage('Username saved! You can use username + PIN next time.');
+  }catch(error){writeMessage(safeError(error))}
+  finally{busy(form,false)}
 });
 forms.signup.addEventListener('submit',async event=>{
   event.preventDefault();if(!client||!forms.signup.reportValidity())return;
-  let email,handles;
+  let email,handles,username;
   try{
     email=emailFrom(textValue('memberSignupEmail'));
+    username=loginName(textValue('memberSignupUsername'));
     handles=handlesFrom('memberSignup');
-    const username=handleValue(handles.telegram||handles.snapchat);
-    if(!username||username.replace(/^@/,'').length<3||username.length>51){
-      throw new Error('A Telegram or Snapchat login username (3–50 characters) is required.');
-    }
   }catch(error){writeMessage(safeError(error));return}
   const pin=$('memberSignupPin').value;
   if(!strongPin(pin)||pin!==$('memberSignupConfirm').value){
@@ -258,7 +276,7 @@ forms.signup.addEventListener('submit',async event=>{
     const {data,error}=await client.auth.signUp({
       email,password:pin,
       options:{emailRedirectTo:redirectTo,data:{
-        age_asserted_18_plus:true,evie_social_platform:platform,evie_social_handle:handle
+        age_asserted_18_plus:true,evie_login_username:username,evie_social_platform:platform,evie_social_handle:handle
       }}
     });
     if(error)throw error;
@@ -269,7 +287,7 @@ forms.signup.addEventListener('submit',async event=>{
       writeMessage('Your account was created. Membership approval is separate.');
     }else{
       visibleView('verify');
-      $('memberVerifyDescription').textContent='Check '+email+' for a confirmation link. After verifying, use “Finish setup with email” until your username is approved.';
+      $('memberVerifyDescription').textContent='Check '+email+' for a confirmation link. After verifying, return and finish claiming your username if needed.';
       writeMessage('Account request received. Check your email to verify.');
     }
   }catch(error){writeMessage(safeError(error))}

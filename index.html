@@ -132,7 +132,7 @@
           <button type="button" id="openMemberAccount" class="primary-btn">Daddy Members Access Here <span aria-hidden="true">↗</span></button>
           <a class="text-link" href="#boutique">See membership options <span aria-hidden="true">↘</span></a>
         </div>
-        <p class="access-note">Create an account with your email and private PIN. Verify your email to sign in; paid access requires separate approval. Private gallery integration is coming soon.</p>
+        <p class="access-note">Choose a username and private PIN to sign in. Tip: use your Snapchat or X name so Evie recognizes you. Paid access still requires approval.</p>
       </div>
       <div class="member-card reveal" aria-label="Daddy Members private collection">
         <div class="member-card-top"><span>KISSED BY EVIE</span><span aria-hidden="true">✦</span></div>
@@ -202,50 +202,50 @@
         <button id="memberTabSignup" type="button" role="tab" aria-selected="false" aria-controls="memberSignupForm" data-auth-view="signup" tabindex="-1">Create account</button>
       </div>
       <form class="member-form" id="memberLoginForm" autocomplete="on">
-        <label for="memberLoginPlatform">Sign in with</label>
-        <select id="memberLoginPlatform" required><option value="telegram">Telegram</option><option value="snapchat">Snapchat</option></select>
-        <label for="memberLoginUsername">Your social username</label>
-        <input type="text" id="memberLoginUsername" autocomplete="username" maxlength="51" placeholder="@yourusername" spellcheck="false" autocapitalize="none" required>
-        <label for="memberLoginPin">Your private 8-digit PIN</label>
+        <label for="memberLoginUsername">Username</label>
+        <input type="text" id="memberLoginUsername" name="username" autocomplete="username" maxlength="31" placeholder="yourusername" spellcheck="false" autocapitalize="none" required>
+        <label for="memberLoginPin">Private 8-digit PIN</label>
         <input type="password" id="memberLoginPin" inputmode="numeric" autocomplete="current-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="••••••••">
         <button class="primary-btn" type="submit">Sign in →</button>
-        <p class="fine-print">Evie must verify and approve your social username before it can be used for login.</p>
-        <button type="button" id="memberEmailFallback" class="member-inline-button">Just registered? Finish setup with email</button>
+        <button type="button" id="memberEmailFallback" class="member-inline-button">Just registered? Finish account setup</button>
         <button type="button" id="memberForgot" class="member-inline-button">Need your PIN reset?</button>
       </form>
       <form class="member-form" id="memberEmailLoginForm" hidden autocomplete="on">
-        <h3>Finish account setup</h3>
-        <p>Use your verified email until Evie approves your Telegram or Snapchat login username.</p>
-        <label for="memberEmailLoginEmail">Verified email address</label>
-        <input type="email" id="memberEmailLoginEmail" autocomplete="email" placeholder="you@example.com" maxlength="254" spellcheck="false" autocapitalize="none" required>
-        <label for="memberEmailLoginPin">Private 8-digit PIN</label>
+        <h3>Finish setup</h3>
+        <p>If you haven't claimed your username yet, use your verified email and PIN once to finish setup.</p>
+        <label for="memberEmailLoginEmail">Verified email</label>
+        <input type="email" id="memberEmailLoginEmail" autocomplete="email" maxlength="254" placeholder="you@example.com" spellcheck="false" autocapitalize="none" required>
+        <label for="memberEmailLoginPin">Private PIN</label>
         <input type="password" id="memberEmailLoginPin" inputmode="numeric" autocomplete="current-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="••••••••">
         <button class="primary-btn" type="submit">Finish setup →</button>
         <button type="button" id="memberEmailLoginBack" class="member-inline-button">← Back to username sign in</button>
       </form>
-
       <form class="member-form" id="memberSignupForm" hidden autocomplete="on">
-        <label for="memberSignupEmail">Email address</label>
+        <label for="memberSignupUsername">Choose your username</label>
+        <input type="text" id="memberSignupUsername" name="username" autocomplete="username" maxlength="31" placeholder="yourusername" spellcheck="false" autocapitalize="none" required>
+        <p class="fine-print">Tip: use your Snapchat or X username so Evie can recognize and find you easily — or choose something different.</p>
+        <label for="memberSignupEmail">Email (for verification and recovery)</label>
         <input type="email" id="memberSignupEmail" name="email" autocomplete="email" placeholder="you@example.com" maxlength="254" spellcheck="false" autocapitalize="none" required>
-        <label for="memberSignupPin">Create an 8-digit PIN</label>
+        <label for="memberSignupPin">Create an 8-digit private PIN</label>
         <input type="password" id="memberSignupPin" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="Eight numbers">
         <label for="memberSignupConfirm">Confirm your PIN</label>
-        <input type="password" id="memberSignupConfirm" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="Repeat your PIN">
-        <p class="fine-print">Choose eight numbers that are not your phone number. Email verification is needed for account setup and admin-assisted recovery.</p>
+        <input type="password" id="memberSignupConfirm" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{8}" minlength="8" maxlength="8" required placeholder="Repeat PIN">
+        <p class="fine-print">Don't use your phone number or a PIN you've used elsewhere.</p>
         <div class="member-socials">
-          <span class="eyebrow">YOUR SIGN-IN USERNAME</span>
-          <p>Choose the Telegram or Snapchat username you own. Evie will verify the account before activating username sign-in.</p>
-          <label for="memberSignupPlatform">Sign-in platform</label>
-          <select id="memberSignupPlatform" required>
-            <option value="" selected disabled>Choose Telegram or Snapchat</option>
-            <option value="telegram">Telegram</option>
+          <span class="eyebrow">SOCIAL REFERENCE / OPTIONAL</span>
+          <p>Add a Snapchat, X, or Telegram handle to help Evie find you. You can skip this.</p>
+          <label for="memberSignupPlatform">Social platform (optional)</label>
+          <select id="memberSignupPlatform">
+            <option value="">Skip this</option>
             <option value="snapchat">Snapchat</option>
+            <option value="x">X / Twitter</option>
+            <option value="telegram">Telegram</option>
           </select>
-          <label for="memberSignupHandle">Your social username</label>
-          <input type="text" id="memberSignupHandle" maxlength="51" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="@yourusername" required>
+          <label for="memberSignupHandle">Social handle (optional)</label>
+          <input type="text" id="memberSignupHandle" maxlength="80" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="@yourhandle">
         </div>
-        <label class="member-consent"><input type="checkbox" id="memberAgeConfirmed" required> I confirm I am 18 or older and agree to use my email and optional social username for account and membership administration.</label>
-        <p class="fine-print">Check your inbox to verify your email. Evie separately approves your social username, Daddy membership and age verification.</p>
+        <label class="member-consent"><input type="checkbox" id="memberAgeConfirmed" required> I confirm I'm 18 or older and agree to using my email and optional social reference for account administration.</label>
+        <p class="fine-print">Verify your email to finish registration. Paid Daddy access and age verification still require Evie's approval.</p>
         <button class="primary-btn" type="submit">Create account →</button>
       </form>
 
@@ -258,7 +258,7 @@
 
       <div class="member-form" id="memberResetForm" hidden>
         <h3>Need a new PIN?</h3>
-        <p>For your privacy, only the admin can reset your PIN. Contact Evie with your account email so your request can be reviewed.</p>
+        <p>Only the admin can reset your PIN. Contact Evie with your chosen username or verified email so the request can be reviewed.</p>
         <p class="fine-print">Never send your existing PIN to anyone.</p>
         <a class="secondary-btn member-help-link" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Contact admin on Telegram ↗</a>
         <button type="button" id="memberResetBack" class="member-inline-button">← Back to sign in</button>
@@ -267,6 +267,16 @@
 
     <div id="memberDashboard" class="member-dashboard" hidden>
       <div class="member-welcome"><span class="eyebrow">YOUR PRIVATE ACCOUNT</span><h3>Welcome <em>back.</em></h3><p id="memberAccountEmail"></p></div>
+      <div class="member-username-box">
+        <p class="eyebrow">YOUR USERNAME</p>
+        <strong id="memberUsernameDisplay">Setting up…</strong>
+        <p id="memberUsernameHelp">Your username is independent of your social accounts.</p>
+        <form id="memberUsernameForm" class="member-form" hidden>
+          <label for="memberUsernameRetry">Choose an available username</label>
+          <input id="memberUsernameRetry" type="text" autocomplete="username" maxlength="31" placeholder="anotherusername" spellcheck="false" autocapitalize="none" required>
+          <button type="submit" class="secondary-btn">Save username</button>
+        </form>
+      </div>
       <div class="member-status">
         <p class="eyebrow">MEMBERSHIP STATUS</p>
         <strong id="memberStatusName">Checking membership…</strong>
@@ -281,7 +291,7 @@
         <a class="text-link" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Questions about membership? Message Evie ↗</a>
       </div>
       <form id="memberSocialForm" class="member-form">
-        <h3>Your social profile <small>(optional)</small></h3><p class="fine-print">Your approved login username does not change when you edit this profile. Ask Evie to verify a new login username.</p>
+        <h3>Your social profile <small>(optional)</small></h3><p class="fine-print">Your login username stays the same when you edit optional social references. Contact Evie to request a username change.</p>
         <label for="memberProfilePlatform">Social platform</label>
         <select id="memberProfilePlatform">
           <option value="">None / remove my social</option>

@@ -311,3 +311,10 @@ html{scroll-behavior:auto}
 /* Username first; verified-email setup is available for pending accounts. */
 #memberLoginPlatform{width:100%;min-height:48px}
 #memberEmailFallback{margin:0 auto}
+
+/* User-chosen login username, unrelated to third-party social verification. */
+.member-username-box{margin:22px 0 0;padding:18px;background:rgba(233,164,190,.055);border:1px solid var(--line);border-radius:6px}
+.member-username-box>strong{display:block;margin:9px 0;font:normal 30px var(--display);color:var(--rose)}
+.member-username-box>p:not(.eyebrow){font-size:13px;line-height:1.6;color:var(--muted)}
+.member-username-box .member-form{margin-top:15px}
+.member-username-box .member-form[hidden]{display:none}
