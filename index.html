@@ -6,17 +6,16 @@
 <title>@kissedbyevie • Menu</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #12080c;
-    color: #fff;
-    line-height: 1.45;
+    background: #0f0a0c;
+    color: #f5f5f5;
+    line-height: 1.5;
   }
   .hero {
-    height: 50vh;
-    min-height: 320px;
-    background: linear-gradient(to bottom, rgba(255,20,147,0.25), rgba(18,8,12,0.92)),
+    height: 42vh;
+    min-height: 280px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), #0f0a0c),
                 url('https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg') center/cover no-repeat;
     display: flex;
     flex-direction: column;
@@ -25,271 +24,221 @@
     text-align: center;
     padding: 20px;
   }
-  .hero h1 {
-    font-size: clamp(36px, 9vw, 56px);
-    letter-spacing: 2px;
-    color: #fff;
-    font-weight: 700;
-    text-shadow: 0 0 16px #ff69b4;
-    font-style: italic;
-  }
-  .hero .handle { color: #ff69b4; letter-spacing: 2px; margin-top: 6px; font-weight: 600; }
+  .hero h1 { font-size: clamp(32px, 8vw, 48px); letter-spacing: 1px; font-weight: 600; font-style: italic; }
+  .hero .handle { color: #e8a0b8; margin-top: 6px; font-size: 14px; letter-spacing: 1px; }
 
-  .menu { max-width: 460px; margin: 0 auto; padding: 16px 14px 80px; }
-  .section {
-    background: rgba(30,12,20,0.9);
-    border: 1px solid #2a1822;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 12px;
+  .menu { max-width: 440px; margin: 0 auto; padding: 20px 16px 100px; }
+  details { margin-bottom: 12px; border-bottom: 1px solid #2a2024; padding-bottom: 12px; }
+  summary {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e8a0b8;
+    cursor: pointer;
+    list-style: none;
+    padding: 8px 0;
   }
-  .section.premium {
-    border: 2px solid #ff1493;
-    background: linear-gradient(135deg, #2a1020, #3d1528);
-  }
-  .section h2 {
-    color: #ff69b4;
-    font-size: 14px;
-    letter-spacing: 0.6px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: " +"; color: #888; }
+  details[open] summary::after { content: " −"; }
   .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid #2a1822;
+    padding: 10px 0;
+    border-top: 1px solid #1f181b;
     font-size: 15px;
   }
-  .item:last-child { border-bottom: none; }
-  .item .left { flex: 1; }
-  .item .right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .price { color: #ffb6c1; font-weight: 700; }
-  .badge {
-    background: #ff1493;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 10px;
-    margin-left: 4px;
-  }
-  .note { font-size: 12px; color: #ffd1dc; margin-top: 4px; }
-  .add-btn, .select-btn, .deal-btn {
-    background: #ff1493;
-    color: #fff;
+  .item .desc { flex: 1; padding-right: 12px; }
+  .item .desc small { display: block; color: #aaa; font-size: 12px; margin-top: 2px; }
+  .price { font-weight: 600; color: #f0c8d4; white-space: nowrap; }
+  .add-btn {
+    background: #e8a0b8;
+    color: #0f0a0c;
     border: none;
-    padding: 5px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 10px;
     cursor: pointer;
   }
-  .select-btn { background: #c71585; }
-  #order-summary {
-    position: sticky;
-    bottom: 10px;
-    z-index: 30;
-    background: #1a0a10;
-    border: 2px solid #ff1493;
-    margin-top: 16px;
+  .note { font-size: 13px; color: #aaa; margin: 6px 0 4px; }
+  #cart {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a1216;
+    border-top: 1px solid #3a2830;
+    padding: 12px 16px;
+    z-index: 100;
   }
-  .cart-item { display: flex; justify-content: space-between; font-size: 14px; margin: 3px 0; }
-  .remove-btn { background: none; border: none; color: #ff69b4; cursor: pointer; font-size: 14px; }
-  .payments { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .btn {
+  #cart h3 { font-size: 14px; margin-bottom: 6px; color: #e8a0b8; }
+  .cart-line { display: flex; justify-content: space-between; font-size: 14px; margin: 3px 0; }
+  .remove { background: none; border: none; color: #e8a0b8; cursor: pointer; font-size: 16px; }
+  .total { font-weight: 700; font-size: 16px; margin-top: 6px; }
+  .pay-btn {
     display: block;
+    background: #e8a0b8;
+    color: #0f0a0c;
     text-align: center;
-    background: linear-gradient(135deg, #ff69b4, #ff1493);
-    color: #fff;
     text-decoration: none;
     padding: 12px;
-    border-radius: 20px;
+    border-radius: 8px;
     font-weight: 700;
+    margin-top: 10px;
   }
-  .btn.secondary { background: #2a1020; border: 1px solid #ff69b4; }
-  .footer { text-align: center; font-size: 11px; color: #ff69b4; margin-top: 16px; }
+  .footer { text-align: center; font-size: 11px; color: #666; margin-top: 20px; }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <h1>KISSED<br>BY EVIE</h1>
+  <h1>Kissed by Evie</h1>
   <div class="handle">@kissedbyevie</div>
 </div>
 
 <div class="menu">
 
-  <div class="section premium">
-    <h2>Daddy Package <span class="badge">MOST EXCLUSIVE</span></h2>
+  <details open>
+    <summary>Premium</summary>
     <div class="item">
-      <div class="left">Monthly</div>
-      <div class="right"><span class="price">$150/mo</span><button class="add-btn" onclick="addToCart('Daddy Package Monthly', 150)">+ Add</button></div>
+      <div class="desc">Daddy Package — Monthly<br><small>Deluxe Dropbox, daily content, priority, 1 free live, 3 mo free OF</small></div>
+      <div><span class="price">$150/mo</span><button class="add-btn" onclick="add('Daddy Package Monthly', 150)">Add</button></div>
     </div>
     <div class="item">
-      <div class="left">One-time <span class="badge">BEST VALUE</span></div>
-      <div class="right"><span class="price">$350</span><button class="add-btn" onclick="addToCart('Daddy Package One-time', 350)">+ Add</button></div>
+      <div class="desc">Daddy Package — One-time<br><small>Same as above</small></div>
+      <div><span class="price">$350</span><button class="add-btn" onclick="add('Daddy Package One-time', 350)">Add</button></div>
     </div>
-    <p class="note">Includes Deluxe Dropbox (800+ items), daily content, priority replies, 1 free live, 3 months free OnlyFans.</p>
-  </div>
+    <div class="item">
+      <div class="desc">Deluxe Dropbox / Full Vault<br><small>800+ items: squirt, some B/G, solo, feet, striptease, selfies, oil, some anal. Constantly updated. Free 1-mo OF trial.</small></div>
+      <div><span class="price">$75</span><button class="add-btn" onclick="add('Deluxe Dropbox', 75)">Add</button></div>
+    </div>
+  </details>
 
-  <div class="section premium">
-    <h2>Deluxe Dropbox / Full Vault <span class="badge">BEST VALUE</span></h2>
+  <details>
+    <summary>Content</summary>
+    <p class="note">Choose one bundle:</p>
     <div class="item">
-      <div class="left">800+ pics & videos<br><span style="font-size:12px;color:#ffd1dc;">Squirt, some B/G, solo, feet, striptease, selfies, up close, oil, some anal • Constantly updated</span></div>
-      <div class="right"><span class="price">$75</span><button class="add-btn" onclick="addToCart('Deluxe Dropbox', 75)">+ Add</button></div>
+      <div class="desc">10 pics/videos</div>
+      <div><span class="price">$15</span><button class="add-btn" onclick="selectBundle('10 pics/videos', 15)">Select</button></div>
     </div>
-    <p class="note">Free 1-month OnlyFans trial. Included with Daddy Package.</p>
-  </div>
+    <div class="item">
+      <div class="desc">20 pics/videos</div>
+      <div><span class="price">$30</span><button class="add-btn" onclick="selectBundle('20 pics/videos', 30)">Select</button></div>
+    </div>
+    <div class="item">
+      <div class="desc">50 pics/videos</div>
+      <div><span class="price">$60</span><button class="add-btn" onclick="selectBundle('50 pics/videos', 60)">Select</button></div>
+    </div>
+    <div class="item">
+      <div class="desc">B/G Dropbox<br><small>15+ videos</small></div>
+      <div><span class="price">$35</span><button class="add-btn" onclick="add('B/G Dropbox', 35)">Add</button></div>
+    </div>
+  </details>
 
-  <div class="section">
-    <h2>Content Bundles <span style="font-size:11px;color:#ffb6c1;">(choose 1)</span></h2>
+  <details>
+    <summary>Live & Custom</summary>
     <div class="item">
-      <div class="left">10 pics/videos</div>
-      <div class="right"><span class="price">$15</span><button class="select-btn" onclick="selectBundle('10 pics/videos', 15)">SELECT</button></div>
+      <div class="desc">5 min video chat</div>
+      <div><span class="price">$50</span><button class="add-btn" onclick="add('5 min Video Chat', 50)">Add</button></div>
     </div>
     <div class="item">
-      <div class="left">20 pics/videos</div>
-      <div class="right"><span class="price">$30</span><button class="select-btn" onclick="selectBundle('20 pics/videos', 30)">SELECT</button></div>
+      <div class="desc">10 min video chat</div>
+      <div><span class="price">$85</span><button class="add-btn" onclick="add('10 min Video Chat', 85)">Add</button></div>
     </div>
     <div class="item">
-      <div class="left">50 pics/videos</div>
-      <div class="right"><span class="price">$60</span><button class="select-btn" onclick="selectBundle('50 pics/videos', 60)">SELECT</button></div>
+      <div class="desc">15 min live snaps</div>
+      <div><span class="price">$45</span><button class="add-btn" onclick="add('15 min Live Snaps', 45)">Add</button></div>
     </div>
-  </div>
+    <div class="item">
+      <div class="desc">30 min live snaps</div>
+      <div><span class="price">$75</span><button class="add-btn" onclick="add('30 min Live Snaps', 75)">Add</button></div>
+    </div>
+    <div class="item">
+      <div class="desc">1 hour live snaps</div>
+      <div><span class="price">$130</span><button class="add-btn" onclick="add('1 hour Live Snaps', 130)">Add</button></div>
+    </div>
+    <div class="item">
+      <div class="desc">2 min custom + photos</div>
+      <div><span class="price">$90</span><button class="add-btn" onclick="add('2 min Custom', 90)">Add</button></div>
+    </div>
+    <div class="item">
+      <div class="desc">3 min custom + photos</div>
+      <div><span class="price">$100</span><button class="add-btn" onclick="add('3 min Custom', 100)">Add</button></div>
+    </div>
+    <div class="item">
+      <div class="desc">4 min custom + photos</div>
+      <div><span class="price">$110</span><button class="add-btn" onclick="add('4 min Custom', 110)">Add</button></div>
+    </div>
+    <div class="item">
+      <div class="desc">45 sec short custom</div>
+      <div><span class="price">$45</span><button class="add-btn" onclick="add('45 sec Custom', 45)">Add</button></div>
+    </div>
+    <p class="note">Customs finished within 48 hrs. Previous purchase required.</p>
+  </details>
 
-  <div class="section">
-    <h2>Add-Ons</h2>
+  <details>
+    <summary>Extras & Deals</summary>
     <div class="item">
-      <div class="left">B/G Dropbox (15+ videos)</div>
-      <div class="right"><span class="price">$35</span><button class="add-btn" onclick="addToCart('B/G Dropbox', 35)">+ Add</button></div>
-    </div>
-    <div class="item">
-      <div class="left">Live / detailed 🍆 rate</div>
-      <div class="right"><span class="price">$25</span><button class="add-btn" onclick="addToCart('🍆 rate', 25)">+ Add</button></div>
+      <div class="desc">Live / detailed 🍆 rate</div>
+      <div><span class="price">$25</span><button class="add-btn" onclick="add('🍆 rate', 25)">Add</button></div>
     </div>
     <div class="item">
-      <div class="left">3 live snaps + 2 pics</div>
-      <div class="right"><span class="price">$20</span><button class="add-btn" onclick="addToCart('3 snaps + 2 pics', 20)">+ Add</button></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Video Chats</h2>
-    <div class="item">
-      <div class="left">5 min</div>
-      <div class="right"><span class="price">$50</span><button class="add-btn" onclick="addToCart('5 min Video Chat', 50)">+ Add</button></div>
+      <div class="desc">3 live snaps + 2 pics</div>
+      <div><span class="price">$20</span><button class="add-btn" onclick="add('3 snaps + 2 pics', 20)">Add</button></div>
     </div>
     <div class="item">
-      <div class="left">10 min</div>
-      <div class="right"><span class="price">$85</span><button class="add-btn" onclick="addToCart('10 min Video Chat', 85)">+ Add</button></div>
+      <div class="desc">OnlyFans monthly<br><small>Includes surprise photo bundle</small></div>
+      <div><span class="price">$3/mo</span><button class="add-btn" onclick="add('OnlyFans', 3)">Add</button></div>
     </div>
-  </div>
-
-  <div class="section">
-    <h2>Live Snaps</h2>
+    <p class="note">Make a Deal — pick an amount and I’ll build something worth more:</p>
     <div class="item">
-      <div class="left">15 min</div>
-      <div class="right"><span class="price">$45</span><button class="add-btn" onclick="addToCart('15 min Live Snaps', 45)">+ Add</button></div>
+      <div class="desc">Deal</div>
+      <div>
+        <button class="add-btn" onclick="add('Make a Deal $50', 50)">$50</button>
+        <button class="add-btn" onclick="add('Make a Deal $100', 100)">$100</button>
+        <button class="add-btn" onclick="add('Make a Deal $150', 150)">$150</button>
+        <button class="add-btn" onclick="add('Make a Deal $200', 200)">$200</button>
+      </div>
     </div>
-    <div class="item">
-      <div class="left">30 min</div>
-      <div class="right"><span class="price">$75</span><button class="add-btn" onclick="addToCart('30 min Live Snaps', 75)">+ Add</button></div>
-    </div>
-    <div class="item">
-      <div class="left">1 hour</div>
-      <div class="right"><span class="price">$130</span><button class="add-btn" onclick="addToCart('1 hour Live Snaps', 130)">+ Add</button></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Customs</h2>
-    <div class="item">
-      <div class="left">2 min + photo set</div>
-      <div class="right"><span class="price">$90</span><button class="add-btn" onclick="addToCart('2 min Custom', 90)">+ Add</button></div>
-    </div>
-    <div class="item">
-      <div class="left">3 min + photo set</div>
-      <div class="right"><span class="price">$100</span><button class="add-btn" onclick="addToCart('3 min Custom', 100)">+ Add</button></div>
-    </div>
-    <div class="item">
-      <div class="left">4 min + photo set</div>
-      <div class="right"><span class="price">$110</span><button class="add-btn" onclick="addToCart('4 min Custom', 110)">+ Add</button></div>
-    </div>
-    <div class="item">
-      <div class="left">45 sec short custom</div>
-      <div class="right"><span class="price">$45</span><button class="add-btn" onclick="addToCart('45 sec Custom', 45)">+ Add</button></div>
-    </div>
-    <p class="note">Done in 48 hrs. Previous purchase required.</p>
-  </div>
-
-  <div class="section">
-    <h2>Make a Deal</h2>
-    <p class="note" style="margin-bottom:8px;">Pick an amount — I’ll build a custom offer worth more.</p>
-    <div style="display:flex; flex-wrap:wrap; gap:8px;">
-      <button class="deal-btn" onclick="addToCart('Make a Deal $50', 50)">$50</button>
-      <button class="deal-btn" onclick="addToCart('Make a Deal $100', 100)">$100</button>
-      <button class="deal-btn" onclick="addToCart('Make a Deal $150', 150)">$150</button>
-      <button class="deal-btn" onclick="addToCart('Make a Deal $200', 200)">$200</button>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>OnlyFans</h2>
-    <div class="item">
-      <div class="left">Monthly + surprise bundle</div>
-      <div class="right"><span class="price">$3/mo</span><button class="add-btn" onclick="addToCart('OnlyFans', 3)">+ Add</button></div>
-    </div>
-  </div>
-
-  <div class="section" id="order-summary">
-    <h2>Your Order</h2>
-    <div id="cart-items" style="font-size:14px; margin-bottom:6px;">Nothing added yet</div>
-    <div style="font-weight:700; color:#ffb6c1; font-size:18px;">Total: $<span id="cart-total">0</span></div>
-    <p class="note">Pay the total, then message me the list on Telegram @kissedbyevie.</p>
-  </div>
-
-  <div class="section">
-    <h2>Pay</h2>
-    <div class="payments">
-      <a class="btn" href="https://cash.app/$TaylorGann90" target="_blank">Cash App</a>
-      <a class="btn secondary" href="https://venmo.com/u/barfiesfunds" target="_blank">Venmo</a>
-      <a class="btn secondary" href="https://a.co/d/0iNN4CcT" target="_blank">Amazon Gift Card</a>
-    </div>
-    <p class="note">Amazon → elviramack7@gmail.com • Apple Pay: ask</p>
-  </div>
+  </details>
 
   <div class="footer">18+ ONLY • DIGITAL CONTENT</div>
 </div>
 
+<div id="cart">
+  <h3>Your Order</h3>
+  <div id="cart-items">Nothing added yet</div>
+  <div class="total">Total: $<span id="total">0</span></div>
+  <a class="pay-btn" href="https://cash.app/$TaylorGann90" target="_blank">Pay with Cash App</a>
+  <p class="note" style="text-align:center; margin-top:6px;">Then message the total + list to @kissedbyevie on Telegram</p>
+</div>
+
 <script>
 let cart = [];
-function addToCart(name, price) {
-  cart.push({name, price, id: Date.now()});
-  updateCart();
+function add(name, price) {
+  cart.push({name, price, id: Date.now() + Math.random()});
+  render();
 }
 function selectBundle(name, price) {
   cart = cart.filter(i => !i.name.includes('pics/videos'));
-  cart.push({name, price, id: Date.now()});
-  updateCart();
+  add(name, price);
 }
-function removeFromCart(id) {
+function remove(id) {
   cart = cart.filter(i => i.id !== id);
-  updateCart();
+  render();
 }
-function updateCart() {
-  const itemsEl = document.getElementById('cart-items');
-  const totalEl = document.getElementById('cart-total');
+function render() {
+  const el = document.getElementById('cart-items');
+  const totalEl = document.getElementById('total');
   if (!cart.length) {
-    itemsEl.innerHTML = 'Nothing added yet';
+    el.innerHTML = 'Nothing added yet';
     totalEl.textContent = '0';
     return;
   }
-  itemsEl.innerHTML = cart.map(i => 
-    `<div class="cart-item">${i.name} — $${i.price} <button class="remove-btn" onclick="removeFromCart(${i.id})">✕</button></div>`
+  el.innerHTML = cart.map(i => 
+    `<div class="cart-line">${i.name} — $${i.price} <button class="remove" onclick="remove(${i.id})">✕</button></div>`
   ).join('');
   totalEl.textContent = cart.reduce((s, i) => s + i.price, 0);
 }
