@@ -1,0 +1,11 @@
+services:
+  telegram-personal-inbox:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      TELEGRAM_SESSION_PATH: /app/private/account
+    volumes:
+      - ./private:/app/private
+    # No public port, Telegram bot token, or command server is needed.
