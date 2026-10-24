@@ -133,6 +133,36 @@
             <div class="inbox-platform"><span class="inbox-platform-icon snapchat">◉</span><div><strong>Snapchat</strong><small id="inboxSnapStatus">Manual follow-up reminders</small></div><span class="inbox-connection-indicator">MANUAL</span></div>
           </div>
 
+
+          <section class="surface telegram-setup" aria-labelledby="tgLinkTitle">
+            <div class="surface-title"><h2 id="tgLinkTitle">Personal Telegram account</h2><span>ONE-TIME PAIRING</span></div>
+            <p class="inbox-hint">Monitor your <strong>personal chats</strong>, not a BotFather bot. The private Telegram login and session stay on your own computer or trusted Docker worker. No messages are sent automatically.</p>
+            <div class="tg-pair-grid">
+              <form id="tgPairForm" class="stack-form">
+                <label for="tgWorkerName">Name this listener</label>
+                <input id="tgWorkerName" maxlength="75" minlength="3" value="My Telegram account" required>
+                <button type="submit" class="primary">1. Generate secure connection key</button>
+                <p class="inbox-hint">The key lets your personal listener report message events only. It cannot log in to Telegram, send messages, or manage members.</p>
+                <div id="tgTokenOnce" class="tg-token-once" hidden>
+                  <strong>Copy your key now — you won't see it again.</strong>
+                  <code id="tgWorkerToken"></code>
+                  <button type="button" id="tgCopyToken" class="secondary small">Copy key</button>
+                  <p>Save it privately as <code>EVIE_INBOX_WORKER_TOKEN</code> on your listener. Never share it in chat or commit it to GitHub.</p>
+                </div>
+              </form>
+              <div class="tg-pair-steps">
+                <strong>2. Connect your own account on your device</strong>
+                <p>Get your Telegram API ID and hash from <a href="https://my.telegram.org" target="_blank" rel="noopener noreferrer">my.telegram.org ↗</a>. Install the listener, then sign in with your Telegram code locally — not on this site.</p>
+                <p>Use the <a href="https://github.com/kyronaextra/kissedbyevie-menu/tree/main/docker/telegram-personal-inbox" target="_blank" rel="noopener noreferrer">personal Telegram inbox setup guide ↗</a> for Windows or Docker.</p>
+                <strong>3. Leave the listener running</strong>
+                <p>Its online heartbeat updates the status above. It listens for new private messages, checks who last replied, and feeds your follow-up queue.</p>
+              </div>
+            </div>
+            <div class="tg-paired-workers">
+              <div class="surface-title"><h2>Authorized listeners</h2><span id="tgWorkerCount">0 ACTIVE</span></div>
+              <div id="tgWorkerList" class="record-list" aria-live="polite"><p class="empty">No personal Telegram listener paired yet.</p></div>
+            </div>
+          </section>
           <div class="inbox-workspace">
             <section class="surface inbox-main" aria-labelledby="inboxQueueTitle">
               <div class="surface-title"><h2 id="inboxQueueTitle">Response queue</h2><span id="inboxQueueLabel">0 CONTACTS</span></div>

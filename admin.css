@@ -95,3 +95,19 @@ h1,h2,h3,p{margin-top:0}h1,h2{font-weight:400}h1 em,h2 em{color:var(--pink);font
  .inbox-filters select{min-width:90px}
  .inbox-live-tools{gap:6px}
 }
+
+/* Personal Telegram account pairing */
+.telegram-setup{margin-bottom:21px;background:radial-gradient(ellipse at 4% 0%,rgba(56,143,149,.14),transparent 55%),var(--surface)}
+.telegram-setup .surface-title{margin-bottom:15px}
+.tg-pair-grid{display:grid;grid-template-columns:minmax(260px,.9fr) minmax(280px,1.1fr);gap:30px;margin-top:22px}
+.tg-pair-steps{border-left:1px solid var(--line);padding-left:26px;font-size:12px;line-height:1.8}
+.tg-pair-steps strong{display:block;font-weight:700;margin-bottom:9px;color:var(--mint);font-size:12px}
+.tg-pair-steps p{color:var(--muted);font-size:11px;line-height:1.8;margin-bottom:18px}
+.tg-pair-steps a{color:var(--mint);text-decoration:underline;text-underline-offset:4px}
+.tg-token-once{padding:14px;background:rgba(235,197,161,.07);border:1px solid rgba(235,197,161,.39);border-radius:5px}
+.tg-token-once>strong{display:block;font-size:12px;color:var(--gold)}
+.tg-token-once>code{display:block;white-space:normal;overflow-wrap:anywhere;font:11px/1.8 var(--mono);color:var(--text);margin:14px 0}
+.tg-token-once>p{font-size:10px;color:var(--muted);margin:14px 0 0;line-height:1.7}
+.tg-paired-workers{margin-top:28px;padding-top:21px;border-top:1px solid var(--line)}
+.tg-worker-last-seen{font-size:11px;color:var(--muted);line-height:1.7;margin:4px 0 10px}
+@media(max-width:850px){.tg-pair-grid{grid-template-columns:1fr}.tg-pair-steps{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}}

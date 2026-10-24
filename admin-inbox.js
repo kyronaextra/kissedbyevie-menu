@@ -164,7 +164,9 @@ async function refresh(silent=false){
   clientState.items=list;
   updateCounters(payload);
   render();
-  $('inboxTelegramStatus').textContent='Authorized worker needed to deliver updates';
+  $('inboxTelegramStatus').textContent=payload.coverage?.telegram?.status==='connected'?
+    'Personal account listener online':payload.coverage?.telegram?.status==='waiting_for_listener'?
+    'Paired; start the listener on your device':'Not connected — pair your personal account below';
   $('inboxXStatus').textContent='Connect approved X DM API integration';
   $('inboxSnapStatus').textContent='Manual reminders available';
   if(clientState.initialLoaded&&document.visibilityState==='visible'){
@@ -213,6 +215,7 @@ function start({request,client}){
  clientState.initialLoaded=false;
  clientState.items=[];
  clientState.online=false;
+ loadWorkers();
  $('inboxRealtimeStatus').textContent='Connecting live feed…';
  refresh(true);subscribe();
  clientState.timer=setInterval(()=>{
@@ -228,9 +231,77 @@ function stop(){
  clientState.request=null;clientState.sb=null;
  clientState.online=false;
  clientState.items=[];clientState.initialLoaded=false;
+ $('tgWorkerToken').textContent='';
+ $('tgTokenOnce').hidden=true;
  document.title=defaultTitle;
  $('inboxNavBadge').hidden=true;
 }
+
+/** Scoped worker keys are issued by a freshly authenticated admin API.
+ * The plaintext key is presented once, not persisted in a cookie or localStorage.
+ */
+async function loadWorkers(){
+ if(clientState.stopped||!clientState.request)return;
+ const list=$('tgWorkerList');
+ try{
+  const payload=await clientState.request('telegram_workers');
+  if(clientState.stopped)return;
+  const workers=payload.workers||[];
+  const active=workers.filter(w=>!w.revoked_at&&new Date(w.expires_at)>new Date());
+  $('tgWorkerCount').textContent=active.length+' ACTIVE';
+  list.replaceChildren();
+  if(!workers.length){
+   list.append(node('p','empty','No personal Telegram listener is paired. Generate a connection key above to begin.'));
+   return;
+  }
+  workers.forEach(worker=>{
+   const card=node('article','record'),top=node('div','record-top');
+   top.append(node('strong','',worker.name),
+    node('small','',worker.revoked_at?'REVOKED':new Date(worker.expires_at)<=new Date()?'EXPIRED':worker.online?'ONLINE':'OFFLINE'));
+   card.append(top);
+   const last=worker.last_seen_at?'Last seen '+ago(worker.last_seen_at):'Never connected';
+   card.append(node('p','tg-worker-last-seen',last+' · Expires '+new Date(worker.expires_at).toLocaleDateString('en-US')));
+   if(!worker.revoked_at){
+    const actions=node('div','record-actions');
+    const revoke=createAction('Revoke access',async()=>{
+     if(!confirm('Revoke this Telegram listener key? The listener will stop syncing. Your Telegram session will remain local.'))return;
+     revoke.disabled=true;
+     try{
+      await clientState.request('telegram_worker_revoke',{id:worker.id});
+      await loadWorkers();
+      await refresh(true);
+     }catch(error){setError(error?.message||'Unable to revoke worker key');revoke.disabled=false}
+    },'danger');
+    actions.append(revoke);card.append(actions);
+   }
+   list.append(card);
+  });
+ }catch(error){
+  if(!clientState.stopped)list.replaceChildren(node('p','empty','Could not check paired listener status: '+(error?.message||'temporary error')));
+ }
+}
+$('tgPairForm').addEventListener('submit',async event=>{
+ event.preventDefault();if(!clientState.request)return;
+ const form=event.currentTarget;
+ if(!form.reportValidity())return;
+ busy(form,true);setError('');
+ try{
+  const result=await clientState.request('telegram_worker_issue',{name:$('tgWorkerName').value.trim()});
+  $('tgWorkerToken').textContent=result.token||'';
+  $('tgTokenOnce').hidden=false;
+  await loadWorkers();
+ }catch(error){setError(error?.message||'Could not generate a listener key')}
+ finally{busy(form,false)}
+});
+$('tgCopyToken').addEventListener('click',async()=>{
+ const token=$('tgWorkerToken').textContent;
+ if(!token)return;
+ try{
+  await navigator.clipboard.writeText(token);
+  $('tgCopyToken').textContent='Copied ✓';
+ }catch(_){setError('Clipboard unavailable; select and copy the connection key above.')}
+});
+
 $('inboxStateFilter').addEventListener('change',render);
 $('inboxPlatformFilter').addEventListener('change',render);
 $('inboxSearch').addEventListener('input',render);
