@@ -78,3 +78,14 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 - Bots, agents, Docker services and automations are **references/drafts** until a real backend worker is separately connected. No credentials or Docker commands run in browser code.
 - Setup and admin-role activation instructions: [docs/ADMIN_CONTROL_ROOM.md](docs/ADMIN_CONTROL_ROOM.md).
 - Optional non-executing Docker worker starter: [docker/evie-worker/README.md](docker/evie-worker/README.md).
+
+## Personal Telegram account → Live Message Inbox (read-only)
+
+- Open [Evie Admin message inbox](https://kissedbyevie-menu.onrender.com/admin.html) and choose **Personal Telegram account**.
+- Generate a unique, revocable 180-day scoped connection key. It is shown once and stored hashed in Supabase, so members and anonymous browsers cannot retrieve it.
+- On a device you control, authorize your Telegram **user account** via Telethon (API ID/hash and Telegram login code). **No BotFather bot is involved.**
+- Run the isolated [personal Telegram inbox listener](docker/telegram-personal-inbox/README.md) locally on Windows or in a Docker container with persistent private session storage. A listener must remain online for the feed to be live.
+- The worker only reports private 1:1 incoming and outgoing events. It never sends messages, downloads attachments or runs the old `telethon-client/client.py` auto-reply workflow.
+- Evie Admin displays who needs a reply and updates via private Supabase real-time signals, with a 20-second fallback refresh. Replying on Telegram moves the thread to **Waiting**. Manual queue actions are not Telegram replies.
+- The Telegram session file and API credentials are local to the listener. Only a scoped worker key and minimal event metadata are shared with the admin backend; full message snippets are off by default.
+- **Status:** The dashboard and listener code are deployed/committed, but **no personal Telegram session has been authorized or worker connected** yet. X and Snapchat personal messages are not connected.

@@ -98,6 +98,123 @@ async function overview(){
   connections:(results[0].data||[]).length,automation_drafts:(results[1].data||[]).length},
  capabilities:{render_status:!!RENDER_KEY,automation_runner:false,docker_runtime:"external"}};
 }
+
+/** Owner-only inbox, with no direct browser RLS grants. */
+
+async function sha256hex(value:string):Promise<string>{
+ const buffer=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value));
+ return Array.from(new Uint8Array(buffer),b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function listPersonalTelegramWorkers(){
+ const {data,error}=await privileged.from("evie_admin_inbox_worker_tokens")
+  .select("id,name,platform,created_at,expires_at,revoked_at,last_seen_at,requests_total")
+  .order("created_at",{ascending:false}).limit(30);
+ if(error)throw new Error("Connection status unavailable");
+ return {workers:(data||[]).map(r=>({
+  ...r,online:!r.revoked_at&&new Date(r.expires_at)>new Date()&&r.last_seen_at
+   ? Date.now()-new Date(r.last_seen_at).getTime()<120000:false
+ }))};
+}
+async function issuePersonalTelegramKey(actor:string,payload:any){
+ const name=text(payload?.name||"Personal Telegram listener",75,"worker name",true);
+ if(name.length<3)throw new Error("Worker name must be at least 3 characters");
+ const {data:active,error:readError}=await privileged.from("evie_admin_inbox_worker_tokens")
+  .select("id").is("revoked_at",null).gt("expires_at",new Date().toISOString()).limit(5);
+ if(readError)throw new Error("Unable to issue worker access");
+ if((active||[]).length>=3)throw new Error("Revoke an unused worker key before creating another (3 max)");
+ const bytes=crypto.getRandomValues(new Uint8Array(32));
+ const token="evi_tg_"+btoa(String.fromCharCode(...bytes))
+  .replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+ const digest=await sha256hex(token);
+ const expires=new Date(Date.now()+180*86400000).toISOString();
+ const {data,error}=await privileged.from("evie_admin_inbox_worker_tokens")
+  .insert({name,platform:"telegram",token_sha256:digest,
+    created_by:actor,expires_at:expires}).select("id,name,created_at,expires_at").single();
+ if(error||!data)throw new Error("Unable to create Telegram worker key");
+ await audit(actor,"inbox.worker_key_issued","admin",data.id,
+  "Created scoped Telegram listener key: "+data.name);
+ // The browser must display/copy the credential once; this token is not stored by the API.
+ return {ok:true,worker:data,token};
+}
+async function revokePersonalTelegramKey(actor:string,payload:any){
+ const id=String(payload?.id||"");
+ if(!uuid.test(id))throw new Error("Invalid worker key");
+ const {data,error}=await privileged.from("evie_admin_inbox_worker_tokens")
+  .update({revoked_at:new Date().toISOString()})
+  .eq("id",id).is("revoked_at",null).select("id,name").maybeSingle();
+ if(error||!data)throw new Error("Worker key not found or already revoked");
+ await audit(actor,"inbox.worker_key_revoked","admin",data.id,
+  "Revoked Telegram listener key: "+data.name);
+ return {ok:true};
+}
+
+async function inboxQueue(){
+ const {data,error}=await privileged.from("evie_admin_inbox_threads")
+  .select("id,platform,contact_name,contact_handle,origin,last_preview,last_message_at,last_inbound_at,last_outbound_at,last_direction,reply_state,priority,unread_count,note,source_verified,updated_at")
+  .order("last_message_at",{ascending:false}).limit(250);
+ if(error)throw new Error("Inbox temporarily unavailable");
+ const rows=data||[];
+ const keys=await listPersonalTelegramWorkers();
+ const enabled=keys.workers.filter(w=>!w.revoked_at&&new Date(w.expires_at)>new Date());
+ const online=enabled.some(w=>w.online);
+ return {threads:rows,stats:{
+  waiting_for_me:rows.filter(r=>r.reply_state==="needs_reply").length,
+  urgent:rows.filter(r=>r.reply_state==="needs_reply"&&r.priority==="high").length,
+  unread:rows.reduce((total,r)=>total+(r.unread_count||0),0),
+  total:rows.length
+ },coverage:{
+  telegram:{status:online?"connected":enabled.length?"waiting_for_listener":"needs_verified_worker",
+   detail:online?"Personal account listener heartbeat received within 2 minutes.":
+    enabled.length?"Key registered; start the personal Telegram listener on your trusted device.":
+    "Generate a scoped token and authorize a personal Telegram listener."},
+  x:{status:"not_connected",detail:"Requires account-authorized X API/DM integration and applicable API access."},
+  snapchat:{status:"manual_only",detail:"Personal Snapchat chats are not available to this service through a general public inbox API."}
+ },last_checked_at:new Date().toISOString()};
+}
+async function inboxAction(actor:string,payload:any){
+ const id=String(payload?.id||"");
+ if(!uuid.test(id))throw new Error("Invalid conversation");
+ const change=String(payload?.change||"");
+ if(!["needs_reply","waiting","handled","high","normal","low","mark_seen","save_note"].includes(change)){
+  throw new Error("Invalid inbox action");
+ }
+ const fields:Record<string,unknown>={updated_at:new Date().toISOString()};
+ if(["needs_reply","waiting","handled"].includes(change)){
+  fields.reply_state=change;
+  fields.unread_count=0;
+ }else if(["high","normal","low"].includes(change)){
+  fields.priority=change;
+ }else if(change==="mark_seen"){fields.unread_count=0}
+ else if(change==="save_note"){fields.note=text(payload.note,600,"conversation notes")}
+ const {data,error}=await privileged.from("evie_admin_inbox_threads")
+  .update(fields).eq("id",id)
+  .select("id,platform,contact_name,reply_state,priority").maybeSingle();
+ if(error||!data)throw new Error("Conversation not found");
+ await audit(actor,"inbox."+change,"admin",id,"Updated "+data.platform+" follow-up record");
+ return {ok:true,thread:data};
+}
+async function manualFollowup(actor:string,payload:any){
+ const platform=text(payload?.platform,20,"platform",true);
+ if(!["telegram","x","snapchat"].includes(platform))throw new Error("Invalid platform");
+ const name=text(payload?.name,100,"contact name",true);
+ const handle=text(payload?.handle,80,"contact handle");
+ const notes=text(payload?.notes,600,"follow-up notes");
+ const preview=text(payload?.summary,280,"follow-up summary");
+ const priority=String(payload?.priority||"normal");
+ if(!["high","normal","low"].includes(priority))throw new Error("Invalid priority");
+ const now=new Date().toISOString();
+ const {data,error}=await privileged.from("evie_admin_inbox_threads").insert({
+  platform,contact_name:name,contact_handle:handle,origin:"manual",
+  external_thread_id:"manual:"+crypto.randomUUID(),
+  last_preview:preview||"Manually added follow-up",
+  last_direction:"manual",last_message_at:now,priority,
+  reply_state:"needs_reply",note:notes,unread_count:0,source_verified:false
+ }).select("id").single();
+ if(error||!data)throw new Error("Could not save manual follow-up");
+ await audit(actor,"inbox.manual_followup","admin",data.id,"Added manual "+platform+" follow-up");
+ return {ok:true,id:data.id};
+}
+
 async function memberPage(page:number){
  const {data:accounts,error}=await privileged.auth.admin.listUsers({page,perPage:50});
  if(error)throw new Error("Cannot load the member list");
@@ -158,6 +275,8 @@ Deno.serve(async(req:Request)=>{
   }
   if(req.method==="GET"){
    if(action==="overview")return json(origin,200,await overview());
+   if(action==="inbox")return json(origin,200,await inboxQueue());
+   if(action==="telegram_workers")return json(origin,200,await listPersonalTelegramWorkers());
    if(action==="members"){
     const page=Math.max(1,Math.min(20,Number(url.searchParams.get("page"))||1));
     return json(origin,200,await memberPage(page));
@@ -176,6 +295,18 @@ Deno.serve(async(req:Request)=>{
   if(raw.length>6000)return json(origin,413,{error:"Request too large"});
   const payload=JSON.parse(raw);
   const actor=role.user.id;
+  if(payload?.action==="telegram_worker_issue"){
+   return json(origin,201,await issuePersonalTelegramKey(actor,payload));
+  }
+  if(payload?.action==="telegram_worker_revoke"){
+   return json(origin,200,await revokePersonalTelegramKey(actor,payload));
+  }
+  if(payload?.action==="inbox_update"){
+   return json(origin,200,await inboxAction(actor,payload));
+  }
+  if(payload?.action==="inbox_add_manual"){
+   return json(origin,201,await manualFollowup(actor,payload));
+  }
   if(payload?.action==="add_connection"){
    const info=validateConnection(payload.connection);
    const {data,error}=await privileged.from("evie_admin_connections")
@@ -231,7 +362,7 @@ Deno.serve(async(req:Request)=>{
  }catch(err){
   const message=err instanceof Error?err.message:"Unable to complete request";
   if(message.startsWith("Invalid")||message.startsWith("Do not")||message.startsWith("Enter")||
-    message.startsWith("Name must")||message.startsWith("Automation name")){
+    message.startsWith("Name must")||message.startsWith("Worker name")||message.startsWith("Revoke an unused")||message.startsWith("Automation name")){
    return json(origin,400,{error:message});
   }
   return json(origin,503,{error:"Admin request could not be completed."});
