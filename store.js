@@ -1,49 +1,219 @@
 (function(){
 'use strict';
+// Menu source of truth: section, order name, price, visible name, short description, exclusive group, optional details.
 const products=[
-["Premium","Daddy Package Lifetime",300,"Daddy Package · Lifetime","Lifetime collection access and membership status. Active monthly perks require a voluntary $15 contribution each calendar month; no automatic charge.","daddy"],
-["Premium","Lovense Interactive FaceTime",175,"Interactive FaceTime · $175","Private interactive session; scheduling confirmed individually.",""],
-["Premium","JOI Custom Video · 3 min",150,"JOI custom video · 3 minutes","Made-to-order video; details confirmed before payment.",""],
-["Premium","Daddy Package Monthly",150,"Daddy Package · Monthly","Includes Deluxe Dropbox, priority replies, daily snaps, one complimentary live Snap show, discounted calls, phone contact, exclusive collection and 3 months of OnlyFans access. No extra $15 requirement.","daddy"],
-["Premium","Panties · 1 day",130,"Panties · 1 day","Includes video and snaps. Optional customization quoted separately.",""],
-["Premium","ULTRA VAULT 800+",75,"ULTRA VAULT · 800+","800+ photos and videos, full videos, all categories, regularly updated, with a complimentary OnlyFans link.","vault"],
-["Bundles","10 Premade Pics/Videos",10,"10 premade photos/videos","Premade collection.","bundle"],
-["Bundles","20 Premade Pics/Videos",20,"20 premade photos/videos","Premade collection.","bundle"],
-["Bundles","50 Premade Pics/Videos",50,"50 premade photos/videos","Premade collection.","bundle"],
-["Bundles","Single B/G Video",15,"Single B/G video","One video.",""],
-["Bundles","Complete B/G Vault",40,"Complete B/G vault","Full B/G collection.",""],
-["Live","10 Live Snaps",20,"10 live snaps","10 live photos/videos.",""],
-["Live","20 Live Snaps",40,"20 live snaps","20 live photos/videos.",""],
-["Live","7+ Short Live Snaps",35,"Short live clips · 7+","Live bubbles/snaps, seven or more.",""],
-["Customs","Custom Full Video · 2 min",90,"Custom full video · 2 min","Made-to-order; confirm details and delivery before payment.",""],
-["Customs","Custom Full Video · 3 min",120,"Custom full video · 3 min","Made-to-order; confirm details and delivery before payment.",""],
-["Customs","Custom Full Video · 4 min",140,"Custom full video · 4 min","Made-to-order; confirm details and delivery before payment.",""],
-["Extras","Detailed Text Rating",20,"Detailed text rating","Personalized written response.",""],
-["Extras","Detailed Live Snap Video Rating",35,"Detailed live Snap video rating","Includes 5+ live photos/videos.",""]
+ [
+  "Featured",
+  "ULTRA VAULT",
+  75,
+  "The Vault",
+  "Full photo + video collection; I'll confirm the current contents with you.",
+  "vault",
+  ""
+ ],
+ [
+  "Featured",
+  "Daddy Package Monthly",
+  150,
+  "Daddy Monthly",
+  "Monthly VIP perks: daily snaps, priority replies and one live Snap show.",
+  "daddy",
+  "Includes the deluxe Dropbox collection, 3 months of OnlyFans access, discounted calls and live shows, direct phone contact and a personal site collection. No extra $15 required. Private website lounge access is still coming soon."
+ ],
+ [
+  "Featured",
+  "Daddy Package Lifetime",
+  300,
+  "Daddy Lifetime",
+  "One payment for permanent membership status and your personal collection.",
+  "daddy",
+  "Lifetime status remains yours. Monthly perks are activated only with a voluntary $15 contribution in that calendar month. No automatic charges. Private website lounge access is still coming soon."
+ ],
+ [
+  "Featured",
+  "Lovense Interactive FaceTime",
+  175,
+  "Interactive FaceTime",
+  "A one-on-one interactive video session arranged directly.",
+  "",
+  ""
+ ],
+ [
+  "Featured",
+  "Panties · 1 day",
+  130,
+  "One-Day Panties",
+  "One day of wear, plus a video and snaps; extras are separate.",
+  "",
+  ""
+ ],
+ [
+  "Customs",
+  "Custom Full Video · 2 min",
+  90,
+  "Custom Video · 2 Minutes",
+  "A made-for-you video; I confirm the details with you first.",
+  "",
+  ""
+ ],
+ [
+  "Customs",
+  "Custom Full Video · 3 min",
+  120,
+  "Custom Video · 3 Minutes",
+  "More time for your personalized video request.",
+  "",
+  ""
+ ],
+ [
+  "Customs",
+  "Custom Full Video · 4 min",
+  140,
+  "Custom Video · 4 Minutes",
+  "The longest standard made-for-you video option.",
+  "",
+  ""
+ ],
+ [
+  "Customs",
+  "JOI Custom Video · 3 min",
+  150,
+  "JOI Custom · 3 Minutes",
+  "A personalized JOI video, three minutes long.",
+  "",
+  ""
+ ],
+ [
+  "Bundles",
+  "10 Premade Pics/Videos",
+  10,
+  "The Quick Edit · 10",
+  "10 premade photos and videos from my collection.",
+  "bundle",
+  ""
+ ],
+ [
+  "Bundles",
+  "20 Premade Pics/Videos",
+  20,
+  "The Sweet Edit · 20",
+  "20 premade photos and videos, ready to choose.",
+  "bundle",
+  ""
+ ],
+ [
+  "Bundles",
+  "50 Premade Pics/Videos",
+  50,
+  "The Full Edit · 50",
+  "50 premade photos and videos in one bundle.",
+  "bundle",
+  ""
+ ],
+ [
+  "Bundles",
+  "Single B/G Video",
+  15,
+  "B/G Video · Single",
+  "One ready-made B/G video.",
+  "",
+  ""
+ ],
+ [
+  "Bundles",
+  "Complete B/G Vault",
+  40,
+  "The B/G Collection",
+  "The complete B/G video bundle.",
+  "",
+  ""
+ ],
+ [
+  "Live",
+  "10 Live Snaps",
+  20,
+  "Live Snaps · 10",
+  "10 new live Snap photos or videos.",
+  "",
+  ""
+ ],
+ [
+  "Live",
+  "20 Live Snaps",
+  40,
+  "Live Snaps · 20",
+  "20 new live Snap photos or videos.",
+  "",
+  ""
+ ],
+ [
+  "Live",
+  "7+ Short Live Snaps",
+  35,
+  "Short Live Clips · 7+",
+  "At least seven short live Snap clips or bubbles.",
+  "",
+  ""
+ ],
+ [
+  "Extras",
+  "Detailed Text Rating",
+  20,
+  "Text Rating",
+  "A detailed personalized written rating.",
+  "",
+  ""
+ ],
+ [
+  "Extras",
+  "Detailed Live Snap Video Rating",
+  35,
+  "Live Video Rating",
+  "A video rating plus at least five live snaps.",
+  "",
+  ""
+ ]
 ];
-const categories=[['Premium','Featured'],['Customs','Custom Videos'],['Bundles','Photo & Video Bundles'],['Live','Live Snaps'],['Extras','Ratings & Extras']];
+const categories=[["Featured","Start Here"],["Customs","Custom Videos"],["Bundles","Premade & Bundles"],["Live","Live Snaps"],["Extras","Ratings & Extras"]];
 const root=document.getElementById('boutiqueCatalog');
-const quick=document.createElement('p');quick.className='menu-helper';quick.textContent='Choose a category below. Prices are shown upfront; tap Add to build your order.';root.append(quick);
-const tabs=document.createElement('div');tabs.className='category-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Shop categories');
-root.append(tabs);
+if(!root)return;
+const quick=document.createElement('p');quick.className='menu-helper';
+quick.textContent='Pick your favorites, tap Add, then send me your order. Easy.';
+root.append(quick);
+const tabs=document.createElement('div');tabs.className='category-tabs';
+tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Browse the menu');root.append(tabs);
 categories.forEach(([key,label],index)=>{
- const tab=document.createElement('button');tab.type='button';tab.id='tab-'+key;tab.className='category-tab'+(index===0?' active':'');
- tab.dataset.tab=key;tab.setAttribute('role','tab');tab.setAttribute('aria-selected',String(index===0));tab.setAttribute('aria-controls','panel-'+key);tab.tabIndex=index===0?0:-1;tab.textContent=label;tabs.append(tab);
+ const tab=document.createElement('button');tab.type='button';tab.id='tab-'+key;
+ tab.className='category-tab'+(index===0?' active':'');tab.dataset.tab=key;
+ tab.setAttribute('role','tab');tab.setAttribute('aria-selected',String(index===0));
+ tab.setAttribute('aria-controls','panel-'+key);tab.tabIndex=index===0?0:-1;
+ tab.textContent=label;tabs.append(tab);
 });
 categories.forEach(([key],index)=>{
- const panel=document.createElement('div');panel.id='panel-'+key;panel.className='product-panel';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','tab-'+key);panel.hidden=index!==0;
+ const panel=document.createElement('div');panel.id='panel-'+key;panel.className='product-panel';
+ panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','tab-'+key);panel.hidden=index!==0;
  products.filter(p=>p[0]===key).forEach(p=>{
-  const card=document.createElement('article');card.className='product-card'+(p[0]==='Premium'?' featured':'');
-  const info=document.createElement('div'),label=document.createElement('h3');label.className='card-label';label.textContent=p[3];info.append(label);
-  if(p[4]){const desc=document.createElement('p');desc.textContent=p[4];info.append(desc)}
-  const button=document.createElement('button');button.type='button';button.className='offer-btn add-product';button.dataset.name=p[1];button.dataset.price=p[2];
+  const card=document.createElement('article');card.className='product-card'+(p[0]==='Featured'?' featured':'');
+  const info=document.createElement('div'),name=document.createElement('h3');name.className='card-label';name.textContent=p[3];info.append(name);
+  const description=document.createElement('p');description.textContent=p[4];info.append(description);
+  if(p[6]){
+   const details=document.createElement('details');details.className='menu-details';
+   const summary=document.createElement('summary');summary.textContent="What's included";
+   const copy=document.createElement('p');copy.textContent=p[6];details.append(summary,copy);info.append(details);
+  }
+  const button=document.createElement('button');button.type='button';button.className='offer-btn add-product';
+  button.dataset.name=p[1];button.dataset.price=p[2];
   if(p[5])button.dataset.exclusive=p[5];
-  button.setAttribute('aria-label','Add '+p[1]+', $'+p[2]+(p[1].includes('Monthly')?' per month':''));
-  button.append(document.createTextNode('$'+p[2]+(p[1].includes('Monthly')?' / month':'')));
+  button.setAttribute('aria-label','Add '+p[3]+' for $'+p[2]+(p[1].includes('Monthly')?' per month':''));
+  button.append(document.createTextNode('$'+p[2]+(p[1].includes('Monthly')?' / mo':'')));
   const add=document.createElement('span');add.textContent='ADD +';button.append(add);
   card.append(info,button);panel.append(card);
  });
- if(key==='Customs'){const disclaimer=document.createElement('div');disclaimer.className='custom-video-note';disclaimer.innerHTML='<strong>Custom video pricing</strong><p>2 minutes — $90 · 3 minutes — $120 · 4 minutes — $140</p><p>JOI custom video (3 minutes) — $150. Other custom requests are individually quoted, typically $110–$300. Approved specialty themes may add $50. Timing and details are confirmed before purchase.</p>';panel.prepend(disclaimer)}
+ if(key==='Customs'){
+  const note=document.createElement('p');note.className='menu-section-note';
+  note.textContent='Other customs are quoted individually ($110–$300). Approved specialty themes may add $50.';
+  panel.append(note);
+ }
  root.append(panel);
 });
 })();
