@@ -180,7 +180,7 @@
     if(item){if(!singleQty(exclusive,name))item.qty++}
     else cart.push({name:name,price:price,qty:1,exclusive:exclusive||null});
     renderCart();
-    toast(name+' added');
+    toast('Added to your bag ♡');
     var feedback=document.getElementById('cartFeedback');
     feedback.textContent=name+' added to your bag.';
   }
@@ -219,7 +219,7 @@
       row.append(info,right);lines.append(row);
     });
     if(!cart.length){
-      var empty=document.createElement('p');empty.className='empty-cart';empty.textContent='Your bag is waiting. Explore the boutique to add something you love.';lines.append(empty);
+      var empty=document.createElement('p');empty.className='empty-cart';empty.textContent='Nothing in your bag yet. Pick something you love from the menu. ♡';lines.append(empty);
     }
     document.getElementById('drawerTotal').textContent=money(cartTotal());
     document.getElementById('bagTotal').textContent=money(cartTotal());
@@ -231,12 +231,12 @@
     saveCart();
   }
   function orderMessage(){
-    return 'Hi Evie! I would like to order:\n\n'+cart.map(function(item){
+    return 'Hey Evie ♡ Here are my picks:\n\n'+cart.map(function(item){
       return '• '+item.qty+' × '+item.name+' — '+money(item.price*item.qty);
     }).join('\n')+'\n\nEstimated total: '+money(cartTotal())+
-    '\n\nMy username: [add your Snapchat/Telegram username]'+
-    '\nSpecial requests / add-ons: [optional]'+
-    '\n\nPlease confirm availability, final price and payment instructions. Thank you!';
+    '\n\nMy Snap/Telegram: [your username]'+
+    '\nExtras or requests: [optional]'+
+    '\n\nLet me know the final details and how to pay!';
   }
   async function copyOrderText(){
     var message=orderMessage();
@@ -251,14 +251,24 @@
     try{await copyOrderText();document.getElementById('cartFeedback').textContent='Copied! Paste into your preferred chat with Evie.'}
     catch(e){document.getElementById('cartFeedback').textContent='Copy unavailable. Please copy your item list manually.'}
   });
+  const reviewOrder=document.getElementById('reviewOrder');
+  if(reviewOrder)reviewOrder.addEventListener('click',function(){
+    if(!cart.length){
+      const hint=document.getElementById('reviewOrderHint');
+      if(hint)hint.textContent='Choose an item above first ♡';
+      document.getElementById('boutiqueCatalog').scrollIntoView({behavior:reduceBehavior,block:'start'});
+      return;
+    }
+    openBag();
+  });
   document.getElementById('confirmOrder').addEventListener('click',async function(){
     var feedback=document.getElementById('cartFeedback');
     try{
       await copyOrderText();
-      feedback.textContent='Order copied. Opening Telegram — paste your order into the chat and send it.';
+      feedback.textContent='Copied! Paste your picks into our Telegram chat and hit send ♡';
       window.open('https://t.me/kissedbyevie','_blank','noopener,noreferrer');
     }catch(e){
-      feedback.textContent='Could not copy automatically. Copy your order manually before opening Telegram.';
+      feedback.textContent='Copy didn't work. Tap Copy order only, then paste it in our chat.';
     }
   });
   loadCart();
