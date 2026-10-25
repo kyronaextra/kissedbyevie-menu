@@ -459,3 +459,23 @@ html{scroll-behavior:auto}
  .dl-foot{flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce){.dl-card{transition:none}.dl-card:hover{transform:none}}
+
+/* Private Atelier — storefront-first merchandising */
+:root{--ink:#0c080b;--plum:#1b1019;--wine:#34202b;--rose:#d9b9a6;--rose-bright:#f0d9b7;--ivory:#f8f1eb;--muted:#d0bcb6;--line:rgba(240,217,183,.22)}
+.boutique-section{background:linear-gradient(180deg,#110b11,#24131e);padding-top:clamp(80px,9vw,135px)}
+.boutique-top{max-width:850px}
+.boutique-top h2{font-size:clamp(66px,9vw,125px)}
+.category-tabs{gap:10px;flex-wrap:wrap;overflow:visible}
+.category-tab{border-radius:6px;border-color:rgba(240,217,183,.34);font-weight:600}
+.category-tab.active,.category-tab[aria-selected=true]{background:#f0d9b7;color:#20111a;border-color:#f0d9b7}
+.product-panel{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:1200px}
+.product-card{min-height:220px;background:#22151f;border:1px solid rgba(240,217,183,.2);border-radius:10px}
+.product-card.featured{background:linear-gradient(135deg,#34212b,#1a1018);border-color:rgba(240,217,183,.55)}
+.product-card.featured:first-child{grid-column:1/-1;min-height:245px;border:2px solid #c9a77a;box-shadow:0 15px 50px rgba(0,0,0,.2)}
+.product-card h3{font-size:clamp(32px,3.4vw,48px)}
+.product-card p:not(.card-label){color:#dfcfcb;max-width:65ch}
+.card-label{color:#edcfaa!important;letter-spacing:.1em}
+.offer-btn{border-radius:6px;border-color:rgba(240,217,183,.4);font-size:19px;font-weight:600}
+.offer-btn span{color:#edcfaa}
+.site-nav .nav-shop{background:#e8d0b5;color:#21121c;border-color:#e8d0b5;font-weight:700}
+@media(max-width:800px){.product-panel{grid-template-columns:1fr}.product-card.featured:first-child{grid-column:auto}.category-tabs{flex-wrap:nowrap;overflow-x:auto}.site-nav a{font-size:11px}.site-nav{gap:9px}}
