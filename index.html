@@ -18,9 +18,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script defer src="store.js"></script>
-  <script defer src="order-config.js"></script>
   <script defer src="app.js"></script>
-  <script defer src="checkout.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script defer src="member-config.js"></script>
   <script defer src="daddy-gallery.js"></script>
@@ -77,13 +75,30 @@
       <div class="hero-scroll-hint" aria-hidden="true">SCROLL TO DISCOVER <span>↓</span></div>
     </section>
 
+    <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
+      <div class="boutique-top reveal">
+        <p class="eyebrow">PICK YOUR FAVORITES</p>
+        <h2 id="boutiqueHeading">The <em>Menu.</em></h2>
+        <p>See what you like? Add it to your bag and send me your picks. ♡</p>
+      </div>
+
+      <div id="boutiqueCatalog"></div>
+      <div class="menu-order-panel" id="work-order">
+        <p class="eyebrow">READY WHEN YOU ARE</p>
+        <h3>Make it yours.</h3>
+        <p>You don't pay on the site — I'll send payment details once we confirm.</p>
+        <button type="button" class="primary-btn menu-order-button" id="reviewOrder">Review &amp; send my order <span aria-hidden="true">↗</span></button>
+        <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add what you love, then tap here.</p>
+      </div>
+    </section>
+
     <section class="intro-section" id="the-edit">
       <div class="intro-number reveal">001 — PHOTO DIARY</div>
       <div class="intro-grid">
         <div class="intro-copy reveal">
           <p class="eyebrow">A LITTLE PIECE OF MY WORLD</p>
           <h2>The <em>Evie</em><br>Edit.</h2>
-          <p>A few favorite photos, little moments, and the sides of me you haven't met yet.</p>
+          <p>Favorite photos, behind-the-scenes moments, and more of me.</p>
           <span class="handwritten">Take your time. ♡</span>
         </div>
         <button class="editorial-image image-button reveal" type="button" data-set="diary" data-photo="0" aria-label="View first photo diary image">
@@ -131,7 +146,7 @@
 
     <section class="interlude" aria-label="A note from Evie">
       <p class="eyebrow reveal">A NOTE FROM EVIE</p>
-      <p class="interlude-line reveal">A little closer.<br><em>A little more exclusive.</em></p>
+      <p class="interlude-line reveal">More to explore.<br><em>Only from me.</em></p>
       <span class="interlude-mark reveal" aria-hidden="true">✧</span>
     </section>
 
@@ -165,22 +180,14 @@
       <div class="vault-copy reveal">
         <p class="eyebrow">003 — THE COLLECTION</p>
         <h2 id="vaultHeading">The <em>Vault.</em></h2>
-        <p>A growing collection of 800+ photos and videos, with new additions along the way.</p>
+        <p>The full collection. Ask me what’s available and how access works before you order.</p>
         <p class="vault-price">$75 <span>one-time</span></p>
         <button class="primary-btn add-product" type="button" data-name="Deluxe Dropbox / Full Vault" data-price="75">Add the Vault to my bag <span aria-hidden="true">+</span></button>
-        <span class="fine-print">Collection access is arranged after your order is confirmed.</span>
+        <span class="fine-print">Private website access is coming soon. Collection orders are arranged personally.</span>
       </div>
     </section>
 
-    <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
-      <div class="boutique-top reveal">
-        <p class="eyebrow">004 — THE PRIVATE BOUTIQUE</p>
-        <h2 id="boutiqueHeading">The <em>Menu.</em></h2>
-        <p>Simple prices, clearly organized. Choose a category, select what you love, and send your order directly to Evie.</p>
-      </div>
 
-      <div id="boutiqueCatalog"></div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -280,9 +287,9 @@
     <div id="cartLines" class="cart-lines"></div>
     <div class="cart-bottom">
       <div class="cart-total-row"><span>Estimated initial total</span><strong id="drawerTotal">$0</strong></div>
-      <p id="monthlyNote" class="fine-print" hidden>Monthly items renew until canceled. First payment and access are confirmed with Evie.</p>
-      <button type="button" id="copyOrder" class="secondary-btn">Copy order for chat</button>
-      <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order & open Telegram →</button>
+      <p id="monthlyNote" class="fine-print" hidden>Monthly renewals and cancellation details are arranged directly with me.</p>
+      <button type="button" id="copyOrder" class="secondary-btn">Copy order only</button>
+      <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy & open Telegram →</button>
       <p id="cartFeedback" class="cart-feedback"></p>
     </div>
   </dialog>
