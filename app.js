@@ -8,17 +8,19 @@
   var photoButtons=Array.from(document.querySelectorAll('[data-photo]'));
   var photoSets={
     hero:[
-      'https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg',
-      'https://pbs.twimg.com/media/HVVP5Y0aQAEXPXT.jpg',
-      'https://pbs.twimg.com/media/HVVPymJakAALc0v.jpg',
-      'https://pbs.twimg.com/media/HSskohOagAAA6CG.jpg'
-    ],
+      "https://www.dropbox.com/scl/fi/5xy0f67jjgx5qh4kj7x3i/Photo-Oct-25-2026-2-57-23-PM.jpg?rlkey=d2mft1tysmt0coaf4sonp5y2t&raw=1",
+      "https://www.dropbox.com/scl/fi/fb1ovsbos159ql1ggi4ry/Photo-Sep-22-2026-5-23-40-PM.jpg?rlkey=epi74jorokgd6ontvavx60x15&raw=1",
+      "https://www.dropbox.com/scl/fi/a765cjffzwi2jecdn7hqp/Photo-Oct-25-2026-2-57-23-PM-4.jpg?rlkey=00vcs4qvn84k9mrlc4l74dstg&raw=1",
+      "https://www.dropbox.com/scl/fi/flqk64r28rby5ldnb8uwu/Photo-Oct-25-2026-2-57-23-PM-1.jpg?rlkey=49m9275m0arcu6vaxfi3wsvoc&raw=1"
+],
     diary:[
-      'https://pbs.twimg.com/media/HVVP5Y5aIAAe901.jpg',
-      'https://pbs.twimg.com/media/HSskohNa0AA6DBF.jpg',
-      'https://pbs.twimg.com/media/HS3eluHbsAAuNxr.jpg',
-      'https://pbs.twimg.com/media/HS3elt-aQAA3x0C.jpg'
-    ]
+      "https://www.dropbox.com/scl/fi/xhxwdee7smn3y41zidywi/Photo-Oct-25-2026-2-57-23-PM.png?rlkey=thats44uf2hlf0hlzyaip4xnq&raw=1",
+      "https://www.dropbox.com/scl/fi/fb1ovsbos159ql1ggi4ry/Photo-Sep-22-2026-5-23-40-PM.jpg?rlkey=epi74jorokgd6ontvavx60x15&raw=1",
+      "https://www.dropbox.com/scl/fi/a765cjffzwi2jecdn7hqp/Photo-Oct-25-2026-2-57-23-PM-4.jpg?rlkey=00vcs4qvn84k9mrlc4l74dstg&raw=1",
+      "https://www.dropbox.com/scl/fi/flqk64r28rby5ldnb8uwu/Photo-Oct-25-2026-2-57-23-PM-1.jpg?rlkey=49m9275m0arcu6vaxfi3wsvoc&raw=1",
+      "https://www.dropbox.com/scl/fi/5xy0f67jjgx5qh4kj7x3i/Photo-Oct-25-2026-2-57-23-PM.jpg?rlkey=d2mft1tysmt0coaf4sonp5y2t&raw=1",
+      "https://www.dropbox.com/scl/fi/xhxwdee7smn3y41zidywi/Photo-Oct-25-2026-2-57-23-PM.png?rlkey=thats44uf2hlf0hlzyaip4xnq&raw=1"
+]
   };
   var activeSet='diary';
   var photoIndex=0;
