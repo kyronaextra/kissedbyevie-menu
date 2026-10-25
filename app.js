@@ -228,17 +228,36 @@
     bagPill.classList.toggle('visible',cart.length>0);
     saveCart();
   }
+  function orderMessage(){
+    return 'Hi Evie! I would like to order:\\n\\n'+cart.map(function(item){
+      return '• '+item.qty+' × '+item.name+' — '+money(item.price*item.qty);
+    }).join('\\n')+'\\n\\nEstimated total: '+money(cartTotal())+
+    '\\n\\nMy username: [add your Snapchat/Telegram username]'+
+    '\\nSpecial requests / add-ons: [optional]'+
+    '\\n\\nPlease confirm availability, final price and payment instructions. Thank you!';
+  }
+  async function copyOrderText(){
+    var message=orderMessage();
+    if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(message);
+    else{
+      var area=document.createElement('textarea');area.value=message;area.style.position='fixed';area.style.opacity='0';
+      document.body.appendChild(area);area.select();var ok=document.execCommand('copy');area.remove();
+      if(!ok)throw new Error('Copy not supported');
+    }
+  }
   document.getElementById('copyOrder').addEventListener('click',async function(){
-    var message='Kissed by Evie order request\n'+cart.map(function(item){return item.qty+' × '+item.name+' — '+money(item.price*item.qty)}).join('\n')+'\nEstimated initial total: '+money(cartTotal())+'\nPlease confirm availability and payment instructions.';
+    try{await copyOrderText();document.getElementById('cartFeedback').textContent='Copied! Paste into your preferred chat with Evie.'}
+    catch(e){document.getElementById('cartFeedback').textContent='Copy unavailable. Please copy your item list manually.'}
+  });
+  document.getElementById('confirmOrder').addEventListener('click',async function(){
     var feedback=document.getElementById('cartFeedback');
     try{
-      if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(message);
-      else{
-        var textArea=document.createElement('textarea');textArea.value=message;textArea.style.position='fixed';textArea.style.opacity='0';document.body.appendChild(textArea);textArea.select();
-        var success=document.execCommand('copy');textArea.remove();if(!success)throw new Error('Copy not supported');
-      }
-      feedback.textContent='Order copied. Paste it into your Telegram message.';
-    }catch(e){feedback.textContent='Could not copy automatically. Please select your items and total above.'}
+      await copyOrderText();
+      feedback.textContent='Order copied. Opening Telegram — paste your order into the chat and send it.';
+      window.open('https://t.me/kissedbyevie','_blank','noopener,noreferrer');
+    }catch(e){
+      feedback.textContent='Could not copy automatically. Copy your order manually before opening Telegram.';
+    }
   });
   loadCart();
   renderCart();
