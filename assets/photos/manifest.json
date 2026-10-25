@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "photos": [
+    {
+      "sourceId": "1Ajgv5IivJ4LoVvx2cfMch_lC-t2GUTka",
+      "source": "Untitled design.png",
+      "src": "assets/photos/evie-hero-01.png",
+      "slot": "hero",
+      "alt": "Evie posing in a light patterned outfit against a burgundy backdrop"
+    },
+    {
+      "sourceId": "1VsBFee89PjN5qIhaBRqccaX9Y3tR4r6K",
+      "source": "2F87C609-8E25-4522-80F9-BC9F90326CBD.jpg",
+      "src": "assets/photos/evie-hero-02.jpg",
+      "slot": "hero",
+      "alt": "Evie in a beaded top and jeans against a deep red curtain"
+    },
+    {
+      "sourceId": "1jMZRxS5TRikPNitBYDutOF7USj0ixo06",
+      "source": "Bazaart_B8BAD2CF-C478-4CD0-A2E3-3B8629FFE4A5.jpeg",
+      "src": "assets/photos/evie-about-01.jpg",
+      "slot": "about",
+      "alt": "Evie sitting comfortably on a couch in warm natural light"
+    },
+    {
+      "sourceId": "1AyoNykE1c7oNsorLyd3MhsoMyCfdBNXC",
+      "source": "11E5A793-5CE2-4EA2-9953-E2D69E03CFA5.jpg",
+      "src": "assets/photos/evie-about-02.jpg",
+      "slot": "about",
+      "alt": "Evie smiling for a casual mirror selfie"
+    },
+    {
+      "sourceId": "1A0V-42raTku07mnxk_NYX72W8iaPNTmH",
+      "source": "IMG_0901.JPG",
+      "src": "assets/photos/evie-menu-01.jpg",
+      "slot": "menu",
+      "alt": "Close-up portrait of Evie with soft makeup"
+    },
+    {
+      "sourceId": "1E7YwfZclEq8Rtvtb7S25GaX2DelJgXU-",
+      "source": "IMG_3821.JPG",
+      "src": "assets/photos/evie-menu-02.jpg",
+      "slot": "menu",
+      "alt": "Evie in a pale blue outfit in front of a plain wall"
+    },
+    {
+      "sourceId": "1logkKoZqTNODpWVAhi3S5aKWNTDoYdKy",
+      "source": "IMG_9802.JPG",
+      "src": "assets/photos/evie-menu-03.jpg",
+      "slot": "menu",
+      "alt": "Evie standing in a pale green matching set"
+    },
+    {
+      "sourceId": "1uJ8VpNt4RYP1xf2d5l2JxxoCEFKLjvXk",
+      "source": "IMG_3511.JPG",
+      "src": "assets/photos/evie-menu-04.jpg",
+      "slot": "menu",
+      "alt": "Evie seated in a violet lingerie set"
+    },
+    {
+      "sourceId": "17-SaL5_pcal_AyzsGdfG-d9Xoit_Bdc9",
+      "source": "IMG_3329.JPG",
+      "src": "assets/photos/evie-menu-05.jpg",
+      "slot": "menu",
+      "alt": "Evie standing in a burgundy lace set"
+    },
+    {
+      "sourceId": "1HuclD1AH6NKCvlgFDXh_R4PDt4596S_s",
+      "source": "IMG_6241.JPG",
+      "src": "assets/photos/evie-menu-06.jpg",
+      "slot": "menu",
+      "alt": "Evie on a couch in a dark matching outfit"
+    },
+    {
+      "sourceId": "12-TYewBvRktNMuR8fqIJknazCqLck3DW",
+      "source": "Photo Oct 25 2026, 2 57 23 PM (9).jpg",
+      "src": "assets/photos/evie-featured-01.jpg",
+      "slot": "featured",
+      "alt": "Evie seated in a red outfit for an editorial portrait"
+    },
+    {
+      "sourceId": "18Wt7B6xfT0I5E_twKBwbWSO2WDg1ASC8",
+      "source": "Photo Oct 17 2026, 3 14 00 PM.jpg",
+      "src": "assets/photos/evie-featured-02.jpg",
+      "slot": "featured",
+      "alt": "Evie posing for a mirror selfie in a black lace outfit"
+    },
+    {
+      "sourceId": "1cjJSkMBVUGMbPR1KQZT78lfE9R7lOIst",
+      "source": "Photo Sep 17 2026, 11 25 02 AM.jpg",
+      "src": "assets/photos/evie-featured-03.jpg",
+      "slot": "featured",
+      "alt": "Evie reclining on a couch in a black outfit"
+    },
+    {
+      "sourceId": "1Invx_Cx6vQq8kMAJ29IqUm2q2xpl4GN6",
+      "source": "IMG_6783.PNG",
+      "src": "assets/photos/evie-gallery-01.jpg",
+      "slot": "gallery",
+      "alt": "Evie in a burgundy outfit indoors"
+    },
+    {
+      "sourceId": "1Mz89E51v4r8alG4OHPAFBFwnd1ljKNZb",
+      "source": "IMG_3517.JPG",
+      "src": "assets/photos/evie-gallery-02.jpg",
+      "slot": "gallery",
+      "alt": "Evie in a purple set posing beside a window"
+    },
+    {
+      "sourceId": "1CoGJEj5pLlQTZhtrt0fuaw_jeF0qascg",
+      "source": "IMG_3330.JPG",
+      "src": "assets/photos/evie-gallery-03.jpg",
+      "slot": "gallery",
+      "alt": "Evie posing in a burgundy set from behind"
+    },
+    {
+      "sourceId": "1A5f44CNkU-eO7MHsB67VZhpedKY2Fnf9",
+      "source": "IMG_3768.JPG",
+      "src": "assets/photos/evie-gallery-04.jpg",
+      "slot": "gallery",
+      "alt": "Evie posing with a pink ribbon indoors"
+    },
+    {
+      "sourceId": "1XNoB5U3hYBUv7RLrNr-N7V8pwx066xXo",
+      "source": "677AB491-C637-4061-B0CE-ADB4E9F9ED16.jpg",
+      "src": "assets/photos/evie-gallery-05.jpg",
+      "slot": "gallery",
+      "alt": "Evie taking a mirror selfie wearing a cap and brown top"
+    },
+    {
+      "sourceId": "15ophZ0X-stt5n4_3MgA9zXaecGwMM_4P",
+      "source": "Photo Aug 02 2025, 1 33 52 AM.jpg",
+      "src": "assets/photos/evie-gallery-06.jpg",
+      "slot": "gallery",
+      "alt": "Evie lounging on a couch in a light green outfit"
+    },
+    {
+      "sourceId": "1jnpz9nFp_6ezepUEVPguo_rq1ivYmRek",
+      "source": "Photo Aug 30 2026, 11 10 24 AM.jpg",
+      "src": "assets/photos/evie-gallery-07.jpg",
+      "slot": "gallery",
+      "alt": "Evie at a warmly lit bar in a patterned top"
+    },
+    {
+      "sourceId": "1-lLKSEDkfhya2W2xPamYPj6L5FRFK2kK",
+      "source": "Photo Aug 30 2026, 11 10 49 AM.jpg",
+      "src": "assets/photos/evie-gallery-08.jpg",
+      "slot": "gallery",
+      "alt": "Evie sharing a moment with a friend at a restaurant"
+    },
+    {
+      "sourceId": "1tRPnzcAZqoaZLvqs-vpnJtFE8LjMioDo",
+      "source": "Photo Jul 17 2026, 6 11 21 AM.jpg",
+      "src": "assets/photos/evie-gallery-09.jpg",
+      "slot": "gallery",
+      "alt": "Evie posing in a burgundy lingerie set at home"
+    },
+    {
+      "sourceId": "1r655NcQCEYjCLRY1Pv4WLtI2cPWgc_kk",
+      "source": "Photo Jul 14 2026, 2 11 10 AM.jpg",
+      "src": "assets/photos/evie-gallery-10.jpg",
+      "slot": "gallery",
+      "alt": "Evie posing in a coordinated burgundy outfit"
+    },
+    {
+      "sourceId": "1HwabwB2lXNzaxMOpCAW1DGSPlEosP0p3",
+      "source": "Photo Jul 08 2026, 3 04 10 PM.jpg",
+      "src": "assets/photos/evie-gallery-11.jpg",
+      "slot": "gallery",
+      "alt": "Evie seated in a casual green outfit"
+    },
+    {
+      "sourceId": "1Ce4zqlNo_wtUsTWDcknIXg-Rrgodmvk2",
+      "source": "Photo Jul 08 2026, 3 04 53 PM.jpg",
+      "src": "assets/photos/evie-gallery-12.jpg",
+      "slot": "gallery",
+      "alt": "Evie posing indoors in warm light"
+    },
+    {
+      "sourceId": "1AGpvC5vzRdlWSCeRAbaFXJ09nnlkb5Tp",
+      "source": "Photo Jul 08 2026, 3 05 05 PM.jpg",
+      "src": "assets/photos/evie-gallery-13.jpg",
+      "slot": "gallery",
+      "alt": "Evie posing in a bright room"
+    },
+    {
+      "sourceId": "1lWRETghtLgr3AQ2-HEuazgBWXa2kBWsJ",
+      "source": "Photo Aug 20 2026, 4 16 52 PM.jpg",
+      "src": "assets/photos/evie-gallery-14.jpg",
+      "slot": "gallery",
+      "alt": "Evie taking a mirror selfie in a brown top and denim shorts"
+    }
+  ],
+  "duplicateOmitted": "IMG_3330.JPG second copy",
+  "videoSource": "ips-3582F9BC-A7DF-4276-BA5A-606952EE7725.mp4"
+}
