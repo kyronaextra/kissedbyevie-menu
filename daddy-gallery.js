@@ -68,7 +68,15 @@ function cardElement(item,url){
     const image=document.createElement('img');
     image.src=url;image.alt=item.title;image.loading='lazy';image.decoding='async';
     image.referrerPolicy='no-referrer';
-    image.addEventListener('error',()=>{image.remove();openButton.textContent='Image preview unavailable'});
+    image.addEventListener('error',async ()=>{
+      if(image.dataset.retried||!client){image.remove();openButton.textContent='Image preview unavailable';return}
+      image.dataset.retried='1';
+      try{
+        const {data,error}=await client.storage.from(BUCKET).createSignedUrl(item.storage_path,600);
+        if(error||!data?.signedUrl)throw error||new Error('No link');
+        image.src=data.signedUrl;
+      }catch{image.remove();openButton.textContent='Image preview unavailable'}
+    });
     openButton.append(image);
   }else{
     const preview=document.createElement('div');
@@ -128,7 +136,7 @@ async function loadPage(){
     const paths=items.filter(item=>item.kind==='photo').map(item=>item.storage_path);
     const urls=new Map();
     if(paths.length){
-      const {data:signed,error:signError}=await client.storage.from(BUCKET).createSignedUrls(paths,300);
+      const {data:signed,error:signError}=await client.storage.from(BUCKET).createSignedUrls(paths,1200);
       if(signError)throw signError;
       if(stamp!==generation)return;
       (signed||[]).forEach((entry,i)=>{
@@ -162,7 +170,7 @@ async function view(item){
   const wait=document.createElement('p');wait.textContent='Opening private media…';
   $('evieMediaStage').append(wait);
   try{
-    const {data,error}=await client.storage.from(BUCKET).createSignedUrl(item.storage_path,120);
+    const {data,error}=await client.storage.from(BUCKET).createSignedUrl(item.storage_path,600);
     if(error||!data?.signedUrl)throw error||new Error('No secure link');
     if(opened?.id!==item.id||!viewer.open)return;
     const node=document.createElement(item.kind==='video'?'video':'img');

@@ -40,13 +40,7 @@ function resultView(heading,message,success){
  const p=el('resultPayment');p.replaceChildren();p.hidden=!success;
  if(!success)return;
  const amount=document.createElement('p');amount.textContent='Initial estimated amount: '+money(cart().total())+'. Recurring subscriptions are confirmed separately.';p.append(amount);
- const method=payment();
- if(method==='cash_app'||method==='venmo'){
-  const a=document.createElement('a');a.href=method==='cash_app'?'https://cash.app/$TaylorGann90':'https://venmo.com/u/barfiesfunds';
-  a.target='_blank';a.rel='noopener noreferrer';a.textContent=method==='cash_app'?'Open Cash App ↗':'Open Venmo ↗';p.append(a);
- }else {
-  const q=document.createElement('p');q.textContent=method==='amazon_gift_card'?'Amazon gift card delivery: elviramack7@gmail.com':'Apple Pay: please ask Evie for payment instructions.';p.append(q);
- }
+ const note=document.createElement('p');note.textContent='Evie will send payment instructions on Telegram. Nothing is charged until she confirms.';p.append(note);
 }
 form.addEventListener('submit',async e=>{
  e.preventDefault();
@@ -55,7 +49,7 @@ form.addEventListener('submit',async e=>{
  if(!/^[A-Za-z0-9_.@-]{2,80}$/.test(handle)){stat.textContent='Enter a valid Snapchat or Telegram username.';return}
  orderText=compose();
  if(!api){
-  resultView('Checkout not connected yet','This order was not saved in Supabase. Copy your order and contact Evie on Telegram.',false);
+  resultView('Send this to me','Nothing is charged here. Copy your order and message me on Telegram so I can confirm it.',false);
   return;
  }
  const btn=el('submitCheckout');btn.disabled=true;btn.textContent='Sending securely…';stat.textContent='Submitting your order request…';

@@ -199,7 +199,7 @@ async function loadStatus(){
     if(verifiedUser && checkRevision===authRevision){
       window.EvieDaddyLounge?.update({
         userId:verifiedUser.id,
-        username:$('memberUsernameDisplay').textContent||'member',
+        username:(function(){var label=$('memberUsernameDisplay').textContent||'';return label.charAt(0)==='@'?label:''})(),
         status:$('memberStatusName').textContent,
         description:$('memberStatusDescription').textContent,
         canAccess:!$('memberGalleryEntry').hidden,
@@ -240,8 +240,9 @@ async function open(){
 }
 $('openMemberAccount').addEventListener('click',open);
 $('closeMemberAccount').addEventListener('click',()=>{
+  const returnToLounge=!$('memberDashboard').hidden;
   dialog.close();
-  // Return to the lounge if the user came from their private account.
+  if(returnToLounge)window.EvieDaddyLounge?.open();
 });
 $('dlAccountButton').addEventListener('click',async ()=>{
   window.EvieDaddyLounge?.close();

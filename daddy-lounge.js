@@ -33,7 +33,8 @@ function update(data,nextClient){
     set('dlExpiration','Not set');set('dlAccessSeal','PRIVATE ACCESS');
     placeholders(false);return;
   }
-  const name='@'+String(state.username||'member').replace(/^@/,'');
+  const raw=String(state.username||'').replace(/^@/,'').trim();
+  const name=/^[A-Za-z0-9._-]{3,30}$/.test(raw)?'@'+raw:'you';
   set('dlWelcomeUsername',name);set('dlMembershipUser',name);
   set('dlStatusShort',state.status||'Pending review');
   set('dlStatusDetail',state.description||'Private access requires approval.');

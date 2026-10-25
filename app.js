@@ -6,16 +6,21 @@
   var galleryRail=document.getElementById('galleryRail');
   var current=document.getElementById('heroCurrent');
   var photoButtons=Array.from(document.querySelectorAll('[data-photo]'));
-  var photoUrls=[
-    'https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg',
-    'https://pbs.twimg.com/media/HS3eluHbsAAuNxr.jpg',
-    'https://pbs.twimg.com/media/HU2FhiLbgAA9HPS.jpg',
-    'https://pbs.twimg.com/media/HUxyhppaYAAxpLh.jpg',
-    'https://pbs.twimg.com/media/HU2FhiZa4AAz9i9.jpg',
-    'https://pbs.twimg.com/media/HUxsmjNaAAABEJJ.jpg',
-    'https://pbs.twimg.com/media/HU2FhiVbcAA45Zo.jpg',
-    'https://pbs.twimg.com/media/HS3elt-aQAA3x0C.jpg'
-  ];
+  var photoSets={
+    hero:[
+      'https://pbs.twimg.com/media/HUx87RPbsAATeex.jpg',
+      'https://pbs.twimg.com/media/HVVP5Y0aQAEXPXT.jpg',
+      'https://pbs.twimg.com/media/HVVPymJakAALc0v.jpg',
+      'https://pbs.twimg.com/media/HSskohOagAAA6CG.jpg'
+    ],
+    diary:[
+      'https://pbs.twimg.com/media/HVVP5Y5aIAAe901.jpg',
+      'https://pbs.twimg.com/media/HSskohNa0AA6DBF.jpg',
+      'https://pbs.twimg.com/media/HS3eluHbsAAuNxr.jpg',
+      'https://pbs.twimg.com/media/HS3elt-aQAA3x0C.jpg'
+    ]
+  };
+  var activeSet='diary';
   var photoIndex=0;
   var lightbox=document.getElementById('lightbox');
   var lightboxImage=document.getElementById('lightboxImage');
@@ -23,6 +28,32 @@
   var bag=document.getElementById('bagDrawer');
   var bagPill=document.getElementById('bagPill');
   var cart=[];
+  function singleQty(exclusive,name){
+    return exclusive==='bundle'||exclusive==='daddy'||exclusive==='deal'||/monthly/i.test(name||'');
+  }
+  function saveCart(){
+    try{sessionStorage.setItem('evie-bag-v1',JSON.stringify(cart))}catch(e){}
+  }
+  function loadCart(){
+    try{
+      var parsed=JSON.parse(sessionStorage.getItem('evie-bag-v1')||'[]');
+      if(!Array.isArray(parsed))return;
+      cart=parsed.filter(function(item){
+        return item&&typeof item.name==='string'&&Number.isFinite(Number(item.price))&&item.qty>0;
+      }).map(function(item){
+        return {name:item.name,price:Number(item.price),qty:Math.min(10,Math.round(item.qty)),exclusive:item.exclusive||null};
+      });
+    }catch(e){cart=[]}
+  }
+  var toastTimer=null;
+  function toast(message){
+    var el=document.getElementById('addedToast');
+    if(!el)return;
+    el.textContent=message;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){el.classList.remove('show')},2200);
+  }
   var lastLightboxTrigger=null;
   var lastBagTrigger=null;
   var reduceBehavior=reducedMotion?'instant':'smooth';
@@ -56,20 +87,33 @@
   });
 
   function updateLightbox(){
-    lightboxImage.src=photoUrls[photoIndex];
-    lightboxImage.alt='Kissed by Evie photo '+(photoIndex+1)+' of '+photoUrls.length;
-    lightboxCount.textContent=String(photoIndex+1).padStart(2,'0')+' / '+String(photoUrls.length).padStart(2,'0');
+    var urls=photoSets[activeSet];
+    lightboxImage.src=urls[photoIndex];
+    lightboxImage.alt='Kissed by Evie photo '+(photoIndex+1)+' of '+urls.length;
+    lightboxCount.textContent=String(photoIndex+1).padStart(2,'0')+' / '+String(urls.length).padStart(2,'0');
   }
-  function openLightbox(index,trigger){
+  function openLightbox(setName,index,trigger){
     lastLightboxTrigger=trigger;
+    activeSet=photoSets[setName]?setName:'diary';
     photoIndex=index;
     updateLightbox();
     lightbox.showModal();
   }
   function closeLightbox(){lightbox.close()}
-  function shiftLightbox(delta){photoIndex=(photoIndex+delta+photoUrls.length)%photoUrls.length;updateLightbox()}
+  function shiftLightbox(delta){
+    var urls=photoSets[activeSet];
+    photoIndex=(photoIndex+delta+urls.length)%urls.length;
+    updateLightbox();
+  }
   photoButtons.forEach(function(btn){
-    btn.addEventListener('click',function(){openLightbox(Number(btn.dataset.photo),btn)});
+    btn.addEventListener('click',function(){openLightbox(btn.dataset.set||'diary',Number(btn.dataset.photo),btn)});
+  });
+  heroSlides.forEach(function(slide){
+    slide.addEventListener('click',function(e){
+      if(e.target.closest('a,button'))return;
+      if(slide.dataset.photo==null)return;
+      openLightbox('hero',Number(slide.dataset.photo),slide);
+    });
   });
   document.getElementById('closeLightbox').addEventListener('click',closeLightbox);
   document.getElementById('lightboxPrev').addEventListener('click',function(){shiftLightbox(-1)});
@@ -131,12 +175,12 @@
     if(exclusive==='daddy')cart=cart.filter(function(i){return i.name!=='Deluxe Dropbox / Full Vault'});
     if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='daddy'})){document.getElementById('cartFeedback').textContent='Vault is included in the Daddy Package.';openBag();return;}
     var item=cart.find(function(existing){return existing.name===name});
-    if(item){if(exclusive==='bundle')item.qty=1;else item.qty++}
+    if(item){if(!singleQty(exclusive,name))item.qty++}
     else cart.push({name:name,price:price,qty:1,exclusive:exclusive||null});
     renderCart();
-    bagPill.classList.add('visible');
+    toast(name+' added');
     var feedback=document.getElementById('cartFeedback');
-    feedback.textContent='';
+    feedback.textContent=name+' added to your bag.';
   }
   document.querySelectorAll('.add-product').forEach(function(button){
     button.addEventListener('click',function(){
@@ -147,7 +191,7 @@
   });
   function modifyItem(name,delta){
     var item=cart.find(function(entry){return entry.name===name});
-    if(!item)return;
+    if(!item|| (delta>0 && singleQty(item.exclusive,item.name)))return;
     item.qty+=delta;
     if(item.qty<=0)cart=cart.filter(function(entry){return entry!==item});
     renderCart();
@@ -164,7 +208,7 @@
       var controls=document.createElement('div');controls.className='cart-controls';
       var minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.setAttribute('aria-label','Remove one '+item.name);minus.addEventListener('click',function(){modifyItem(item.name,-1)});
       var qty=document.createElement('span');qty.textContent=String(item.qty);qty.setAttribute('aria-label','Quantity '+item.qty);
-      var plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.setAttribute('aria-label','Add one '+item.name);plus.addEventListener('click',function(){modifyItem(item.name,1)});
+      var plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.setAttribute('aria-label','Add one '+item.name);plus.disabled=singleQty(item.exclusive,item.name);plus.addEventListener('click',function(){modifyItem(item.name,1)});
       controls.append(minus,qty,plus);
       var subtotal=document.createElement('strong');subtotal.textContent=money(item.price*item.qty);
       var remove=document.createElement('button');remove.type='button';remove.className='remove-item';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name+' from bag');
@@ -178,9 +222,11 @@
     document.getElementById('drawerTotal').textContent=money(cartTotal());
     document.getElementById('bagTotal').textContent=money(cartTotal());
     document.getElementById('bagCount').textContent=String(cart.reduce(function(sum,item){return sum+item.qty},0));
-    document.getElementById('monthlyNote').hidden=!cart.some(function(item){return item.name==='Daddy Package Monthly'});
+    document.getElementById('monthlyNote').hidden=!cart.some(function(item){return /monthly/i.test(item.name)});
     document.getElementById('copyOrder').disabled=cart.length===0;
     document.getElementById('confirmOrder').disabled=cart.length===0;
+    bagPill.classList.toggle('visible',cart.length>0);
+    saveCart();
   }
   document.getElementById('copyOrder').addEventListener('click',async function(){
     var message='Kissed by Evie order request\n'+cart.map(function(item){return item.qty+' × '+item.name+' — '+money(item.price*item.qty)}).join('\n')+'\nEstimated initial total: '+money(cartTotal())+'\nPlease confirm availability and payment instructions.';
@@ -194,13 +240,14 @@
       feedback.textContent='Order copied. Paste it into your Telegram message.';
     }catch(e){feedback.textContent='Could not copy automatically. Please select your items and total above.'}
   });
+  loadCart();
   renderCart();
   window.EvieCart = {
     items: function(){return cart.map(function(i){return {name:i.name,qty:i.qty,price:i.price}})},
     total: cartTotal,
     close: closeBag,
     open: openBag,
-    reset: function(){cart=[];renderCart();bagPill.classList.remove('visible')}
+    reset: function(){cart=[];renderCart()}
   };
 
   var progress=document.getElementById('scrollProgress');
@@ -210,6 +257,7 @@
     requestAnimationFrame(function(){
       var available=document.documentElement.scrollHeight-window.innerHeight;
       progress.style.width=(available>0?Math.min(100,window.scrollY/available*100):0)+'%';
+      document.querySelector('.site-header').classList.toggle('is-scrolled',window.scrollY>24);
       scrollQueued=false;
     });
   }
