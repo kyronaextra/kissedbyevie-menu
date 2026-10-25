@@ -129,19 +129,19 @@
 
     <section class="members-section" id="members" aria-labelledby="membersHeading">
       <div class="members-copy reveal">
-        <p class="eyebrow">002 — THE PRIVATE SIDE</p>
+        <p class="eyebrow">002 — THE PRIVATE SIDE · WORK IN PROGRESS</p>
         <h2 id="membersHeading">Daddy <em>Members.</em></h2>
-        <p>For those who want a more personal experience, a full vault and a space that's just for members.</p>
+        <p>A more personal experience, full vault access, and a private space just for members — currently being built. Login and full member features are a work in progress.</p>
         <div class="member-actions">
-          <button type="button" id="openMemberAccount" class="primary-btn">Daddy Members Access Here <span aria-hidden="true">↗</span></button>
+          <button type="button" id="openMemberAccount" class="primary-btn" disabled style="opacity:0.6;cursor:not-allowed">Daddy Members (Coming Soon)</button>
           <a class="text-link" href="#boutique">See membership options <span aria-hidden="true">↘</span></a>
         </div>
-        <p class="access-note">Choose a username and private PIN to sign in. Tip: use your Snapchat or X name so Evie recognizes you. Paid access still requires approval.</p>
+        <p class="access-note">Member login is under active development. For now, browse the public menu and boutique, or message Evie on Telegram to arrange access. Paid Daddy packages will unlock the private collection once live.</p>
       </div>
       <div class="member-card reveal" aria-label="Daddy Members private collection">
         <div class="member-card-top"><span>KISSED BY EVIE</span><span aria-hidden="true">✦</span></div>
         <div class="member-card-center">
-          <span class="card-small">PRIVATE ACCESS</span>
+          <span class="card-small">COMING SOON</span>
           <strong>Daddy<br><em>Members</em></strong>
           <span class="card-small">THE COLLECTION</span>
         </div>
@@ -258,228 +258,37 @@
       <div class="member-form" id="memberVerifyForm" hidden>
         <h3>Check your inbox</h3>
         <p id="memberVerifyDescription">We sent a verification link to your email address. Open that link, then come back to sign in.</p>
-        <button type="button" id="memberResendConfirmation" class="secondary-btn">Resend confirmation email</button>
-        <button type="button" id="memberVerifyBack" class="member-inline-button">← Back to sign in</button>
-      </div>
-
-      <div class="member-form" id="memberResetForm" hidden>
-        <h3>Need a new PIN?</h3>
-        <p>Only the admin can reset your PIN. Contact Evie with your chosen username or verified email so the request can be reviewed.</p>
-        <p class="fine-print">Never send your existing PIN to anyone.</p>
-        <a class="secondary-btn member-help-link" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Contact admin on Telegram ↗</a>
-        <button type="button" id="memberResetBack" class="member-inline-button">← Back to sign in</button>
-      </div>
-    </div>
-
-    <div id="memberDashboard" class="member-dashboard" hidden>
-      <div class="member-welcome"><span class="eyebrow">YOUR PRIVATE ACCOUNT</span><h3>Welcome <em>back.</em></h3><p id="memberAccountEmail"></p></div>
-      <div class="member-username-box">
-        <p class="eyebrow">YOUR USERNAME</p>
-        <strong id="memberUsernameDisplay">Setting up…</strong>
-        <p id="memberUsernameHelp">Your username is independent of your social accounts.</p>
-        <form id="memberUsernameForm" class="member-form" hidden>
-          <label for="memberUsernameRetry">Choose an available username</label>
-          <input id="memberUsernameRetry" type="text" autocomplete="username" maxlength="31" placeholder="anotherusername" spellcheck="false" autocapitalize="none" required>
-          <button type="submit" class="secondary-btn">Save username</button>
-        </form>
-      </div>
-      <div class="member-status">
-        <p class="eyebrow">MEMBERSHIP STATUS</p>
-        <strong id="memberStatusName">Checking membership…</strong>
-        <p id="memberStatusDescription"></p>
-        <div id="memberGalleryEntry" hidden>
-          <div class="member-gallery-placeholder">
-            <span aria-hidden="true">✧</span><strong>Daddy's Private Gallery</strong>
-            <p>Browse your collection by date and save favorites to your own account.</p>
-            <button type="button" id="evieGalleryOpen" class="primary-btn">Enter private gallery ↗</button>
-          </div>
-        </div>
-        <a class="text-link" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Questions about membership? Message Evie ↗</a>
-      </div>
-      <form id="memberSocialForm" class="member-form">
-        <h3>Your social profile <small>(optional)</small></h3><p class="fine-print">Your login username stays the same when you edit optional social references. Contact Evie to request a username change.</p>
-        <label for="memberProfilePlatform">Social platform</label>
-        <select id="memberProfilePlatform">
-          <option value="">None / remove my social</option>
-          <option value="telegram">Telegram</option>
-          <option value="x">X / Twitter</option>
-          <option value="snapchat">Snapchat</option>
-        </select>
-        <label for="memberProfileHandle">Username</label>
-        <input type="text" id="memberProfileHandle" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="80" placeholder="@yourusername">
-        <button type="submit" class="secondary-btn">Save social username</button>
-      </form>
-      <button type="button" id="memberSignOut" class="secondary-btn">Sign out</button>
-    </div>
-    <p id="memberMessage" class="member-message" role="status" aria-live="polite"></p>
-  </dialog>
-
-
-  <!-- Logged-in member lounge. Media access remains controlled by Supabase RLS. -->
-  <dialog id="daddyLoungeDialog" class="dl-dialog" aria-labelledby="dlHeroTitle">
-    <div class="dl-wrap">
-      <header class="dl-top">
-        <button id="dlBackPublic" type="button" class="dl-back">← <span>Public site</span></button>
-        <div class="dl-brand">KISSED BY EVIE <span aria-hidden="true">✦</span><small>PRIVATE MEMBERS LOUNGE</small></div>
-        <button id="dlClose" type="button" class="dl-close" aria-label="Close member lounge">✕</button>
-      </header>
-      <div class="dl-layout">
-        <nav class="dl-nav" aria-label="Daddy Member navigation">
-          <p class="dl-nav-eyebrow">YOUR PRIVATE SPACE</p>
-          <button type="button" class="dl-nav-item dl-current" data-dl-action="home">✧ <span>The Lounge</span></button>
-          <button type="button" class="dl-nav-item" data-dl-action="vault">▦ <span>The Vault</span></button>
-          <button type="button" class="dl-nav-item" data-dl-action="favorites">♡ <span>My Favorites</span></button>
-          <button type="button" class="dl-nav-item" data-dl-action="latest">✦ <span>New Drops</span></button>
-          <button type="button" class="dl-nav-item" data-dl-action="membership">♛ <span>Membership</span></button>
-          <div class="dl-nav-footer">
-            <a class="dl-nav-item" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">↗ <span>Priority Contact</span></a>
-            <button id="dlAccountButton" type="button" class="dl-nav-item">⚙ <span>Account</span></button>
-            <button id="dlSignOut" type="button" class="dl-nav-item">⇥ <span>Sign Out</span></button>
-          </div>
-        </nav>
-        <div class="dl-content">
-          <section class="dl-hero" id="dlHome">
-            <div class="dl-hero-glyph" aria-hidden="true">E</div>
-            <p class="dl-eyebrow"><span class="dl-gold-dot" aria-hidden="true"></span> KISSED BY EVIE / MEMBERS ONLY</p>
-            <h1 id="dlHeroTitle">Oh, there <em>you</em> are.</h1>
-            <p class="dl-welcome">Welcome back, <strong id="dlWelcomeUsername">@member</strong> <span aria-hidden="true">✧</span></p>
-            <p class="dl-hero-sub">Your own little corner of my world. Make yourself comfortable.</p>
-            <div class="dl-hero-ctas">
-              <button type="button" data-dl-action="vault" class="dl-primary">Enter The Vault <span aria-hidden="true">↗</span></button>
-              <button type="button" data-dl-action="favorites" class="dl-secondary">Your Favorites <span aria-hidden="true">♡</span></button>
-            </div>
-          </section>
-          <section class="dl-status-strip" aria-label="Current membership status">
-            <div class="dl-status-icon" aria-hidden="true">♛</div>
-            <div class="dl-status-head"><span>YOUR MEMBERSHIP</span><strong id="dlStatusShort">Checking access…</strong></div>
-            <p id="dlStatusDetail">Checking private access.</p>
-            <span id="dlAccessSeal" class="dl-seal">PRIVATE ACCESS</span>
-          </section>
-          <section class="dl-collection" aria-labelledby="dlCollectionTitle">
-            <div class="dl-heading">
-              <div><p class="dl-eyebrow">CURATED FOR YOUR EYES ONLY</p><h2 id="dlCollectionTitle">Your private <em>collection.</em></h2></div>
-              <span>A little something just for you ✧</span>
-            </div>
-            <p id="dlInlineNotice" class="dl-notice" role="status" aria-live="polite" tabindex="-1" hidden></p>
-            <div class="dl-grid">
-              <button type="button" class="dl-card dl-card-vault" data-dl-action="vault">
-                <span class="dl-card-art"><span aria-hidden="true">E</span></span>
-                <span class="dl-card-body"><small>01 / YOUR PRIVATE LIBRARY</small><strong>The Vault</strong><span id="dlVaultSummary">Photos and videos, all in one place.</span><b aria-hidden="true">↗</b></span>
-              </button>
-              <button type="button" class="dl-card dl-card-faves" data-dl-action="favorites">
-                <span class="dl-card-art"><span aria-hidden="true">♡</span></span>
-                <span class="dl-card-body"><small>02 / ONLY YOUR PICKS</small><strong>My Favorites</strong><span id="dlFavoritesSummary">All the moments you love, saved here.</span><b aria-hidden="true">↗</b></span>
-              </button>
-              <button type="button" class="dl-card dl-card-latest" data-dl-action="latest">
-                <span class="dl-card-art"><span aria-hidden="true">✦</span></span>
-                <span class="dl-card-body"><small>03 / FRESH FROM EVIE</small><strong>Latest Drops</strong><span id="dlLatestSummary">Newest photos and videos.</span><b aria-hidden="true">↗</b></span>
-              </button>
-            </div>
-          </section>
-          <div class="dl-lower">
-            <section class="dl-membership" id="dlMembershipSection" aria-labelledby="dlMembershipTitle">
-              <div class="dl-eyebrow">THE DETAILS <span aria-hidden="true">♛</span></div>
-              <h2 id="dlMembershipTitle">Your <em>membership.</em></h2>
-              <dl class="dl-facts">
-                <div><dt>Account</dt><dd id="dlMembershipUser">@member</dd></div>
-                <div><dt>Plan</dt><dd id="dlPlan">Awaiting approval</dd></div>
-                <div><dt>Access</dt><dd id="dlAccessStatus">Pending review</dd></div>
-                <div><dt>Valid through</dt><dd id="dlExpiration">Not set</dd></div>
-              </dl>
-              <p id="dlMembershipFootnote">Membership access is confirmed separately after approval.</p>
-            </section>
-            <section class="dl-contact" aria-labelledby="dlContactTitle">
-              <span aria-hidden="true" class="dl-contact-star">✦</span>
-              <p class="dl-eyebrow">JUST BETWEEN US</p>
-              <h2 id="dlContactTitle">Need a little <em>attention?</em></h2>
-              <p>Member perks, questions, or something on your mind? You know where to find me.</p>
-              <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer" class="dl-contact-link">Message Evie <span aria-hidden="true">↗</span></a>
-              <small>Member inquiries / Telegram</small>
-            </section>
-          </div>
-          <footer class="dl-foot"><span>KISSED BY EVIE <span aria-hidden="true">✦</span> PRIVATE MEMBERS</span><span>For the ones who stay a little longer.</span></footer>
-        </div>
+        <button type="button" id="memberResendConfirmation" class="secondary-btn">Resend confirmation</button>
+        <button type="button" id="memberVerifyBack" class="member-inline-button">← Back</button>
       </div>
     </div>
   </dialog>
 
-  <dialog id="evieGalleryDialog" class="evie-gallery-dialog" aria-labelledby="evieGalleryTitle">
-    <header class="evie-gallery-header">
-      <div>
-        <span class="eyebrow">KISSED BY EVIE / DADDY MEMBERS</span>
-        <h2 id="evieGalleryTitle">The Private <em>Gallery.</em></h2>
-        <p>Newest additions first.</p>
-      </div>
-      <button id="evieGalleryClose" class="icon-close" type="button" aria-label="Close private gallery">×</button>
-    </header>
-    <div class="evie-gallery-toolbar">
-      <div class="evie-gallery-filters" role="group" aria-label="Gallery filters">
-        <button type="button" class="evie-gallery-filter" data-evie-filter="all" aria-pressed="true">All</button>
-        <button type="button" class="evie-gallery-filter" data-evie-filter="photo" aria-pressed="false">Photos</button>
-        <button type="button" class="evie-gallery-filter" data-evie-filter="video" aria-pressed="false">Videos</button>
-        <button type="button" class="evie-gallery-filter" data-evie-filter="favorites" aria-pressed="false">♡ Favorites <span id="evieFavoriteCount">0</span></button>
-      </div>
-      <label class="evie-gallery-sort-label" for="evieGallerySort">Sort by
-        <select id="evieGallerySort">
-          <option value="new">Newest first</option>
-          <option value="old">Oldest first</option>
-        </select>
-      </label>
+  <dialog class="bag-drawer" id="bagDrawer" aria-labelledby="bagTitle">
+    <div class="drawer-heading">
+      <div><span class="eyebrow">YOUR SELECTIONS</span><h2 id="bagTitle">Your <em>bag.</em></h2></div>
+      <button type="button" id="closeBag" class="icon-close" aria-label="Close bag">×</button>
     </div>
-    <p id="evieGalleryStatus" class="evie-gallery-status" role="status" aria-live="polite"></p>
-    <div id="evieGalleryGrid" class="evie-gallery-grid" aria-label="Daddy Members private collection"></div>
-    <button id="evieGalleryMore" class="secondary-btn evie-gallery-more" type="button" hidden>Load more</button>
-    <p class="evie-gallery-footnote">Private content is accessible only while your verified Daddy membership is active.</p>
-  </dialog>
-  <dialog id="evieMediaDialog" class="evie-media-dialog" aria-labelledby="evieMediaTitle">
-    <div class="evie-media-top">
-      <span class="eyebrow">DADDY MEMBERS / PRIVATE VIEW</span>
-      <button type="button" id="evieMediaClose" class="icon-close" aria-label="Close photo or video">×</button>
-    </div>
-    <div id="evieMediaStage" class="evie-media-stage" aria-live="polite"></div>
-    <div class="evie-media-bottom">
-      <div><h3 id="evieMediaTitle"></h3><p id="evieMediaDate"></p></div>
-      <button type="button" id="evieMediaFavorite" class="evie-media-favorite" aria-pressed="false">♡ Favorite</button>
-    </div>
-  </dialog>
-
-  <dialog id="bagDrawer" class="bag-drawer" aria-labelledby="bagHeading">
-    <div class="drawer-heading"><div><span class="eyebrow">YOUR PRIVATE BOUTIQUE</span><h2 id="bagHeading">Your <em>bag.</em></h2></div><button class="icon-close" type="button" id="closeBag" aria-label="Close shopping bag">×</button></div>
-    <div id="cartLines" class="cart-lines" aria-live="polite"><p class="empty-cart">Your bag is waiting.</p></div>
+    <div id="cartLines" class="cart-lines"></div>
     <div class="cart-bottom">
       <div class="cart-total-row"><span>Estimated initial total</span><strong id="drawerTotal">$0</strong></div>
-      <p class="fine-print" id="monthlyNote" hidden>Monthly items recur separately; this is an initial estimate, not an automatic subscription checkout.</p>
-      <button class="secondary-btn" type="button" id="copyOrder">Copy my order</button><button type="button" id="confirmOrder" class="primary-btn checkout-btn" disabled>Confirm order & continue →</button>
-      <p class="fine-print">Next: add Snapchat or Telegram, optional notes, and preferred payment method.</p>
-      <a class="checkout-message" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Message Evie on Telegram ↗</a>
-      <p class="fine-print">Payment is handled outside this site. Confirm your order and access with Evie; adding to your bag doesn't reserve or purchase anything.</p>
-      <div id="cartFeedback" class="cart-feedback" role="status"></div>
+      <p id="monthlyNote" class="fine-print" hidden>Monthly items renew until canceled. First payment and access are confirmed with Evie.</p>
+      <button type="button" id="copyOrder" class="secondary-btn">Copy my order</button>
+      <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Confirm order & continue →</button>
+      <p id="cartFeedback" class="cart-feedback"></p>
     </div>
   </dialog>
 
-
-<dialog class="bag-drawer checkout-dialog" id="checkoutDialog" aria-labelledby="checkoutTitle">
- <div class="drawer-heading"><div><span class="eyebrow">STEP 2 / ORDER DETAILS</span><h2 id="checkoutTitle">Almost <em>there.</em></h2></div><button type="button" class="icon-close" id="closeCheckout" aria-label="Close checkout">×</button></div>
- <div class="checkout-summary" id="checkoutSummary"></div>
- <form id="checkoutForm" class="checkout-form">
-  <fieldset><legend>Where should Evie contact you? *</legend><label><input type="radio" name="platform" value="snapchat" required checked> Snapchat</label><label><input type="radio" name="platform" value="telegram"> Telegram</label></fieldset>
-  <label for="checkoutHandle">Snapchat username / Telegram handle *</label><input type="text" id="checkoutHandle" minlength="2" maxlength="80" required autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="@username">
-  <label for="checkoutNotes">Order notes / modifications (optional)</label><textarea id="checkoutNotes" rows="3" maxlength="500" placeholder="Details or requested modifications"></textarea><small id="notesCount">0 / 500</small>
-  <label for="checkoutPayment">Preferred payment method *</label><select id="checkoutPayment" required><option value="">Choose one</option><option value="cash_app">Cash App</option><option value="venmo">Venmo</option><option value="amazon_gift_card">Amazon Gift Card</option><option value="apple_pay">Apple Pay on request</option></select>
-  <label class="consent"><input type="checkbox" required id="checkoutConsent"> I confirm I am 18+ and agree to providing my order and contact information for fulfillment.</label>
-  <p class="fine-print">No payment is taken here. Send the request to Evie on Telegram to confirm it. Message her there if you need something corrected or deleted.</p>
-  <input id="checkoutWebsite" class="anti-spam" tabindex="-1" autocomplete="off" aria-hidden="true">
-  <button type="submit" id="submitCheckout" class="primary-btn checkout-btn">Send order request →</button><p class="checkout-status" id="checkoutStatus" role="status" aria-live="polite"></p>
-  <button type="button" class="secondary-btn" id="backToBag">← Back to bag</button>
- </form>
- <div id="checkoutResult" class="checkout-result" hidden><h3 id="resultHeading"></h3><p id="resultCopy"></p><div id="resultPayment" hidden></div><button type="button" class="secondary-btn" id="copyCheckout">Copy order and contact info</button><a class="primary-btn checkout-btn" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Message Evie on Telegram ↗</a></div>
-</dialog>
-  <dialog id="lightbox" class="lightbox" aria-label="Photo viewer">
-    <button class="lightbox-close" type="button" id="closeLightbox" aria-label="Close photograph">×</button>
-    <button class="lightbox-prev" type="button" id="lightboxPrev" aria-label="Previous photograph">←</button>
-    <img id="lightboxImage" src="" alt="Photo diary photograph">
-    <button class="lightbox-next" type="button" id="lightboxNext" aria-label="Next photograph">→</button>
-    <div class="lightbox-count" id="lightboxCount"></div>
+  <dialog class="lightbox" id="lightbox" aria-label="Photo lightbox">
+    <button type="button" id="closeLightbox" class="lightbox-close" aria-label="Close photo">×</button>
+    <button type="button" id="lightboxPrev" class="lightbox-prev" aria-label="Previous photo">←</button>
+    <img id="lightboxImage" alt="" />
+    <button type="button" id="lightboxNext" class="lightbox-next" aria-label="Next photo">→</button>
+    <span id="lightboxCount" class="lightbox-count"></span>
   </dialog>
+
+  <script>
+    // Remaining scripts and dynamic content handled by external JS
+  </script>
 </body>
 </html>
