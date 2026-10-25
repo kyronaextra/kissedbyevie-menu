@@ -497,3 +497,20 @@ html{scroll-behavior:auto}
 .custom-video-note{padding:20px 23px;margin-bottom:18px;border:1px solid rgba(231,191,145,.5);border-radius:10px;background:rgba(82,35,49,.55);color:#fff1e2}
 .custom-video-note strong{font-size:20px}.custom-video-note p{font-size:14px;line-height:1.7;margin:9px 0 0}
 @media(max-width:680px){.category-tabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}.category-tab{padding:12px 8px!important;font-size:13px!important}.product-card{display:flex!important;flex-direction:column!important;align-items:stretch!important}.product-card .offer-btn{width:100%!important;justify-content:space-between!important}.boutique-section{padding-left:18px!important;padding-right:18px!important}.menu-helper{font-size:13px}}
+
+/* KissedByEvie · fast, readable storefront ordering */
+.menu-order-panel{margin:40px auto 20px;max-width:940px;padding:clamp(26px,5vw,55px);border:1px solid rgba(240,217,183,.55);border-radius:14px;background:linear-gradient(115deg,#3b1c2f,#160c14);text-align:center;box-shadow:0 25px 55px rgba(0,0,0,.18)}
+.menu-order-panel h3{font:normal clamp(42px,7vw,78px)/1.05 var(--display);margin:0 0 10px}
+.menu-order-panel>p:not(.eyebrow){font-size:clamp(15px,2vw,18px);line-height:1.5;margin:0 auto 23px;color:#f4e6df}
+.menu-order-panel .menu-order-button{width:min(100%,390px);min-height:58px;font-size:15px;font-weight:700}
+.menu-order-panel #reviewOrderHint{margin:14px 0 0;color:#d7beb5;font-size:12px}
+.menu-details{padding:5px 0 0;max-width:620px;color:#edcebf}
+.menu-details summary{cursor:pointer;text-decoration:underline;text-underline-offset:4px;font-size:13px;font-weight:600}
+.menu-details p{margin:9px 0 0!important;font-size:13px!important;line-height:1.55}
+.menu-section-note{grid-column:1/-1;margin:0;padding:16px 19px;border-radius:8px;border:1px solid rgba(240,217,183,.25);color:#e2cbc2;font-size:13px;line-height:1.6}
+.product-card .card-label{color:#f9dfbc!important;font-size:clamp(18px,2.3vw,24px)!important}
+.product-card .offer-btn{min-height:54px!important;background:rgba(15,8,12,.62)!important}
+.product-card .offer-btn:hover{background:#e8d0b5!important;color:#21121c!important}
+.product-card .offer-btn:hover span{color:#21121c!important}
+#boutique{scroll-margin-top:90px}
+@media(max-width:680px){.menu-order-panel{margin-top:25px}.menu-order-panel .menu-order-button{padding:17px 14px}}
