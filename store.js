@@ -21,8 +21,9 @@ const products=[
 ["Extras","Detailed Text Rating",20,"Detailed text rating","Personalized written response.",""],
 ["Extras","Detailed Live Snap Video Rating",35,"Detailed live Snap video rating","Includes 5+ live photos/videos.",""]
 ];
-const categories=[['Premium','Featured & Premium'],['Bundles','Bundles'],['Live','Video Chats & Live Snaps'],['Customs','Customs'],['Extras','Ratings & Extras']];
+const categories=[['Premium','Featured'],['Customs','Custom Videos'],['Bundles','Photo & Video Bundles'],['Live','Live Snaps'],['Extras','Ratings & Extras']];
 const root=document.getElementById('boutiqueCatalog');
+const quick=document.createElement('p');quick.className='menu-helper';quick.textContent='Choose a category below. Prices are shown upfront; tap Add to build your order.';root.append(quick);
 const tabs=document.createElement('div');tabs.className='category-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Shop categories');
 root.append(tabs);
 categories.forEach(([key,label],index)=>{
@@ -33,7 +34,7 @@ categories.forEach(([key],index)=>{
  const panel=document.createElement('div');panel.id='panel-'+key;panel.className='product-panel';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','tab-'+key);panel.hidden=index!==0;
  products.filter(p=>p[0]===key).forEach(p=>{
   const card=document.createElement('article');card.className='product-card'+(p[0]==='Premium'?' featured':'');
-  const info=document.createElement('div'),label=document.createElement('p');label.className='card-label';label.textContent=p[3];info.append(label);
+  const info=document.createElement('div'),label=document.createElement('h3');label.className='card-label';label.textContent=p[3];info.append(label);
   if(p[4]){const desc=document.createElement('p');desc.textContent=p[4];info.append(desc)}
   const button=document.createElement('button');button.type='button';button.className='offer-btn add-product';button.dataset.name=p[1];button.dataset.price=p[2];
   if(p[5])button.dataset.exclusive=p[5];
@@ -42,7 +43,7 @@ categories.forEach(([key],index)=>{
   const add=document.createElement('span');add.textContent='ADD +';button.append(add);
   card.append(info,button);panel.append(card);
  });
- if(key==='Customs'){const disclaimer=document.createElement('p');disclaimer.className='fine-print';disclaimer.textContent='Custom requests generally range from $110–$300. Optional theme upgrades may add $50, subject to approval. Exact delivery timing is confirmed before purchase.';panel.append(disclaimer)}
+ if(key==='Customs'){const disclaimer=document.createElement('div');disclaimer.className='custom-video-note';disclaimer.innerHTML='<strong>Custom video pricing</strong><p>2 minutes — $90 · 3 minutes — $120 · 4 minutes — $140</p><p>JOI custom video (3 minutes) — $150. Other custom requests are individually quoted, typically $110–$300. Approved specialty themes may add $50. Timing and details are confirmed before purchase.</p>';panel.prepend(disclaimer)}
  root.append(panel);
 });
 })();
