@@ -31,10 +31,13 @@ function wrap(p){
 function bindExisting(button,p){
  const img=button.querySelector('img');if(!img)return;
  img.src=p.url;img.alt=p.alt||'Kissed by Evie portrait';
+ button.__eviePublicPhoto=p;
+ if(button.__eviePublicBound)return;
+ button.__eviePublicBound=true;
  button.addEventListener('click',event=>{
   if(event.target.closest('a'))return;
   event.preventDefault();event.stopImmediatePropagation();
-  openPhoto(p);
+  openPhoto(button.__eviePublicPhoto);
  },true);
 }
 async function refresh(){
