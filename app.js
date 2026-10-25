@@ -7,21 +7,75 @@
   var current=document.getElementById('heroCurrent');
   var photoButtons=Array.from(document.querySelectorAll('[data-photo]'));
   var photoSets={
-    hero:[
-      "https://www.dropbox.com/scl/fi/5xy0f67jjgx5qh4kj7x3i/Photo-Oct-25-2026-2-57-23-PM.jpg?rlkey=d2mft1tysmt0coaf4sonp5y2t&raw=1",
-      "https://www.dropbox.com/scl/fi/fb1ovsbos159ql1ggi4ry/Photo-Sep-22-2026-5-23-40-PM.jpg?rlkey=epi74jorokgd6ontvavx60x15&raw=1",
-      "https://www.dropbox.com/scl/fi/a765cjffzwi2jecdn7hqp/Photo-Oct-25-2026-2-57-23-PM-4.jpg?rlkey=00vcs4qvn84k9mrlc4l74dstg&raw=1",
-      "https://www.dropbox.com/scl/fi/flqk64r28rby5ldnb8uwu/Photo-Oct-25-2026-2-57-23-PM-1.jpg?rlkey=49m9275m0arcu6vaxfi3wsvoc&raw=1"
-],
-    diary:[
-      "https://www.dropbox.com/scl/fi/xhxwdee7smn3y41zidywi/Photo-Oct-25-2026-2-57-23-PM.png?rlkey=thats44uf2hlf0hlzyaip4xnq&raw=1",
-      "https://www.dropbox.com/scl/fi/fb1ovsbos159ql1ggi4ry/Photo-Sep-22-2026-5-23-40-PM.jpg?rlkey=epi74jorokgd6ontvavx60x15&raw=1",
-      "https://www.dropbox.com/scl/fi/a765cjffzwi2jecdn7hqp/Photo-Oct-25-2026-2-57-23-PM-4.jpg?rlkey=00vcs4qvn84k9mrlc4l74dstg&raw=1",
-      "https://www.dropbox.com/scl/fi/flqk64r28rby5ldnb8uwu/Photo-Oct-25-2026-2-57-23-PM-1.jpg?rlkey=49m9275m0arcu6vaxfi3wsvoc&raw=1",
-      "https://www.dropbox.com/scl/fi/5xy0f67jjgx5qh4kj7x3i/Photo-Oct-25-2026-2-57-23-PM.jpg?rlkey=d2mft1tysmt0coaf4sonp5y2t&raw=1",
-      "https://www.dropbox.com/scl/fi/xhxwdee7smn3y41zidywi/Photo-Oct-25-2026-2-57-23-PM.png?rlkey=thats44uf2hlf0hlzyaip4xnq&raw=1"
-]
-  };
+  "hero": [
+    "/assets/photos/evie-hero-01.png",
+    "/assets/photos/evie-hero-02.jpg",
+    "/assets/photos/evie-featured-01.jpg",
+    "/assets/photos/evie-featured-02.jpg"
+  ],
+  "diary": [
+    "/assets/photos/evie-about-01.jpg",
+    "/assets/photos/evie-featured-01.jpg",
+    "/assets/photos/evie-featured-02.jpg",
+    "/assets/photos/evie-featured-03.jpg",
+    "/assets/photos/evie-gallery-01.jpg",
+    "/assets/photos/evie-gallery-02.jpg",
+    "/assets/photos/evie-gallery-03.jpg",
+    "/assets/photos/evie-gallery-04.jpg",
+    "/assets/photos/evie-gallery-05.jpg",
+    "/assets/photos/evie-gallery-06.jpg",
+    "/assets/photos/evie-gallery-07.jpg",
+    "/assets/photos/evie-gallery-08.jpg",
+    "/assets/photos/evie-gallery-09.jpg",
+    "/assets/photos/evie-gallery-10.jpg",
+    "/assets/photos/evie-gallery-11.jpg",
+    "/assets/photos/evie-gallery-12.jpg",
+    "/assets/photos/evie-gallery-13.jpg",
+    "/assets/photos/evie-gallery-14.jpg",
+    "/assets/photos/evie-menu-01.jpg",
+    "/assets/photos/evie-menu-02.jpg",
+    "/assets/photos/evie-menu-03.jpg",
+    "/assets/photos/evie-menu-04.jpg",
+    "/assets/photos/evie-menu-05.jpg",
+    "/assets/photos/evie-menu-06.jpg",
+    "/assets/photos/evie-about-02.jpg"
+  ]
+};
+  var photoAlts={
+  "hero": [
+    "Evie posing in a light patterned outfit against a burgundy backdrop",
+    "Evie in a beaded top and jeans against a deep red curtain",
+    "Evie seated in a red outfit for an editorial portrait",
+    "Evie posing for a mirror selfie in a black lace outfit"
+  ],
+  "diary": [
+    "Evie sitting comfortably on a couch in warm natural light",
+    "Evie seated in a red outfit for an editorial portrait",
+    "Evie posing for a mirror selfie in a black lace outfit",
+    "Evie reclining on a couch in a black outfit",
+    "Evie in a burgundy outfit indoors",
+    "Evie in a purple set posing beside a window",
+    "Evie posing in a burgundy set from behind",
+    "Evie posing with a pink ribbon indoors",
+    "Evie taking a mirror selfie wearing a cap and brown top",
+    "Evie lounging on a couch in a light green outfit",
+    "Evie at a warmly lit bar in a patterned top",
+    "Evie sharing a moment with a friend at a restaurant",
+    "Evie posing in a burgundy lingerie set at home",
+    "Evie posing in a coordinated burgundy outfit",
+    "Evie seated in a casual green outfit",
+    "Evie posing indoors in warm light",
+    "Evie posing in a bright room",
+    "Evie taking a mirror selfie in a brown top and denim shorts",
+    "Close-up portrait of Evie with soft makeup",
+    "Evie in a pale blue outfit in front of a plain wall",
+    "Evie standing in a pale green matching set",
+    "Evie seated in a violet lingerie set",
+    "Evie standing in a burgundy lace set",
+    "Evie on a couch in a dark matching outfit",
+    "Evie smiling for a casual mirror selfie"
+  ]
+};
   var activeSet='diary';
   var photoIndex=0;
   var lightbox=document.getElementById('lightbox');
@@ -91,7 +145,7 @@
   function updateLightbox(){
     var urls=photoSets[activeSet];
     lightboxImage.src=urls[photoIndex];
-    lightboxImage.alt='Kissed by Evie photo '+(photoIndex+1)+' of '+urls.length;
+    lightboxImage.alt=photoAlts[activeSet][photoIndex]||'Kissed by Evie portrait';
     lightboxCount.textContent=String(photoIndex+1).padStart(2,'0')+' / '+String(urls.length).padStart(2,'0');
   }
   function openLightbox(setName,index,trigger){
