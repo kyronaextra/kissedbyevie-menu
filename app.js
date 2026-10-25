@@ -229,12 +229,12 @@
     saveCart();
   }
   function orderMessage(){
-    return 'Hi Evie! I would like to order:\\n\\n'+cart.map(function(item){
+    return 'Hi Evie! I would like to order:\n\n'+cart.map(function(item){
       return '• '+item.qty+' × '+item.name+' — '+money(item.price*item.qty);
-    }).join('\\n')+'\\n\\nEstimated total: '+money(cartTotal())+
-    '\\n\\nMy username: [add your Snapchat/Telegram username]'+
-    '\\nSpecial requests / add-ons: [optional]'+
-    '\\n\\nPlease confirm availability, final price and payment instructions. Thank you!';
+    }).join('\n')+'\n\nEstimated total: '+money(cartTotal())+
+    '\n\nMy username: [add your Snapchat/Telegram username]'+
+    '\nSpecial requests / add-ons: [optional]'+
+    '\n\nPlease confirm availability, final price and payment instructions. Thank you!';
   }
   async function copyOrderText(){
     var message=orderMessage();
