@@ -5,7 +5,7 @@
   var heroSlides=Array.from(heroRail.querySelectorAll('.hero-slide'));
   var galleryRail=document.getElementById('galleryRail');
   var current=document.getElementById('heroCurrent');
-  var photoButtons=Array.from(document.querySelectorAll('[data-photo]'));
+  var photoButtons=Array.from(document.querySelectorAll('[data-photo]')).filter(function(el){return !el.classList.contains('hero-slide')});
   var photoSets={
   "hero": [
     "/assets/photos/evie-hero-01.png",
