@@ -13,6 +13,10 @@ values (1, '{
  "profiles":[
   {"id":"evie","name":"Evie","tone":"Confident, warm and playful","guidance":"Brief, friendly replies. Require manual approval.","quick_replies":[{"label":"Hello","text":"Hey you 💕 What did you have in mind?"},{"label":"Busy","text":"Hey! I will get back to you soon."}]},
   {"id":"customer","name":"Customer Service","tone":"Helpful, professional and friendly","guidance":"Clear questions and no unverified payment claims.","quick_replies":[{"label":"Pricing","text":"I can send you the menu and help you choose what fits."},{"label":"Follow-up","text":"Following up to see if you had any questions!"}]}
+ ],
+ "automations":[
+   {"id":"pricing","name":"Pricing question","enabled":true,"keyword":"price","reply":"I can send you the menu and help you choose what works for you.","action":"draft_only"},
+   {"id":"custom","name":"Custom inquiry","enabled":true,"keyword":"custom","reply":"Tell me what you had in mind and I can explain the options.","action":"draft_only"}
  ]}')
 on conflict (id) do nothing;
 
