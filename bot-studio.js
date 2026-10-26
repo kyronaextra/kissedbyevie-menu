@@ -52,6 +52,16 @@
     p.guidance = $("profileGuidance").value.trim();
     p.quick_replies = quick;
     if (!p.name) throw Error("A profile display name is required.");
+    let rules;
+    try { rules = JSON.parse($("automationRules").value); }
+    catch (_) { throw Error("Automation rules must be valid JSON."); }
+    if (!Array.isArray(rules) || rules.length > 30 ||
+        rules.some(r => !r || typeof r.id !== "string" || typeof r.name !== "string" ||
+          typeof r.keyword !== "string" || typeof r.reply !== "string" ||
+          typeof r.enabled !== "boolean" || r.action !== "draft_only")) {
+      throw Error("Automation rules need id, name, keyword, reply, enabled and action: draft_only.");
+    }
+    config.automations = rules;
   }
   function renderEditor() {
     const p = config?.profiles.find(x => x.id === editedId);
@@ -107,6 +117,7 @@
     revision = Number(data.revision);
     devices = data.devices || [];
     $("revision").textContent = "Published revision " + revision + " · " + new Date(data.updated_at).toLocaleString();
+    $("automationRules").value = JSON.stringify(config.automations || [], null, 2);
     renderProfiles(); renderDevices();
   }
   async function showWorkspace() {
@@ -172,7 +183,8 @@
         if (!confirm("Replace your working personality library with this JSON file? Publish separately afterward.")) return;
         if (!incoming.profiles.length || incoming.profiles.length > 12 ||
             !incoming.profiles.some(p => p.id === incoming.active_profile)) throw Error("Invalid personality library.");
-        config = { active_profile: incoming.active_profile, profiles: incoming.profiles };
+        config = { active_profile: incoming.active_profile, profiles: incoming.profiles, automations: incoming.automations || [] };
+        $("automationRules").value = JSON.stringify(config.automations, null, 2);
       } else {
         if (!/^[a-z][a-z0-9_-]{1,39}$/.test(incoming.id || "") ||
             !incoming.name || !Array.isArray(incoming.quick_replies)) throw Error("A profile needs id, name and quick_replies.");
