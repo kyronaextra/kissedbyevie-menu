@@ -307,7 +307,8 @@
     }).join('\n')+'\n\nEstimated total: '+money(cartTotal())+
     '\n\nMy Snap/Telegram: [your username]'+
     '\nExtras or requests: [optional]'+
-    '\n\nPlease confirm availability, delivery time, final custom quotes and how to pay!';
+    '\n\nPlease confirm availability, delivery time, final custom quotes and how to pay!'+
+    '\n\nI confirm I am 18+ and agree to the VIP Package Rules & Boundaries (October 26, 2026).';
   }
   async function copyOrderText(){
     var message=orderMessage();
