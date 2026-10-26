@@ -1,320 +1,393 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@kissedbyevie • Menu</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Arial', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #1a0a10;
-    color: #fff;
-    line-height: 1.5;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.08"><circle cx="20" cy="20" r="8" fill="%23ff69b4"/><circle cx="70" cy="50" r="12" fill="%23ff1493"/><circle cx="40" cy="80" r="6" fill="%23ffb6c1"/></svg>');
-  }
-  .hero {
-    height: 100vh;
-    min-height: 600px;
-    background: linear-gradient(to bottom, rgba(255,20,147,0.25), rgba(20,5,10,0.9)),
-                url('beach-sunset.jpg') center/cover no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    padding: 40px 20px;
-  }
-  .hero h1 {
-    font-size: clamp(48px, 12vw, 80px);
-    letter-spacing: 3px;
-    color: #fff;
-    font-weight: 700;
-    text-shadow: 0 0 20px #ff69b4, 0 4px 10px rgba(0,0,0,0.8);
-    z-index: 1;
-    font-style: italic;
-  }
-  .hero .handle {
-    font-size: 20px;
-    letter-spacing: 4px;
-    color: #ff69b4;
-    margin-top: 10px;
-    z-index: 1;
-    font-weight: 600;
-  }
-  .hero .tag {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #ffd1dc;
-    max-width: 340px;
-    z-index: 1;
-  }
-  .scroll-hint {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ff69b4;
-    font-size: 14px;
-    letter-spacing: 2px;
-    animation: pulse 1.8s infinite;
-    z-index: 1;
-    font-weight: 600;
-  }
-  @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-
-  .menu {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 30px 16px 60px;
-  }
-  .section {
-    background: rgba(30,10,20,0.85);
-    border: 2px solid #ff69b4;
-    border-radius: 16px;
-    padding: 18px 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 0 15px rgba(255,105,180,0.2);
-  }
-  .section.highlight {
-    background: linear-gradient(135deg, #2a1020, #4a1530);
-    border-color: #ff1493;
-  }
-  .section h2 {
-    color: #ff69b4;
-    font-size: 16px;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-  .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 10px 0;
-    border-bottom: 1px solid #3a2030;
-    font-size: 15px;
-  }
-  .item:last-child { border-bottom: none; }
-  .item .name { flex: 1; }
-  .item .price {
-    color: #ffb6c1;
-    font-weight: 700;
-    white-space: nowrap;
-    margin-left: 10px;
-  }
-  .badge {
-    display: inline-block;
-    background: #ff1493;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 20px;
-    margin-left: 6px;
-  }
-  .note {
-    font-size: 13px;
-    color: #ffd1dc;
-    margin-top: 8px;
-    line-height: 1.4;
-  }
-  .deal-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .deal-btn {
-    flex: 1 1 45%;
-    background: linear-gradient(135deg, #ff69b4, #ff1493);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 25px;
-    font-weight: 700;
-    font-size: 15px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255,20,147,0.4);
-  }
-  .payments {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  .btn {
-    display: block;
-    text-align: center;
-    background: linear-gradient(135deg, #ff69b4, #ff1493);
-    color: #fff;
-    text-decoration: none;
-    padding: 13px;
-    border-radius: 25px;
-    font-weight: 700;
-    font-size: 15px;
-  }
-  .btn.secondary {
-    background: #2a1020;
-    color: #ffb6c1;
-    border: 1px solid #ff69b4;
-  }
-  .footer {
-    text-align: center;
-    font-size: 12px;
-    color: #ff69b4;
-    margin-top: 24px;
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10070c">
+  <meta name="description" content="Kissed by Evie: a cinematic photo diary, a private member experience and a carefully curated boutique. Adults only, 18+.">
+  <meta property="og:title" content="Kissed by Evie | The Evie Edit">
+  <meta property="og:description" content="A photo diary. A private world. An exclusive boutique.">
+  <meta property="og:image" content="https://kissedbyevie-menu.onrender.com/assets/photos/evie-hero-01.png">
+  <meta property="og:url" content="https://kissedbyevie-menu.onrender.com/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Kissed by Evie | The Evie Edit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="store.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script defer src="member-config.js"></script>
+  <script defer src="daddy-gallery.js"></script>
+  <script defer src="daddy-lounge.js"></script>
+  <script defer src="member-auth.js"></script>
 </head>
-<body>
-
-<div class="hero">
-  <h1>KISSED<br>BY EVIE</h1>
-  <div class="handle">@kissedbyevie</div>
-  <div class="scroll-hint">SCROLL ↓</div>
-</div>
-
-<div class="menu">
-
-  <div class="section highlight">
-    <h2>Daddy Package <span class="badge">MOST EXCLUSIVE</span></h2>
-    <div class="item">
-      <div class="name">Monthly personalized experience</div>
-      <div class="price">$150 / mo</div>
+<body id="top">
+  <div id="accessGate" style="
+  position:fixed;inset:0;z-index:99999;
+  background:#10070c;color:#f5e9e0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',system-ui,sans-serif;
+  padding:24px;text-align:center;
+">
+  <div style="max-width:380px;width:100%;">
+    <div style="font-family:Italiana,serif;font-size:2.2rem;letter-spacing:.08em;margin-bottom:8px;">
+      KISSED BY EVIE ✧
     </div>
-    <div class="item">
-      <div class="name">One-time payment <span class="badge">BEST VALUE</span></div>
-      <div class="price">$350</div>
-    </div>
-    <p class="note">Daily content, full vault access with 800+ content, regularly updated. priority replies, phone mumber, complimentary 30 min live snap show, 3 months free OnlyFans, FaceTime access,Customs still extra. Tips make it better.</p>
-  </div>
-
-  <div class="section highlight">
-    <h2>Full Vault <span class="badge">BEST VALUE</span></h2>
-    <div class="item">
-      <div class="name">800+ pics & videos<br><span style="font-size:13px;color:#ffd1dc;">Constantly updated</span></div>
-      <div class="price">$75</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Make a Deal</h2>
-    <p class="note">Pay $50–$200 and I’ll craft a custom offer worth more than you paid. Tell me the vibe.</p>
-    <div class="deal-options">
-      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $50')">$50</button>
-      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $100')">$100</button>
-      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $150')">$150</button>
-      <button class="deal-btn" onclick="alert('Telegram @kissedbyevie — DEAL $200')">$200</button>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Content Bundles</h2>
-    <div class="item">
-      <div class="name">10 pics/videos</div>
-      <div class="price">$15</div>
-    </div>
-    <div class="item">
-      <div class="name">20 pics/videos</div>
-      <div class="price">$30</div>
-    </div>
-    <div class="item">
-      <div class="name">50 pics/videos</div>
-      <div class="price">$60</div>
-    </div>
-    <div class="item">
-      <div class="name">B/G Dropbox<br><span style="font-size:13px;color:#ffd1dc;">15+ videos</span></div>
-      <div class="price">$35</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Video Chats</h2>
-    <div class="item">
-      <div class="name">5 min minimum</div>
-      <div class="price">from $50</div>
-    </div>
-    <div class="item">
-      <div class="name">10 min <span class="badge">$8.50/min</span></div>
-      <div class="price">$85</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Live Snaps</h2>
-    <div class="item">
-      <div class="name">15 min continuous • saveable</div>
-      <div class="price">$45</div>
-    </div>
-    <div class="item">
-      <div class="name">30 min</div>
-      <div class="price">$75</div>
-    </div>
-    <div class="item">
-      <div class="name">1 hour <span class="badge">BEST VALUE</span></div>
-      <div class="price">$130</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Customs</h2>
-    <div class="item">
-      <div class="name">2 min + photo set</div>
-      <div class="price">$90</div>
-    </div>
-    <div class="item">
-      <div class="name">3 min + photo set</div>
-      <div class="price">$100</div>
-    </div>
-    <div class="item">
-      <div class="name">4 min + photo set <span class="badge">POPULAR</span></div>
-      <div class="price">$110</div>
-    </div>
-    <p class="note">48 hrs. Previous purchase required. Payment ready or $10 consult. Taboo / labor-heavy priced individually.</p>
-  </div>
-
-  <div class="section">
-    <h2>Quick Add-Ons</h2>
-    <div class="item">
-      <div class="name">🍆 rate + show what I’d do <span class="badge">DISCOUNTED</span></div>
-      <div class="price">$25</div>
-    </div>
-    <div class="item">
-      <div class="name">🍆 rate + 30s snap + extras</div>
-      <div class="price">$35</div>
-    </div>
-    <div class="item">
-      <div class="name">Small extras</div>
-      <div class="price">$5–$15</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>OnlyFans</h2>
-    <div class="item">
-      <div class="name">Monthly + surprise 10–20 photo bundle</div>
-      <div class="price">$3 / mo</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Pay</h2>
-    <div class="payments">
-      <a class="btn" href="https://cash.app/$kissedbyevie" target="_blank">Cash App</a>
-      <a class="btn secondary" href="https://venmo.com/kissedbyevie" target="_blank">Venmo</a>
-      <a class="btn secondary" href="https://paypal.me/kissedbyevie" target="_blank">PayPal</a>
-    </div>
-    <p class="note">Telegram @kissedbyevie • X @kissedbyevie</p>
-  </div>
-
-  <div class="footer">
-    18+ ONLY • DIGITAL CONTENT
+    <p style="opacity:.75;margin:0 0 28px;font-size:.95rem;">
+      Enter your username to continue<br>
+      <span style="font-size:.8rem;">Snapchat · Telegram · X</span>
+    </p>
+    <form id="gateForm" style="display:flex;flex-direction:column;gap:12px;">
+      <input id="gateUsername" type="text" required
+        placeholder="your username"
+        autocomplete="username"
+        style="
+          background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);
+          border-radius:8px;padding:14px 16px;color:#fff;font-size:1rem;
+          outline:none;
+        ">
+      <button type="submit" style="
+        background:#c9a27c;color:#10070c;border:none;border-radius:8px;
+        padding:14px;font-weight:600;font-size:1rem;cursor:pointer;
+      ">Enter</button>
+    </form>
+    <p style="margin-top:20px;font-size:.75rem;opacity:.5;">18+ only</p>
   </div>
 </div>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <a class="skip-link" href="#boutique">Skip to menu</a>
+
+  <header class="site-header">
+    <a class="wordmark" href="#top">KISSED BY EVIE<span aria-hidden="true">✧</span></a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#boutique">Menu</a>
+      <a href="#members">VIP Memberships</a>
+      <a class="nav-shop" href="#boutique">Shop the Menu <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="Featured photo collection">
+      <div class="hero-rail" id="heroRail" tabindex="0" aria-label="Swipeable featured photographs">
+        <article class="hero-slide" data-set="hero" data-photo="0" aria-label="Photo 1 of 4">
+          <img src="/assets/photos/evie-hero-01.png" alt="Evie posing in a light patterned outfit against a burgundy backdrop" fetchpriority="high" style="object-position:center 28%">
+          <div class="hero-wash"></div>
+          <div class="hero-copy">
+            <div class="eyebrow">A PRIVATE WORLD BY @KISSEDBYEVIE</div>
+            <h1>Kissed<br><em>by Evie</em></h1>
+            <p>Your new VIP, custom, and content menu — all in one place.</p>
+            <a href="#boutique" class="text-link">Explore the menu <span aria-hidden="true">↘</span></a>
+          </div>
+        </article>
+        <article class="hero-slide" data-set="hero" data-photo="1" aria-label="Photo 2 of 4">
+          <img src="/assets/photos/evie-hero-02.jpg" alt="Evie in a beaded top and jeans against a deep red curtain" loading="lazy" style="object-position:center 42%">
+          <div class="hero-wash"></div>
+          <div class="hero-copy compact"><span class="eyebrow">02 / THE EVIE EDIT</span><h2>A little closer.</h2></div>
+        </article>
+        <article class="hero-slide" data-set="hero" data-photo="2" aria-label="Photo 3 of 4">
+          <img src="/assets/photos/evie-featured-01.jpg" alt="Evie seated in a red outfit for an editorial portrait" loading="lazy" style="object-position:center 18%">
+          <div class="hero-wash"></div>
+          <div class="hero-copy compact"><span class="eyebrow">03 / THE EVIE EDIT</span><h2>Stay curious.</h2></div>
+        </article>
+        <article class="hero-slide" data-set="hero" data-photo="3" aria-label="Photo 4 of 4">
+          <img src="/assets/photos/evie-featured-02.jpg" alt="Evie posing for a mirror selfie in a black lace outfit" loading="lazy" style="object-position:center 55%">
+          <div class="hero-wash"></div>
+          <div class="hero-copy compact"><span class="eyebrow">04 / THE EVIE EDIT</span><h2>There's more.</h2></div>
+        </article>
+      </div>
+      <div class="hero-controls" aria-label="Hero gallery controls">
+        <button id="heroPrev" class="round-control" type="button" aria-label="Previous photograph">←</button>
+        <span class="hero-position"><span id="heroCurrent">01</span> <span aria-hidden="true">/</span> 04</span>
+        <button id="heroNext" class="round-control" type="button" aria-label="Next photograph">→</button>
+      </div>
+      <div class="hero-scroll-hint" aria-hidden="true">SCROLL TO DISCOVER <span>↓</span></div>
+    </section>
+
+    <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
+      <div class="boutique-top reveal">
+        <p class="eyebrow">KISSEDBYEVIE CONTENT MENU · 18+</p>
+        <h2 id="boutiqueHeading">The <em>Menu.</em></h2>
+        <p>VIP memberships, bundles, themed sets, customs & little extras. Pick your favorites ♡</p>
+      </div>
+
+
+      <div class="menu-photo-preview" aria-label="A preview of Evie's photo collection">
+        <button class="menu-photo-tile" type="button" data-set="diary" data-photo="18" aria-label="Open Close-up portrait of Evie with soft makeup"><img src="/assets/photos/evie-menu-01.jpg" alt="Close-up portrait of Evie with soft makeup" loading="lazy" decoding="async"></button>
+        <button class="menu-photo-tile" type="button" data-set="diary" data-photo="19" aria-label="Open Evie in a pale blue outfit in front of a plain wall"><img src="/assets/photos/evie-menu-02.jpg" alt="Evie in a pale blue outfit in front of a plain wall" loading="lazy" decoding="async"></button>
+        <button class="menu-photo-tile" type="button" data-set="diary" data-photo="20" aria-label="Open Evie standing in a pale green matching set"><img src="/assets/photos/evie-menu-03.jpg" alt="Evie standing in a pale green matching set" loading="lazy" decoding="async"></button>
+        <button class="menu-photo-tile" type="button" data-set="diary" data-photo="21" aria-label="Open Evie seated in a violet lingerie set"><img src="/assets/photos/evie-menu-04.jpg" alt="Evie seated in a violet lingerie set" loading="lazy" decoding="async"></button>
+        <button class="menu-photo-tile" type="button" data-set="diary" data-photo="22" aria-label="Open Evie standing in a burgundy lace set"><img src="/assets/photos/evie-menu-05.jpg" alt="Evie standing in a burgundy lace set" loading="lazy" decoding="async"></button>
+        <button class="menu-photo-tile" type="button" data-set="diary" data-photo="23" aria-label="Open Evie on a couch in a dark matching outfit"><img src="/assets/photos/evie-menu-06.jpg" alt="Evie on a couch in a dark matching outfit" loading="lazy" decoding="async"></button>
+      </div>
+      <div id="boutiqueCatalog"></div>
+      <div class="menu-order-panel" id="work-order">
+        <p class="eyebrow">READY WHEN YOU ARE</p>
+        <h3>Your picks, my inbox.</h3>
+        <p>You don’t pay on this site — I’ll send payment details once we confirm your order.</p>
+        <button type="button" class="primary-btn menu-order-button" id="reviewOrder">Review & send my order <span aria-hidden="true">↗</span></button>
+        <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your favorites above, then tap here.</p>
+      </div>
+    </section>
+
+    <section class="intro-section" id="the-edit">
+      <div class="intro-number reveal">001 — PHOTO DIARY</div>
+      <div class="intro-grid">
+        <div class="intro-copy reveal">
+          <p class="eyebrow">A LITTLE PIECE OF MY WORLD</p>
+          <h2>The <em>Evie</em><br>Edit.</h2>
+          <p>Favorite photos, behind-the-scenes moments, and more of me.</p>
+          <span class="handwritten">Take your time. ♡</span>
+        </div>
+        <button class="editorial-image image-button reveal" type="button" data-set="diary" data-photo="0" aria-label="View first photo diary image">
+          <img src="/assets/photos/evie-about-01.jpg" alt="Evie sitting comfortably on a couch in warm natural light" loading="lazy" style="object-position:center 18%">
+          <span class="image-index">01 / OPEN PHOTO <span aria-hidden="true">↗</span></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="gallery-section" aria-labelledby="galleryHeading">
+      <div class="gallery-heading reveal">
+        <div>
+          <p class="eyebrow">SWIPE THROUGH THE MOMENTS</p>
+          <h2 id="galleryHeading">Behind the <em>edit.</em></h2>
+        </div>
+        <div class="gallery-arrows">
+          <button class="round-control" id="galleryPrev" type="button" aria-label="Scroll gallery left">←</button>
+          <button class="round-control" id="galleryNext" type="button" aria-label="Scroll gallery right">→</button>
+        </div>
+      </div>
+      <div class="gallery-rail" id="galleryRail" tabindex="0" aria-label="Scrollable photo diary gallery">
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="1" aria-label="Open Evie seated in a red outfit for an editorial portrait">
+          <img src="/assets/photos/evie-featured-01.jpg" alt="Evie seated in a red outfit for an editorial portrait" loading="lazy" decoding="async">
+          <span>01 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="2" aria-label="Open Evie posing for a mirror selfie in a black lace outfit">
+          <img src="/assets/photos/evie-featured-02.jpg" alt="Evie posing for a mirror selfie in a black lace outfit" loading="lazy" decoding="async">
+          <span>02 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="3" aria-label="Open Evie reclining on a couch in a black outfit">
+          <img src="/assets/photos/evie-featured-03.jpg" alt="Evie reclining on a couch in a black outfit" loading="lazy" decoding="async">
+          <span>03 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="4" aria-label="Open Evie in a burgundy outfit indoors">
+          <img src="/assets/photos/evie-gallery-01.jpg" alt="Evie in a burgundy outfit indoors" loading="lazy" decoding="async">
+          <span>04 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="5" aria-label="Open Evie in a purple set posing beside a window">
+          <img src="/assets/photos/evie-gallery-02.jpg" alt="Evie in a purple set posing beside a window" loading="lazy" decoding="async">
+          <span>05 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="6" aria-label="Open Evie posing in a burgundy set from behind">
+          <img src="/assets/photos/evie-gallery-03.jpg" alt="Evie posing in a burgundy set from behind" loading="lazy" decoding="async">
+          <span>06 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="7" aria-label="Open Evie posing with a pink ribbon indoors">
+          <img src="/assets/photos/evie-gallery-04.jpg" alt="Evie posing with a pink ribbon indoors" loading="lazy" decoding="async">
+          <span>07 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="8" aria-label="Open Evie taking a mirror selfie wearing a cap and brown top">
+          <img src="/assets/photos/evie-gallery-05.jpg" alt="Evie taking a mirror selfie wearing a cap and brown top" loading="lazy" decoding="async">
+          <span>08 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="9" aria-label="Open Evie lounging on a couch in a light green outfit">
+          <img src="/assets/photos/evie-gallery-06.jpg" alt="Evie lounging on a couch in a light green outfit" loading="lazy" decoding="async">
+          <span>09 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="10" aria-label="Open Evie at a warmly lit bar in a patterned top">
+          <img src="/assets/photos/evie-gallery-07.jpg" alt="Evie at a warmly lit bar in a patterned top" loading="lazy" decoding="async">
+          <span>10 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="11" aria-label="Open Evie sharing a moment with a friend at a restaurant">
+          <img src="/assets/photos/evie-gallery-08.jpg" alt="Evie sharing a moment with a friend at a restaurant" loading="lazy" decoding="async">
+          <span>11 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="12" aria-label="Open Evie posing in a burgundy lingerie set at home">
+          <img src="/assets/photos/evie-gallery-09.jpg" alt="Evie posing in a burgundy lingerie set at home" loading="lazy" decoding="async">
+          <span>12 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="13" aria-label="Open Evie posing in a coordinated burgundy outfit">
+          <img src="/assets/photos/evie-gallery-10.jpg" alt="Evie posing in a coordinated burgundy outfit" loading="lazy" decoding="async">
+          <span>13 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="14" aria-label="Open Evie seated in a casual green outfit">
+          <img src="/assets/photos/evie-gallery-11.jpg" alt="Evie seated in a casual green outfit" loading="lazy" decoding="async">
+          <span>14 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="15" aria-label="Open Evie posing indoors in warm light">
+          <img src="/assets/photos/evie-gallery-12.jpg" alt="Evie posing indoors in warm light" loading="lazy" decoding="async">
+          <span>15 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="16" aria-label="Open Evie posing in a bright room">
+          <img src="/assets/photos/evie-gallery-13.jpg" alt="Evie posing in a bright room" loading="lazy" decoding="async">
+          <span>16 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="17" aria-label="Open Evie taking a mirror selfie in a brown top and denim shorts">
+          <img src="/assets/photos/evie-gallery-14.jpg" alt="Evie taking a mirror selfie in a brown top and denim shorts" loading="lazy" decoding="async">
+          <span>17 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="18" aria-label="Open Close-up portrait of Evie with soft makeup">
+          <img src="/assets/photos/evie-menu-01.jpg" alt="Close-up portrait of Evie with soft makeup" loading="lazy" decoding="async">
+          <span>18 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="19" aria-label="Open Evie in a pale blue outfit in front of a plain wall">
+          <img src="/assets/photos/evie-menu-02.jpg" alt="Evie in a pale blue outfit in front of a plain wall" loading="lazy" decoding="async">
+          <span>19 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="20" aria-label="Open Evie standing in a pale green matching set">
+          <img src="/assets/photos/evie-menu-03.jpg" alt="Evie standing in a pale green matching set" loading="lazy" decoding="async">
+          <span>20 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="21" aria-label="Open Evie seated in a violet lingerie set">
+          <img src="/assets/photos/evie-menu-04.jpg" alt="Evie seated in a violet lingerie set" loading="lazy" decoding="async">
+          <span>21 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="22" aria-label="Open Evie standing in a burgundy lace set">
+          <img src="/assets/photos/evie-menu-05.jpg" alt="Evie standing in a burgundy lace set" loading="lazy" decoding="async">
+          <span>22 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="23" aria-label="Open Evie on a couch in a dark matching outfit">
+          <img src="/assets/photos/evie-menu-06.jpg" alt="Evie on a couch in a dark matching outfit" loading="lazy" decoding="async">
+          <span>23 <i> / Open photo</i></span>
+        </button>
+        <button class="photo-card image-button" type="button" data-set="diary" data-photo="24" aria-label="Open Evie smiling for a casual mirror selfie">
+          <img src="/assets/photos/evie-about-02.jpg" alt="Evie smiling for a casual mirror selfie" loading="lazy" decoding="async">
+          <span>24 <i> / Open photo</i></span>
+        </button>
+      </div>
+      <p class="gallery-hint">Tap a photograph to view it full-screen. Swipe to keep exploring.</p>
+    </section>
+
+    <section class="note-section reveal">
+      <div class="note-copy">
+        <p class="eyebrow">A NOTE FROM EVIE</p>
+        <h2>More to explore.<br>Only from me.</h2>
+        <p>The full collection, custom requests, and VIP access live here. Take your time and pick what you want.</p>
+      </div>
+      <div class="note-mark" aria-hidden="true">✧</div>
+    </section>
+
+    <section class="members-section" id="members" aria-labelledby="membersHeading">
+      <div class="members-copy reveal">
+        <p class="eyebrow">VIP BENEFITS · PRIVATE ACCESS COMING SOON</p>
+        <h2 id="membersHeading">Private <em>Members.</em></h2>
+        <p>Shop Basic GFE, VIP Daddy, and Ultimate VIP above. Memberships are arranged with me directly.</p>
+        <a href="#boutique" class="text-link">See VIP packages <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="members-card reveal">
+        <div class="members-card-top">
+          <span>Daddy Members (Coming Soon)</span>
+          <strong>SEE VIP PACKAGES</strong>
+        </div>
+        <p>VIP perks can be ordered now; private website lounge access is still being built. I’ll confirm your access details directly.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">KISSED BY EVIE</div>
+    <div class="footer-links">
+      <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener">Telegram <span aria-hidden="true">↗</span></a>
+      <a href="https://www.instagram.com/kissedbyevie/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
+      <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener">X <span aria-hidden="true">↗</span></a>
+    </div>
+    <p class="footer-note">18+ ONLY · DIGITAL CONTENT · ALL SALES AND ACCESS CONFIRMED DIRECTLY</p>
+  </footer>
+
+  <button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag">
+    <span id="bagCount">0</span>
+    <span>Bag · <strong id="bagTotal">$0</strong></span>
+  </button>
+  <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
+
+  <dialog class="member-dialog" id="memberDialog" aria-labelledby="memberDialogTitle">
+    <button type="button" class="member-close" id="memberClose" aria-label="Close">×</button>
+    <div class="member-panel" id="memberAuthPanel">
+      <p class="eyebrow">PRIVATE MEMBERS</p>
+      <h2 id="memberDialogTitle">Daddy <em>access.</em></h2>
+      <p id="memberDialogDescription">Sign in with the email I approved for your membership.</p>
+      <form id="memberSignInForm" class="member-form">
+        <label>Email
+          <input id="memberEmail" type="email" autocomplete="username" required>
+        </label>
+        <label>Password
+          <input id="memberPassword" type="password" autocomplete="current-password" required minlength="8">
+        </label>
+        <button type="submit" class="primary-btn" id="memberSignIn">Sign in</button>
+      </form>
+      <p id="memberAuthFeedback" class="member-feedback" role="status"></p>
+      <button type="button" class="member-inline-button" id="memberShowForgot">Forgot password?</button>
+    </div>
+    <div class="member-panel" id="memberForgotPanel" hidden>
+      <p class="eyebrow">PASSWORD RESET</p>
+      <h3>Reset your password</h3>
+      <form id="memberForgotForm" class="member-form">
+        <label>Email
+          <input id="memberForgotEmail" type="email" autocomplete="username" required>
+        </label>
+        <button type="submit" class="primary-btn" id="memberSendReset">Send reset link</button>
+      </form>
+      <button type="button" class="member-inline-button" id="memberForgotBack">← Back to sign in</button>
+    </div>
+    <div class="member-panel" id="memberVerifyPanel" hidden>
+      <p class="eyebrow">CHECK YOUR EMAIL</p>
+      <h3>Check your inbox</h3>
+      <p id="memberVerifyDescription">We sent a verification link to your email address. Open that link, then come back to sign in.</p>
+      <button type="button" id="memberResendConfirmation" class="secondary-btn">Resend confirmation</button>
+      <button type="button" class="member-inline-button" id="memberVerifyBack">← Back</button>
+    </div>
+  </dialog>
+
+  <dialog class="bag-drawer" id="bagDrawer" aria-labelledby="bagTitle">
+    <div class="drawer-heading">
+      <div><span class="eyebrow">YOUR SELECTIONS</span><h2 id="bagTitle">Your <em>bag.</em></h2></div>
+      <button type="button" id="closeBag" class="icon-close" aria-label="Close bag">×</button>
+    </div>
+    <div id="cartLines" class="cart-lines"></div>
+    <div class="cart-bottom">
+      <div class="cart-total-row"><span>Estimated initial total</span><strong id="drawerTotal">$0</strong></div>
+      <p id="monthlyNote" class="fine-print" hidden>Membership and OnlyFans terms are confirmed with me directly. Nothing renews or charges automatically on this site.</p>
+      <button type="button" id="copyOrder" class="secondary-btn">Copy order only</button>
+      <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order & open Telegram →</button>
+      <p id="cartFeedback" class="cart-feedback"></p>
+    </div>
+  </dialog>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo lightbox">
+    <button type="button" id="closeLightbox" class="lightbox-close" aria-label="Close photo">×</button>
+    <button type="button" id="lightboxPrev" class="lightbox-prev" aria-label="Previous photo">←</button>
+    <img id="lightboxImage" alt="" />
+    <button type="button" id="lightboxNext" class="lightbox-next" aria-label="Next photo">→</button>
+    <span id="lightboxCount" class="lightbox-count"></span>
+  </dialog>
+
+<script>
+(function() {
+  const gate = document.getElementById('accessGate');
+  const form = document.getElementById('gateForm');
+  const input = document.getElementById('gateUsername');
+  const KEY = 'evie-access-username';
+
+  if (localStorage.getItem(KEY)) {
+    gate.remove();
+    return;
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = input.value.trim();
+    if (!username) return;
+    localStorage.setItem(KEY, username);
+    gate.style.opacity = '0';
+    gate.style.transition = 'opacity .3s';
+    setTimeout(() => gate.remove(), 300);
+  });
+})();
+</script>
 
 </body>
 </html>
