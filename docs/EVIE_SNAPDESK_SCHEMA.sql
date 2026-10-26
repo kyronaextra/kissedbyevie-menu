@@ -1,6 +1,4 @@
--- Evie SnapDesk isolated schema for the existing Supabase project.
--- Run in SQL editor only after reviewing the PR. This file is setup SQL,
--- not an automatically applied migration.
+-- Run in Supabase → SQL Editor. Idempotent. Not an auto-applied migration.
 create table if not exists public.evie_bot_config (
   id smallint primary key check (id = 1),
   configuration jsonb not null,
@@ -8,16 +6,7 @@ create table if not exists public.evie_bot_config (
   updated_at timestamptz not null default now()
 );
 insert into public.evie_bot_config (id, configuration)
-values (1, '{
- "active_profile":"evie",
- "profiles":[
-  {"id":"evie","name":"Evie","tone":"Confident, warm and playful","guidance":"Brief, friendly replies. Require manual approval.","quick_replies":[{"label":"Hello","text":"Hey you 💕 What did you have in mind?"},{"label":"Busy","text":"Hey! I will get back to you soon."}]},
-  {"id":"customer","name":"Customer Service","tone":"Helpful, professional and friendly","guidance":"Clear questions and no unverified payment claims.","quick_replies":[{"label":"Pricing","text":"I can send you the menu and help you choose what fits."},{"label":"Follow-up","text":"Following up to see if you had any questions!"}]}
- ],
- "automations":[
-   {"id":"pricing","name":"Pricing question","enabled":true,"keyword":"price","reply":"I can send you the menu and help you choose what works for you.","action":"draft_only"},
-   {"id":"custom","name":"Custom inquiry","enabled":true,"keyword":"custom","reply":"Tell me what you had in mind and I can explain the options.","action":"draft_only"}
- ]}')
+values (1, '{"active_profile":"evie","profiles":[{"id":"evie","name":"Evie","quick_replies":[]}],"automations":[],"menu":{},"settings":{}}')
 on conflict (id) do nothing;
 
 create table if not exists public.evie_bot_devices (
@@ -38,5 +27,4 @@ revoke all on public.evie_bot_config from public, anon, authenticated;
 revoke all on public.evie_bot_devices from public, anon, authenticated;
 grant select, insert, update, delete on public.evie_bot_config to service_role;
 grant select, insert, update, delete on public.evie_bot_devices to service_role;
--- Do NOT add client-facing RLS policies: only the protected Edge Function
--- (which checks an admin session or a paired device token) can access rows.
+-- No client RLS policies: only the Edge Function touches these rows.
