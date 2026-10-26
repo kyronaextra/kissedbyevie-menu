@@ -226,7 +226,7 @@
   })();
   function sync() {
     GM_xmlhttpRequest({ method:"GET", url: API + "?action=profile",
-      headers:{ "X-Evie-Device-Token":token, Accept:"application/json" }, timeout:12000,
+      headers:{ "X-Evie-Device-Token":token, apikey:"sb_publishable_A-2z6K_c5v3Il8Lup5rA9g_FeQpwVeW", Accept:"application/json" }, timeout:12000,
       onload(r) {
         if (r.status !== 200) return;
         try {
