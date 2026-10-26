@@ -24,6 +24,7 @@
 <script defer src="daddy-gallery.js"></script>
 <script defer src="daddy-lounge.js"></script>
 <script defer src="member-auth.js"></script>
+<noscript><style>#accessGate{display:none!important}</style></noscript>
 </head>
 <body id="top">
 
@@ -121,7 +122,7 @@
 <!-- ============ NEW: BROKE ASF ============ -->
 <section id="cheap" class="cheap">
   <h2>Broke asf? Start here.</h2>
-  <p class="sub">Everything under $20. No subscription, no commitment.</p>
+  <p class="sub">Everything $20 or less. No subscription, no commitment.</p>
   <ul class="cheap-list">
     <li><span>Voice note</span><span>$12</span></li>
     <li><span>Detailed rating</span><span>$15</span></li>
@@ -133,8 +134,23 @@
   <a href="#boutique" class="text-link">Shop these <span aria-hidden="true">↘</span></a>
 </section>
 
+
+<section class="payments" aria-labelledby="payHeading">
+  <h2 id="payHeading">How to pay</h2>
+  <p class="sub">No checkout on this site. You pick, I confirm, then you pay.</p>
+  <div class="pay-grid">
+    <span class="pay-chip">CashApp</span>
+    <span class="pay-chip">PayPal</span>
+    <span class="pay-chip">Bank transfer</span>
+    <span class="pay-chip">Crypto (BTC / ETH / USDC)</span>
+  </div>
+  <p class="sub" style="margin-top:1.25rem;">Order flow: add to bag → tap "Review &amp; send my order" → I reply on Telegram with payment details → you pay → content delivered.</p>
+  <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
+</section>
+
 <!-- BOUTIQUE (unchanged, now also the #custom target) -->
 <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
+  <span id="custom" aria-hidden="true"></span>
   <div class="boutique-top reveal">
     <p class="eyebrow">KISSEDBYEVIE CONTENT MENU · 18+</p>
     <h2 id="boutiqueHeading">The <em>Menu.</em></h2>
@@ -230,6 +246,7 @@
 
 <!-- MEMBERS (now the #vip target) -->
 <section class="members-section" id="members" aria-labelledby="membersHeading">
+  <span id="vip" aria-hidden="true"></span>
   <div class="members-copy reveal">
     <p class="eyebrow">VIP BENEFITS · PRIVATE ACCESS COMING SOON</p>
     <h2 id="membersHeading">Private <em>Members.</em></h2>
@@ -243,6 +260,48 @@
     </div>
     <p>VIP perks can be ordered now; private website lounge access is still being built. I'll confirm your access details directly.</p>
   </div>
+</section>
+
+
+<section class="faq" id="faq" aria-labelledby="faqHeading">
+  <h2 id="faqHeading">Questions</h2>
+  <p class="sub">The stuff people ask before ordering.</p>
+  <details>
+    <summary>How do I pay?</summary>
+    <p>CashApp, PayPal, bank transfer, or crypto. Add items to your bag, tap "Review &amp; send my order", and I'll send payment details on Telegram. Nothing charges automatically.</p>
+  </details>
+  <details>
+    <summary>How fast is delivery?</summary>
+    <p>Standard delivery is within 24 hours for a la carte and within six hours for quick interactions. Priority options (+$15 six-hour, +$10 thirty-minute) are available when confirmed. Ten-minute immediate delivery is never guaranteed.</p>
+  </details>
+  <details>
+    <summary>What does "priority" mean?</summary>
+    <p>It moves your order to the front of the queue. It only applies when I've confirmed I'm home and available. If you request it and I can't meet the window, you'll know before paying.</p>
+  </details>
+  <details>
+    <summary>How do custom requests work?</summary>
+    <p>Tell me the idea when you order. Customs start at $45 for a 10-photo set and $50 for a 1-minute video. If requested lingerie isn't available, you can buy it through Amazon and delivery starts 1–2 days after it arrives.</p>
+  </details>
+  <details>
+    <summary>What if I don't like what I get?</summary>
+    <p>Digital content, so no refunds once delivered — but if something's clearly off, message me and we'll sort it. I'd rather fix it than lose you.</p>
+  </details>
+  <details>
+    <summary>What's the difference between VIP Daddy and Ultimate VIP Daddy?</summary>
+    <p>Length (3 vs 6 months), price ($150 vs $350), and extras. Ultimate includes priority replies, voice notes, a custom video with optional JOI theme, and two complimentary custom requests per Stripchat live instead of one.</p>
+  </details>
+  <details>
+    <summary>Do memberships renew automatically?</summary>
+    <p>No. Nothing renews or charges automatically on this site. Renewal is $60 and you confirm the next term with me before it starts.</p>
+  </details>
+  <details>
+    <summary>Where can I follow you?</summary>
+    <p>Telegram, Instagram, and X — all linked in the footer. I also go live on Stripchat; VIP members get complimentary custom requests each time, subject to my approval and announcement.</p>
+  </details>
+  <details>
+    <summary>Is this 18+?</summary>
+    <p>Yes. Adults only.</p>
+  </details>
 </section>
 
 </main>
@@ -306,6 +365,10 @@
   <div id="cartLines" class="cart-lines"></div>
   <div class="cart-bottom">
     <div class="cart-total-row"><span>Estimated initial total</span><strong id="drawerTotal">$0</strong></div>
+    <div class="cart-upsell" id="voiceNoteUpsell">
+      <p>Make it personal ♡ <strong>Voice note · $12</strong></p>
+      <button type="button" id="addVoiceNote">Add +$12</button>
+    </div>
     <p id="monthlyNote" class="fine-print" hidden>Membership and OnlyFans terms are confirmed with me directly. Nothing renews or charges automatically on this site.</p>
     <button type="button" id="copyOrder" class="secondary-btn">Copy order only</button>
     <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order & open Telegram →</button>

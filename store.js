@@ -1,52 +1,3 @@
-#!/usr/bin/env node
-// scripts/build-menu.mjs
-import { readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
-
-const root = resolve(process.cwd());
-const data = JSON.parse(readFileSync(resolve(root, "evie-menu.json"), "utf8"));
-
-const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
-const money = (n, from) => `${from ? "from " : ""}$${n}`;
-
-function renderItem(it) {
-  const price = it.price != null ? `<span class="price">${money(it.price, it.from)}</span>` : "";
-  const unit  = it.unit ? `<span class="unit"> / ${esc(it.unit)}</span>` : "";
-  const note  = it.note ? `<p class="item-note">${esc(it.note)}</p>` : "";
-  const inc   = it.includes
-    ? `<ul class="includes">${it.includes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`
-    : "";
-  return `<article class="item${it.modifier ? " modifier" : ""}">
-    <header><h3>${esc(it.name)}</h3>${price}${unit}</header>
-    ${inc}${note}
-  </article>`;
-}
-
-const sections = data.sections.map(s => `
-  <section id="${esc(s.id)}" class="menu-section">
-    <h2>${esc(s.title)}</h2>
-    ${s.note ? `<p class="section-note">${esc(s.note)}</p>` : ""}
-    <div class="items">${s.items.map(renderItem).join("")}</div>
-  </section>`).join("");
-
-const html = `<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kissed by Evie — Menu</title>
-<link rel="stylesheet" href="style.css">
-</head><body>
-<header class="hero" style="background-image:url('${esc(data.hero.image)}')">
-  <h1>${esc(data.hero.tagline)}</h1>
-</header>
-<main class="menu">${sections}</main>
-<footer><small>Menu ${esc(data.version)}</small></footer>
-</body></html>`;
-
-writeFileSync(resolve(root, "menu.generated.html"), html);
-writeFileSync(resolve(root, "menu.generated.js"),
-  `// AUTO-GENERATED from evie-menu.json — do not edit\nexport const MENU = ${JSON.stringify(data, null, 2)};\n`);
-console.log(`Built ${data.sections.length} sections, ${data.sections.reduce((a,s)=>a+s.items.length,0)} items.`);
 (function(){
 'use strict';
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
@@ -64,7 +15,7 @@ const products=[
   {section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
    description:'A month of extra attention, daily content and casual calls.',
    features:['1 month of OnlyFans access','Priority replies','Daily selfies and nudes','20 random photos','Casual calls only — no sexual FaceTimes']},
-  {section:'Memberships',name:'VIP Daddy Package',price:150,unit:'membership',group:'membership',badge:'Most Popular',
+  {section:'Memberships',name:'VIP Daddy Package',price:150,unit:'3 months',group:'membership',badge:'Most Popular',
    description:'3 months of VIP perks, content and FaceTime eligibility.',
    features:['3 months OnlyFans + full Dropbox (800+ and growing)','Daily nudes, videos and selfies','50 photos/videos total','10 live photos + a 2-minute custom video','Discounted FaceTimes or live shows','FaceTime eligible','1 free custom request each time I go live on Stripchat — I’ll notify you when I’m on'],
    note:'Specialty/taboo custom requests may cost extra; details confirmed first.'},
