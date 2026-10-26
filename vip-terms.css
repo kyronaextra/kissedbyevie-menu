@@ -1,0 +1,61 @@
+/* Kissed by Evie · Purchase Rules — isolated from the catalog */
+.terms-trigger {
+  display:inline-flex;align-items:center;justify-content:center;gap:.65rem;
+  padding:13px 17px;margin:3px 0 17px;border:1px solid rgba(255,216,232,.82);
+  border-radius:4px;background:rgba(25,7,17,.76);color:#ffe4ef;
+  font:700 11px/1.45 var(--body,Arial,sans-serif);letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;cursor:pointer;
+  box-shadow:0 8px 28px rgba(0,0,0,.28);transition:background .2s,transform .2s
+}
+.terms-trigger:hover,.terms-trigger:focus-visible{background:#5c2443;transform:translateY(-1px)}
+.terms-trigger span{color:#e9a4be}
+#vipTerms {
+  box-sizing:border-box;width:min(94vw,790px);max-width:790px;max-height:90dvh;
+  padding:0;margin:auto;border:1px solid rgba(255,205,225,.4);
+  border-radius:15px;background:#160b12;color:#f9eaf0;overflow:auto;
+  box-shadow:0 32px 90px rgba(0,0,0,.75);font-family:var(--body,Arial,sans-serif);
+  scrollbar-color:#a45b7f #170a13
+}
+#vipTerms::backdrop{background:rgba(6,2,5,.82);backdrop-filter:blur(5px)}
+#vipTerms .terms-head{
+  position:sticky;top:0;z-index:1;display:flex;justify-content:space-between;
+  gap:20px;align-items:center;background:rgba(29,10,23,.97);
+  padding:19px clamp(19px,5vw,36px);border-bottom:1px solid rgba(255,205,225,.18)
+}
+#vipTerms .terms-head span{font-size:10px;letter-spacing:.2em;color:#f0accb;font-weight:700}
+#vipTerms .terms-close{
+  width:37px;height:37px;flex:0 0 37px;border-radius:50%;border:1px solid #a67890;
+  background:transparent;color:#fff;font-size:24px;line-height:1
+}
+#vipTerms .terms-content{padding:clamp(21px,4vw,42px)}
+#vipTerms h2{margin:2px 0 15px;font:normal clamp(32px,5.5vw,52px)/1.08 var(--display,Georgia,serif);color:#ffe6f0}
+#vipTerms h3{margin:0 0 13px;font:normal clamp(23px,3vw,29px)/1.2 var(--display,Georgia,serif);color:#ffd5e6}
+#vipTerms .terms-lead{font-weight:700;color:#ffe4ec}
+#vipTerms p,#vipTerms li{font-size:14px;line-height:1.8;color:#ead2dc}
+#vipTerms p{margin:0 0 15px}
+#vipTerms .terms-content ul{padding-left:22px;margin:0 0 15px}
+#vipTerms li{padding-left:5px;margin:0 0 7px}
+#vipTerms strong{color:#fff}
+#vipTerms .terms-section{padding:24px 0;border-top:1px solid rgba(255,205,225,.15)}
+#vipTerms .terms-warning{padding:17px;border:1px solid #bd7296;border-radius:8px;background:rgba(144,33,83,.17)}
+#vipTerms .terms-warning strong{color:#ffd0e2}
+#vipTerms .terms-recap{padding:18px 20px;border-left:3px solid #e9a4be;background:rgba(233,164,190,.07)}
+#vipTerms .terms-recap p:last-child{margin-bottom:0}
+#vipTerms .terms-footer{position:sticky;bottom:0;z-index:1;padding:17px clamp(19px,5vw,36px);
+  background:#25101e;border-top:1px solid rgba(255,205,225,.27)}
+#vipTerms .terms-check{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;line-height:1.5}
+#vipTerms .terms-check input{width:18px;height:18px;flex:0 0 18px;accent-color:#e9a4be;margin-top:1px}
+#vipTerms .terms-accept{display:block;width:100%;margin-top:14px;padding:15px 17px;
+  background:#e9a4be;border:0;border-radius:4px;color:#1b0c15;font-weight:800;font-size:13px;cursor:pointer}
+#vipTerms .terms-accept:disabled{opacity:.45;cursor:not-allowed}
+#vipTerms .terms-footer small{display:block;font-size:11px;color:#c9a4b5;margin-top:8px;line-height:1.5}
+.terms-cart-note{font-size:12px;line-height:1.6;color:#e5c3d1;margin:0 0 12px}
+.terms-cart-note button{border:0;padding:0;background:none;color:#ffbad5;text-decoration:underline;cursor:pointer}
+@media (max-width:600px){
+ .hero-copy .terms-trigger{max-width:315px;font-size:10px;line-height:1.55}
+ #vipTerms{max-height:94dvh;width:96vw;border-radius:11px}
+ #vipTerms .terms-content{padding:24px 20px}
+ #vipTerms .terms-section{padding:22px 0}
+ #vipTerms .terms-footer{padding:14px 20px}
+}
+@media (prefers-reduced-motion:reduce){.terms-trigger{transition:none}}
