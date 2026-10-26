@@ -66,8 +66,16 @@
         <p class="muted">Published settings synchronize to paired browsers within about one minute while Snapchat Web is open. No messages are automatically read or sent.</p>
       </section>
       <section class="card">
-        <div class="sectionhead"><div><small>02 / PAIR A HOME PC</small><h2>Approved devices</h2></div></div>
-        <p class="muted">On your PC, open Snapchat Web and use Tampermonkey → Evie SnapDesk → Copy Evie pairing key. Paste that key here on a signed-in administrator device. The key is stored only as a SHA-256 hash on the server.</p>
+        <div class="sectionhead"><div><small>02 / SAFE DRAFT AUTOMATIONS</small><h2>Keyword → draft rules</h2></div></div>
+        <p class="muted">These rules inspect only the text you voluntarily enter into Evie SnapDesk, and automatically prepare a draft in its own panel. They never read, edit, or send Snapchat messages.</p>
+        <label>Automation rules (JSON array, max 30)
+          <textarea id="automationRules" rows="9" spellcheck="false"></textarea>
+        </label>
+        <p class="muted">Example: {"id":"pricing","name":"Pricing","enabled":true,"keyword":"price","reply":"Here are my options!","action":"draft_only"}</p>
+      </section>
+      <section class="card">
+        <div class="sectionhead"><div><small>03 / PAIR A HOME PC</small><h2>Approved devices</h2></div></div>
+        <p class="muted">For the first pairing, open this Bot Studio page on your PC in another browser tab. Open Snapchat Web, choose Tampermonkey → Evie SnapDesk → Copy Evie pairing key, return to Bot Studio and paste the key. After pairing you can control profiles from your phone. The key is stored only as a SHA-256 hash on the server.</p>
         <form id="pairForm">
           <label>Device name<input id="deviceName" maxlength="80" placeholder="Home PC" required></label>
           <label>Secret pairing key<input id="deviceKey" type="password" autocomplete="off" minlength="43" maxlength="43" placeholder="43-character key from Tampermonkey" required></label>
