@@ -4,7 +4,7 @@
 // manual reminders. No site code reads private social accounts or sends replies.
 const $=id=>document.getElementById(id);
 const clientState={request:null,sb:null,timer:null,channel:null,refreshing:false,
- online:false,initialLoaded:false,alerts:false,items:[],stopped:true,session:0};
+ online:false,initialLoaded:false,alerts:false,items:[],stopped:true,session:0,paymentAlertsSent:new Set()};
 const defaultTitle=document.title;
 const statuses={
  needs_reply:'Needs reply',waiting:'Replied elsewhere / waiting',handled:'Handled'
@@ -38,6 +38,32 @@ function notify(text){
   catch(_){}
  }
 }
+// Conservative lead-intent hints from the latest *inbound* preview.
+// This is NOT a payment receipt, promise of funds, or verified transaction.
+function explicitPaymentIntent(row){
+ if(!row||row.reply_state!=='needs_reply')return false;
+ if(!(row.origin==='worker'&&row.source_verified&&row.last_direction==='inbound')&&
+    !(row.origin==='manual'&&row.last_direction==='manual'))return false;
+ const preview=String(row.last_preview||'').slice(0,280).toLowerCase().replace(/[’]/g,"'");
+ if(!preview)return false;
+ // Do not alert for explicit negation, questions about future payment, or refusal.
+ if(/\b(?:not ready|not paying|don't (?:want to|have|pay)|can't pay|cannot pay|won't pay|pay later|maybe later|no money|need to wait|when i get paid|if i pay)\b/i.test(preview))return false;
+ return /\b(?:i'm|im|i am|we're|we are)\s+(?:all\s+|totally\s+|finally\s+)?ready to (?:pay|buy|purchase|order|check\s*out)\b/i.test(preview)
+  || /\b(?:ready to pay|ready for payment|payment ready|send (?:me )?(?:your|the) (?:payment (?:details|info|link)|cash\s*app|venmo)|how (?:can|do) i pay(?: you)?|can i pay (?:you )?now|where (?:can|do) i pay|i want to (?:pay|check\s*out)|i'd like to pay|take my money)\b/i.test(preview);
+}
+function emitPaymentReady(row){
+ const messageTime=Date.parse(row.last_message_at||'');
+ if(!Number.isFinite(messageTime)||Math.abs(Date.now()-messageTime)>10*60*1000)return;
+ const key=String(row.id)+':'+new Date(messageTime).toISOString();
+ if(clientState.paymentAlertsSent.has(key))return;
+ clientState.paymentAlertsSent.add(key);
+ if(clientState.paymentAlertsSent.size>200)clientState.paymentAlertsSent.clear();
+ window.dispatchEvent(new CustomEvent('evie:payment-ready',{
+  detail:{id:key,contact_name:row.contact_name||'',contact_handle:row.contact_handle||'',
+    platform:row.platform,occurred_at:new Date(messageTime).toISOString()}
+ }));
+}
+
 function getPlatformUrl(row){
  if(row.platform==='telegram'){
   const name=String(row.contact_handle||'').replace(/^@/,'');
@@ -162,6 +188,13 @@ async function refresh(silent=false){
   const before=new Map(clientState.items.map(row=>[row.id,{time:row.last_message_at,unread:row.unread_count}]));
   const list=Array.isArray(payload.threads)?payload.threads:[];
   clientState.items=list;
+  // Backfill a lead only if its last message was recent; an installed Tampermonkey
+  // script de-duplicates identifiers across reloads and broadcasts to approved tabs.
+  list.forEach(row=>{
+    const old=before.get(row.id);
+    const newest=!old||new Date(row.last_message_at)>new Date(old.time);
+    if(newest&&explicitPaymentIntent(row))emitPaymentReady(row);
+  });
   updateCounters(payload);
   render();
   $('inboxTelegramStatus').textContent=payload.coverage?.telegram?.status==='connected'?
