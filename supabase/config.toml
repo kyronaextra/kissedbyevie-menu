@@ -1,4 +1,8 @@
 # Public order intake validates input and uses server-side service role.
-# Deploy with verify_jwt=false; protect against abuse with rate limiting and Turnstile before public launch.
 [functions.evie-order-request]
+verify_jwt = false
+
+# Bot sync does its own auth: device token for reads, admin session for writes.
+# Must be false or the device GET (no Authorization header) is rejected by the gateway.
+[functions.evie-bot-sync]
 verify_jwt = false
