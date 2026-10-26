@@ -337,7 +337,7 @@
       feedback.textContent='Copied! Paste your picks into our Telegram chat and hit send ♡';
       window.location.assign('https://t.me/kissedbyevie');
     }catch(e){
-      feedback.textContent='Copy didn't work. Tap Copy order only, then paste it in our chat.';
+      feedback.textContent='Copy failed. Tap Copy order only, then paste your picks into our chat.';
     }
   });
   loadCart();
@@ -369,8 +369,6 @@
       gsap.fromTo(element,{opacity:0,y:34},{opacity:1,y:0,duration:.85,ease:'power2.out',
         scrollTrigger:{trigger:element,start:'top 92%',once:true}});
     });
-    if(window.matchMedia('(min-width: 801px)').matches){
-      gsap.fromTo('.vault-emblem',{y:-15},{y:25,ease:'none',scrollTrigger:{trigger:'.vault-section',start:'top bottom',end:'bottom top',scrub:true}});
-    }
+
   }
 })();
