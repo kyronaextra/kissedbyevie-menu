@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Evie SnapDesk · private companion
 // @namespace    https://kissedbyevie-menu.onrender.com
-// @version      0.1.0
+// @version      1.0.0
 // @description  Manual draft tools and synchronized personality settings; does not read or send Snapchat chats.
 // @match        https://web.snapchat.com/*
 // @grant        GM_getValue
@@ -19,6 +19,9 @@
   const KEY_NAME = "evie_snapdesk_device_key_v1";
   const FALLBACK = {
     active_profile: "evie",
+    automations: [
+      { id: "pricing", name: "Pricing question", enabled: true, keyword: "price", reply: "I can share the options and help you choose.", action: "draft_only" }
+    ],
     profiles: [
       { id: "evie", name: "Evie", tone: "Confident, warm, playful", guidance: "Keep replies short and personable.", quick_replies: [
         { label: "Hello", text: "Hey you 💕 What did you have in mind?" },
@@ -40,6 +43,7 @@
   if (!config || !Array.isArray(config.profiles)) config = FALLBACK;
   let active = config.active_profile || "evie";
   let panel, statusEl, profileSelect, textInput, output, replyList;
+  let lastRuleDraft = "";
 
   function profile() {
     return config.profiles.find(p => p.id === active) || config.profiles[0] || FALLBACK.profiles[0];
@@ -83,16 +87,35 @@
     output.value = String(text || "").slice(0, 2000);
     output.focus();
   }
+  function matchingRule(context) {
+    const query = String(context || "").trim().toLowerCase();
+    if (!query) return null;
+    return (Array.isArray(config.automations) ? config.automations : [])
+      .find(r => r.enabled === true && r.action === "draft_only" &&
+        typeof r.keyword === "string" && r.keyword.length &&
+        query.includes(r.keyword.toLowerCase()) && typeof r.reply === "string");
+  }
+  function autoDraft() {
+    // React ONLY to text that the account owner types/pastes into our private panel.
+    // Never access Snapchat chats, message elements or Snapchat network requests.
+    const rule = matchingRule(textInput.value);
+    if (!rule) return;
+    if (output.value && output.value !== lastRuleDraft) return; // preserve owner edits
+    output.value = rule.reply;
+    lastRuleDraft = rule.reply;
+    setStatus("Auto-drafted from rule: " + rule.name + ". Review, then copy manually.");
+  }
   function makeSuggestion() {
-    // All text is typed or pasted deliberately by the owner.
-    // No Snapchat DOM, network events, private APIs or messages are inspected.
     const query = textInput.value.trim().toLowerCase();
     const p = profile();
     const replies = p.quick_replies || [];
+    const rule = matchingRule(query);
     const match = replies.find(r => r.label && query.includes(r.label.toLowerCase()));
-    const suggestion = match?.text || replies[0]?.text || "Thanks for your message! I'll get back to you.";
+    const suggestion = rule?.reply || match?.text || replies[0]?.text ||
+      "Thanks for your message! I'll get back to you.";
     quickReply(suggestion);
-    setStatus("Rule-based suggestion ready. Review before copying; this is not an AI-generated answer.");
+    lastRuleDraft = suggestion;
+    setStatus("Rule-based draft ready. Review before copying; no message was sent.");
   }
   function renderProfiles() {
     if (!profileSelect) return;
@@ -159,6 +182,7 @@
     label.textContent = "Optional message context (manually entered)";
     textInput = document.createElement("textarea");
     textInput.placeholder = "Type a topic or paste text you choose to share...";
+    textInput.addEventListener("input", autoDraft);
     label.append(textInput); main.append(label);
     const actions = document.createElement("div");
     actions.className = "actions";
