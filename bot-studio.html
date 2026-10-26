@@ -55,6 +55,13 @@
         <label>Quick replies (JSON array of objects with label and text)
           <textarea id="quickReplies" rows="8" spellcheck="false"></textarea>
         </label>
+        <div class="inline">
+          <label class="grow">Import a personality or configuration (.json only)
+            <input id="importJson" type="file" accept=".json,application/json">
+          </label>
+          <button id="importConfig" type="button" class="secondary">Import JSON</button>
+          <button id="exportConfig" type="button" class="secondary">Export JSON</button>
+        </div>
         <button id="saveConfig" type="button">Publish personality settings</button>
         <p class="muted">Published settings synchronize to paired browsers within about one minute while Snapchat Web is open. No messages are automatically read or sent.</p>
       </section>
