@@ -1,218 +1,158 @@
 (function(){
 'use strict';
-// Menu source of truth: section, order name, price, visible name, short description, exclusive group, optional details.
-const products=[
- [
-  "Featured",
-  "ULTRA VAULT",
-  75,
-  "The Ultra Vault",
-  "The full collection, with current contents and access confirmed before purchase.",
-  "vault",
-  ""
- ],
- [
-  "Featured",
-  "Daddy Package Monthly",
-  150,
-  "Daddy Monthly VIP",
-  "Monthly VIP perks: daily snaps, priority replies and one live Snap show.",
-  "daddy",
-  "Includes the deluxe Dropbox collection, 3 months of OnlyFans access, discounted calls and live shows, direct phone contact and a personal site collection. No extra $15 required. Private website lounge access is still coming soon."
- ],
- [
-  "Featured",
-  "Daddy Package Lifetime",
-  300,
-  "Daddy Lifetime Access",
-  "One payment for permanent membership status and your personal collection.",
-  "daddy",
-  "Lifetime status remains yours. Monthly perks are activated only with a voluntary $15 contribution in that calendar month. No automatic charges. Private website lounge access is still coming soon."
- ],
- [
-  "Featured",
-  "Lovense Interactive Video Call",
-  175,
-  "Interactive FaceTime",
-  "A one-on-one interactive video session arranged directly.",
-  "",
-  ""
- ],
- [
-  "Featured",
-  "Panties · 1 day",
-  130,
-  "One-Day Panties",
-  "One day of wear, plus a video and snaps; extras are separate.",
-  "",
-  ""
- ],
- [
-  "Customs",
-  "Custom Full Video · 2 min",
-  90,
-  "Your Custom Video · 2 Min",
-  "A made-for-you video; I confirm the details with you first.",
-  "",
-  ""
- ],
- [
-  "Customs",
-  "Custom Full Video · 3 min",
-  120,
-  "Your Custom Video · 3 Min",
-  "More time for your personalized video request.",
-  "",
-  ""
- ],
- [
-  "Customs",
-  "Custom Full Video · 4 min",
-  140,
-  "Your Custom Video · 4 Min",
-  "The longest standard made-for-you video option.",
-  "",
-  ""
- ],
- [
-  "Customs",
-  "JOI Custom Video · 3 min",
-  150,
-  "JOI Custom · 3 Minutes",
-  "A personalized JOI video, three minutes long.",
-  "",
-  ""
- ],
- [
-  "Bundles",
-  "10 Premade Pics/Videos",
-  10,
-  "The Instant Pack · 10",
-  "10 premade pics & vids from my collection.",
-  "bundle",
-  ""
- ],
- [
-  "Bundles",
-  "20 Premade Pics/Videos",
-  20,
-  "The Instant Pack · 20",
-  "20 premade pics & vids — twice the Instant Pack.",
-  "bundle",
-  ""
- ],
- [
-  "Bundles",
-  "50 Premade Pics/Videos",
-  50,
-  "The Instant Pack · 50",
-  "50 premade pics & vids in one bigger bundle.",
-  "bundle",
-  ""
- ],
- [
-  "Bundles",
-  "Single B/G Video",
-  15,
-  "B/G Video · Single",
-  "One ready-made B/G video.",
-  "",
-  ""
- ],
- [
-  "Bundles",
-  "Complete B/G Vault",
-  40,
-  "The B/G Vault",
-  "The complete B/G video bundle.",
-  "",
-  ""
- ],
- [
-  "Live",
-  "10 Live Snaps",
-  20,
-  "The Live Pack · 10",
-  "10 fresh live Snap pics or clips — made in the moment.",
-  "",
-  ""
- ],
- [
-  "Live",
-  "20 Live Snaps",
-  40,
-  "The Live Pack · 20",
-  "20 fresh live Snap pics or clips — twice the Live Pack.",
-  "",
-  ""
- ],
- [
-  "Live",
-  "7+ Short Live Snaps",
-  35,
-  "Live Bubbles · 7+",
-  "At least seven short live Snap clips or bubbles.",
-  "",
-  ""
- ],
- [
-  "Extras",
-  "Detailed Text Rating",
-  20,
-  "Text Rating",
-  "A detailed personalized written rating.",
-  "",
-  ""
- ],
- [
-  "Extras",
-  "Detailed Live Snap Video Rating",
-  35,
-  "Your Live Video Rating",
-  "A video rating plus at least five live snaps.",
-  "",
-  ""
- ]
+// KissedByEvie storefront: this is the single source of truth for item names and prices.
+// Prices marked "from" are minimums; all orders are reviewed before payment.
+const categories=[
+  ['Memberships','VIP & GFE'],
+  ['OnlyFans','OnlyFans'],
+  ['Bundles','Quick Bundles'],
+  ['Themed','Themed Sets'],
+  ['AlaCarte','À la Carte'],
+  ['Quick','Quick Interactions'],
+  ['Addons','Extras & Add-ons']
 ];
-const categories=[["Featured","Start Here"],["Customs","Custom Videos"],["Bundles","Premade & Bundles"],["Live","Live Snaps"],["Extras","Ratings & Extras"]];
+const products=[
+  {section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
+   description:'A month of extra attention, daily content and casual calls.',
+   features:['1 month of OnlyFans access','Priority replies','Daily selfies and nudes','20 random photos','Casual calls only — no sexual FaceTimes']},
+  {section:'Memberships',name:'VIP Daddy Package',price:150,unit:'membership',group:'membership',badge:'Most Popular',
+   description:'3 months of VIP perks, content and FaceTime eligibility.',
+   features:['3 months OnlyFans + full Dropbox (800+ and growing)','Daily nudes, videos and selfies','50 photos/videos total','10 live photos + a 2-minute custom video','Discounted FaceTimes or live shows','FaceTime eligible','1 free custom request each time I go live on Stripchat — I’ll notify you when I’m on'],
+   note:'Specialty/taboo custom requests may cost extra; details confirmed first.'},
+  {section:'Memberships',name:'Ultimate VIP Daddy Package',price:350,unit:'6 months',group:'membership',badge:'Best Value',
+   description:'Six months of premium access, extras and two live-show requests.',
+   features:['6 months OnlyFans + full Dropbox (800+ items, updated regularly)','Priority replies and voice notes','One custom video (JOI option available)','10 photos + a 2-minute video','Daily content','Discounted FaceTimes or live shows','FaceTime eligible','2 free custom requests each time I go live on Stripchat — I’ll notify you when I’m on']},
+  {section:'Memberships',name:'VIP / Daddy Membership Renewal',price:60,unit:'per renewal',group:'membership',
+   description:'Renew an existing VIP/Daddy membership after the current term ends.',
+   note:'Renewal and next membership term are confirmed directly before payment.'},
+
+  {section:'OnlyFans',name:'OnlyFans Monthly',price:3,unit:'per month',group:'of',
+   description:'One month of OnlyFans access.'},
+  {section:'OnlyFans',name:'OnlyFans — One Year',price:45,unit:'1 year',group:'of',
+   description:'12 months of access, arranged and paid outside OnlyFans.'},
+
+  {section:'Bundles',name:'10 Random Pics & Videos',price:10,
+   description:'A surprise mix of 10 photos and videos.'},
+  {section:'Bundles',name:'20 Surprise Pics & Videos',price:20,
+   description:'A bigger surprise mix — 20 photos and videos.'},
+  {section:'Bundles',name:'50 Surprise Pics & Videos',price:40,badge:'Bundle Favorite',
+   description:'50 surprise photos and videos in one bundle.'},
+  {section:'Bundles',name:'Deluxe Dropbox — 800+',price:75,group:'vault',
+   description:'800+ photos and videos, with new additions over time.',
+   note:'Collection access is arranged after your order is confirmed.'},
+
+  {section:'Themed',name:'Signature Set',price:35,badge:'Most Popular',
+   description:'5 themed photos + a 1-minute video.'},
+  {section:'Themed',name:'Full Shoot Collection',price:50,
+   description:'10 themed photos + a 2-minute video.'},
+  {section:'Themed',name:'Custom Full Shoot — 2-Minute Video',price:90,
+   description:'10 custom photos + a 2-minute custom video.'},
+  {section:'Themed',name:'Custom Full Shoot — 4-Minute Video',price:150,
+   description:'10 custom photos + a 4-minute custom video.'},
+
+  {section:'AlaCarte',name:'Custom 10-Photo Set',price:45,from:true,
+   description:'A custom 10-photo set made for your request.'},
+  {section:'AlaCarte',name:'Custom 1-Minute Video',price:50,from:true,
+   description:'One minute, made to your request.'},
+
+  {section:'Quick',name:'Detailed Rating',price:15,
+   description:'A personal, detailed rating.'},
+  {section:'Quick',name:'Voice Note',price:12,
+   description:'A personalized voice note.'},
+  {section:'Quick',name:'Flash + 5 Live Teaser Videos',price:25,
+   description:'A flash with five short live teaser videos.'},
+  {section:'Quick',name:'1-Minute Live Ass / Tit / Spit Play',price:45,
+   description:'One minute of your selected live interaction.'},
+  {section:'Quick',name:'Five Feet Photos',price:20,
+   description:'A set of five feet photos.'},
+
+  {section:'Addons',name:'Dick Rating',price:35,
+   description:'A personalized rating add-on.'},
+  {section:'Addons',name:'Custom Request',price:50,from:true,
+   description:'Customs start at $50; final quote depends on your request.'},
+  {section:'Addons',name:'Live Show',price:55,
+   description:'A live show, scheduled with me.'},
+  {section:'Addons',name:'Say Your Name / Talk Dirty',price:25,extra:true,
+   description:'Personalize an eligible custom or live request.'},
+  {section:'Addons',name:'Dommy Mommy Mode',price:30,extra:true,
+   description:'A themed add-on to an eligible custom request.'},
+  {section:'Addons',name:'Submissive Mode',price:20,extra:true,
+   description:'A themed add-on to an eligible custom request.'},
+  {section:'Addons',name:'Panty Play',price:20,extra:true,
+   description:'A panty-play add-on to an eligible request.'},
+  {section:'Addons',name:'Themed Shoot Priority — 12 Hours',price:15,extra:true,
+   description:'Priority after any requested lingerie has arrived.'},
+  {section:'Addons',name:'À la Carte Priority — 6 Hours',price:15,extra:true,
+   description:'Priority delivery for eligible custom photos or videos.'},
+  {section:'Addons',name:'Quick Interaction Priority — 30 Minutes',price:10,extra:true,
+   description:'Only if I’m home and available — confirm first.'}
+];
+const notes={
+  Memberships:[
+    'Membership perks are arranged directly with me; the private website member lounge is still coming soon.',
+    'FaceTimes are for eligible VIP members only. I’ll send payment details once we confirm.'
+  ],
+  OnlyFans:['The yearly plan is paid outside OnlyFans. No payments are collected on this site.'],
+  Bundles:['Available content: Squirt • B/G • Solo • Dildo. Choose your bundle ♡'],
+  Themed:['If I don’t have the lingerie you want, you can purchase it through Amazon.','Delivery is 1–2 days after the lingerie arrives; 12-hour priority after arrival is +$15, subject to confirmation.'],
+  AlaCarte:['Usual delivery: within 24 hours. Priority within 6 hours: +$15, if available.'],
+  Quick:['Usual delivery: within 6 hours. Priority within 30 minutes: +$10 if I’m home and available.','10-minute delivery is only possible if I’m already dressed and ready — ask me first.'],
+  Addons:['FaceTimes are VIP-only. Add-ons need an eligible item, and delivery or scheduling is confirmed before payment.']
+};
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
-const quick=document.createElement('p');quick.className='menu-helper';
-quick.textContent='Premade = already filmed. Live = made on Snap. Customs = made just for you. Pick your favorites and send me your order ♡';
-root.append(quick);
+const intro=document.createElement('p');intro.className='menu-helper';
+intro.textContent='Choose a section, add your picks, then send me your order ♡ All prices are upfront; customs marked “from” are quoted before payment.';
+root.append(intro);
 const tabs=document.createElement('div');tabs.className='category-tabs';
-tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Browse the menu');root.append(tabs);
-categories.forEach(([key,label],index)=>{
- const tab=document.createElement('button');tab.type='button';tab.id='tab-'+key;
- tab.className='category-tab'+(index===0?' active':'');tab.dataset.tab=key;
- tab.setAttribute('role','tab');tab.setAttribute('aria-selected',String(index===0));
- tab.setAttribute('aria-controls','panel-'+key);tab.tabIndex=index===0?0:-1;
- tab.textContent=label;tabs.append(tab);
+tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Content menu categories');
+root.append(tabs);
+function el(tag,cls,value){
+ const node=document.createElement(tag);
+ if(cls)node.className=cls;
+ if(value!=null)node.textContent=value;
+ return node;
+}
+categories.forEach(([key,label],i)=>{
+ const tab=el('button','category-tab'+(i===0?' active':''),label);
+ tab.type='button';tab.id='tab-'+key;tab.dataset.tab=key;
+ tab.setAttribute('role','tab');tab.setAttribute('aria-selected',String(i===0));
+ tab.setAttribute('aria-controls','panel-'+key);tab.tabIndex=i===0?0:-1;
+ tabs.append(tab);
 });
-categories.forEach(([key],index)=>{
- const panel=document.createElement('div');panel.id='panel-'+key;panel.className='product-panel';
- panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','tab-'+key);panel.hidden=index!==0;
- products.filter(p=>p[0]===key).forEach(p=>{
-  const card=document.createElement('article');card.className='product-card'+(p[0]==='Featured'?' featured':'');
-  const info=document.createElement('div'),name=document.createElement('h3');name.className='card-label';name.textContent=p[3];info.append(name);
-  const description=document.createElement('p');description.textContent=p[4];info.append(description);
-  if(p[6]){
-   const details=document.createElement('details');details.className='menu-details';
-   const summary=document.createElement('summary');summary.textContent="What's included";
-   const copy=document.createElement('p');copy.textContent=p[6];details.append(summary,copy);info.append(details);
-  }
-  const button=document.createElement('button');button.type='button';button.className='offer-btn add-product';
-  button.dataset.name=p[1];button.dataset.price=p[2];
-  if(p[5])button.dataset.exclusive=p[5];
-  button.setAttribute('aria-label','Add '+p[3]+' for $'+p[2]+(p[1].includes('Monthly')?' per month':''));
-  const price=document.createElement('strong');price.className='offer-price';price.textContent='$'+p[2]+(p[1].includes('Monthly')?' / mo':'');info.append(price);
-  button.append(document.createTextNode('Add to bag'));
-  const add=document.createElement('span');add.textContent='+';button.append(add);
-  card.append(info,button);panel.append(card);
+categories.forEach(([section],i)=>{
+ const panel=el('div','product-panel menu-v2-panel');
+ panel.id='panel-'+section;
+ panel.setAttribute('role','tabpanel');
+ panel.setAttribute('aria-labelledby','tab-'+section);
+ panel.hidden=i!==0;
+ products.filter(p=>p.section===section).forEach(p=>{
+   const card=el('article','product-card menu-v2-card'+(p.badge?' featured':''));
+   const info=el('div','menu-v2-info');
+   if(p.badge)info.append(el('span','menu-v2-badge',p.badge));
+   info.append(el('h3','card-label',p.name));
+   if(p.unit)info.append(el('p','menu-v2-unit',p.unit));
+   info.append(el('p','menu-v2-desc',p.description));
+   if(p.features&&p.features.length){
+     const list=el('ul','menu-v2-features');
+     p.features.forEach(item=>list.append(el('li','',item)));
+     info.append(list);
+   }
+   if(p.note)info.append(el('p','menu-v2-fine',p.note));
+   const amount=el('strong','offer-price', (p.extra?'+':'')+'$'+p.price+(p.from?'+':''));
+   const action=el('button','offer-btn add-product');
+   action.type='button';action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
+   action.dataset.price=String(p.price);
+   if(p.group)action.dataset.exclusive=p.group;
+   action.setAttribute('aria-label','Add '+p.name+', '+(p.from?'from ':'')+'$'+p.price);
+   action.append(el('span','menu-v2-add-label','Add to bag'),el('span','menu-v2-plus','+'));
+   const buy=el('div','menu-v2-buy');buy.append(amount,action);
+   card.append(info,buy);panel.append(card);
  });
- if(key==='Customs'){
-  const note=document.createElement('p');note.className='menu-section-note';
-  note.textContent='Other customs are quoted individually ($110–$300). Approved specialty themes may add $50.';
+ const list=notes[section]||[];
+ if(list.length){
+  const note=el('div','menu-v2-notes');
+  list.forEach(s=>note.append(el('p','',s)));
   panel.append(note);
  }
  root.append(panel);
