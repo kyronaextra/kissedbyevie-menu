@@ -85,14 +85,14 @@
   var bagPill=document.getElementById('bagPill');
   var cart=[];
   function singleQty(exclusive,name){
-    return exclusive==='bundle'||exclusive==='daddy'||exclusive==='deal'||/monthly/i.test(name||'');
+    return ['membership','of','vault'].includes(exclusive)||/monthly|renewal/i.test(name||'');
   }
   function saveCart(){
-    try{sessionStorage.setItem('evie-bag-v1',JSON.stringify(cart))}catch(e){}
+    try{sessionStorage.setItem('evie-bag-v2',JSON.stringify(cart))}catch(e){}
   }
   function loadCart(){
     try{
-      var parsed=JSON.parse(sessionStorage.getItem('evie-bag-v1')||'[]');
+      var parsed=JSON.parse(sessionStorage.getItem('evie-bag-v2')||'[]');
       if(!Array.isArray(parsed))return;
       cart=parsed.filter(function(item){
         return item&&typeof item.name==='string'&&Number.isFinite(Number(item.price))&&item.qty>0;
@@ -227,9 +227,24 @@
   bag.addEventListener('click',function(e){if(e.target===bag)closeBag()});
   bag.addEventListener('close',function(){if(lastBagTrigger&&lastBagTrigger.focus)lastBagTrigger.focus()});
   function addItem(name,price,exclusive){
-    if(['bundle','daddy','deal'].includes(exclusive))cart=cart.filter(function(i){return i.exclusive!==exclusive});
-    if(exclusive==='daddy')cart=cart.filter(function(i){return i.name!=='Deluxe Dropbox / Full Vault'});
-    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='daddy'})){document.getElementById('cartFeedback').textContent='Vault is included in the Daddy Package.';openBag();return;}
+    // Choose one membership or OnlyFans plan; avoid double-charging for included access.
+    if(exclusive==='membership'){
+      const isVip=/VIP Daddy|Ultimate VIP|Membership Renewal/i.test(name);
+      cart=cart.filter(function(i){
+        if(i.exclusive==='membership'||i.exclusive==='of')return false;
+        if(isVip&&i.exclusive==='vault')return false;
+        return true;
+      });
+    }
+    if(exclusive==='of'&&cart.some(function(i){return i.exclusive==='membership'})){
+      document.getElementById('cartFeedback').textContent='OnlyFans access is already included in your selected membership.';
+      openBag();return;
+    }
+    if(exclusive==='of')cart=cart.filter(function(i){return i.exclusive!=='of'});
+    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP Daddy|Ultimate VIP/i.test(i.name)})){
+      document.getElementById('cartFeedback').textContent='Dropbox access is already included in your selected VIP Daddy package.';
+      openBag();return;
+    }
     var item=cart.find(function(existing){return existing.name===name});
     if(item){if(!singleQty(exclusive,name))item.qty++}
     else cart.push({name:name,price:price,qty:1,exclusive:exclusive||null});
@@ -278,7 +293,7 @@
     document.getElementById('drawerTotal').textContent=money(cartTotal());
     document.getElementById('bagTotal').textContent=money(cartTotal());
     document.getElementById('bagCount').textContent=String(cart.reduce(function(sum,item){return sum+item.qty},0));
-    document.getElementById('monthlyNote').hidden=!cart.some(function(item){return /monthly/i.test(item.name)});
+    document.getElementById('monthlyNote').hidden=!cart.some(function(item){return item.exclusive==='membership'||item.exclusive==='of'});
     document.getElementById('copyOrder').disabled=cart.length===0;
     document.getElementById('confirmOrder').disabled=cart.length===0;
     bagPill.classList.toggle('visible',cart.length>0);
@@ -290,7 +305,7 @@
     }).join('\n')+'\n\nEstimated total: '+money(cartTotal())+
     '\n\nMy Snap/Telegram: [your username]'+
     '\nExtras or requests: [optional]'+
-    '\n\nLet me know the final details and how to pay!';
+    '\n\nPlease confirm availability, delivery time, final custom quotes and how to pay!';
   }
   async function copyOrderText(){
     var message=orderMessage();
@@ -320,7 +335,7 @@
     try{
       await copyOrderText();
       feedback.textContent='Copied! Paste your picks into our Telegram chat and hit send ♡';
-      window.open('https://t.me/kissedbyevie','_blank','noopener,noreferrer');
+      window.location.assign('https://t.me/kissedbyevie');
     }catch(e){
       feedback.textContent='Copy didn't work. Tap Copy order only, then paste it in our chat.';
     }
