@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="vip-terms.css">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="store.js"></script>
@@ -24,6 +25,7 @@
 <script defer src="daddy-gallery.js"></script>
 <script defer src="daddy-lounge.js"></script>
 <script defer src="member-auth.js"></script>
+<script defer src="vip-terms.js"></script>
 <noscript><style>#accessGate{display:none!important}</style></noscript>
 </head>
 <body id="top">
@@ -65,6 +67,7 @@
         <div class="eyebrow">A PRIVATE WORLD BY @KISSEDBYEVIE</div>
         <h1>Kissed<br><em>by Evie</em></h1>
         <p>Your new VIP, custom, and content menu — all in one place.</p>
+        <button type="button" class="terms-trigger" data-open-vip-terms aria-haspopup="dialog">✧ TERMS AND CONDITIONS WHEN YOU BUY <span aria-hidden="true">↗</span></button>
         <a href="#boutique" class="text-link">Explore the menu <span aria-hidden="true">↘</span></a>
       </div>
     </article>
@@ -356,6 +359,127 @@
   </div>
 </dialog>
 
+
+<!-- VIP purchase rules: always available from the top of the page and the bag -->
+<dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">
+  <div class="terms-head">
+    <span>KISSED BY EVIE · BEFORE YOU BUY · 18+</span>
+    <button type="button" class="terms-close" id="termsClose" aria-label="Close purchase terms">×</button>
+  </div>
+  <div class="terms-content">
+    <h2 id="vipTermsTitle">✧ VIP PACKAGE RULES &amp; BOUNDARIES ✧</h2>
+    <p class="terms-lead" id="vipTermsLead">Read this before you buy. By ordering, you agree to everything below.</p>
+    <p>Hey babe — before you send anything, I need you to actually read this. Not skim. Read. Because VIP comes with a lot of assumptions that people get wrong, and I'd rather set it straight now than have an awkward conversation later.</p>
+    <p>Here's exactly how this works.</p>
+
+    <section class="terms-section" aria-labelledby="terms-rule-1">
+      <h3 id="terms-rule-1">1. VIP Does NOT Mean Free FaceTimes</h3>
+      <p>Buying VIP makes you <strong>eligible</strong> for FaceTimes. That's it. It does not make them free, and it does not mean you get them whenever you want.</p>
+      <ul>
+        <li>FaceTimes are <strong>paid, even for VIP.</strong></li>
+        <li>What VIP gets you is a <strong>discount</strong> and <strong>priority</strong> — first in line, better rate.</li>
+        <li>The perk is access and price. Not unlimited calls.</li>
+      </ul>
+      <p>If you bought VIP thinking FaceTimes were included, this is your warning.</p>
+    </section>
+
+    <section class="terms-section" aria-labelledby="terms-rule-2">
+      <h3 id="terms-rule-2">2. VIP Does NOT Mean Unlimited Customs</h3>
+      <p>Your package covers what's listed on it. Anything past that is <strong>extra.</strong></p>
+      <ul>
+        <li>Customs outside your package get <strong>quoted and paid separately.</strong></li>
+        <li>“But I'm VIP” is not a free pass for endless requests.</li>
+        <li>Want more? Buy more. That's the whole model, and it keeps me making content instead of chasing payments.</li>
+      </ul>
+    </section>
+
+    <section class="terms-section" aria-labelledby="terms-rule-3">
+      <h3 id="terms-rule-3">3. VIP Does NOT Mean Unlimited Access to My Time</h3>
+      <p>VIP buys you <strong>priority and attention</strong> — not ownership of my schedule.</p>
+      <ul>
+        <li><strong>I have another job and a life outside of this.</strong> Sometimes I'm genuinely not available for hours. That's normal — that's not me ignoring you.</li>
+        <li>I reply when I can, not on demand.</li>
+        <li>Calls are scheduled around my availability and confirmed <strong>before</strong> you pay.</li>
+        <li>Don't expect me on standby just because you're VIP. I have a life, content to make, and other people buying too.</li>
+        <li><strong>A tip gets you bumped up the queue.</strong> It doesn't buy you a 24/7 hotline — but it does get you noticed first when I'm back.</li>
+      </ul>
+    </section>
+
+    <section class="terms-section" aria-labelledby="terms-rule-4">
+      <h3 id="terms-rule-4">4. TIP. TIP. TIP.</h3>
+      <p><strong>Tips are how this actually works. Tips get remembered.</strong></p>
+      <ul>
+        <li>Tipping gets you <strong>faster replies, priority scheduling, and goodwill</strong> on customs and extras, subject to my availability.</li>
+        <li>Want my time outside your package? <strong>Tip.</strong></li>
+        <li>Want a FaceTime? <strong>Tip</strong> on top of the VIP rate.</li>
+        <li>Want a custom that wasn't included? <strong>Tip.</strong></li>
+        <li>Want to be a favorite? <strong>Tip.</strong></li>
+      </ul>
+      <p>No tip, no complaints. Tipping is the difference between a customer and a priority. Simple as that.</p>
+    </section>
+
+    <section class="terms-section" aria-labelledby="terms-rule-5">
+      <h3 id="terms-rule-5">5. FaceTime Eligibility — The Real Rule</h3>
+      <p>To even be <strong>eligible</strong> for FaceTimes, you need ONE of these:</p>
+      <ul>
+        <li><strong>An active VIP package</strong> (VIP Daddy or Ultimate VIP Daddy), <strong>OR</strong></li>
+        <li><strong>Consistent purchases</strong> of pre-made content and/or lives.</li>
+      </ul>
+      <p>Eligibility ≠ guarantee. Eligibility ≠ free. Eligibility means you <em>can</em> request, I confirm a time, you pay, we talk.</p>
+    </section>
+
+    <section class="terms-section" aria-labelledby="terms-rule-6">
+      <h3 id="terms-rule-6">6. 🚨 DO NOT SHARE MY CONTENT. ANYWHERE. EVER. 🚨</h3>
+      <div class="terms-warning">
+        <p><strong>My content is MINE. You're buying access — not the right to redistribute it.</strong></p>
+        <ul>
+          <li><strong>Do NOT repost it online.</strong> Not on Reddit, Twitter/X, Telegram groups, Discord, TikTok, or anywhere else.</li>
+          <li><strong>Do NOT re-upload it to other sites.</strong> Not to other OnlyFans pages, tube sites, or file-sharing sites.</li>
+          <li><strong>Keep it on your own device, or view it through OnlyFans or our chats.</strong> Personal use only.</li>
+          <li><strong>NOBODY ELSE gets it.</strong> If you bought it, it's for <em>you</em> — not you and your group chat.</li>
+          <li><strong>Do NOT SELL my content.</strong> You cannot charge people to access my stuff.</li>
+        </ul>
+        <p><strong>If you share it, repost it, or sell it — I will pursue legal action, including suing where appropriate.</strong> Don't test me. It's my livelihood.</p>
+        <p>Want to introduce a friend? <strong>Share my public menu link, not purchased content.</strong> They can place their own order. ♡</p>
+      </div>
+    </section>
+
+    <section class="terms-section" aria-labelledby="terms-rule-7">
+      <h3 id="terms-rule-7">7. The Trade-Off You're Agreeing To</h3>
+      <ul>
+        <li>VIP-based FaceTime eligibility is <strong>tied to your active membership.</strong> If it lapses, that VIP-based eligibility lapses too. The consistent-purchaser route is evaluated separately.</li>
+        <li>Renewals are <strong>$60</strong> and confirmed with me directly before the next term starts. <strong>Nothing auto-charges.</strong></li>
+        <li>All prices are upfront. Customs marked “from” are quoted before payment.</li>
+        <li>Delivery windows, priority add-ons, and scheduling are all confirmed before you send funds.</li>
+        <li><strong>Response times vary.</strong> I have another job — some days I'm quick, some days I'm gone for hours. Patience is part of the deal.</li>
+        <li>Digital content is generally non-refundable once delivered, except where applicable law requires otherwise. If something's clearly off, message me and we'll sort it.</li>
+        <li><strong>18+ only.</strong></li>
+      </ul>
+    </section>
+
+    <section class="terms-section" aria-labelledby="terms-rule-8">
+      <h3 id="terms-rule-8">8. The Short Version</h3>
+      <div class="terms-recap">
+        <p><strong>VIP = priority + discount.</strong></p>
+        <p><strong>VIP ≠ free FaceTimes, ≠ unlimited customs, ≠ unlimited access to my time.</strong></p>
+        <p>I have another job and a life — sometimes I'm not available for hours.</p>
+        <p><strong>DO NOT SHARE, REPOST, OR SELL MY CONTENT. Personal use only. I will pursue legal action.</strong></p>
+        <p><strong>Tips get you further. TIP. TIP. TIP. ♡</strong></p>
+      </div>
+    </section>
+    <p class="terms-lead">By completing your order, you confirm you've read and agree to these VIP rules and boundaries.</p>
+    <p>Now send me your order and let's get you sorted. ♡</p>
+  </div>
+  <div class="terms-footer">
+    <label class="terms-check" for="termsAgreeCheck">
+      <input type="checkbox" id="termsAgreeCheck">
+      <span>I am at least 18 years old, I've read these rules, and I agree to the purchase terms and boundaries.</span>
+    </label>
+    <button type="button" class="terms-accept" id="termsAgreeButton" disabled>I agree · continue ♡</button>
+    <small>Terms updated October 26, 2026. Purchase discussions, delivery, and payment are arranged outside this website.</small>
+  </div>
+</dialog>
+
 <!-- BAG DRAWER (unchanged) -->
 <dialog class="bag-drawer" id="bagDrawer" aria-labelledby="bagTitle">
   <div class="drawer-heading">
@@ -370,6 +494,7 @@
       <button type="button" id="addVoiceNote">Add +$12</button>
     </div>
     <p id="monthlyNote" class="fine-print" hidden>Membership and OnlyFans terms are confirmed with me directly. Nothing renews or charges automatically on this site.</p>
+    <p class="terms-cart-note">Before sending, please read the <button type="button" data-open-vip-terms aria-haspopup="dialog">terms and conditions when you buy</button>.</p>
     <button type="button" id="copyOrder" class="secondary-btn">Copy order only</button>
     <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order & open Telegram →</button>
     <p id="cartFeedback" class="cart-feedback"></p>
