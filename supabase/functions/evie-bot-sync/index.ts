@@ -56,9 +56,25 @@ function checkConfig(input: unknown) {
     });
     return { id, name, tone: safeText(rec.tone, 300), guidance: safeText(rec.guidance, 2000), quick_replies };
   });
+  // Safe declarative matching rules. No downloaded JavaScript is executed.
+  const ids = new Set<string>();
+  const rawRules = p.automations === undefined ? [] : p.automations;
+  if (!Array.isArray(rawRules) || rawRules.length > 30) throw Error("Invalid automation rules");
+  const automations = rawRules.map(item => {
+    if (!item || typeof item !== "object") throw Error("Invalid automation rule");
+    const r = item as Record<string, unknown>;
+    const id = safeText(r.id, 40);
+    const name = safeText(r.name, 80);
+    const keyword = safeText(r.keyword, 120);
+    const reply = safeText(r.reply, 1500);
+    if (!/^[a-z][a-z0-9_-]{1,39}$/.test(id) || ids.has(id) || !name || !keyword || !reply ||
+        typeof r.enabled !== "boolean") throw Error("Invalid automation rule fields");
+    ids.add(id);
+    return { id, name, enabled: r.enabled, keyword, reply, action: "draft_only" };
+  });
   const active_profile = safeText(p.active_profile, 40);
   if (!seen.has(active_profile)) throw Error("Active profile not found");
-  return { active_profile, profiles };
+  return { active_profile, profiles, automations };
 }
 async function requireAdmin(req: Request) {
   const match = /^Bearer ([A-Za-z0-9._-]{30,4000})$/.exec(req.headers.get("authorization") || "");
@@ -77,7 +93,12 @@ async function getConfig() {
 }
 Deno.serve(async (req: Request) => {
   const origin = req.headers.get("origin") || "";
-  if (origin && origin !== "null" && origin !== SITE && origin !== SNAP)
+  // Extension-origin device GET requests can have browser-specific origins.
+  // They still require a valid 256-bit pairing secret; only admin routes
+  // require the exact trusted Render website origin.
+  const isDeviceRead = req.method === "GET" &&
+    new URL(req.url).searchParams.get("action") === "profile";
+  if (origin && origin !== "null" && origin !== SITE && origin !== SNAP && !isDeviceRead)
     return json(origin, 403, { error: "Origin not allowed" });
   if (req.method === "OPTIONS") return json(origin, 200, { ok: true });
   if (!API_URL || !ANON || !SERVICE) return json(origin, 503, { error: "API is not configured" });
