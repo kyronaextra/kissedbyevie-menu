@@ -19,9 +19,12 @@
     <a href="admin.html">← Control room</a>
   </header>
   <main>
-    <div class="intro"><div class="eyebrow">BROWSER COMPANION / CONTROL PANEL</div>
-      <h1>Bot <em>Studio.</em></h1><p>Edit personality profiles on your phone. Your paired Tampermonkey script picks up the latest approved templates when Snapchat Web is open on your PC.</p>
+    <div class="intro">
+      <div class="eyebrow">BROWSER COMPANION / CONTROL PANEL</div>
+      <h1>Bot <em>Studio.</em></h1>
+      <p>Your persona, menu, prices and rules — published from here. A paired PC picks them up within a minute and applies them to the open chat: audit, suggest, or self-send, your call.</p>
     </div>
+
     <section class="card" id="loginSection">
       <h2>Administrator sign-in</h2>
       <form id="loginForm">
@@ -31,6 +34,7 @@
       </form>
       <p class="muted">Uses the same protected account as your existing Evie Admin control room.</p>
     </section>
+
     <div id="workspace" hidden>
       <div class="toolbar">
         <div><strong id="identity">Authorized admin</strong><small id="revision">Checking settings…</small></div>
@@ -39,19 +43,36 @@
           <button type="button" class="secondary" id="logout">Sign out</button>
         </div>
       </div>
+
       <section class="card">
-        <div class="sectionhead"><div><small>01 / PERSONALITY LIBRARY</small><h2>Drafting personalities</h2></div></div>
-        <label>Active personality for the PC
-          <select id="activeProfile"></select>
+        <div class="sectionhead"><div><small>01 / AUTONOMY</small><h2>How much rope the bot gets</h2></div></div>
+        <p class="muted">Default policy published to paired devices. The PC panel can raise or lower this at any time, and a timer can revert it automatically.</p>
+        <div class="rungs" id="rungRow">
+          <button type="button" data-rung="shadow">audit-only</button>
+          <button type="button" data-rung="fill">suggest</button>
+          <button type="button" data-rung="auto_safe">self-send only</button>
+          <button type="button" data-rung="auto_all">Full auto</button>
+        </div>
+        <label>Auto-send priority floor — only rules at or above this may self-send
+          <input id="autoMinPriority" type="range" min="0" max="100" step="5">
         </label>
+        <label>Settings (JSON — timers, cooldowns, backoff)
+          <textarea id="settingsJson" rows="8" spellcheck="false"></textarea>
+        </label>
+      </section>
+
+      <section class="card">
+        <div class="sectionhead"><div><small>02 / PERSONALITY LIBRARY</small><h2>Drafting personalities</h2></div></div>
+        <label>Active personality for the PC<select id="activeProfile"></select></label>
         <div class="inline between">
           <label class="grow">Profile to edit<select id="editProfile"></select></label>
           <button type="button" class="secondary" id="addProfile">+ Add</button>
           <button type="button" class="danger" id="removeProfile">Remove</button>
         </div>
         <label>Display name<input id="profileName" maxlength="80"></label>
-        <label>Tone<input id="profileTone" maxlength="300" placeholder="Confident, friendly, witty"></label>
-        <label>Guidance (reference notes, not executable code)<textarea id="profileGuidance" rows="3" maxlength="2000"></textarea></label>
+        <label>Tone<input id="profileTone" maxlength="600" placeholder="bratty, smug, warm under it"></label>
+        <label>Guidance — short operating notes<textarea id="profileGuidance" rows="3" maxlength="4000"></textarea></label>
+        <label>Core — the full persona prompt<textarea id="profileCore" rows="14" maxlength="40000" spellcheck="false"></textarea></label>
         <label>Quick replies (JSON array of objects with label and text)
           <textarea id="quickReplies" rows="8" spellcheck="false"></textarea>
         </label>
@@ -62,20 +83,28 @@
           <button id="importConfig" type="button" class="secondary">Import JSON</button>
           <button id="exportConfig" type="button" class="secondary">Export JSON</button>
         </div>
-        <button id="saveConfig" type="button">Publish personality settings</button>
-        <p class="muted">Published settings synchronize to paired browsers within about one minute while Snapchat Web is open. No messages are automatically read or sent.</p>
+        <button id="saveConfig" type="button">Publish settings</button>
+        <p class="muted">Published settings reach paired browsers within about a minute while the chat tab is open. Nothing sends until a rule is marked auto and the device is above audit-only.</p>
       </section>
+
       <section class="card">
-        <div class="sectionhead"><div><small>02 / SAFE DRAFT AUTOMATIONS</small><h2>Keyword → draft rules</h2></div></div>
-        <p class="muted">These rules inspect only the text you voluntarily enter into Evie SnapDesk, and automatically prepare a draft in its own panel. They never read, edit, or send Snapchat messages.</p>
-        <label>Automation rules (JSON array, max 30)
-          <textarea id="automationRules" rows="9" spellcheck="false"></textarea>
-        </label>
-        <p class="muted">Example: {"id":"pricing","name":"Pricing","enabled":true,"keyword":"price","reply":"Here are my options!","action":"draft_only"}</p>
+        <div class="sectionhead"><div><small>03 / MENU &amp; PRICES</small><h2>The only source of truth</h2></div></div>
+        <p class="muted">Replies never hardcode money. They reference <code>{{bundle_10}}</code> and it resolves here. Mark anything with a floor using <code>"startingAt": true</code> so it never renders as a final total.</p>
+        <textarea id="menuJson" rows="16" spellcheck="false"></textarea>
+        <p class="muted" id="menuLint"></p>
       </section>
+
       <section class="card">
-        <div class="sectionhead"><div><small>03 / PAIR A HOME PC</small><h2>Approved devices</h2></div></div>
-        <p class="muted">For the first pairing, open this Bot Studio page on your PC in another browser tab. Open Snapchat Web, choose Tampermonkey → Evie SnapDesk → Copy Evie pairing key, return to Bot Studio and paste the key. After pairing you can control profiles from your phone. The key is stored only as a SHA-256 hash on the server.</p>
+        <div class="sectionhead"><div><small>04 / AUTOMATIONS</small><h2>Match → tier rules</h2></div></div>
+        <p class="muted">Highest priority wins. Ties escalate. <code>auto</code> may self-send, <code>draft</code> waits for your keypress, <code>escalate</code> comes straight to you.</p>
+        <textarea id="automationRules" rows="16" spellcheck="false"></textarea>
+        <button type="button" class="secondary" id="convertLegacy">Fix legacy rules + seed menu</button>
+        <p class="muted" id="ruleLint"></p>
+      </section>
+
+      <section class="card">
+        <div class="sectionhead"><div><small>05 / PAIR A HOME PC</small><h2>Approved devices</h2></div></div>
+        <p class="muted">Open this page on the PC itself for the first pairing. In Snapchat Web, choose Tampermonkey → Evie SnapDesk → Copy Evie pairing key, return here and paste it. The key is stored only as a SHA-256 hash.</p>
         <form id="pairForm">
           <label>Device name<input id="deviceName" maxlength="80" placeholder="Home PC" required></label>
           <label>Secret pairing key<input id="deviceKey" type="password" autocomplete="off" minlength="43" maxlength="43" placeholder="43-character key from Tampermonkey" required></label>
@@ -83,10 +112,11 @@
         </form>
         <div id="deviceList" class="devices"><p class="muted">No paired devices loaded.</p></div>
       </section>
+
       <section class="card">
-        <small>PRIVACY / MANUAL APPROVAL</small>
-        <p>This companion only produces drafts from your manually supplied text and saved quick replies. It does not read Snapchat message content, impersonate a chat API, auto-send messages, or run arbitrary scripts from downloaded JSON.</p>
-        <p class="muted">AI-generated drafts are not enabled in this initial version. Connecting a model requires a separate server-side integration and explicit data handling settings.</p>
+        <small>WHAT IT DOES</small>
+        <p>Reads the open chat, matches your rules, and either logs, fills, or sends. Prices resolve from the menu. A kill switch stops it instantly, and taking over by hand makes it back off.</p>
+        <p class="muted">Payment is never treated as confirmed from a message or screenshot. Off-menu and specialty requests still go to you.</p>
       </section>
     </div>
     <p id="status" role="status" aria-live="polite"></p>
