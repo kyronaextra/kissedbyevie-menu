@@ -32,3 +32,10 @@ button.danger{background:#5e2541;color:#fff0f5}
 #status:empty{display:none}#status[data-error="true"]{background:#642336}
 [hidden]{display:none!important}
 @media(max-width:600px){.top{padding:14px}.card{padding:15px}.toolbar{align-items:start}}
+
+.rungs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: .4rem 0 .8rem; }
+.rungs [data-rung] { padding: .5rem .3rem; border: 1px solid currentColor; border-radius: 8px;
+  background: transparent; cursor: pointer; font-size: .8rem; }
+.rungs [data-rung][data-on="true"] { background: #ef74b0; color: #1a0d1f; border-color: #ef74b0; font-weight: 700; }
+#ruleLint[data-error="true"], #menuLint[data-error="true"] { color: #ffc7a8; }
+#status[data-error="true"] { color: #ff9db8; }
