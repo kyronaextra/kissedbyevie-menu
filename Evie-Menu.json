@@ -1,0 +1,88 @@
+{
+  "version": "2026-10-26",
+  "hero": {
+    "image": "assets/photos/hero.jpg",
+    "alt": "Evie",
+    "tagline": "Kissed by Evie"
+  },
+  "sections": [
+    {
+      "id": "vip-gfe",
+      "title": "VIP & GFE",
+      "items": [
+        { "name": "Basic GFE", "price": 70, "unit": "one month",
+          "includes": ["1 month OnlyFans","Priority replies","Daily selfies and nudes","20 random photos","Casual calls only; no sexual FaceTimes"] },
+        { "name": "VIP Daddy", "price": 150, "unit": "three months",
+          "includes": ["3 months OnlyFans and full Dropbox (800+ items)","Daily photos, videos and selfies","50 photos/videos","10 live photos and a 2-minute custom video","Discounted FaceTimes or live shows","FaceTime eligible","One complimentary custom request each time Evie goes live on Stripchat, subject to her approval and announcement"] },
+        { "name": "Ultimate VIP Daddy", "price": 350, "unit": "six months",
+          "includes": ["6 months OnlyFans and full Dropbox (800+ items)","Priority replies and voice notes","Daily content","One custom video with an optional JOI theme","10 photos and a 2-minute video","Discounted FaceTimes and lives","FaceTime eligible","Two complimentary custom requests each time Evie goes live on Stripchat, subject to her approval and announcement"] },
+        { "name": "VIP/Daddy renewal", "price": 60, "unit": "",
+          "note": "Confirm the next subscription term with Evie before accepting an order." }
+      ]
+    },
+    {
+      "id": "onlyfans",
+      "title": "OnlyFans",
+      "items": [
+        { "name": "Monthly", "price": 3 },
+        { "name": "One year, arranged outside OnlyFans", "price": 45 }
+      ]
+    },
+    {
+      "id": "bundles",
+      "title": "Quick Bundles",
+      "note": "Available categories: Squirt, B/G, Solo, Dildo.",
+      "items": [
+        { "name": "10 random photos/videos", "price": 10 },
+        { "name": "20 surprise photos/videos", "price": 20 },
+        { "name": "50 surprise photos/videos", "price": 40 },
+        { "name": "Deluxe Dropbox (800+ items)", "price": 75 }
+      ]
+    },
+    {
+      "id": "themed",
+      "title": "Themed Sets",
+      "note": "If requested lingerie is not available, the buyer may purchase it through Amazon. Delivery is normally 1-2 days after the lingerie arrives. Twelve-hour priority is +$15 when confirmed.",
+      "items": [
+        { "name": "Signature Set: 5 photos + 1-minute video", "price": 35 },
+        { "name": "Full Shoot: 10 photos + 2-minute video", "price": 50 },
+        { "name": "Custom Full Shoot: 10 photos + 2-minute video", "price": 90 },
+        { "name": "Custom Full Shoot: 10 photos + 4-minute video", "price": 150 }
+      ]
+    },
+    {
+      "id": "alacarte",
+      "title": "A la Carte",
+      "note": "Standard delivery: within 24 hours. Six-hour priority: +$15, subject to availability.",
+      "items": [
+        { "name": "Custom 10-photo set", "price": 45, "from": true },
+        { "name": "Custom 1-minute video", "price": 50, "from": true }
+      ]
+    },
+    {
+      "id": "quick",
+      "title": "Quick Interactions",
+      "note": "Standard delivery: within six hours. Thirty-minute priority: +$10 if Evie is home and available. Ten-minute immediate delivery: never guaranteed; Evie must personally confirm readiness.",
+      "items": [
+        { "name": "Detailed rating", "price": 15 },
+        { "name": "Voice note", "price": 12 },
+        { "name": "Flash + 5 live teasers", "price": 25 },
+        { "name": "One-minute live ass/tit/spit interaction", "price": 45 },
+        { "name": "Five feet photos", "price": 20 }
+      ]
+    },
+    {
+      "id": "extras",
+      "title": "Extras",
+      "items": [
+        { "name": "Dick rating", "price": 35 },
+        { "name": "General custom request", "price": 50, "from": true },
+        { "name": "Live show", "price": 55 },
+        { "name": "Say name / talk dirty", "price": 25, "modifier": true },
+        { "name": "Dommy mommy theme", "price": 30, "modifier": true },
+        { "name": "Submissive theme", "price": 20, "modifier": true },
+        { "name": "Panty-play theme", "price": 20, "modifier": true }
+      ]
+    }
+  ]
+}
