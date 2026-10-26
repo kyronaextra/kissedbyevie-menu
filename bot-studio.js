@@ -158,6 +158,48 @@
     if (!config.profiles.some(p => p.id === config.active_profile)) config.active_profile = editedId;
     renderProfiles();
   });
+  $("importConfig").addEventListener("click", async () => {
+    const file = $("importJson").files?.[0];
+    if (!file) { status("Choose a .json file first.", true); return; }
+    if (!/\.json$/i.test(file.name) || file.size > 32768) {
+      status("Only JSON files up to 32 KB are allowed.", true); return;
+    }
+    try {
+      saveEditor();
+      const incoming = JSON.parse(await file.text());
+      if (!incoming || typeof incoming !== "object" || Array.isArray(incoming)) throw Error("JSON must contain an object.");
+      if (Array.isArray(incoming.profiles)) {
+        if (!confirm("Replace your working personality library with this JSON file? Publish separately afterward.")) return;
+        if (!incoming.profiles.length || incoming.profiles.length > 12 ||
+            !incoming.profiles.some(p => p.id === incoming.active_profile)) throw Error("Invalid personality library.");
+        config = { active_profile: incoming.active_profile, profiles: incoming.profiles };
+      } else {
+        if (!/^[a-z][a-z0-9_-]{1,39}$/.test(incoming.id || "") ||
+            !incoming.name || !Array.isArray(incoming.quick_replies)) throw Error("A profile needs id, name and quick_replies.");
+        const index = config.profiles.findIndex(p => p.id === incoming.id);
+        if (index < 0 && config.profiles.length >= 12) throw Error("Maximum 12 personalities.");
+        if (index >= 0) {
+          if (!confirm("Replace the existing " + incoming.id + " profile?")) return;
+          config.profiles[index] = incoming;
+        } else config.profiles.push(incoming);
+        editedId = incoming.id;
+      }
+      editedId = config.profiles.some(p => p.id === editedId) ? editedId : config.profiles[0].id;
+      renderProfiles();
+      $("importJson").value = "";
+      status("JSON imported into this editor. Click Publish to synchronize it.");
+    } catch (error) { status(error.message || "Invalid JSON file.", true); }
+  });
+  $("exportConfig").addEventListener("click", () => {
+    try { saveEditor(); }
+    catch (error) { status(error.message, true); return; }
+    const file = new Blob([JSON.stringify(config, null, 2)], { type: "application/json" });
+    const uri = URL.createObjectURL(file);
+    const a = document.createElement("a");
+    a.href = uri; a.download = "evie-personalities.json"; a.click();
+    setTimeout(() => URL.revokeObjectURL(uri), 5000);
+    status("Exported your current personality settings.");
+  });
   $("saveConfig").addEventListener("click", async event => {
     const button = event.currentTarget; button.disabled = true;
     try {
