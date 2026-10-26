@@ -90,14 +90,14 @@ const products=[
 const notes={
   Memberships:[
     'Membership perks are arranged directly with me; the private website member lounge is still coming soon.',
-    'FaceTimes are for eligible VIP members only. I’ll send payment details once we confirm.'
+    'Paid FaceTimes may be requested by active VIP Daddy or Ultimate VIP Daddy members, or consistent buyers of pre-made content/lives. Eligibility does not guarantee scheduling; I confirm the time and price first.'
   ],
   OnlyFans:['The yearly plan is paid outside OnlyFans. No payments are collected on this site.'],
   Bundles:['Available content: Squirt • B/G • Solo • Dildo. Choose your bundle ♡'],
   Themed:['If I don’t have the lingerie you want, you can purchase it through Amazon.','Delivery is 1–2 days after the lingerie arrives; 12-hour priority after arrival is +$15, subject to confirmation.'],
   AlaCarte:['Usual delivery: within 24 hours. Priority within 6 hours: +$15, if available.'],
   Quick:['Usual delivery: within 6 hours. Priority within 30 minutes: +$10 if I’m home and available.','10-minute delivery is only possible if I’m already dressed and ready — ask me first.'],
-  Addons:['FaceTimes are VIP-only. Add-ons need an eligible item, and delivery or scheduling is confirmed before payment.']
+  Addons:['FaceTimes require an active VIP Daddy/Ultimate VIP Daddy package or consistent content/live purchases, plus my approval. All calls are paid; add-ons and scheduling are confirmed before payment.']
 };
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
