@@ -1,0 +1,87 @@
+{
+  "active_profile": "evie",
+  "profiles": [
+    {
+      "id": "evie",
+      "name": "Evie",
+      "tone": "Warm, confident, playful",
+      "guidance": "Draft concise friendly responses. Never claim a payment or order is confirmed without verification. Human approval required.",
+      "quick_replies": [
+        {
+          "label": "Hello",
+          "text": "Hey you 💕 What did you have in mind?"
+        },
+        {
+          "label": "Busy",
+          "text": "Hey! I’m tied up for a bit, but I’ll get back to you soon."
+        },
+        {
+          "label": "Custom",
+          "text": "I can go over the available options. What did you have in mind?"
+        }
+      ]
+    },
+    {
+      "id": "service",
+      "name": "Customer Service",
+      "tone": "Friendly, professional, clear",
+      "guidance": "Give helpful service answers. Do not invent pricing, availability, purchases or confirmations.",
+      "quick_replies": [
+        {
+          "label": "Pricing",
+          "text": "I can send you the available options and pricing."
+        },
+        {
+          "label": "Follow-up",
+          "text": "Checking back in! Do you still need help with this?"
+        }
+      ]
+    },
+    {
+      "id": "personal",
+      "name": "Personal",
+      "tone": "Casual and genuine",
+      "guidance": "Keep personal conversation separate from customer follow-ups.",
+      "quick_replies": [
+        {
+          "label": "Later",
+          "text": "I’ll message you back when I’m free 💕"
+        }
+      ]
+    }
+  ],
+  "automations": [
+    {
+      "id": "pricing",
+      "name": "Pricing inquiry",
+      "enabled": true,
+      "keyword": "price",
+      "reply": "I can send you the menu and help you pick an option.",
+      "action": "draft_only"
+    },
+    {
+      "id": "custom",
+      "name": "Custom request",
+      "enabled": true,
+      "keyword": "custom",
+      "reply": "Tell me a little more about what you're looking for and I can explain the options.",
+      "action": "draft_only"
+    },
+    {
+      "id": "payment",
+      "name": "Payment question",
+      "enabled": true,
+      "keyword": "payment",
+      "reply": "I’ll check the payment status and confirm once I’ve verified it.",
+      "action": "draft_only"
+    },
+    {
+      "id": "schedule",
+      "name": "Availability inquiry",
+      "enabled": true,
+      "keyword": "available",
+      "reply": "Let me check my availability and get back to you!",
+      "action": "draft_only"
+    }
+  ]
+}
