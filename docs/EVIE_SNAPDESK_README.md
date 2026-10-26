@@ -17,11 +17,11 @@
 4. Merge the reviewed feature branch into \`main\` to publish the website changes on the existing Render static site (or deploy that branch to a private preview for testing). Confirm that \`https://kissedbyevie-menu.onrender.com/bot-studio.html\` loads and an existing Evie Admin account can sign in.
 5. On your **Windows PC**, install Tampermonkey in Chrome/Edge. Open the \`userscripts/evie-snapdesk.user.js\` file from the merged GitHub repository's **Raw** view and confirm the Tampermonkey installation dialog. Enable the extension/user script and open \`https://web.snapchat.com/\`.
 6. From the Tampermonkey menu select **Evie SnapDesk → Copy Evie pairing key**. Avoid sending this secret to anyone. On your phone, open \`https://kissedbyevie-menu.onrender.com/bot-studio.html\`, sign in, enter a friendly device name and the copied key, and choose **Pair device**.
-7. Select/modify/import personalities, and select **Publish personality settings**. The userscript checks for approved changes about once per minute while its Snapchat Web tab stays open, or immediately on **Refresh settings**.
+7. Select/modify/import personalities and JSON draft automation rules (example file: `bot/EVIE_PERSONALITIES_EXAMPLE.json`), then select **Publish personality settings**. The userscript checks for changes about once per minute while its Snapchat Web tab stays open, or immediately on **Refresh settings**. When you *manually* type or paste a phrase containing a rule's keyword into the SnapDesk context box, the rule can automatically prepare a draft in the local panel. **It never reads Snapchat conversations or automatically sends messages.**
 
 ## Privacy and scope
 
-- JSON imports may contain **data/settings only**; they are **never executed as JavaScript**. JavaScript and Python "bot cores" would need manual conversion to declarative rules/templates.
+- JSON imports may contain **data/settings only**, including `automations` matching rules; they are **never executed as JavaScript**. JavaScript and Python "bot cores" would need manual conversion to declarative rules/templates.
 - The userscript does not request the Snapchat login, session cookies, tokens, or message history. It only uses the page to display its own floating control.
 - The generated 256-bit pairing secret stays inside Tampermonkey storage; the server stores only its SHA-256 hash. The key can be revoked from Bot Studio.
 - The backend does not collect message bodies. Input for draft suggestions is owner-entered, and draft copying is deliberate/manual.
