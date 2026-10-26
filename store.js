@@ -157,7 +157,7 @@ const products=[
  ],
  [
   "Extras",
-  "Detailed Your Text Rating",
+  "Detailed Text Rating",
   20,
   "Text Rating",
   "A detailed personalized written rating.",
@@ -205,20 +205,9 @@ categories.forEach(([key],index)=>{
   button.dataset.name=p[1];button.dataset.price=p[2];
   if(p[5])button.dataset.exclusive=p[5];
   button.setAttribute('aria-label','Add '+p[3]+' for $'+p[2]+(p[1].includes('Monthly')?' per month':''));
-  const price=document.createElement('strong');price.className='offer-price';price.textContent='
-  const add=document.createElement('span');add.textContent='+';button.append(add);
-  card.append(info,button);panel.append(card);
- });
- if(key==='Customs'){
-  const note=document.createElement('p');note.className='menu-section-note';
-  note.textContent='Other customs are quoted individually ($110–$300). Approved specialty themes may add $50.';
-  panel.append(note);
- }
- root.append(panel);
-});
-})();+p[2]+(p[1].includes('Monthly')?' / mo':'');info.append(price);
+  const price=document.createElement('strong');price.className='offer-price';price.textContent='$'+p[2]+(p[1].includes('Monthly')?' / mo':'');info.append(price);
   button.append(document.createTextNode('Add to bag'));
-  const add=document.createElement('span');add.textContent='ADD +';button.append(add);
+  const add=document.createElement('span');add.textContent='+';button.append(add);
   card.append(info,button);panel.append(card);
  });
  if(key==='Customs'){
