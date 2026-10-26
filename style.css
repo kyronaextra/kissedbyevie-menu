@@ -547,3 +547,28 @@ html{scroll-behavior:auto}
 .menu-photo-tile img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .25s}
 .menu-photo-tile:hover img{transform:scale(1.045)}
 @media(max-width:680px){.menu-photo-preview{display:flex;overflow-x:auto;gap:9px;scroll-snap-type:x proximity}.menu-photo-tile{flex:0 0 35%;scroll-snap-align:start}}
+
+/* Content menu v2: tier comparisons, visible prices and phone-first cards. */
+.product-panel[hidden]{display:none!important}
+.menu-v2-panel{align-items:stretch;margin:0 auto}
+.menu-v2-card{height:100%;gap:14px!important}
+.menu-v2-card .menu-v2-info{min-width:0;width:100%}
+.menu-v2-card h3.card-label{font:700 clamp(20px,2.2vw,26px)/1.22 'DM Sans',sans-serif!important;letter-spacing:0!important;margin:8px 0 9px!important;color:#f8dfb7!important}
+.menu-v2-card .menu-v2-desc{font-size:14px!important;color:#f4e6e2!important;line-height:1.6!important;margin:5px 0 12px!important}
+.menu-v2-card .menu-v2-unit{font-size:12px!important;line-height:1.4!important;color:#e8cfae!important;margin:0 0 8px!important;font-weight:700}
+.menu-v2-features{list-style:none;margin:13px 0 0;padding:0;display:grid;gap:9px}
+.menu-v2-features li{position:relative;padding-left:22px;font-size:13px;color:#e9d6d4;line-height:1.48}
+.menu-v2-features li:before{content:"✓";position:absolute;top:0;left:0;color:#eccb99;font-weight:800}
+.menu-v2-fine{font-size:12px!important;line-height:1.55!important;color:#d9bfc1!important;margin-top:14px!important}
+.menu-v2-badge{display:inline-flex;max-width:100%;padding:5px 11px;background:#dfc49e;color:#2f1521;border-radius:5px;font-size:11px;font-weight:800;letter-spacing:.025em}
+.menu-v2-buy{display:grid;grid-template-columns:1fr;gap:10px;padding-top:12px;border-top:1px solid rgba(240,217,183,.18)}
+.menu-v2-buy .offer-price{color:#fff1de;font:700 clamp(24px,2.6vw,32px)/1.1 'DM Sans',sans-serif;letter-spacing:-.02em}
+.menu-v2-buy .offer-btn{width:100%!important;min-width:0!important;min-height:52px!important;font-size:14px!important;display:flex;justify-content:space-between;align-items:center;white-space:normal!important}
+.menu-v2-buy .offer-btn span.menu-v2-add-label{font-size:14px!important;color:inherit!important;font-weight:700;letter-spacing:0}
+.menu-v2-buy .offer-btn span.menu-v2-plus{font-size:20px!important;color:#e5c495!important}
+.menu-v2-notes{grid-column:1/-1;border:1px solid rgba(240,217,183,.27);border-radius:9px;background:#1c111a;padding:17px 19px;display:grid;gap:7px}
+.menu-v2-notes p{margin:0;font-size:13px;color:#eed7d1;line-height:1.55}
+.menu-v2-card.featured{border-color:rgba(231,196,145,.63)!important}
+.menu-v2-card:focus-within{border-color:#ead0ae!important}
+@media(max-width:800px){.menu-v2-panel{grid-template-columns:1fr!important}.menu-v2-card{padding:22px!important}}
+@media(max-width:680px){.menu-v2-card{align-items:stretch!important}.menu-v2-buy .offer-btn{width:100%!important}.menu-v2-card h3.card-label{font-size:20px!important}.menu-v2-features li{font-size:13px}.menu-v2-buy .offer-price{font-size:27px}.menu-v2-notes{padding:15px}}
