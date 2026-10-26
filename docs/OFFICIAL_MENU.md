@@ -1,48 +1,86 @@
-# KissedByEvie — Official Menu and Storefront Rules
+# KissedByEvie — Current Content Menu
 
-Owner-approved menu (October 25, 2026). This file is the source of truth for public pricing. All offerings are for consenting adults 18+ and subject to applicable law and platform rules.
+Updated October 25, 2026. `store.js` defines the currently displayed names, prices and categories on the public website. This document is a written backup of the owner-provided replacement menu; older prices and Lifetime Daddy offers are superseded.
 
-## Premade
-- 10 premade photos/videos — $10
-- 20 premade photos/videos — $20
-- 50 premade photos/videos — $50
-- Ultra Vault, 800+ photos/videos, full videos, all categories, regularly updated, complimentary OnlyFans link — $75
-- Single B/G video — $15
-- Complete B/G vault — $40
+All items for adults 18+ only. Payment is arranged directly after an order is reviewed; the website only prepares a message to send on Telegram.
 
-## Live snaps and clips
-- 10 live Snap photos/videos — $20
-- 20 live Snap photos/videos — $40
-- Short live bubbles/snaps, 7+ snaps — $35
+## GFE and VIP membership
 
-## Custom videos
-- Full custom video, 2 minutes — $90
-- Full custom video, 3 minutes — $120
-- Full custom video, 4 minutes — $140
-- JOI custom video, 3 minutes — $150
-- General custom requests typically $110–$300, quoted individually; this is a range, not a separate fixed-price product.
-- Taboo theme surcharge: potentially +$50, only for lawful, consensual, approved requests. Do not imply all requests are accepted.
+### Basic GFE — $70 (one month)
+- 1 month OnlyFans access
+- Priority replies
+- Daily selfies and nudes
+- 20 random pics
+- Casual calls only; no sexual FaceTimes
 
-## Ratings
-- Detailed text rating — $20
-- Detailed live Snap video rating with 5+ live photos/videos — $35
+### VIP Daddy Package — $150 (Most Popular)
+- 3 months OnlyFans + full Dropbox (800+ items and growing)
+- Daily nudes, videos and selfies
+- Discounted FaceTimes or live shows
+- 50 pics/videos total
+- 10 live pics plus a 2-minute custom video; some specialty/taboo requests may cost extra
+- FaceTime eligible
+- One free custom request every time Evie goes live on Stripchat; Evie will notify the member
 
-## Physical
-- Panties, one day of use, including a video and snaps — $130; custom extras quoted separately.
+### Ultimate VIP Daddy Package — $350 (Best Value; six months)
+- 6 months OnlyFans + full Dropbox (800+ items, regularly updated)
+- Priority replies and voice notes
+- One custom video with a JOI option
+- 10 pics + 2-minute video
+- Daily content
+- Discounted FaceTimes or live shows; FaceTime eligible
+- Two free custom requests every time Evie goes live on Stripchat; she will notify the member
 
-## Interactive
-- Lovense interactive FaceTime session — $175
+**Membership renewal:** $60 after an existing VIP/Daddy subscription ends; renewal terms confirmed before payment.
 
-## Daddy membership
-- Monthly: $150, benefits included with no additional $15 requirement.
-- Lifetime: $300 one-time, permanent membership status and access to the lifetime collection.
-- Monthly benefits include: Deluxe Dropbox, priority replies, 3 months of complimentary OnlyFans access, daily snaps, one complimentary live Snap show, discounted call/live rates, phone number access, and a personal collection on the website. Availability and exact fulfillment terms must be clearly disclosed.
-- Lifetime ongoing active benefits (daily snaps, priority replies, discounted calls/live sessions, ongoing perks) require at least $15 in contributions **each calendar month**. These are **not automatically charged**. If none is received, active benefits pause for that month; lifetime membership and collection access remain. Benefits resume when that month's threshold is met. No repeat $300 fee.
-- Monthly membership already includes active benefits; no separate $15 requirement.
-- Contributions and tips are voluntary; no surprise charges.
+**Important:** Paid packages are arranged directly with Evie. The on-site members’ vault remains a placeholder and must not be described as populated or automatically available.
 
-## Storefront
-- Style: Private Atelier (deep burgundy, black velvet, restrained champagne-gold accents).
-- Public menu is primary; Daddy Member account portal is secondary.
-- Show accurate prices, itemized cart, and add-ons clearly. Do not invent prices for individually quoted extras.
-- No automatic fulfillment or payment verification claim without an operational backend. Adult access requires appropriate verification.
+## OnlyFans
+- Monthly access — $3 per month
+- One-year access — $45, paid outside OnlyFans
+
+## Quick bundles and Dropbox
+- 10 random photos/videos — $10
+- 20 surprise random photos/videos — $20
+- 50 surprise random photos/videos — $40
+- Deluxe Dropbox, 800+ pics/videos — $75
+- Available content categories: Squirt, B/G, Solo, Dildo
+
+## Themed set collections
+- Signature Set — $35: 5 photos + 1-minute video (Best Value / Most Popular)
+- Full Shoot Collection — $50: 10 photos + 2-minute video
+- Custom Full Shoot — $90: 10 photos + 2-minute custom video
+- Custom Full Shoot — $150: 10 photos + 4-minute custom video
+- If Evie does not have requested lingerie, the buyer can purchase it through Amazon.
+- Standard delivery is 1–2 days **after the lingerie arrives**; 12-hour priority +$15, subject to confirmation.
+
+## À la carte
+- Custom 10-photo set — starting at $45
+- Custom 1-minute video — starting at $50
+- Typical delivery within 24 hours; 6-hour priority +$15 if available
+
+## Quick interactions
+- Detailed rating — $15
+- Voice note — $12
+- Flash + 5 live teaser videos — $25
+- One minute live ass/tit/spit play — $45
+- Five feet pics — $20
+- Delivery within 6 hours. Priority within 30 minutes +$10 only if Evie is home and available.
+- Ten-minute immediate delivery is conditional on Evie already being ready, and is not guaranteed.
+
+## Add-ons and separate offers
+- Dick rating — $35
+- Custom requests — starting at $50
+- Live show — $55
+- Say the buyer's name / talk dirty — +$25
+- Dommy Mommy mode — +$30
+- Submissive mode — +$20
+- Panty play — +$20
+- FaceTimes are VIP-member-only
+
+## Storefront rules
+- Keep the public menu primary and make each price clearly visible.
+- Cart is a client-side order draft; buyers must copy it and send via Telegram. No successful payment or order submission is claimed on the site.
+- Starting prices are minimums, not fixed quotes.
+- Mobile layouts must stack cleanly, inactive category panels must be hidden, and existing photo assets must remain intact.
+- No content should be advertised as populated in the on-site private vault unless its storage and access are actually operational.
