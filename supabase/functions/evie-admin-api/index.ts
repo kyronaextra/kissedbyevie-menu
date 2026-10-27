@@ -244,6 +244,67 @@ async function memberPage(page:number){
    expires_at:membershipMap.get(u.id)?.expires_at||null
   }))};
 }
+
+const customerBucket="evie-customer-deliveries";
+const customerMimes:Record<string,string>={"image/jpeg":"photo","image/png":"photo","image/webp":"photo","video/mp4":"video","video/webm":"video"};
+const deliveryPath=/^[0-9a-f-]{36}\/[0-9a-f-]{36}\.(?:jpg|jpeg|png|webp|mp4|webm)$/;
+function validCustomer(value:unknown){
+ const id=String(value||"");if(!uuid.test(id))throw new Error("Invalid customer ID");return id;
+}
+async function customerContent(raw:string){
+ const id=validCustomer(raw);
+ const [f,m]=await Promise.all([
+  privileged.from("evie_customer_deliveries").select("id,title,kind,status,delivered_at,storage_path")
+   .eq("user_id",id).order("delivered_at",{ascending:false}).limit(80),
+  privileged.from("evie_customer_messages").select("id,body,posted_at")
+   .eq("user_id",id).order("posted_at",{ascending:false}).limit(80)
+ ]);
+ if(f.error||m.error)throw new Error("Unable to load private customer content");
+ return {files:f.data||[],messages:m.data||[]};
+}
+async function publishDelivery(actor:string,payload:any){
+ const id=validCustomer(payload?.user_id),path=String(payload?.storage_path||"");
+ const mime=String(payload?.mime_type||""),kind=String(payload?.kind||"");
+ const title=text(payload?.title,120,"delivery title",true);
+ if(!deliveryPath.test(path)||!path.startsWith(id+"/")||!customerMimes[mime]||customerMimes[mime]!==kind)
+  throw new Error("Invalid file, MIME type or recipient");
+ const extension=path.slice(path.lastIndexOf(".")+1);
+ const suffixes:Record<string,string[]>={"image/jpeg":["jpg","jpeg"],"image/png":["png"],"image/webp":["webp"],"video/mp4":["mp4"],"video/webm":["webm"]};
+ if(!suffixes[mime].includes(extension))throw new Error("Invalid file extension");
+ const filename=path.slice(id.length+1);
+ const {data:objects,error:objectError}=await privileged.storage.from(customerBucket).list(id,{limit:100,search:filename});
+ const item=(objects||[]).find(o=>o.name===filename);
+ if(objectError||!item||!item.metadata)throw new Error("File not found in private storage");
+ const bytes=Number(item.metadata.size||0);
+ if(!Number.isFinite(bytes)||bytes<=0||bytes>52428800)throw new Error("Invalid uploaded file size");
+ const actualMime=String(item.metadata.mimetype||item.metadata.contentType||"");
+ if(actualMime&&actualMime!==mime)throw new Error("Uploaded file type does not match");
+ const {data:recipient,error:accountError}=await privileged.auth.admin.getUserById(id);
+ if(accountError||!recipient?.user)throw new Error("Recipient account was not found");
+ const {data,error}=await privileged.from("evie_customer_deliveries")
+  .insert({user_id:id,storage_path:path,kind,mime_type:mime,title,status:"ready",delivered_by:actor})
+  .select("id,title").single();
+ if(error)throw new Error("This file could not be assigned to the customer");
+ return {ok:true,file:data};
+}
+async function customerMessage(actor:string,payload:any){
+ const id=validCustomer(payload?.user_id),body=text(payload?.body,1200,"message",true);
+ const {data:recipient,error:accountError}=await privileged.auth.admin.getUserById(id);
+ if(accountError||!recipient?.user)throw new Error("Recipient account was not found");
+ const {data,error}=await privileged.from("evie_customer_messages")
+  .insert({user_id:id,body,posted_by:actor}).select("id,posted_at").single();
+ if(error)throw new Error("Unable to post private message");
+ return {ok:true,message:data};
+}
+async function revokeDelivery(payload:any){
+ const id=validCustomer(payload?.user_id),fileId=validCustomer(payload?.file_id);
+ const {data,error}=await privileged.from("evie_customer_deliveries")
+  .update({status:"revoked"}).eq("user_id",id).eq("id",fileId).eq("status","ready")
+  .select("id").maybeSingle();
+ if(error||!data)throw new Error("Delivery not found");
+ return {ok:true};
+}
+
 async function renderStatus(serviceId:string){
  if(!renderID.test(serviceId))throw new Error("Invalid Render service ID");
  if(!RENDER_KEY)return {configured:false,message:"Render API key is not configured server-side. Use the Render dashboard link."};
@@ -283,6 +344,7 @@ Deno.serve(async(req:Request)=>{
     const page=Math.max(1,Math.min(20,Number(url.searchParams.get("page"))||1));
     return json(origin,200,await memberPage(page));
    }
+   if(action==="customer_content")return json(origin,200,await customerContent(url.searchParams.get("user_id")||""));
    if(action==="render_status"){
     const rid=url.searchParams.get("id")||"";
     // Only query service IDs explicitly registered in this admin registry.
@@ -297,6 +359,9 @@ Deno.serve(async(req:Request)=>{
   if(raw.length>6000)return json(origin,413,{error:"Request too large"});
   const payload=JSON.parse(raw);
   const actor=role.user.id;
+  if(payload?.action==="deliver_content")return json(origin,201,await publishDelivery(actor,payload));
+  if(payload?.action==="send_customer_message")return json(origin,201,await customerMessage(actor,payload));
+  if(payload?.action==="revoke_customer_delivery")return json(origin,200,await revokeDelivery(payload));
   if(payload?.action==="telegram_worker_issue"){
    return json(origin,201,await issuePersonalTelegramKey(actor,payload));
   }
