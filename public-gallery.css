@@ -1,0 +1,67 @@
+/* Dynamic photo gallery. Keeps original photo rail and adds owner uploads. */
+.public-gallery-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: clamp(12px, 3vw, 24px);
+  width: min(96vw, 960px);
+  max-width: 96vw;
+  max-height: 94dvh;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 16px;
+  background: #130b10;
+  color: #fff2ed;
+  box-shadow: 0 25px 90px rgba(0,0,0,.58);
+  overflow: hidden;
+}
+.public-gallery-dialog::backdrop {background: rgba(5,2,5,.88);backdrop-filter: blur(8px)}
+.public-gallery-dialog > img {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 82dvh;
+  margin: 0 auto;
+  border-radius: 5px;
+  object-fit: contain;
+}
+.public-gallery-close,.public-gallery-prev,.public-gallery-next {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  background: rgba(16,7,12,.85);
+  color: #fff;
+  font: inherit;
+  font-size: 1.4rem;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.public-gallery-close {right: 16px;top: 16px;font-size: 1.8rem}
+.public-gallery-prev {left: 16px;top: 50%;transform: translateY(-50%)}
+.public-gallery-next {right: 16px;top: 50%;transform: translateY(-50%)}
+.public-gallery-counter {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  padding: 5px 10px;
+  border-radius: 30px;
+  background: rgba(16,7,12,.8);
+  font-size: .75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .1em;
+}
+.public-gallery-dialog button:hover {background: rgba(127,69,97,.95)}
+.public-gallery-dialog button:focus-visible {outline: 2px solid #f4b6d5;outline-offset: 3px}
+.gallery-rail .evie-uploaded-photo img {object-fit: cover}
+@media(max-width:600px) {
+  .public-gallery-dialog {padding: 10px;max-height: 90dvh;border-radius: 12px}
+  .public-gallery-dialog > img {max-height: 78dvh}
+  .public-gallery-close {top: 12px;right: 12px}
+  .public-gallery-prev {left: 12px}
+  .public-gallery-next {right: 12px}
+}
