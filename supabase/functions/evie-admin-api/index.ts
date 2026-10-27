@@ -305,6 +305,35 @@ async function revokeDelivery(payload:any){
  return {ok:true};
 }
 
+
+async function ofClaimQueue(){
+ const {data,error}=await privileged.from("evie_of_claims")
+  .select("user_id,of_username,challenge_code,status,requested_at,challenge_expires_at,verified_until")
+  .order("requested_at",{ascending:false}).limit(80);
+ if(error)throw new Error("Unable to load OnlyFans verification requests");
+ return {claims:data||[]};
+}
+async function reviewOfClaim(actor:string,payload:any){
+ const id=validCustomer(payload?.user_id);
+ const decision=String(payload?.decision||"");
+ if(!["verified","rejected"].includes(decision))throw new Error("Invalid review decision");
+ const {data:claim,error:readError}=await privileged.from("evie_of_claims")
+  .select("user_id,status,challenge_expires_at,of_username").eq("user_id",id).maybeSingle();
+ if(readError||!claim||claim.status!=="pending")throw new Error("Claim is no longer pending");
+ if(decision==="verified"&&new Date(claim.challenge_expires_at).getTime()<=Date.now())
+  throw new Error("Verification code expired. Ask the customer for a new request");
+ const now=new Date();
+ const changes={
+  status:decision,reviewed_at:now.toISOString(),reviewed_by:actor,updated_at:now.toISOString(),
+  verified_at:decision==="verified"?now.toISOString():null,
+  verified_until:decision==="verified"?new Date(now.getTime()+30*86400000).toISOString():null
+ };
+ const {data,error}=await privileged.from("evie_of_claims")
+  .update(changes).eq("user_id",id).eq("status","pending").select("user_id,status").maybeSingle();
+ if(error||!data)throw new Error("Unable to review claim");
+ return {ok:true,claim:data};
+}
+
 async function renderStatus(serviceId:string){
  if(!renderID.test(serviceId))throw new Error("Invalid Render service ID");
  if(!RENDER_KEY)return {configured:false,message:"Render API key is not configured server-side. Use the Render dashboard link."};
@@ -345,6 +374,7 @@ Deno.serve(async(req:Request)=>{
     return json(origin,200,await memberPage(page));
    }
    if(action==="customer_content")return json(origin,200,await customerContent(url.searchParams.get("user_id")||""));
+   if(action==="of_claims")return json(origin,200,await ofClaimQueue());
    if(action==="render_status"){
     const rid=url.searchParams.get("id")||"";
     // Only query service IDs explicitly registered in this admin registry.
@@ -359,6 +389,7 @@ Deno.serve(async(req:Request)=>{
   if(raw.length>6000)return json(origin,413,{error:"Request too large"});
   const payload=JSON.parse(raw);
   const actor=role.user.id;
+  if(payload?.action==="review_of_claim")return json(origin,200,await reviewOfClaim(actor,payload));
   if(payload?.action==="deliver_content")return json(origin,201,await publishDelivery(actor,payload));
   if(payload?.action==="send_customer_message")return json(origin,201,await customerMessage(actor,payload));
   if(payload?.action==="revoke_customer_delivery")return json(origin,200,await revokeDelivery(payload));
