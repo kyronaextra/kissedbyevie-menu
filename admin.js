@@ -37,6 +37,7 @@ function section(view){
 function showDashboard(){
  $('adminGate').hidden=true;$('adminWorkspace').hidden=false;
  window.EvieAdminInbox?.start?.({request,client:sb});
+ window.EvieAdminCustomers?.start?.({request,client:sb});
  section(current);
 }
 async function request(action,content=null,query=null){
@@ -72,6 +73,7 @@ async function authorize(){
 }
 async function signOut(){
  window.EvieAdminInbox?.stop?.();
+ window.EvieAdminCustomers?.stop?.();
  try{await sb?.auth.signOut()}catch(_){}
  data=null;page=1;$('adminLoginForm').reset();gate('login');gateStatus('Signed out of Evie Admin.');
 }
@@ -169,7 +171,7 @@ async function loadMembers(nextPage){
   if(!(response.members||[]).length)host.append(node('p','empty','No accounts on this page.'));
   else{
    const table=node('table','member-table'),thead=node('thead'),heading=node('tr');
-   ['Username','Nickname','Email','Phone (optional)','Social reference','Plan','Status','Adult verified'].forEach(h=>heading.append(node('th','',h)));
+   ['Username','Nickname','Email','Phone (optional)','Social reference','Plan','Status','Adult verified','Customer tools'].forEach(h=>heading.append(node('th','',h)));
    thead.append(heading);table.append(thead);
    const tbody=node('tbody');
    response.members.forEach(m=>{
@@ -177,7 +179,9 @@ async function loadMembers(nextPage){
     account.append(node('strong','',m.username?'@'+m.username:(m.x||m.snapchat||m.telegram||'Free customer')));tr.append(account);
     const socials=[m.snapchat&&'Snap: '+m.snapchat,m.x&&'X: '+m.x,m.telegram&&'TG: '+m.telegram].filter(Boolean).join(' / ');
     [m.nickname||'—',m.email||'—',m.phone_number||'—',socials||'—',m.tier||'none',m.status||'not reviewed',m.age_verified?'Yes':'No'].forEach(x=>tr.append(node('td','',x)));
-    tbody.append(tr);
+    const actions=node('td');const open=node('button','secondary small','Deliver / Message');
+    open.type='button';open.addEventListener('click',()=>window.EvieAdminCustomers?.select(m));
+    actions.append(open);tr.append(actions);tbody.append(tr);
    });
    table.append(tbody);host.append(table);
   }
