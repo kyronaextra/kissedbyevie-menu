@@ -63,7 +63,7 @@ function bindExisting(button,p){
  if(button.__evieDynamicBound)return;
  button.__evieDynamicBound=true;
  button.addEventListener('click',event=>{
-  if(event.target.closest('a,button'))return;
+  if(event.target.closest('a'))return;
   event.preventDefault();event.stopImmediatePropagation();
   openPhoto(button.__evieDynamicPhoto.id,button);
  },true);
