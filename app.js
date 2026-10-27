@@ -329,8 +329,8 @@
     var account=await accountOrderReference();
     if(account){
       if(account.handle)message=message.replace('My Snap/Telegram: [your username]','My chat username: '+account.handle);
-      message+='\\nCustomer account ID: '+account.id;
-      if(account.nickname)message+='\\nNickname: '+account.nickname;
+      message+='\nCustomer account ID: '+account.id;
+      if(account.nickname)message+='\nNickname: '+account.nickname;
     }
     if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(message);
     else{
