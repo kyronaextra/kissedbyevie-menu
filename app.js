@@ -86,6 +86,15 @@
   var bag=document.getElementById('bagDrawer');
   var bagPill=document.getElementById('bagPill');
   var cart=[];
+  // October 27 to 31, 2026, inclusive, in Pacific daylight time.
+  var promoEnds=Date.parse('2026-11-01T07:00:00Z');
+  var promoActive=Date.now()>=Date.parse('2026-10-27T07:00:00Z')&&Date.now()<promoEnds;
+  var promoSection=document.getElementById('octDeals');
+  if(promoSection){
+    promoSection.hidden=!promoActive;
+    if(promoActive)window.setTimeout(function(){promoSection.hidden=true;promoActive=false;},Math.max(0,promoEnds-Date.now()));
+  }
+  function isOctoberDeal(name){return name==='October Deluxe Deal (1 month)'||name==='October VIP Deal (1 month)';}
   function singleQty(exclusive,name){
     return ['membership','of','vault'].includes(exclusive)||/monthly|renewal/i.test(name||'');
   }
@@ -97,7 +106,7 @@
       var parsed=JSON.parse(sessionStorage.getItem('evie-bag-v2')||'[]');
       if(!Array.isArray(parsed))return;
       cart=parsed.filter(function(item){
-        return item&&typeof item.name==='string'&&Number.isFinite(Number(item.price))&&item.qty>0;
+        return item&&typeof item.name==='string'&&Number.isFinite(Number(item.price))&&item.qty>0&&(promoActive||!isOctoberDeal(item.name));
       }).map(function(item){
         return {name:item.name,price:Number(item.price),qty:Math.min(10,Math.round(item.qty)),exclusive:item.exclusive||null};
       });
@@ -229,11 +238,12 @@
   bag.addEventListener('click',function(e){if(e.target===bag)closeBag()});
   bag.addEventListener('close',function(){if(lastBagTrigger&&lastBagTrigger.focus)lastBagTrigger.focus()});
   function addItem(name,price,exclusive){
+    if(isOctoberDeal(name)&&!promoActive){toast('That October deal has ended. Choose an item from the current menu ♡');return false;}
     if(singleQty(exclusive,name)&&cart.some(function(item){return item.name===name})){
       openBag();return false;
     }
     if(exclusive==='membership'){
-      const isVip=/VIP Daddy|Ultimate VIP|Membership Renewal/i.test(name);
+      const isVip=/VIP Daddy|Ultimate VIP|Membership Renewal|October VIP Deal/i.test(name);
       cart=cart.filter(function(i){
         if(i.exclusive==='membership'||i.exclusive==='of')return false;
         if(isVip&&i.exclusive==='vault')return false;
@@ -245,7 +255,7 @@
       openBag();return false;
     }
     if(exclusive==='of')cart=cart.filter(function(i){return i.exclusive!=='of'});
-    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP Daddy|Ultimate VIP/i.test(i.name)})){
+    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP Daddy|Ultimate VIP|October VIP Deal/i.test(i.name)})){
       document.getElementById('cartFeedback').textContent='Dropbox access is already included in your selected VIP Daddy package.';
       openBag();return false;
     }
