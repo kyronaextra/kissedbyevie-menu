@@ -17,9 +17,13 @@
 .oct-deal-card.vip{border-color:#f6c4ae;background:linear-gradient(160deg,#3f1529,#10070d);box-shadow:0 0 34px #ca677822}
 .oct-deal-symbol{text-align:center;color:var(--deal-gold);font:normal 34px/1 Georgia,serif;margin-bottom:12px}
 .oct-deal-card h3{text-align:center;margin:0;color:#fff0e5;font:normal clamp(36px,4.8vw,58px)/1.1 var(--display);letter-spacing:.07em}
-.oct-deal-price{text-align:center;margin:13px 0 20px;color:#f6bdc3;font:normal clamp(64px,8vw,94px)/1.08 var(--display)}
+.oct-deal-price{text-align:center;margin:8px 0 16px;color:#f6bdc3;font:normal clamp(64px,8vw,94px)/1.08 var(--display)}
+.oct-deal-term{text-align:center;color:#ebc5bc;letter-spacing:.16em;font:700 11px/1.5 var(--body);margin:13px 0 0}
+.oct-deal-bonus{display:flex;gap:9px;align-items:center;justify-content:center;border:1px solid #f7c2ac88;border-radius:6px;background:linear-gradient(110deg,#7d2d4f88,#40203499);padding:14px 12px;margin:0 0 19px;color:#ffe6de;font:700 clamp(12px,1.45vw,15px)/1.5 var(--body);text-align:center}
+.oct-deal-bonus span{color:#ffbfc7;font-size:19px}
+.oct-deal-benefits-heading{color:#f3cbc7;font:700 13px/1.5 var(--body);letter-spacing:.015em;margin:3px 0 9px}
 .oct-deal-points{flex:1;list-style:none;padding:16px 0 3px;margin:0 0 16px;border-top:1px solid #d6a9a277}
-.oct-deal-points li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;color:#f6e7e2;font:400 clamp(13px,1.5vw,16px)/1.6 var(--body)}
+.oct-deal-points li{display:flex;gap:11px;align-items:flex-start;padding:7px 0;color:#f6e7e2;font:400 clamp(13px,1.5vw,16px)/1.6 var(--body)}
 .oct-deal-points li::before{content:"✓";display:grid;place-items:center;flex:none;width:20px;height:20px;margin-top:2px;border:1px solid #f4b7c2;border-radius:50%;color:#f4b7c2;font:700 12px/1 var(--body)}
 .oct-deal-buy{width:100%;min-height:52px;padding:12px 15px;border:1px solid #e7aab4;border-radius:5px;background:linear-gradient(105deg,#671e38,#a0475b,#671e38);color:#fff7f2;font:700 14px/1.4 var(--body);letter-spacing:.035em;transition:transform .2s,box-shadow .2s}
 .oct-deal-card.vip .oct-deal-buy{background:linear-gradient(110deg,#f0c4b4,#e4a5b4);border-color:#ffe1d2;color:#361321}
