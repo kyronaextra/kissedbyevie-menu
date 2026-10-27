@@ -169,14 +169,14 @@ async function loadMembers(nextPage){
   if(!(response.members||[]).length)host.append(node('p','empty','No accounts on this page.'));
   else{
    const table=node('table','member-table'),thead=node('thead'),heading=node('tr');
-   ['Username','Email','Social reference','Plan','Status','Adult verified'].forEach(h=>heading.append(node('th','',h)));
+   ['Username','Nickname','Email','Phone (optional)','Social reference','Plan','Status','Adult verified'].forEach(h=>heading.append(node('th','',h)));
    thead.append(heading);table.append(thead);
    const tbody=node('tbody');
    response.members.forEach(m=>{
     const tr=node('tr'),account=node('td');
     account.append(node('strong','',m.username?'@'+m.username:'Pending username'));tr.append(account);
     const socials=[m.snapchat&&'Snap: '+m.snapchat,m.x&&'X: '+m.x,m.telegram&&'TG: '+m.telegram].filter(Boolean).join(' / ');
-    [m.email||'—',socials||'—',m.tier||'none',m.status||'not reviewed',m.age_verified?'Yes':'No'].forEach(x=>tr.append(node('td','',x)));
+    [m.nickname||'—',m.email||'—',m.phone_number||'—',socials||'—',m.tier||'none',m.status||'not reviewed',m.age_verified?'Yes':'No'].forEach(x=>tr.append(node('td','',x)));
     tbody.append(tr);
    });
    table.append(tbody);host.append(table);
