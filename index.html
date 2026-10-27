@@ -48,7 +48,7 @@
 <a class="skip-link" href="#boutique">Skip to menu</a>
 
 <header class="site-header">
-  <a class="wordmark" href="#top">KISSED BY EVIE <span aria-hidden="true">✧</span></a>
+  <a class="wordmark" href="#top">KISSEDBYEVIE <span aria-hidden="true">✧</span></a>
   <nav class="site-nav" aria-label="Main navigation">
     <a href="#boutique">Menu</a>
     <a href="#members">VIP Memberships</a>
@@ -67,11 +67,14 @@
       <img src="/assets/photos/evie-hero-01.png" alt="Evie posing in a light patterned outfit against a burgundy backdrop" fetchpriority="high" style="object-position:center 28%">
       <div class="hero-wash"></div>
       <div class="hero-copy">
-        <div class="eyebrow">A PRIVATE WORLD BY @KISSEDBYEVIE</div>
-        <h1>Kissed<br><em>by Evie</em></h1>
-        <p>Your own secure VIP access, customized private gallery and content menu, all in one place.</p>
-        <button type="button" class="terms-trigger" data-open-vip-terms aria-haspopup="dialog">✧ TERMS AND CONDITIONS WHEN YOU PURCHASE OR JOIN <span aria-hidden="true">↗</span></button>
-        <a href="#boutique" class="text-link">Explore what I offer <span aria-hidden="true">↘</span></a>
+        <div class="eyebrow">WELCOME TO MY SIDE OF THE INTERNET</div>
+        <h1 class="hero-brand-title">KISSED<br><em>BYEVIE</em></h1>
+        <p>Everything you'd normally have to DM me six times to figure out: menu, gallery, VIP, the whole thing. All in one place. You're welcome.</p>
+        <div class="hero-cta-links" aria-label="Explore the site">
+          <a class="hero-cta-primary" href="#boutique">See the menu <span aria-hidden="true">↘</span></a>
+          <a class="hero-cta-secondary" href="#vip">What's VIP? <span aria-hidden="true">↘</span></a>
+        </div>
+        <button type="button" class="terms-trigger hero-rules-trigger" data-open-vip-terms aria-haspopup="dialog">Read the purchase rules <span aria-hidden="true">↗</span></button>
       </div>
     </article>
     <article class="hero-slide" data-set="hero" data-photo="1" aria-label="Photo 2 of 4">
@@ -82,12 +85,12 @@
     <article class="hero-slide" data-set="hero" data-photo="2" aria-label="Photo 3 of 4">
       <img src="/assets/photos/evie-featured-01.jpg" alt="Evie seated in a red outfit for an editorial portrait" loading="lazy" style="object-position:center 18%">
       <div class="hero-wash"></div>
-      <div class="hero-copy compact"><span class="eyebrow">03 / THE EVIE EDIT</span><h2>Stay curious.</h2></div>
+      <div class="hero-copy compact"><span class="eyebrow">03 / THE EVIE EDIT</span><h2>YEAH, KEEP LOOKING</h2></div>
     </article>
     <article class="hero-slide" data-set="hero" data-photo="3" aria-label="Photo 4 of 4">
       <img src="/assets/photos/evie-featured-02.jpg" alt="Evie posing for a mirror selfie in a black lace outfit" loading="lazy" style="object-position:center 55%">
       <div class="hero-wash"></div>
-      <div class="hero-copy compact"><span class="eyebrow">04 / THE EVIE EDIT</span><h2>There's more.</h2></div>
+      <div class="hero-copy compact"><span class="eyebrow">04 / THE EVIE EDIT</span><h2>THERE'S ALWAYS MORE. OBVIOUSLY.</h2></div>
     </article>
   </div>
   <div class="hero-controls" aria-label="Hero gallery controls">
@@ -100,28 +103,28 @@
 
 <!-- ============ NEW: START HERE CHOOSER ============ -->
 <section class="chooser" aria-label="Where to start">
-  <h2>Not sure where to start?</h2>
+  <h2>Where do you wanna go?</h2>
   <div class="chooser-grid">
     <a class="choice" href="#about">
-      <span class="choice-emoji">👋</span>
-      <h3>Just browsing</h3>
-       About Me • Social Links
+      <span class="choice-emoji" aria-hidden="true">👋</span>
+      <h3>Just here to lurk</h3>
+      <p>About me, socials, zero commitment. Perfectly valid.</p>
     </a>
-    <a class="choice" href="#cheap">
-      <span class="choice-emoji">💸</span>
-      <h3>I'm broke, what can I get?</h3>
-      <p>Under $15. Photos, ratings, voice notes. No commitment.</p>
-    </a>
-    <a class="choice" href="#custom">
-      <span class="choice-emoji">🎬</span>
-      <h3>I want something custom</h3>
-      <p>Tell me your ideas from $50</p>
+    <a class="choice" href="#boutique">
+      <span class="choice-emoji" aria-hidden="true">💸</span>
+      <h3>Buy something</h3>
+      <p>Straight to the menu. Prices are right there, no games.</p>
     </a>
     <a class="choice" href="#vip">
-      <span class="choice-emoji">👑</span>
-      <h3>Full GFE / VIP experience</h3>
-      <p>Daily content, priority replies, FaceTime eligibility. Packages from $70</p>
+      <span class="choice-emoji" aria-hidden="true">👑</span>
+      <h3>Go VIP</h3>
+      <p>Set-term access, priority replies, and I actually know your name. No auto-charges.</p>
     </a>
+    <button type="button" class="choice" data-open-vip-terms aria-haspopup="dialog">
+      <span class="choice-emoji" aria-hidden="true">📖</span>
+      <h3>Read the rules first</h3>
+      <p>Yes, read them. I mean it.</p>
+    </button>
   </div>
 </section>
 
@@ -142,17 +145,15 @@
 
 
 <section class="payments" aria-labelledby="payHeading">
-  <h2 id="payHeading">How to pay me for services</h2>
-  <p class="sub">No checkout on this site (yet) Add services to your order, copy the summary, paste in our chat, request customization if appropriate, then you pay using the below methods. </p>
+  <h2 id="payHeading">How to pay</h2>
+  <p class="sub">No checkout here yet. Build your order, copy it, and send it in our chat. I'll confirm payment details before you pay.</p>
   <div class="pay-grid">
     <span class="pay-chip">CashApp</span>
     <span class="pay-chip">Venmo</span>
-    <span class="pay-chip">Amazon E-Gift: send to elviramack7@gmail.com</span>
-    <span class="pay-chip">Coinbase</span>
-    <span class="pay-chip">Blockchain</span>
-    <span class="pay-chip">REVOLUT (coming soon) </span>
-    <span class="pay-chip">STRIPE (coming soon</span>
-    <span class="pay-chip">Crypto (BTC / ETH / USDC)</span>
+    <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
+    <span class="pay-chip">Coinbase / crypto (BTC · ETH · USDC)</span>
+    <span class="pay-chip pay-chip-soon">Revolut — coming soon</span>
+    <span class="pay-chip pay-chip-soon">Stripe — coming soon</span>
   </div>
   <p class="sub" style="margin-top:1.25rem;">Order flow: add to bag → tap "Review &amp; send my order" → I reply on Telegram/Snapchat/Wherever with payment details → you pay → content delivered.</p>
   <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
@@ -164,7 +165,7 @@
   <div class="boutique-top reveal">
     <p class="eyebrow">KISSEDBYEVIE CONTENT MENU · 18+</p>
     <h2 id="boutiqueHeading">The <em>Menu.</em></h2>
-    <p>VIP memberships, bundles, themed sets, customs & little extras. Pick your favorites ♡</p>
+    <p>VIP, bundles, themed sets, customs, and a few extras. Go on, add to bag.</p>
   </div>
 
   <div class="menu-photo-preview" aria-label="A preview of Evie's photo collection">
@@ -179,7 +180,7 @@
   <div id="boutiqueCatalog"></div>
 
   <div class="menu-order-panel" id="work-order">
-    <p class="eyebrow">READY WHEN YOU ARE</p>
+    <p class="eyebrow">SO. ARE YOU READY OR WHAT</p>
     <h3>Your picks, my inbox.</h3>
     <p>You don't pay on this site — I'll send payment details once we confirm your order.</p>
     <button type="button" class="primary-btn menu-order-button" id="reviewOrder">Review & send my order <span aria-hidden="true">↗</span></button>
@@ -192,9 +193,10 @@
   <div class="intro-number reveal">001 — PHOTO DIARY</div>
   <div class="intro-grid">
     <div class="intro-copy reveal">
-      <p class="eyebrow">A LITTLE PIECE OF MY WORLD</p>
+      <p class="eyebrow">SCOOT CLOSER</p>
       <h2>About <em>me.</em></h2>
-      <p>Everything relevant, in one place. My life, interests, what I'm studying, what I'm building, and the “occasional“ completely unfiltered rant.</p>
+      <p>I'm Evie. I study, I work a real job, I build weird tools for this industry, and somewhere in between all that I take my clothes off for money.</p>
+      <p>Everything relevant lives here: my life, my interests, what I'm studying, what I'm building, and the occasional completely unfiltered rant. If you want the polished version, you're on the wrong site.</p>
       <a class="evie-about-link" href="blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots &amp; fake personalities <span aria-hidden="true">↗</span></a>
       <span class="handwritten">Take your time. ♡</span>
     </div>
@@ -209,8 +211,9 @@
 <section class="gallery-section" aria-labelledby="galleryHeading">
   <div class="gallery-heading reveal">
     <div>
-      <p class="eyebrow"> Here's some previews </p>
-      <h2 id="galleryHeading">Behind the <em>edit.</em></h2>
+      <p class="eyebrow">HERE'S SOME PREVIEWS</p>
+      <h2 id="galleryHeading">Proof I don't just <em>own one outfit.</em></h2>
+      <p class="gallery-intro">Yes, the gallery is bigger.</p>
     </div>
     <div class="gallery-arrows">
       <button class="round-control" id="galleryPrev" type="button" aria-label="Scroll gallery left">←</button>
@@ -248,9 +251,9 @@
 
 <section class="note-section reveal">
   <div class="note-copy">
-    <p class="eyebrow">A NOTE FROM EVIE</p>
+    <p class="eyebrow">HI, IT'S EVIE</p>
     <h2>More to explore.<br>Only from me.</h2>
-    <p>The full collection, custom requests, and VIP access live here. Take your time and pick what you want.</p>
+    <p>The full collection, customs, and VIP are right here. Take your pick.</p>
   </div>
   <div class="note-mark" aria-hidden="true">✧</div>
 </section>
@@ -279,7 +282,7 @@
   <p class="sub">The stuff people ask before ordering.</p>
   <details>
     <summary>How do I pay?</summary>
-    <p>CashApp, Venmo, Amazon, Apple Pay or crypto. Add items to your bag, tap "Review &amp; send my order", and I'll send payment details on a social platform. Nothing charges automatically.</p>
+    <p>CashApp, Venmo, Amazon e-gift, or Coinbase / crypto (BTC, ETH, USDC). Revolut and Stripe are coming soon. Add to bag, tap "Review &amp; send my order", and I'll confirm the details in chat. Nothing charges automatically.</p>
   </details>
   <details>
     <summary>How fast is delivery?</summary>
