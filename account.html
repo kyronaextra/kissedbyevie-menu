@@ -15,6 +15,7 @@
 <script defer src="member-config.js"></script>
 <script defer src="teaser-gallery.js"></script>
 <script defer src="customer-library.js"></script>
+<script defer src="of-claim.js"></script>
 <script defer src="account.js"></script>
 </head>
 <body>
@@ -84,8 +85,26 @@
     </div>
     <button type="button" id="signOut" class="text-button">Sign out</button>
   </section>
+  <section class="account-card of-section" id="ofSection" aria-labelledby="ofTitle" hidden>
+    <div class="card-top"><span class="card-kicker">03 · SUBSCRIBER VERIFICATION</span><span class="pill">FREE ADD-ON</span></div>
+    <h2 id="ofTitle">Already on my <em>OnlyFans?</em></h2>
+    <p>Claim your subscriber badge! There's no OnlyFans password or login on this site. I'll verify your account personally.</p>
+    <p class="of-status" id="ofStatus">Checking subscriber status…</p>
+    <form id="ofClaimForm">
+      <label for="ofUsername">Your OnlyFans username</label>
+      <input type="text" id="ofUsername" maxlength="50" autocomplete="off" placeholder="@yourOFusername" required>
+      <button type="submit" id="ofClaimButton" class="btn primary">Get my verification code ♡</button>
+    </form>
+    <div id="ofInstructions" class="of-instructions" hidden>
+      <p class="micro">Send this exact code from your OnlyFans account to Evie's verified creator inbox. I'll check that the username, message code, and subscription match, then approve your account.</p>
+      <div class="of-code-line"><strong id="ofCode"></strong><button type="button" id="ofCopyCode" class="text-button">Copy code</button></div>
+      <p id="ofExpiry" class="micro"></p>
+    </div>
+    <p class="micro" id="ofFeedback" role="status"></p>
+    <p class="micro">OF subscriber status is separate from individual purchases and paid VIP gallery access. Verification may need to be renewed.</p>
+  </section>
   <section class="account-card purchases-section" id="purchasesSection" aria-labelledby="purchasesTitle" hidden>
-    <div class="card-top"><span class="card-kicker">03 · MADE FOR YOU</span><span class="pill">MY PURCHASES</span></div>
+    <div class="card-top"><span class="card-kicker">04 · MADE FOR YOU</span><span class="pill">MY PURCHASES</span></div>
     <h2 id="purchasesTitle">Your personal <em>vault.</em></h2>
     <p>Photos and videos I've personally delivered to your account. Your collection stays here for future visits. ♡</p>
     <button type="button" class="text-button" id="purchasesRefresh">↻ Refresh my purchases</button>
@@ -94,7 +113,7 @@
     <p class="micro">Adult media is available only after independent age verification. Free account registration or OF verification alone doesn't unlock private purchases.</p>
   </section>
   <section class="account-card messages-section" id="messagesSection" aria-labelledby="messagesTitle" hidden>
-    <div class="card-top"><span class="card-kicker">04 · A NOTE FROM EVIE</span><span class="pill">PRIVATE MESSAGES</span></div>
+    <div class="card-top"><span class="card-kicker">05 · A NOTE FROM EVIE</span><span class="pill">PRIVATE MESSAGES</span></div>
     <h2 id="messagesTitle">Your <em>inbox.</em></h2>
     <p>Messages I've left just for you, saved to your account.</p>
     <button type="button" class="text-button" id="messagesRefresh">↻ Refresh messages</button>
@@ -111,7 +130,7 @@
   </dialog>
   <section class="account-card teaser-section" id="teaserSection" aria-labelledby="teaserHeading" hidden>
     <div class="card-top">
-      <span class="card-kicker">05 · MEMBER-ONLY PHOTOS</span>
+      <span class="card-kicker">06 · MEMBER-ONLY PHOTOS</span>
       <span class="pill">FREE WITH ANY ACCOUNT</span>
     </div>
     <p class="eyebrow">PRIVATE PREVIEWS ♡</p>
