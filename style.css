@@ -659,3 +659,123 @@ html{scroll-behavior:auto}
   .hero-copy p{font-size:12px;line-height:1.3}
   .hero-cta-links a{min-height:35px;padding:7px 12px}
 }
+
+
+/* 2026-10-27: mobile hero legibility and compact navigation */
+.hero-slide .hero-copy h1,
+.hero-slide .hero-copy h2{
+  color:#fff7fb;
+  text-shadow:0 3px 18px rgba(0,0,0,.94),0 1px 3px rgba(0,0,0,.98);
+}
+.hero-slide .hero-copy .eyebrow{
+  color:#fff1f7;
+  text-shadow:0 2px 7px #080307,0 0 20px #080307;
+}
+.hero-slide .hero-copy>p{
+  color:#fff7fb;
+  text-shadow:0 2px 8px #080307,0 1px 3px #080307;
+  font-weight:600;
+  line-height:1.55;
+}
+.hero-cta-secondary{
+  background:rgba(13,4,12,.86);
+  border-color:rgba(255,255,255,.95);
+  box-shadow:0 4px 20px rgba(0,0,0,.35);
+}
+@media (max-width:700px){
+  /* Do not squeeze five links into a single, overlapping mobile header. */
+  .site-header{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:9px;
+    padding:13px 17px 15px;
+    background:linear-gradient(180deg,rgba(10,3,9,.97),rgba(10,3,9,.67) 76%,transparent);
+  }
+  .site-header .wordmark{
+    font-size:13px;
+    letter-spacing:.13em;
+    align-self:flex-start;
+  }
+  .site-header .site-nav{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:nowrap;
+    gap:10px;
+  }
+  .site-header .site-nav a{
+    font-size:11px;
+    line-height:1.35;
+    white-space:nowrap;
+  }
+  /* Duplicate menu CTA remains accessible via both the menu nav and hero. */
+  .site-header .site-nav .nav-shop{display:none}
+  /* Gradual fade protects all hero titles but leaves the portrait visible above. */
+  .hero-slide .hero-wash{
+    background:
+      linear-gradient(180deg,rgba(9,3,8,.15) 0%,rgba(9,3,8,.22) 25%,rgba(9,3,8,.55) 51%,rgba(9,3,8,.87) 77%,rgba(9,3,8,.96) 100%),
+      linear-gradient(90deg,rgba(9,3,8,.30),transparent 90%);
+  }
+  .hero-slide:first-child .hero-copy{
+    isolation:isolate;
+    left:21px;
+    right:21px;
+    bottom:115px;
+    max-width:440px;
+    text-align:left;
+  }
+  /* Subtle translucent panel, rather than text disappearing over the outfit. */
+  .hero-slide:first-child .hero-copy::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    inset:-17px -14px -15px -14px;
+    border:1px solid rgba(255,223,235,.22);
+    border-radius:14px;
+    background:linear-gradient(110deg,rgba(12,3,10,.91) 0%,rgba(19,5,15,.81) 75%,rgba(25,8,19,.72) 100%);
+    box-shadow:0 17px 55px rgba(0,0,0,.34);
+    -webkit-backdrop-filter:blur(5px);
+    backdrop-filter:blur(5px);
+  }
+  .hero-slide:first-child .hero-copy .eyebrow{
+    font-size:10px!important;
+    line-height:1.5;
+    letter-spacing:.16em;
+  }
+  .hero-slide:first-child .hero-copy .hero-brand-title{
+    color:#fff!important;
+    font-size:clamp(60px,14.8vw,79px);
+    line-height:.86;
+    margin:12px 0 17px;
+    text-shadow:0 4px 16px rgba(0,0,0,.9),0 1px 2px #000;
+  }
+  .hero-slide:first-child .hero-copy .hero-brand-title em{color:#ffe2ee}
+  .hero-slide:first-child .hero-copy>p{
+    margin:0 0 15px;
+    max-width:none;
+    font-size:14px;
+    line-height:1.5;
+    font-weight:600;
+  }
+  .hero-slide:first-child .hero-cta-links{margin-bottom:10px}
+  .hero-slide:first-child .hero-rules-trigger{
+    margin-bottom:0!important;
+    background:rgba(35,9,26,.93);
+    border-color:rgba(255,227,238,.85);
+  }
+}
+@media(max-width:380px){
+  .site-header .site-nav{gap:7px}
+  .site-header .site-nav a{font-size:10px}
+  .hero-slide:first-child .hero-copy{left:19px;right:19px;bottom:110px}
+  .hero-slide:first-child .hero-copy .hero-brand-title{font-size:58px}
+  .hero-slide:first-child .hero-copy>p{font-size:13px}
+}
+@media(max-height:670px) and (max-width:700px){
+  .hero-slide:first-child .hero-copy{bottom:96px}
+  .hero-slide:first-child .hero-copy .hero-brand-title{font-size:54px;margin:9px 0 11px}
+  .hero-slide:first-child .hero-copy>p{font-size:12px;line-height:1.35;margin-bottom:9px}
+  .hero-slide:first-child .hero-cta-links a{min-height:34px;padding:7px 11px}
+  .hero-slide:first-child .hero-rules-trigger{padding:6px 11px!important}
+}
