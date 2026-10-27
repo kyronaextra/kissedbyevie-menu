@@ -111,3 +111,18 @@ h1,h2,h3,p{margin-top:0}h1,h2{font-weight:400}h1 em,h2 em{color:var(--pink);font
 .tg-paired-workers{margin-top:28px;padding-top:21px;border-top:1px solid var(--line)}
 .tg-worker-last-seen{font-size:11px;color:var(--muted);line-height:1.7;margin:4px 0 10px}
 @media(max-width:850px){.tg-pair-grid{grid-template-columns:1fr}.tg-pair-steps{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}}
+
+
+/* Per-customer manual content delivery and dashboard message workspace */
+.customer-delivery-panel{margin-top:24px;padding:20px;border:1px solid rgba(255,255,255,.14);border-radius:12px}
+.customer-delivery-layout{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:18px;margin:16px 0}
+.customer-delivery-panel .stack-form{padding:17px;border:1px solid rgba(255,255,255,.12);border-radius:10px}
+.customer-delivery-panel .stack-form h3{margin:4px 0 10px}
+.customer-delivery-panel textarea,.customer-delivery-panel input[type=file]{max-width:100%}
+.customer-delivery-panel textarea{resize:vertical}
+.customer-delivery-panel #customerDeliveryStatus[data-error=true]{color:#ffaeb4}
+.customer-delivery-list,.customer-message-list{display:grid;gap:10px;margin:14px 0}
+.customer-delivery-entry,.customer-message-entry{border:1px solid rgba(255,255,255,.13);border-radius:10px;padding:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.customer-delivery-entry small{color:inherit;opacity:.75;flex:1}
+.customer-message-entry{display:block}
+.customer-message-entry p{white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0 0}
