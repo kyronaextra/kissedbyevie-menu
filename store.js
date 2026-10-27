@@ -163,7 +163,7 @@ categories.forEach(([section],i)=>{
    action.dataset.cta=cta.label;
    if(p.group)action.dataset.exclusive=p.group;
    action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
-   action.append(el('span','menu-v2-add-label',cta.label),el('span','menu-v2-action-icon','→'));
+   action.append(el('span','menu-v2-add-label',cta.label));
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
    card.append(info,buy);panel.append(card);
  });

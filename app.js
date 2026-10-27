@@ -274,7 +274,6 @@
       if(button.classList.contains('is-added'))return;
       var label=inBag?(single?'In bag ✓':'Add another'):button.dataset.cta;
       button.querySelector('.menu-v2-add-label').textContent=label;
-      button.querySelector('.menu-v2-action-icon').textContent=inBag&&single?'✓':'→';
       button.setAttribute('aria-label',inBag?(single?'In bag: '+name+'. Open your bag to review.':'Add another '+name+'. '+item.qty+' in your bag.'):(button.dataset.cta+': '+name+'. Adds to your bag for review.'));
     });
   }
@@ -283,7 +282,6 @@
     button.classList.add('is-added');
     button.disabled=true;
     button.querySelector('.menu-v2-add-label').textContent='Added ✓';
-    button.querySelector('.menu-v2-action-icon').textContent='✓';
     button.setAttribute('aria-label',button.dataset.name+' added to your bag');
     button._feedbackTimer=window.setTimeout(function(){
       button.classList.remove('is-added');button.disabled=false;syncProductButtons();

@@ -14,13 +14,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261027-cta-3">
+<link rel="stylesheet" href="style.css?v=20261027-hierarchy-1">
 <link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script defer src="store.js?v=20261027-cta-3"></script>
-<script defer src="app.js?v=20261027-cta-3"></script>
+<script defer src="store.js?v=20261027-hierarchy-1"></script>
+<script defer src="app.js?v=20261027-hierarchy-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="daddy-gallery.js"></script>
@@ -54,13 +54,13 @@
     <a href="#members">VIP Memberships</a>
     <a href="#about">About Me</a>
     <a href="#blog">Blog</a>
-    <a class="nav-shop" href="#boutique">Shop the Menu <span aria-hidden="true">↗</span></a>
+    <a class="nav-shop" href="#boutique">Shop the Menu</a>
   </nav>
 </header>
 
 <main>
 
-<!-- HERO (unchanged) -->
+<!-- HERO: one primary action and one quiet text link -->
 <section class="hero" aria-label="Featured photo collection">
   <div class="hero-rail" id="heroRail" tabindex="0" aria-label="Swipeable featured photographs">
     <article class="hero-slide" data-set="hero" data-photo="0" aria-label="Photo 1 of 4">
@@ -71,10 +71,9 @@
         <h1 class="hero-brand-title">KISSED<br><em>BYEVIE</em></h1>
         <p>Everything you'd normally have to DM me six times to figure out: menu, gallery, VIP, the whole thing. All in one place. You're welcome.</p>
         <div class="hero-cta-links" aria-label="Explore the site">
-          <a class="hero-cta-primary" href="#boutique">See the menu <span aria-hidden="true">↘</span></a>
-          <a class="hero-cta-secondary" href="#vip">What's VIP? <span aria-hidden="true">↘</span></a>
+          <a class="hero-cta-primary" href="#boutique">See the menu</a>
+          <a class="hero-cta-secondary" href="#vip">What's VIP?</a>
         </div>
-        <button type="button" class="terms-trigger hero-rules-trigger" data-open-vip-terms aria-haspopup="dialog">Read the purchase rules <span aria-hidden="true">↗</span></button>
       </div>
     </article>
     <article class="hero-slide" data-set="hero" data-photo="1" aria-label="Photo 2 of 4">
@@ -112,11 +111,11 @@
     <div class="latest-feature-photos">
       <button class="latest-feature-photo image-button" type="button" data-set="latest" data-photo="0" aria-label="Open first new photo of Evie">
         <img src="/assets/photos/evie-oct27-portrait.webp" alt="Evie leaning toward the camera wearing black lace" width="850" height="1308" loading="eager" decoding="async">
-        <span>01 / OPEN PHOTO ↗</span>
+        <span>01 / OPEN PHOTO</span>
       </button>
       <button class="latest-feature-photo image-button" type="button" data-set="latest" data-photo="1" aria-label="Open second new photo of Evie">
         <img src="/assets/photos/evie-oct27-black-lace.webp" alt="Evie in black lace looking back over her shoulder" width="850" height="1308" loading="eager" decoding="async">
-        <span>02 / OPEN PHOTO ↗</span>
+        <span>02 / OPEN PHOTO</span>
       </button>
     </div>
   </div>
@@ -161,7 +160,7 @@
     <li><span>OnlyFans, one month</span><span>$3</span></li>
   </ul>
   <p class="cheap-pitch">That's it. Pick one, see if you like her, come back and upgrade to a vip package, get a custom or decide on more later. Tell me a payday.</p>
-  <a href="#boutique" class="text-link">Shop these <span aria-hidden="true">↘</span></a>
+  <a href="#boutique" class="text-link">Shop these</a>
 </section>
 
 
@@ -176,7 +175,7 @@
     <span class="pay-chip pay-chip-soon">Revolut — coming soon</span>
     <span class="pay-chip pay-chip-soon">Stripe — coming soon</span>
   </div>
-  <p class="sub" style="margin-top:1.25rem;">Order flow: add to bag → tap "Review &amp; send my order" → I reply on Telegram/Snapchat/Wherever with payment details → you pay → content delivered.</p>
+  <p class="sub" style="margin-top:1.25rem;">Order flow: add your picks to the bag, review your order, and send it in chat. I’ll confirm payment details before you pay, then deliver your content.</p>
   <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
 </section>
 
@@ -204,7 +203,7 @@
     <p class="eyebrow">SO. ARE YOU READY OR WHAT</p>
     <h3>Your picks, my inbox.</h3>
     <p>You don't pay on this site — I'll send payment details once we confirm your order.</p>
-    <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Review & send my order <span aria-hidden="true">↗</span></button>
+    <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Review &amp; send my order</button>
     <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your favorites above, then tap here.</p>
   </div>
 </section>
@@ -218,12 +217,12 @@
       <h2>About <em>me.</em></h2>
       <p>I'm Evie. I study, I work a real job, I build weird tools for this industry, and somewhere in between all that I take my clothes off for money.</p>
       <p>Everything relevant lives here: my life, my interests, what I'm studying, what I'm building, and the occasional completely unfiltered rant. If you want the polished version, you're on the wrong site.</p>
-      <a class="evie-about-link" href="blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots &amp; fake personalities <span aria-hidden="true">↗</span></a>
+      <a class="evie-about-link" href="blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots &amp; fake personalities</a>
       <span class="handwritten">Take your time. ♡</span>
     </div>
     <button class="editorial-image image-button reveal" type="button" data-set="diary" data-photo="0" aria-label="View first photo diary image">
       <img src="/assets/photos/evie-about-01.jpg" alt="Evie sitting comfortably on a couch in warm natural light" loading="lazy" style="object-position:center 18%">
-      <span class="image-index">01 / OPEN PHOTO <span aria-hidden="true">↗</span></span>
+      <span class="image-index">01 / OPEN PHOTO</span>
     </button>
   </div>
 </section>
@@ -286,7 +285,7 @@
     <p class="eyebrow">VIP BENEFITS · PRIVATE ACCESS COMING SOON</p>
     <h2 id="membersHeading">Private <em>Members.</em></h2>
     <p>Shop Basic GFE, VIP Daddy, and Ultimate VIP above. Memberships are arranged with me directly.</p>
-    <a href="#boutique" class="text-link">See VIP packages <span aria-hidden="true">↘</span></a>
+    <a href="#boutique" class="text-link">See VIP packages</a>
   </div>
   <div class="members-card reveal">
     <div class="members-card-top">
@@ -351,7 +350,7 @@
         <p class="evie-blog-date"><time datetime="2026-10-27">OCTOBER 27, 2026</time> &nbsp;·&nbsp; FIRST POST / OPINION</p>
         <h3 id="evieBlogFirstTitle">Agencies are shit, Bots suck, can people stop downloading personalities??</h3>
         <p>Fake agencies, AI personalities, questionable data practices, and the reason I'm building a creator tool that lets me spend less time sorting through spam and more time being an actual person.</p>
-        <a class="evie-blog-read" href="blog/agencies-are-shit-bots-suck.html" aria-label="Read Agencies are shit, Bots suck, can people stop downloading personalities?">Read the full post <span aria-hidden="true">↗</span></a>
+        <a class="evie-blog-read" href="blog/agencies-are-shit-bots-suck.html" aria-label="Read Agencies are shit, Bots suck, can people stop downloading personalities?">Read the full post</a>
       </div>
       <div class="evie-blog-card-art" aria-hidden="true"><span>✧</span></div>
     </article>
@@ -365,9 +364,9 @@
   <div class="footer-links">
     <a href="#about">About Me</a>
     <a href="#blog">Blog</a>
-    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener">Telegram <span aria-hidden="true">↗</span></a>
-    <a href="https://www.instagram.com/kissedbyevie/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
-    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener">X <span aria-hidden="true">↗</span></a>
+    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener">Telegram</a>
+    <a href="https://www.instagram.com/kissedbyevie/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener">X</a>
   </div>
   <p class="footer-note">18+ ONLY · ALL SALES AND ACCESS CONFIRMED DIRECTLY</p>
 </footer>
@@ -549,7 +548,7 @@
     <p id="monthlyNote" class="fine-print" hidden>Membership and OnlyFans terms are confirmed with me directly. Nothing renews or charges automatically on this site.</p>
     <p class="terms-cart-note">Before sending, please read the <button type="button" data-open-vip-terms aria-haspopup="dialog">terms and conditions when you buy</button>.</p>
     <button type="button" id="copyOrder" class="secondary-btn">Copy order only</button>
-    <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order & open Telegram →</button>
+    <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order &amp; open Telegram</button>
     <p id="cartFeedback" class="cart-feedback"></p>
   </div>
 </dialog>
