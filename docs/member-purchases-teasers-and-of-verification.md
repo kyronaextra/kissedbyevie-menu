@@ -16,7 +16,7 @@ Evie Admin → **Members** → choose **Deliver / Message** beside a member:
 
 - Upload JPEG/PNG/WebP photo or MP4/WebM video, max 50 MB per file. The browser uploads only to the new private \`evie-customer-deliveries\` bucket. The Edge API checks that the object exists and is correctly typed, then creates the assignment to that customer. One user's delivery will not appear in another user's library.
 - Compose and post a private dashboard message. It is saved in \`evie_customer_messages\`; the recipient sees it on future logins.
-- View assigned files and messages, or revoke a purchased media assignment. **Revocation stops new signed links, but a link already issued may remain usable for up to 90 seconds**. This is not DRM and does not prevent screen captures or previously downloaded copies.
+- View assigned files and messages, or revoke a purchased media assignment. **Revocation stops new signed links, but an existing link may remain usable for up to 60 minutes for video or 10 minutes for photos**. This is not DRM and does not prevent screen captures or previously downloaded copies.
 
 Evie Admin → **Members** → **OnlyFans subscriber verification**:
 
@@ -55,7 +55,7 @@ Changes to website HTML/CSS/JS remain in the **feature pull request**, not the l
 2. Configure Supabase's X OAuth 2.0 provider through the official X developer app; client secret remains ONLY in provider/server settings.
 3. Merge the feature PR after review; let Render deploy the new static pages.
 4. Sign in as two test customers A/B and an admin. A must never see B's private message, assigned file metadata, or storage objects.
-5. Verify A's content is invisible until independent adult verification, and visible afterward. Test both video and photo display. A copied, expired signed URL must not give access forever.
+5. Verify A's content is invisible until independent adult verification, and visible afterward. Test both video and photo display. A copied, expired signed URL must not give access forever. Existing video links can remain valid for up to an hour, and images for up to 10 minutes, even after revocation.
 6. Post a note through Evie Admin, reload the account dashboard, and confirm it persists. Test account sign-out clears all media.
 7. Create a simulated OF claim; confirm it remains pending until admin approves, and then displays verified for 30 days. Ensure OF approval never changes VIP tier or age verification.
 8. Upload only fully **pre-censored** photos to \`evie-account-teasers\` and publish only after checking the image itself. No video/uncensored uploads in that bucket.
