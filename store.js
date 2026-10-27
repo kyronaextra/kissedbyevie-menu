@@ -13,79 +13,79 @@ const categories=[
 ];
 const products=[
   {section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
-   description:'A month of extra attention, daily content and casual calls.',
+   description:'Daily content, priority replies, and a little more of my time. For a month.',
    features:['1 month of OnlyFans access','Priority replies','Daily selfies and nudes','20 random photos','Casual calls only — no sexual FaceTimes']},
   {section:'Memberships',name:'VIP Daddy Package',price:150,unit:'3 months',group:'membership',badge:'Most Popular',
-   description:'3 months of VIP perks, content and FaceTime eligibility.',
+   description:'Three months, the vault, VIP rates, and FaceTime eligibility. You\'re in.',
    features:['3 months OnlyFans + full Dropbox (800+ and growing)','Daily nudes, videos and selfies','50 photos/videos total','10 live photos + a 2-minute custom video','Discounted FaceTimes or live shows','FaceTime eligible','1 free custom request each time I go live on Stripchat — I’ll notify you when I’m on'],
    note:'Specialty/taboo custom requests may cost extra; details confirmed first.'},
   {section:'Memberships',name:'Ultimate VIP Daddy Package',price:350,unit:'6 months',group:'membership',badge:'Best Value',
-   description:'Six months of premium access, extras and two live-show requests.',
+   description:'Six months of extra perks and priority replies. You went all in.',
    features:['6 months OnlyFans + full Dropbox (800+ items, updated regularly)','Priority replies and voice notes','One custom video (JOI option available)','10 photos + a 2-minute video','Daily content','Discounted FaceTimes or live shows','FaceTime eligible','2 free custom requests each time I go live on Stripchat — I’ll notify you when I’m on']},
   {section:'Memberships',name:'VIP / Daddy Membership Renewal',price:60,unit:'per renewal',group:'membership',
-   description:'Renew an existing VIP/Daddy membership after the current term ends.',
+   description:'Already one of my favorites? Keep it going when your term ends.',
    note:'Renewal and next membership term are confirmed directly before payment.'},
 
   {section:'OnlyFans',name:'OnlyFans Monthly',price:3,unit:'per month',group:'of',
-   description:'One month of OnlyFans access.'},
+   description:'One month. Yes, it\'s really $3.'},
   {section:'OnlyFans',name:'OnlyFans — One Year',price:45,unit:'1 year',group:'of',
-   description:'12 months of access, arranged and paid outside OnlyFans.'},
+   description:'The long game. A whole year, sorted directly with me.'},
 
   {section:'Bundles',name:'10 Random Pics & Videos',price:10,
-   description:'A surprise mix of 10 photos and videos.'},
+   description:'Curated chaos. No theme, no rules, just whatever I felt like sending that day.'},
   {section:'Bundles',name:'20 Surprise Pics & Videos',price:20,
-   description:'A bigger surprise mix — 20 photos and videos.'},
+   description:'Twenty surprises. You\'re leaving the picking to me.'},
   {section:'Bundles',name:'50 Surprise Pics & Videos',price:40,badge:'Bundle Favorite',
-   description:'50 surprise photos and videos in one bundle.'},
+   description:'Fifty surprises. That\'s a lot of scrolling for $40.'},
   {section:'Bundles',name:'Deluxe Dropbox — 800+',price:75,group:'vault',
-   description:'800+ photos and videos, with new additions over time.',
+   description:'800+ photos and videos. Yes, I keep adding more.',
    note:'Collection access is arranged after your order is confirmed.'},
 
   {section:'Themed',name:'Signature Set',price:35,badge:'Most Popular',
-   description:'5 themed photos + a 1-minute video.'},
+   description:'Five themed photos and a one-minute video. Cute little starter.'},
   {section:'Themed',name:'Full Shoot Collection',price:50,
-   description:'10 themed photos + a 2-minute video.'},
+   description:'Ten themed photos, two minutes of video. More of the good stuff.'},
   {section:'Themed',name:'Custom Full Shoot — 2-Minute Video',price:90,
-   description:'10 custom photos + a 2-minute custom video.'},
+   description:'Your idea, ten photos, and two minutes on video. If I approve it, I make it.'},
   {section:'Themed',name:'Custom Full Shoot — 4-Minute Video',price:150,
-   description:'10 custom photos + a 4-minute custom video.'},
+   description:'Four minutes of video and ten photos. You wanted extra.'},
 
   {section:'AlaCarte',name:'Custom 10-Photo Set',price:45,from:true,
-   description:'A custom 10-photo set made for your request.'},
+   description:'Tell me your idea. I\'ll make ten photos if we\'re on the same page.'},
   {section:'AlaCarte',name:'Custom 1-Minute Video',price:50,from:true,
-   description:'One minute, made to your request.'},
+   description:'One minute, made to order. Tell me the vibe first.'},
 
   {section:'Quick',name:'Detailed Rating',price:15,
-   description:'A personal, detailed rating.'},
+   description:'A detailed rating of you. Fair warning: I\'m honest.'},
   {section:'Quick',name:'Voice Note',price:12,
-   description:'A personalized voice note.'},
+   description:'A personalized voice note. Yes, it\'s actually my voice. Yes, you\'ll replay it.'},
   {section:'Quick',name:'Flash + 5 Live Teaser Videos',price:25,
-   description:'A flash with five short live teaser videos.'},
+   description:'A quick flash and five live teasers. Try not to get distracted.'},
   {section:'Quick',name:'1-Minute Live Ass / Tit / Spit Play',price:45,
-   description:'One minute of your selected live interaction.'},
+   description:'One minute, your pick. Only when I\'m actually available.'},
   {section:'Quick',name:'Five Feet Photos',price:20,
-   description:'A set of five feet photos.'},
+   description:'Five feet photos for the feet people. You know who you are.'},
 
   {section:'Addons',name:'Dick Rating',price:35,
-   description:'A personalized rating add-on.'},
+   description:'A personalized rating. No sugarcoating.'},
   {section:'Addons',name:'Custom Request',price:50,from:true,
-   description:'Customs start at $50; final quote depends on your request.'},
+   description:'You tell me what you want, I tell you if it\'s doable. Starts at $50.'},
   {section:'Addons',name:'Live Show',price:55,
-   description:'A live show, scheduled with me.'},
+   description:'A live show, when we\'re both free. We schedule it first.'},
   {section:'Addons',name:'Say Your Name / Talk Dirty',price:25,extra:true,
-   description:'Personalize an eligible custom or live request.'},
+   description:'Your name, my voice. Add it to an eligible custom or live.'},
   {section:'Addons',name:'Dommy Mommy Mode',price:30,extra:true,
-   description:'A themed add-on to an eligible custom request.'},
+   description:'Want me to take charge? Add this to an eligible custom request.'},
   {section:'Addons',name:'Submissive Mode',price:20,extra:true,
-   description:'A themed add-on to an eligible custom request.'},
+   description:'Want to switch it up? Add this to an eligible custom request.'},
   {section:'Addons',name:'Panty Play',price:20,extra:true,
-   description:'A panty-play add-on to an eligible request.'},
+   description:'An extra for an eligible request. We\'ll confirm the details first.'},
   {section:'Addons',name:'Themed Shoot Priority — 12 Hours',price:15,extra:true,
-   description:'Priority after any requested lingerie has arrived.'},
+   description:'Bought the outfit? Ask to move your shoot up once it arrives.'},
   {section:'Addons',name:'À la Carte Priority — 6 Hours',price:15,extra:true,
-   description:'Priority delivery for eligible custom photos or videos.'},
+   description:'Need it sooner? Six hours if I\'m free. Ask first.'},
   {section:'Addons',name:'Quick Interaction Priority — 30 Minutes',price:10,extra:true,
-   description:'Only if I’m home and available — confirm first.'}
+   description:'In a rush? Thirty minutes if I\'m home. Ask, don\'t assume.'}
 ];
 const notes={
   Memberships:[
@@ -93,7 +93,7 @@ const notes={
     'Paid FaceTimes may be requested by active VIP Daddy or Ultimate VIP Daddy members, or consistent buyers of pre-made content/lives. Eligibility does not guarantee scheduling; I confirm the time and price first.'
   ],
   OnlyFans:['The yearly plan is paid outside OnlyFans. No payments are collected on this site.'],
-  Bundles:['Available content: Squirt • B/G • Solo • Dildo. Choose your bundle ♡'],
+  Bundles:['Available content: Squirt • B/G • Solo • Dildo. Take your pick.'],
   Themed:['If I don’t have the lingerie you want, you can purchase it through Amazon.','Delivery is 1–2 days after the lingerie arrives; 12-hour priority after arrival is +$15, subject to confirmation.'],
   AlaCarte:['Usual delivery: within 24 hours. Priority within 6 hours: +$15, if available.'],
   Quick:['Usual delivery: within 6 hours. Priority within 30 minutes: +$10 if I’m home and available.','10-minute delivery is only possible if I’m already dressed and ready — ask me first.'],
@@ -102,7 +102,7 @@ const notes={
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('p');intro.className='menu-helper';
-intro.textContent='Choose a section, add your picks, then send me your order ♡ All prices are upfront; customs marked “from” are quoted before payment.';
+intro.textContent='Pick a category. Load up. Then send me your order. Customs marked “from” get quoted before you pay.';
 root.append(intro);
 const tabs=document.createElement('div');tabs.className='category-tabs';
 tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Content menu categories');
