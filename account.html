@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10070c">
+<meta name="description" content="Kissed by Evie free customer account and order reference profile. Adults 18+ only.">
+<title>My Account | Kissed by Evie</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="account.css">
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+<script defer src="member-config.js"></script>
+<script defer src="teaser-gallery.js"></script>
+<script defer src="customer-library.js"></script>
+<script defer src="of-claim.js"></script>
+<script defer src="account.js"></script>
+</head>
+<body>
+<header class="account-header">
+  <a class="brand" href="index.html">KISSED BY EVIE <span aria-hidden="true">✧</span></a>
+  <a class="back-link" href="index.html">← Back to the menu</a>
+</header>
+<main class="account-main">
+  <section class="intro">
+    <p class="eyebrow">THE EVIE EDIT · FREE CUSTOMER ACCOUNT</p>
+    <h1>Your little <em>corner.</em></h1>
+    <p>Save your details once so I can recognize you and keep your orders together. No purchase required, babe. ♡</p>
+  </section>
+
+  <section class="account-card" id="signInSection" aria-labelledby="signInTitle">
+    <div class="card-top"><span class="card-kicker">01 · SIGN IN</span><span class="pill">FREE</span></div>
+    <h2 id="signInTitle">Welcome, <em>you.</em></h2>
+    <p>Continue with X, or use your Snapchat / Telegram username as an order reference and sign in safely by email.</p>
+    <button type="button" id="signInX" class="btn x-button">𝕏 &nbsp; Continue with X</button>
+    <div class="or-divider"><span>or</span></div>
+    <form id="emailSignInForm">
+      <fieldset>
+        <legend>Which username do you use?</legend>
+        <div class="radio-row">
+          <label class="radio-option"><input type="radio" name="signupPlatform" value="snapchat" checked> Snapchat</label>
+          <label class="radio-option"><input type="radio" name="signupPlatform" value="telegram"> Telegram</label>
+        </div>
+      </fieldset>
+      <label for="signInEmail">Email address for a secure login link</label>
+      <input type="email" id="signInEmail" name="email" placeholder="you@example.com" maxlength="254" autocomplete="email" required>
+      <p class="micro">We'll email you a one-time sign-in link. Your social username will be entered after you sign in. Never enter your Snapchat or Telegram password here.</p>
+      <button type="submit" class="btn primary" id="emailSubmit">Send my sign-in link ↗</button>
+    </form>
+    <label class="agree"><input type="checkbox" id="isAdult"> I confirm that I am 18 or older.</label>
+    <p class="micro">Every free account can see censored photo teasers. Purchased media and the paid VIP gallery are separate, with independent access and age verification.</p>
+  </section>
+
+  <section class="account-card" id="profileSection" aria-labelledby="profileTitle" hidden>
+    <div class="card-top"><span class="card-kicker">02 · YOUR DETAILS</span><span class="pill">MY ACCOUNT</span></div>
+    <h2 id="profileTitle">Tell me about <em>you!</em></h2>
+    <p>So I can recognize you when you order again. You can update these later.</p>
+    <div id="identitySummary" class="identity-summary" aria-live="polite"></div>
+    <form id="profileForm">
+      <label for="profileNickname">Nickname / Name <span class="required">*</span></label>
+      <input id="profileNickname" name="nickname" type="text" minlength="1" maxlength="80" autocomplete="nickname" placeholder="What should I call you?" required>
+
+      <label for="profilePhone">Phone number <span class="optional">(optional)</span></label>
+      <input id="profilePhone" name="phone" type="tel" maxlength="24" autocomplete="tel" placeholder="(555) 000-0000">
+      <p class="micro">Only for account and order-related contact if you choose to provide it. Never required.</p>
+
+      <label for="profilePlatform">Social username / order reference</label>
+      <select id="profilePlatform" name="platform">
+        <option value="snapchat">Snapchat</option>
+        <option value="telegram">Telegram</option>
+        <option value="x">X / Twitter</option>
+      </select>
+      <label class="sr-only" for="profileHandle">Username for selected platform</label>
+      <input id="profileHandle" name="handle" type="text" maxlength="80" autocapitalize="none" spellcheck="false" autocomplete="off" placeholder="@username">
+      <p class="micro" id="handleHelp">Enter the username you use to message me. Manually entered usernames aren't verified as yours.</p>
+      <button type="submit" id="profileSubmit" class="btn primary">Save my profile ♡</button>
+    </form>
+    <div class="saved-details" id="savedDetails" hidden>
+      <h3>Your customer account</h3>
+      <p id="customerIdLabel" class="micro"></p>
+      <p id="savedSocials" class="micro"></p>
+      <p class="micro">Your orders can be linked to this customer ID. Payment status and VIP access are always confirmed separately.</p>
+    </div>
+    <button type="button" id="signOut" class="text-button">Sign out</button>
+  </section>
+  <section class="account-card of-section" id="ofSection" aria-labelledby="ofTitle" hidden>
+    <div class="card-top"><span class="card-kicker">03 · SUBSCRIBER VERIFICATION</span><span class="pill">FREE ADD-ON</span></div>
+    <h2 id="ofTitle">Already on my <em>OnlyFans?</em></h2>
+    <p>Claim your subscriber badge! There's no OnlyFans password or login on this site. I'll verify your account personally.</p>
+    <p class="of-status" id="ofStatus">Checking subscriber status…</p>
+    <form id="ofClaimForm">
+      <label for="ofUsername">Your OnlyFans username</label>
+      <input type="text" id="ofUsername" maxlength="50" autocomplete="off" placeholder="@yourOFusername" required>
+      <button type="submit" id="ofClaimButton" class="btn primary">Get my verification code ♡</button>
+    </form>
+    <div id="ofInstructions" class="of-instructions" hidden>
+      <p class="micro">Send this exact code from your OnlyFans account to Evie's verified creator inbox. I'll check that the username, message code, and subscription match, then approve your account.</p>
+      <div class="of-code-line"><strong id="ofCode"></strong><button type="button" id="ofCopyCode" class="text-button">Copy code</button></div>
+      <p id="ofExpiry" class="micro"></p>
+    </div>
+    <p class="micro" id="ofFeedback" role="status"></p>
+    <p class="micro">OF subscriber status is separate from individual purchases and paid VIP gallery access. Verification may need to be renewed.</p>
+  </section>
+  <section class="account-card purchases-section" id="purchasesSection" aria-labelledby="purchasesTitle" hidden>
+    <div class="card-top"><span class="card-kicker">04 · MADE FOR YOU</span><span class="pill">MY PURCHASES</span></div>
+    <h2 id="purchasesTitle">Your personal <em>vault.</em></h2>
+    <p>Photos and videos I've personally delivered to your account. Your collection stays here for future visits. ♡</p>
+    <button type="button" class="text-button" id="purchasesRefresh">↻ Refresh my purchases</button>
+    <div id="purchasesGrid" class="purchases-grid" aria-live="polite"></div>
+    <p id="purchasesFeedback" class="micro" role="status"></p>
+    <p class="micro">Adult media is available only after independent age verification. Free account registration or OF verification alone doesn't unlock private purchases.</p>
+  </section>
+  <section class="account-card messages-section" id="messagesSection" aria-labelledby="messagesTitle" hidden>
+    <div class="card-top"><span class="card-kicker">05 · A NOTE FROM EVIE</span><span class="pill">PRIVATE MESSAGES</span></div>
+    <h2 id="messagesTitle">Your <em>inbox.</em></h2>
+    <p>Messages I've left just for you, saved to your account.</p>
+    <button type="button" class="text-button" id="messagesRefresh">↻ Refresh messages</button>
+    <div id="messagesList" class="account-message-list" aria-live="polite"></div>
+    <p id="messagesFeedback" class="micro" role="status"></p>
+    <p class="micro">This dashboard inbox is read-only. Reply to Evie on your usual messaging app.</p>
+  </section>
+  <dialog id="purchaseViewer" class="purchase-viewer" aria-label="My purchased media viewer">
+    <button type="button" id="purchaseClose" class="teaser-viewer-close" aria-label="Close purchased media">×</button>
+    <h3 id="purchaseViewerTitle">My delivery</h3>
+    <img id="purchaseImage" alt="" hidden>
+    <video id="purchaseVideo" controls playsinline preload="metadata" hidden></video>
+    <p class="micro">Your private content is associated with your account. Keep it to yourself ♡</p>
+  </dialog>
+  <section class="account-card teaser-section" id="teaserSection" aria-labelledby="teaserHeading" hidden>
+    <div class="card-top">
+      <span class="card-kicker">06 · MEMBER-ONLY PHOTOS</span>
+      <span class="pill">FREE WITH ANY ACCOUNT</span>
+    </div>
+    <p class="eyebrow">PRIVATE PREVIEWS ♡</p>
+    <h2 id="teaserHeading">The Secret <em>Tease.</em></h2>
+    <p>Just a little peek. Censored photo teasers made for my signed-in babes. No subscription or VIP purchase needed.</p>
+    <div class="teaser-toolbar">
+      <span class="micro">Photos only · Pre-censored previews · 18+</span>
+      <button type="button" class="text-button" id="teaserRefresh">↻ Refresh photos</button>
+    </div>
+    <div id="teaserGrid" class="teaser-grid" aria-live="polite">
+      <p class="teaser-empty">Sign in to see the secret gallery. ♡</p>
+    </div>
+    <p id="teaserFeedback" class="micro" role="status"></p>
+    <p class="micro teaser-disclaimer">These are previews only. VIP content and full-length media are separate and never appear here.</p>
+  </section>
+  <dialog class="teaser-viewer" id="teaserViewer" aria-label="Secret Tease photo viewer">
+    <button type="button" id="teaserClose" class="teaser-viewer-close" aria-label="Close photo">×</button>
+    <button type="button" id="teaserPrevious" class="teaser-arrow teaser-left" aria-label="Previous photo">←</button>
+    <img id="teaserLargePhoto" alt="">
+    <button type="button" id="teaserNext" class="teaser-arrow teaser-right" aria-label="Next photo">→</button>
+    <p id="teaserCaption"></p>
+  </dialog>
+
+  <p class="feedback" id="accountFeedback" role="status" aria-live="polite"></p>
+</main>
+<footer>18+ ONLY · FREE ACCOUNT · YOUR INFO IS PRIVATE <span>♡</span></footer>
+</body>
+</html>

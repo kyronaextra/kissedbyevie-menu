@@ -310,8 +310,28 @@
     '\n\nPlease confirm availability, delivery time, final custom quotes and how to pay!'+
     '\n\nI confirm I am 18+ and agree to the VIP Package Rules & Boundaries (October 26, 2026).';
   }
+  async function accountOrderReference(){
+    // Add an authenticated account reference to copied orders, never a claimed handle alone.
+    try{
+      if(!window.supabase?.createClient||!window.EVIE_SUPABASE_URL||!window.EVIE_SUPABASE_PUBLISHABLE_KEY)return null;
+      var sb=window.supabase.createClient(window.EVIE_SUPABASE_URL,window.EVIE_SUPABASE_PUBLISHABLE_KEY);
+      var auth=await sb.auth.getUser();
+      var user=auth.data?.user;
+      if(!user)return null;
+      var details=await sb.from('evie_member_profiles').select('nickname,snapchat_handle,telegram_handle,x_handle').eq('user_id',user.id).maybeSingle();
+      var p=details.data||{};
+      var handle=p.snapchat_handle||p.telegram_handle||p.x_handle||'';
+      return {id:user.id,nickname:p.nickname||'',handle:handle};
+    }catch(_){return null}
+  }
   async function copyOrderText(){
     var message=orderMessage();
+    var account=await accountOrderReference();
+    if(account){
+      if(account.handle)message=message.replace('My Snap/Telegram: [your username]','My chat username: '+account.handle);
+      message+='\nCustomer account ID: '+account.id;
+      if(account.nickname)message+='\nNickname: '+account.nickname;
+    }
     if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(message);
     else{
       var area=document.createElement('textarea');area.value=message;area.style.position='fixed';area.style.opacity='0';
