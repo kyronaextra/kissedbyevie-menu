@@ -97,7 +97,7 @@ $("customerUploadForm").addEventListener("submit",async event=>{
  const path=id+"/"+filename,btn=$("customerUploadButton");
  btn.disabled=true;feedback("Uploading privately… This may take a moment.");
  try{
-  const upload=await sb.storage.from(BUCKET).upload(path,file,{contentType:file.type,upsert:false,cacheControl:"private"});
+  const upload=await sb.storage.from(BUCKET).upload(path,file,{contentType:file.type,upsert:false,cacheControl:"60"});
   if(upload.error)throw upload.error;
   feedback("Uploaded. Assigning it to the customer's account…");
   await req("deliver_content",{user_id:id,storage_path:path,mime_type:file.type,kind:type.kind,title});
