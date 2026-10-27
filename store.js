@@ -3,12 +3,11 @@
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
 // Prices marked "from" are minimums; all orders are reviewed before payment.
 const categories=[
+  ['Quick','Quick Interactions'],
   ['Memberships','VIP & GFE'],
-  ['OnlyFans','OnlyFans'],
   ['Bundles','Quick Bundles'],
   ['Themed','Themed Sets'],
   ['AlaCarte','À la Carte'],
-  ['Quick','Quick Interactions'],
   ['Addons','Extras & Add-ons']
 ];
 const products=[
@@ -26,9 +25,7 @@ const products=[
    description:'Already one of my favorites? Keep it going when your term ends.',
    note:'Renewal and next membership term are confirmed directly before payment.'},
 
-  {section:'OnlyFans',name:'OnlyFans Monthly',price:3,unit:'per month',group:'of',
-   description:'One month. Yes, it\'s really $3.'},
-  {section:'OnlyFans',name:'OnlyFans — One Year',price:45,unit:'1 year',group:'of',
+  {section:'Memberships',name:'OnlyFans — One Year',price:45,unit:'1 year',group:'of',
    description:'The long game. A whole year, sorted directly with me.'},
 
   {section:'Bundles',name:'10 Random Pics & Videos',price:10,
@@ -36,7 +33,7 @@ const products=[
   {section:'Bundles',name:'20 Surprise Pics & Videos',price:20,
    description:'Twenty surprises. You\'re leaving the picking to me.'},
   {section:'Bundles',name:'50 Surprise Pics & Videos',price:40,badge:'Bundle Favorite',
-   description:'Fifty surprises. That\'s a lot of scrolling for $40.'},
+   description:'50 of my BEST photos and videos. Long, full length videos included. No filler, just the good stuff.'},
   {section:'Bundles',name:'Deluxe Dropbox — 800+',price:75,group:'vault',
    description:'800+ photos and videos. Yes, I keep adding more.',
    note:'Collection access is arranged after your order is confirmed.'},
@@ -92,7 +89,7 @@ const notes={
     'Membership perks are arranged directly with me; the private website member lounge is still coming soon.',
     'Paid FaceTimes may be requested by active VIP Daddy or Ultimate VIP Daddy members, or consistent buyers of pre-made content/lives. Eligibility does not guarantee scheduling; I confirm the time and price first.'
   ],
-  OnlyFans:['The yearly plan is paid outside OnlyFans. No payments are collected on this site.'],
+  // The direct OnlyFans profile link lives beside the category tabs. The yearly plan remains under VIP & GFE.
   Bundles:['Available content: Squirt • B/G • Solo • Dildo. Take your pick.'],
   Themed:['If I don’t have the lingerie you want, you can purchase it through Amazon.','Delivery is 1–2 days after the lingerie arrives; 12-hour priority after arrival is +$15, subject to confirmation.'],
   AlaCarte:['Usual delivery: within 24 hours. Priority within 6 hours: +$15, if available.'],
@@ -101,12 +98,15 @@ const notes={
 };
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
-const intro=document.createElement('p');intro.className='menu-helper';
-intro.textContent='Pick a category. Load up. Then send me your order. Customs marked “from” get quoted before you pay.';
-root.append(intro);
+const intro=document.createElement('div');intro.className='menu-picker-intro';
+const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Choose what you want, add it to your bag, and send me your order. Customs get a quote first.';
+intro.append(introHeading,introHint);root.append(intro);
+const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
 tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Content menu categories');
-root.append(tabs);
+controls.append(tabs);
+root.append(controls);
 function el(tag,cls,value){
  const node=document.createElement(tag);
  if(cls)node.className=cls;
@@ -120,13 +120,21 @@ categories.forEach(([key,label],i)=>{
  tab.setAttribute('aria-controls','panel-'+key);tab.tabIndex=i===0?0:-1;
  tabs.append(tab);
 });
+// OnlyFans takes visitors to the creator's actual profile, not the shopping bag.
+const onlyfans=el('a','onlyfans-category-link');
+onlyfans.href='https://onlyfans.com/kissedbyevie';
+onlyfans.target='_blank';onlyfans.rel='noopener noreferrer';
+onlyfans.setAttribute('aria-label','Visit Kissed by Evie on OnlyFans (opens a new tab)');
+const onlyfansIcon=el('img','onlyfans-brand-icon');
+onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.width=23;onlyfansIcon.height=23;
+onlyfans.append(onlyfansIcon,el('span','','ONLYFANS'));
+controls.append(onlyfans);
 function menuAction(p){
  if(p.name==='VIP Daddy Package')return {label:'Choose VIP Daddy',variant:'btn-spotlight'};
  if(p.name==='Ultimate VIP Daddy Package')return {label:'Go Ultimate VIP',variant:'btn-ultimate'};
  if(p.name==='Basic GFE')return {label:'Start with GFE',variant:'btn-primary'};
  if(p.name.includes('Membership Renewal'))return {label:'Renew my VIP',variant:'btn-secondary'};
  if(p.group==='vault')return {label:'Get the vault',variant:'btn-primary'};
- if(p.section==='OnlyFans')return {label:'Choose access',variant:'btn-secondary'};
  if(p.section==='Bundles')return {label:'Grab this bundle',variant:'btn-secondary'};
  if(/Custom/i.test(p.name))return {label:'Request this custom',variant:'btn-primary'};
  if(p.section==='Themed')return {label:'Pick this set',variant:'btn-secondary'};
