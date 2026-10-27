@@ -7,6 +7,7 @@
   var current=document.getElementById('heroCurrent');
   var photoButtons=Array.from(document.querySelectorAll('[data-photo]')).filter(function(el){return !el.classList.contains('hero-slide')});
   var photoSets={
+  "latest": ["/assets/photos/evie-oct27-portrait.webp", "/assets/photos/evie-oct27-black-lace.webp"],
   "hero": [
     "/assets/photos/evie-hero-01.png",
     "/assets/photos/evie-hero-02.jpg",
@@ -42,6 +43,7 @@
   ]
 };
   var photoAlts={
+  "latest": ["Evie leaning toward the camera wearing black lace", "Evie in black lace looking back over her shoulder"],
   "hero": [
     "Evie posing in a light patterned outfit against a burgundy backdrop",
     "Evie in a beaded top and jeans against a deep red curtain",

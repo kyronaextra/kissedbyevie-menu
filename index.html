@@ -14,13 +14,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261027-hero-contrast-1">
+<link rel="stylesheet" href="style.css?v=20261027-latest-feature-1">
 <link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="store.js"></script>
-<script defer src="app.js"></script>
+<script defer src="app.js?v=20261027-latest-feature-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="daddy-gallery.js"></script>
@@ -99,6 +99,27 @@
     <button id="heroNext" class="round-control" type="button" aria-label="Next photograph">→</button>
   </div>
   <div class="hero-scroll-hint" aria-hidden="true">SCROLL TO DISCOVER <span>↓</span></div>
+</section>
+
+<!-- THE LATEST PHOTOS -->
+<section class="latest-feature" aria-labelledby="latestPhotosTitle">
+  <div class="latest-feature-inner">
+    <div class="latest-feature-heading">
+      <p class="eyebrow">JUST ADDED TO THE CAMERA ROLL</p>
+      <h2 id="latestPhotosTitle">The latest <em>♡</em></h2>
+      <p>Go ahead. Have a closer look.</p>
+    </div>
+    <div class="latest-feature-photos">
+      <button class="latest-feature-photo image-button" type="button" data-set="latest" data-photo="0" aria-label="Open first new photo of Evie">
+        <img src="/assets/photos/evie-oct27-portrait.webp" alt="Evie leaning toward the camera wearing black lace" width="850" height="1308" loading="eager" decoding="async">
+        <span>01 / OPEN PHOTO ↗</span>
+      </button>
+      <button class="latest-feature-photo image-button" type="button" data-set="latest" data-photo="1" aria-label="Open second new photo of Evie">
+        <img src="/assets/photos/evie-oct27-black-lace.webp" alt="Evie in black lace looking back over her shoulder" width="850" height="1308" loading="eager" decoding="async">
+        <span>02 / OPEN PHOTO ↗</span>
+      </button>
+    </div>
+  </div>
 </section>
 
 <!-- ============ NEW: START HERE CHOOSER ============ -->
