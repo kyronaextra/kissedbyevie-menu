@@ -92,9 +92,17 @@
   var promoSection=document.getElementById('octDeals');
   if(promoSection){
     promoSection.hidden=!promoActive;
-    if(promoActive)window.setTimeout(function(){promoSection.hidden=true;promoActive=false;},Math.max(0,promoEnds-Date.now()));
+    if(promoActive)window.setTimeout(function(){
+      promoSection.hidden=true;
+      promoActive=false;
+      if(cart.some(function(item){return isOctoberDeal(item.name)})){
+        cart=cart.filter(function(item){return !isOctoberDeal(item.name)});
+        renderCart();
+        toast('October deals have ended, so expired deals were removed from your bag.');
+      }
+    },Math.max(0,promoEnds-Date.now()));
   }
-  function isOctoberDeal(name){return name==='October Deluxe Deal (1 month)'||name==='October VIP Deal (1 month)';}
+  function isOctoberDeal(name){return name==='October Deluxe Deal (1 month)'||name==='October VIP Deal (3 months)'||name==='October VIP Deal (1 month)';}
   function singleQty(exclusive,name){
     return ['membership','of','vault'].includes(exclusive)||/monthly|renewal/i.test(name||'');
   }
@@ -108,7 +116,7 @@
       cart=parsed.filter(function(item){
         return item&&typeof item.name==='string'&&Number.isFinite(Number(item.price))&&item.qty>0&&(promoActive||!isOctoberDeal(item.name));
       }).map(function(item){
-        return {name:item.name,price:Number(item.price),qty:Math.min(10,Math.round(item.qty)),exclusive:item.exclusive||null};
+        return {name:item.name==='October VIP Deal (1 month)'?'October VIP Deal (3 months)':item.name,price:Number(item.price),qty:Math.min(10,Math.round(item.qty)),exclusive:item.exclusive||null};
       });
     }catch(e){cart=[]}
   }
@@ -354,9 +362,15 @@
     syncProductButtons();
     saveCart();
   }
+  function promoSummary(name){
+    if(name==='October Deluxe Deal (1 month)')return 'Includes: 1 month Basic GFE (OnlyFans, priority replies, daily selfies and nudes, 20 random photos, casual calls only, no sexual FaceTimes), plus 50+ handpicked photos and videos, one scheduled live show and one complimentary 30 minute session.';
+    if(name==='October VIP Deal (3 months)')return 'Includes: 3 months VIP Daddy (OnlyFans, full Dropbox 800+, daily nudes/videos/selfies, 50 photos/videos, 10 live photos, 2 minute custom, discounted FaceTimes/live shows, FaceTime eligibility, a complimentary custom request per Stripchat live subject to approval), plus one complimentary 30 minute session.';
+    return '';
+  }
   function orderMessage(){
     return 'Hey Evie ♡ Here are my picks:\n\n'+cart.map(function(item){
-      return '• '+item.qty+' × '+item.name+' — '+money(item.price*item.qty);
+      var details=promoSummary(item.name);
+      return '• '+item.qty+' × '+item.name+' — '+money(item.price*item.qty)+(details?'\n  '+details:'');
     }).join('\n')+'\n\nEstimated total: '+money(cartTotal())+
     '\n\nMy Snap/Telegram: [your username]'+
     '\nExtras or requests: [optional]'+
