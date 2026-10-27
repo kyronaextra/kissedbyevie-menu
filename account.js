@@ -91,6 +91,7 @@
     $("savedDetails").hidden = true;
     window.EvieTeaserGallery?.deactivate();
     window.EvieCustomerLibrary?.deactivate();
+    window.EvieOfClaims?.deactivate();
   }
   function renderProfile() {
     $("signInSection").hidden = true;
@@ -113,6 +114,7 @@
     $("savedSocials").textContent = socials.length ? "Saved references: " + socials.join(" · ") : "No social reference saved yet.";
     window.EvieTeaserGallery?.activate(client, currentUser);
     window.EvieCustomerLibrary?.activate(client, currentUser);
+    window.EvieOfClaims?.activate(client, currentUser);
   }
   async function ensurePendingMembership(user) {
     const { data, error } = await client.from("evie_memberships").select("user_id").eq("user_id", user.id).maybeSingle();
