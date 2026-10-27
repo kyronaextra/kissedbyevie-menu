@@ -30,7 +30,7 @@ function section(view){
   const isCurrent=button.dataset.adminView===view;button.classList.toggle('selected',isCurrent);
   if(isCurrent)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current')
  });
- if(view==='members')loadMembers(1);
+ if(view==='members'){loadMembers(1);window.EvieAdminOf?.refresh?.();}
  if(view==='inbox')window.EvieAdminInbox?.refresh?.();
  window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -38,6 +38,7 @@ function showDashboard(){
  $('adminGate').hidden=true;$('adminWorkspace').hidden=false;
  window.EvieAdminInbox?.start?.({request,client:sb});
  window.EvieAdminCustomers?.start?.({request,client:sb});
+ window.EvieAdminOf?.start?.({request,client:sb});
  section(current);
 }
 async function request(action,content=null,query=null){
@@ -74,6 +75,7 @@ async function authorize(){
 async function signOut(){
  window.EvieAdminInbox?.stop?.();
  window.EvieAdminCustomers?.stop?.();
+ window.EvieAdminOf?.stop?.();
  try{await sb?.auth.signOut()}catch(_){}
  data=null;page=1;$('adminLoginForm').reset();gate('login');gateStatus('Signed out of Evie Admin.');
 }
