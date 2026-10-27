@@ -174,7 +174,7 @@ async function loadMembers(nextPage){
    const tbody=node('tbody');
    response.members.forEach(m=>{
     const tr=node('tr'),account=node('td');
-    account.append(node('strong','',m.username?'@'+m.username:'Pending username'));tr.append(account);
+    account.append(node('strong','',m.username?'@'+m.username:(m.x||m.snapchat||m.telegram||'Free customer')));tr.append(account);
     const socials=[m.snapchat&&'Snap: '+m.snapchat,m.x&&'X: '+m.x,m.telegram&&'TG: '+m.telegram].filter(Boolean).join(' / ');
     [m.nickname||'—',m.email||'—',m.phone_number||'—',socials||'—',m.tier||'none',m.status||'not reviewed',m.age_verified?'Yes':'No'].forEach(x=>tr.append(node('td','',x)));
     tbody.append(tr);
