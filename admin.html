@@ -16,6 +16,7 @@
   <script defer src="member-config.js"></script>
   <script defer src="admin-inbox.js"></script>
   <script defer src="admin.js"></script>
+  <script defer src="admin-customer.js"></script>
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
@@ -302,6 +303,34 @@
             <div id="adminMemberList" class="table-scroll"><p class="empty">Open this section to load members.</p></div>
             <div class="pagination"><button id="memberPrev" type="button" class="secondary small" disabled>← Previous</button><span id="memberPage">Page 1</span><button id="memberNext" type="button" class="secondary small" disabled>Next →</button></div>
             <p class="hint">Changes to paid access and verified adult status should be performed in the dedicated approval workflow, not by editing usernames or PINs.</p>
+            <div id="customerDeliveryPanel" class="customer-delivery-panel surface" hidden>
+              <div class="surface-title"><h2>Customer deliveries &amp; dashboard messages</h2><span>PRIVATE TO ONE ACCOUNT</span></div>
+              <p class="hint">Selected customer: <strong id="deliveryCustomerName">No account selected</strong></p>
+              <p class="hint" id="deliveryAdultStatus">Purchased adult media is only visible after independent age verification.</p>
+              <div class="customer-delivery-layout">
+                <form id="customerUploadForm" class="stack-form">
+                  <h3>Upload a purchased photo or video</h3>
+                  <label for="customerUploadTitle">Delivery title</label>
+                  <input id="customerUploadTitle" type="text" required maxlength="120" placeholder="Your custom set ♡">
+                  <label for="customerUploadFile">Choose photo or video (up to 50 MB)</label>
+                  <input id="customerUploadFile" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" required>
+                  <p class="hint">Files are private to this selected customer. This is not the free tease gallery or the Daddy vault.</p>
+                  <button type="submit" class="primary" id="customerUploadButton">Deliver to this account ♡</button>
+                </form>
+                <form id="customerMessageForm" class="stack-form">
+                  <h3>Write a dashboard message</h3>
+                  <label for="customerMessageText">Private message</label>
+                  <textarea id="customerMessageText" rows="5" maxlength="1200" required placeholder="Hey babe ♡ Your order is ready..."></textarea>
+                  <button type="submit" class="primary" id="customerMessageButton">Post to their dashboard ♡</button>
+                  <p class="hint">This appears only on their account dashboard. It does not send a Snapchat, Telegram, X, or email message.</p>
+                </form>
+              </div>
+              <p id="customerDeliveryStatus" role="status" aria-live="polite" class="hint"></p>
+              <h3>Assigned media</h3>
+              <div id="customerDeliveryList" class="customer-delivery-list"></div>
+              <h3>Dashboard messages</h3>
+              <div id="customerMessageList" class="customer-message-list"></div>
+            </div>
             <a href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol/auth/users" class="text-link" target="_blank" rel="noopener noreferrer">Open Supabase Auth users ↗</a>
           </div>
         </section>
