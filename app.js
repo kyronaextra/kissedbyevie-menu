@@ -114,7 +114,7 @@
       var parsed=JSON.parse(sessionStorage.getItem('evie-bag-v2')||'[]');
       if(!Array.isArray(parsed))return;
       cart=parsed.filter(function(item){
-        return item&&typeof item.name==='string'&&Number.isFinite(Number(item.price))&&item.qty>0&&(promoActive||!isOctoberDeal(item.name));
+        return item&&typeof item.name==='string'&&item.name!=='OnlyFans Monthly'&&Number.isFinite(Number(item.price))&&item.qty>0&&(promoActive||!isOctoberDeal(item.name));
       }).map(function(item){
         return {name:item.name==='October VIP Deal (1 month)'?'October VIP Deal (3 months)':item.name,price:Number(item.price),qty:Math.min(10,Math.round(item.qty)),exclusive:item.exclusive||null};
       });
