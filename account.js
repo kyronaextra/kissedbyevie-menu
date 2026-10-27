@@ -89,6 +89,8 @@
     $("signInSection").hidden = false;
     $("profileSection").hidden = true;
     $("savedDetails").hidden = true;
+    window.EvieTeaserGallery?.deactivate();
+    window.EvieCustomerLibrary?.deactivate();
   }
   function renderProfile() {
     $("signInSection").hidden = true;
@@ -109,6 +111,8 @@
       profile?.telegram_handle && "Telegram: " + profile.telegram_handle
     ].filter(Boolean);
     $("savedSocials").textContent = socials.length ? "Saved references: " + socials.join(" · ") : "No social reference saved yet.";
+    window.EvieTeaserGallery?.activate(client, currentUser);
+    window.EvieCustomerLibrary?.activate(client, currentUser);
   }
   async function ensurePendingMembership(user) {
     const { data, error } = await client.from("evie_memberships").select("user_id").eq("user_id", user.id).maybeSingle();
