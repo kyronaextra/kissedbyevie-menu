@@ -68,3 +68,11 @@ footer span{color:var(--pink)}[hidden]{display:none!important}.sr-only{position:
 .teaser-left{left:3px}.teaser-right{right:3px}
 #teaserCaption{font-size:.84rem;color:var(--muted)}
 @media(max-width:520px){.teaser-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.purchase-item{flex-wrap:wrap}.purchase-open{width:100%}}
+
+/* Subscriber verification without sharing OnlyFans credentials */
+.of-section{margin-top:24px}
+.of-section form{display:flex;flex-direction:column;gap:11px;margin:16px 0}
+.of-status{font-weight:700;color:var(--pink)}
+.of-instructions{border:1px dashed var(--gold);background:#ffffff08;padding:16px;border-radius:10px;margin:14px 0}
+.of-code-line{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin:15px 0}
+.of-code-line strong{font-family:monospace;letter-spacing:.1em;overflow-wrap:anywhere;user-select:all}
