@@ -222,7 +222,7 @@ async function memberPage(page:number){
  const ids=users.map(u=>u.id);
  if(!ids.length)return {page,members:[],has_more:false};
  const [profiles,names,tiers]=await Promise.all([
-  privileged.from("evie_member_profiles").select("user_id,telegram_handle,x_handle,snapchat_handle").in("user_id",ids),
+  privileged.from("evie_member_profiles").select("user_id,nickname,phone_number,telegram_handle,x_handle,snapchat_handle").in("user_id",ids),
   privileged.from("evie_member_usernames").select("user_id,username").in("user_id",ids),
   privileged.from("evie_memberships").select("user_id,tier,status,age_verified_at,expires_at").in("user_id",ids)
  ]);
@@ -233,6 +233,8 @@ async function memberPage(page:number){
   members:users.map(u=>({
    id:u.id,created_at:u.created_at,email:u.email||"",
    username:nameMap.get(u.id)?.username||null,
+   nickname:profileMap.get(u.id)?.nickname||null,
+   phone_number:profileMap.get(u.id)?.phone_number||null,
    snapchat:profileMap.get(u.id)?.snapchat_handle||null,
    x:profileMap.get(u.id)?.x_handle||null,
    telegram:profileMap.get(u.id)?.telegram_handle||null,
