@@ -120,6 +120,19 @@ categories.forEach(([key,label],i)=>{
  tab.setAttribute('aria-controls','panel-'+key);tab.tabIndex=i===0?0:-1;
  tabs.append(tab);
 });
+function menuAction(p){
+ if(p.name==='VIP Daddy Package')return {label:'Choose VIP Daddy',variant:'btn-spotlight'};
+ if(p.name==='Ultimate VIP Daddy Package')return {label:'Go Ultimate VIP',variant:'btn-ultimate'};
+ if(p.name==='Basic GFE')return {label:'Start with GFE',variant:'btn-primary'};
+ if(p.name.includes('Membership Renewal'))return {label:'Renew my VIP',variant:'btn-secondary'};
+ if(p.group==='vault')return {label:'Get the vault',variant:'btn-primary'};
+ if(p.section==='OnlyFans')return {label:'Choose access',variant:'btn-secondary'};
+ if(p.section==='Bundles')return {label:'Grab this bundle',variant:'btn-secondary'};
+ if(/Custom/i.test(p.name))return {label:'Request this custom',variant:'btn-primary'};
+ if(p.section==='Themed')return {label:'Pick this set',variant:'btn-secondary'};
+ if(p.section==='Addons')return {label:'Add this extra',variant:'btn-secondary'};
+ return {label:'Add to bag',variant:'btn-secondary'};
+}
 categories.forEach(([section],i)=>{
  const panel=el('div','product-panel menu-v2-panel');
  panel.id='panel-'+section;
@@ -127,7 +140,9 @@ categories.forEach(([section],i)=>{
  panel.setAttribute('aria-labelledby','tab-'+section);
  panel.hidden=i!==0;
  products.filter(p=>p.section===section).forEach(p=>{
-   const card=el('article','product-card menu-v2-card'+(p.badge?' featured':''));
+   const spotlight=p.name==='VIP Daddy Package';
+   const ultimate=p.name==='Ultimate VIP Daddy Package';
+   const card=el('article','product-card menu-v2-card'+(p.badge?' featured':'')+(spotlight?' is-spotlight':'')+(ultimate?' is-ultimate':''));
    const info=el('div','menu-v2-info');
    if(p.badge)info.append(el('span','menu-v2-badge',p.badge));
    info.append(el('h3','card-label',p.name));
@@ -140,15 +155,15 @@ categories.forEach(([section],i)=>{
    }
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
    const amount=el('strong','offer-price', (p.extra?'+':'')+'$'+p.price+(p.from?'+':''));
-   const premium=p.group==='membership' && p.price>=150;
-   const action=el('button','offer-btn add-product btn '+(premium?'btn-primary':'btn-secondary')+(premium?' premium-cta':''));
-   action.type='button';action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
+   const cta=menuAction(p);
+   const action=el('button','offer-btn add-product btn '+cta.variant);
+   action.type='button';
+   action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
    action.dataset.price=String(p.price);
+   action.dataset.cta=cta.label;
    if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label','Add '+p.name+', '+(p.from?'from ':'')+'$'+p.price);
-   const cta=premium?(p.price>=350?'Get Ultimate VIP':'Get VIP Access'):'Add to bag';
-   action.dataset.defaultLabel=cta;
-   action.append(el('span','menu-v2-add-label',cta));
+   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
+   action.append(el('span','menu-v2-add-label',cta.label),el('span','menu-v2-action-icon','→'));
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
    card.append(info,buy);panel.append(card);
  });

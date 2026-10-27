@@ -229,7 +229,9 @@
   bag.addEventListener('click',function(e){if(e.target===bag)closeBag()});
   bag.addEventListener('close',function(){if(lastBagTrigger&&lastBagTrigger.focus)lastBagTrigger.focus()});
   function addItem(name,price,exclusive){
-    // Choose one membership or OnlyFans plan; avoid double-charging for included access.
+    if(singleQty(exclusive,name)&&cart.some(function(item){return item.name===name})){
+      openBag();return false;
+    }
     if(exclusive==='membership'){
       const isVip=/VIP Daddy|Ultimate VIP|Membership Renewal/i.test(name);
       cart=cart.filter(function(i){
@@ -240,41 +242,65 @@
     }
     if(exclusive==='of'&&cart.some(function(i){return i.exclusive==='membership'})){
       document.getElementById('cartFeedback').textContent='OnlyFans access is already included in your selected membership.';
-      openBag();return;
+      openBag();return false;
     }
     if(exclusive==='of')cart=cart.filter(function(i){return i.exclusive!=='of'});
     if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP Daddy|Ultimate VIP/i.test(i.name)})){
       document.getElementById('cartFeedback').textContent='Dropbox access is already included in your selected VIP Daddy package.';
-      openBag();return;
+      openBag();return false;
     }
     var item=cart.find(function(existing){return existing.name===name});
     if(item){if(!singleQty(exclusive,name))item.qty++}
     else cart.push({name:name,price:price,qty:1,exclusive:exclusive||null});
     renderCart();
-    toast('Added to your bag ♡');
-    bagPill.classList.remove('bag-bump');
-    void bagPill.offsetWidth;
-    bagPill.classList.add('bag-bump');
-    var feedback=document.getElementById('cartFeedback');
-    feedback.textContent=name+' added to your bag.';
+    pulseBag();
+    toast(name+' added to your bag ✓');
+    document.getElementById('cartFeedback').textContent=name+' added to your bag.';
+    return true;
   }
-  document.querySelectorAll('.add-product').forEach(function(button){
-    button.addEventListener('click',function(){
-      if(button.disabled)return;
-      const name=button.dataset.name;
-      addItem(name,Number(button.dataset.price),button.dataset.exclusive||null);
-      if(!cart.some(function(item){return item.name===name}))return;
-      const label=button.querySelector('.menu-v2-add-label');
-      button.disabled=true;
-      button.classList.add('is-added');
-      if(label)label.textContent='Added ✓';
-      button.setAttribute('aria-label',name+' added to bag');
-      window.setTimeout(function(){
-        if(label)label.textContent=button.dataset.defaultLabel||'Add to bag';
+  var productButtons=Array.from(document.querySelectorAll('.add-product'));
+  function syncProductButtons(){
+    productButtons.forEach(function(button){
+      var name=button.dataset.name;
+      var item=cart.find(function(entry){return entry.name===name});
+      var inBag=!!item;
+      var single=singleQty(button.dataset.exclusive||null,name);
+      button.classList.toggle('is-in-bag',inBag);
+      if(!inBag&&button.classList.contains('is-added')){
+        clearTimeout(button._feedbackTimer);
         button.classList.remove('is-added');
         button.disabled=false;
-        button.setAttribute('aria-label','Add '+name+' to bag');
-      },1300);
+      }
+      if(button.classList.contains('is-added'))return;
+      var label=inBag?(single?'In bag ✓':'Add another'):button.dataset.cta;
+      button.querySelector('.menu-v2-add-label').textContent=label;
+      button.querySelector('.menu-v2-action-icon').textContent=inBag&&single?'✓':'→';
+      button.setAttribute('aria-label',inBag?(single?'In bag: '+name+'. Open your bag to review.':'Add another '+name+'. '+item.qty+' in your bag.'):(button.dataset.cta+': '+name+'. Adds to your bag for review.'));
+    });
+  }
+  function flashProductButton(button){
+    clearTimeout(button._feedbackTimer);
+    button.classList.add('is-added');
+    button.disabled=true;
+    button.querySelector('.menu-v2-add-label').textContent='Added ✓';
+    button.querySelector('.menu-v2-action-icon').textContent='✓';
+    button.setAttribute('aria-label',button.dataset.name+' added to your bag');
+    button._feedbackTimer=window.setTimeout(function(){
+      button.classList.remove('is-added');button.disabled=false;syncProductButtons();
+    },1050);
+  }
+  function pulseBag(){
+    clearTimeout(bagPill._pulseTimer);
+    bagPill.classList.remove('bag-pulse');
+    void bagPill.offsetWidth;
+    bagPill.classList.add('bag-pulse');
+    bagPill._pulseTimer=window.setTimeout(function(){bagPill.classList.remove('bag-pulse')},760);
+  }
+  productButtons.forEach(function(button){
+    button.addEventListener('click',function(){
+      if(button.disabled)return;
+      var added=addItem(button.dataset.name,Number(button.dataset.price),button.dataset.exclusive||null);
+      if(added)flashProductButton(button);
     });
   });
   function modifyItem(name,delta){
@@ -316,6 +342,8 @@
     document.getElementById('copyOrder').disabled=cart.length===0;
     document.getElementById('confirmOrder').disabled=cart.length===0;
     bagPill.classList.toggle('visible',cart.length>0);
+    bagPill.setAttribute('aria-label','Open your bag, '+cart.reduce(function(sum,item){return sum+item.qty},0)+' items, '+money(cartTotal()));
+    syncProductButtons();
     saveCart();
   }
   function orderMessage(){
