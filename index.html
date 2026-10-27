@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -51,6 +52,8 @@
   <nav class="site-nav" aria-label="Main navigation">
     <a href="#boutique">Menu</a>
     <a href="#members">VIP Memberships</a>
+    <a href="#about">About Me</a>
+    <a href="#blog">Blog</a>
     <a class="nav-shop" href="#boutique">Shop the Menu <span aria-hidden="true">↗</span></a>
   </nav>
 </header>
@@ -186,8 +189,9 @@
   <div class="intro-grid">
     <div class="intro-copy reveal">
       <p class="eyebrow">A LITTLE PIECE OF MY WORLD</p>
-      <h2>The <em>Evie</em><br>Edit.</h2>
-      <p>I made this to make seeing my menu and more about me easier. </p>
+      <h2>About <em>me.</em></h2>
+      <p>Everything relevant, in one place. My life, my opinions, what I'm studying, what I'm building, and the occasional completely unfiltered rant.</p>
+      <a class="evie-about-link" href="blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots &amp; fake personalities <span aria-hidden="true">↗</span></a>
       <span class="handwritten">Take your time. ♡</span>
     </div>
     <button class="editorial-image image-button reveal" type="button" data-set="diary" data-photo="0" aria-label="View first photo diary image">
@@ -307,11 +311,31 @@
   </details>
 </section>
 
+<!-- THE EVIE EDIT — BLOG / OPINIONS, AT THE BOTTOM OF THE PAGE -->
+<section class="evie-blog-section" id="blog" aria-labelledby="evieBlogHeading">
+  <div class="evie-blog-shell">
+    <p class="evie-blog-kicker">002 — PERSONAL NOTES / THE EVIE EDIT</p>
+    <h2 id="evieBlogHeading">Unfiltered <em>thoughts.</em></h2>
+    <p class="evie-blog-lede">This is where I say whatever's relevant. Being a creator, learning to engineer my own tools, privacy, tech ethics, and everything in between. No personality pack required.</p>
+    <article class="evie-blog-feature" aria-labelledby="evieBlogFirstTitle">
+      <div class="evie-blog-card-copy">
+        <p class="evie-blog-date"><time datetime="2026-10-27">OCTOBER 27, 2026</time> &nbsp;·&nbsp; FIRST POST / OPINION</p>
+        <h3 id="evieBlogFirstTitle">Agencies are shit, Bots suck, can people stop downloading personalities??</h3>
+        <p>Fake agencies, AI personalities, questionable data practices, and the reason I'm building a creator tool that lets me spend less time sorting through spam and more time being an actual person.</p>
+        <a class="evie-blog-read" href="blog/agencies-are-shit-bots-suck.html" aria-label="Read Agencies are shit, Bots suck, can people stop downloading personalities?">Read the full post <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="evie-blog-card-art" aria-hidden="true"><span>✧</span></div>
+    </article>
+  </div>
+</section>
+
 </main>
 
 <footer class="site-footer">
   <div class="footer-brand">KISSED BY EVIE</div>
   <div class="footer-links">
+    <a href="#about">About Me</a>
+    <a href="#blog">Blog</a>
     <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener">Telegram <span aria-hidden="true">↗</span></a>
     <a href="https://www.instagram.com/kissedbyevie/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>
     <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener">X <span aria-hidden="true">↗</span></a>
