@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10070c">
+<meta name="description" content="Kissed by Evie free customer account and order reference profile. Adults 18+ only.">
+<title>My Account | Kissed by Evie</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="account.css">
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+<script defer src="member-config.js"></script>
+<script defer src="account.js"></script>
+</head>
+<body>
+<header class="account-header">
+  <a class="brand" href="index.html">KISSED BY EVIE <span aria-hidden="true">✧</span></a>
+  <a class="back-link" href="index.html">← Back to the menu</a>
+</header>
+<main class="account-main">
+  <section class="intro">
+    <p class="eyebrow">THE EVIE EDIT · FREE CUSTOMER ACCOUNT</p>
+    <h1>Your little <em>corner.</em></h1>
+    <p>Save your details once so I can recognize you and keep your orders together. No purchase required, babe. ♡</p>
+  </section>
+
+  <section class="account-card" id="signInSection" aria-labelledby="signInTitle">
+    <div class="card-top"><span class="card-kicker">01 · SIGN IN</span><span class="pill">FREE</span></div>
+    <h2 id="signInTitle">Welcome, <em>you.</em></h2>
+    <p>Continue with X, or use your Snapchat / Telegram username as an order reference and sign in safely by email.</p>
+    <button type="button" id="signInX" class="btn x-button">𝕏 &nbsp; Continue with X</button>
+    <div class="or-divider"><span>or</span></div>
+    <form id="emailSignInForm">
+      <fieldset>
+        <legend>Which username do you use?</legend>
+        <div class="radio-row">
+          <label class="radio-option"><input type="radio" name="signupPlatform" value="snapchat" checked> Snapchat</label>
+          <label class="radio-option"><input type="radio" name="signupPlatform" value="telegram"> Telegram</label>
+        </div>
+      </fieldset>
+      <label for="signInEmail">Email address for a secure login link</label>
+      <input type="email" id="signInEmail" name="email" placeholder="you@example.com" maxlength="254" autocomplete="email" required>
+      <p class="micro">We'll email you a one-time sign-in link. Your social username will be entered after you sign in. Never enter your Snapchat or Telegram password here.</p>
+      <button type="submit" class="btn primary" id="emailSubmit">Send my sign-in link ↗</button>
+    </form>
+    <label class="agree"><input type="checkbox" id="isAdult"> I confirm that I am 18 or older.</label>
+    <p class="micro">A free account does not grant VIP or private gallery access. Those require separate approval and age verification.</p>
+  </section>
+
+  <section class="account-card" id="profileSection" aria-labelledby="profileTitle" hidden>
+    <div class="card-top"><span class="card-kicker">02 · YOUR DETAILS</span><span class="pill">MY ACCOUNT</span></div>
+    <h2 id="profileTitle">Tell me about <em>you!</em></h2>
+    <p>So I can recognize you when you order again. You can update these later.</p>
+    <div id="identitySummary" class="identity-summary" aria-live="polite"></div>
+    <form id="profileForm">
+      <label for="profileNickname">Nickname / Name <span class="required">*</span></label>
+      <input id="profileNickname" name="nickname" type="text" minlength="1" maxlength="80" autocomplete="nickname" placeholder="What should I call you?" required>
+
+      <label for="profilePhone">Phone number <span class="optional">(optional)</span></label>
+      <input id="profilePhone" name="phone" type="tel" maxlength="24" autocomplete="tel" placeholder="(555) 000-0000">
+      <p class="micro">Only for account and order-related contact if you choose to provide it. Never required.</p>
+
+      <label for="profilePlatform">Social username / order reference</label>
+      <select id="profilePlatform" name="platform">
+        <option value="snapchat">Snapchat</option>
+        <option value="telegram">Telegram</option>
+        <option value="x">X / Twitter</option>
+      </select>
+      <label class="sr-only" for="profileHandle">Username for selected platform</label>
+      <input id="profileHandle" name="handle" type="text" maxlength="80" autocapitalize="none" spellcheck="false" autocomplete="off" placeholder="@username">
+      <p class="micro" id="handleHelp">Enter the username you use to message me. Manually entered usernames aren't verified as yours.</p>
+      <button type="submit" id="profileSubmit" class="btn primary">Save my profile ♡</button>
+    </form>
+    <div class="saved-details" id="savedDetails" hidden>
+      <h3>Your customer account</h3>
+      <p id="customerIdLabel" class="micro"></p>
+      <p id="savedSocials" class="micro"></p>
+      <p class="micro">Your orders can be linked to this customer ID. Payment status and VIP access are always confirmed separately.</p>
+    </div>
+    <button type="button" id="signOut" class="text-button">Sign out</button>
+  </section>
+  <p class="feedback" id="accountFeedback" role="status" aria-live="polite"></p>
+</main>
+<footer>18+ ONLY · FREE ACCOUNT · YOUR INFO IS PRIVATE <span>♡</span></footer>
+</body>
+</html>
