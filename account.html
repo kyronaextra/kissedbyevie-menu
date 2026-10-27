@@ -14,6 +14,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="account.js"></script>
+<script defer src="teaser-gallery.js"></script>
 </head>
 <body>
 <header class="account-header">
@@ -82,6 +83,32 @@
     </div>
     <button type="button" id="signOut" class="text-button">Sign out</button>
   </section>
+  <section class="account-card teaser-section" id="teaserSection" aria-labelledby="teaserHeading" hidden>
+    <div class="card-top">
+      <span class="card-kicker">03 · MEMBER-ONLY PHOTOS</span>
+      <span class="pill">FREE WITH ANY ACCOUNT</span>
+    </div>
+    <p class="eyebrow">PRIVATE PREVIEWS ♡</p>
+    <h2 id="teaserHeading">The Secret <em>Tease.</em></h2>
+    <p>Just a little peek. Censored photo teasers made for my signed-in babes. No subscription or VIP purchase needed.</p>
+    <div class="teaser-toolbar">
+      <span class="micro">Photos only · Pre-censored previews · 18+</span>
+      <button type="button" class="text-button" id="teaserRefresh">↻ Refresh photos</button>
+    </div>
+    <div id="teaserGrid" class="teaser-grid" aria-live="polite">
+      <p class="teaser-empty">Sign in to see the secret gallery. ♡</p>
+    </div>
+    <p id="teaserFeedback" class="micro" role="status"></p>
+    <p class="micro teaser-disclaimer">These are previews only. VIP content and full-length media are separate and never appear here.</p>
+  </section>
+  <dialog class="teaser-viewer" id="teaserViewer" aria-label="Secret Tease photo viewer">
+    <button type="button" id="teaserClose" class="teaser-viewer-close" aria-label="Close photo">×</button>
+    <button type="button" id="teaserPrevious" class="teaser-arrow teaser-left" aria-label="Previous photo">←</button>
+    <img id="teaserLargePhoto" alt="">
+    <button type="button" id="teaserNext" class="teaser-arrow teaser-right" aria-label="Next photo">→</button>
+    <p id="teaserCaption"></p>
+  </dialog>
+
   <p class="feedback" id="accountFeedback" role="status" aria-live="polite"></p>
 </main>
 <footer>18+ ONLY · FREE ACCOUNT · YOUR INFO IS PRIVATE <span>♡</span></footer>
