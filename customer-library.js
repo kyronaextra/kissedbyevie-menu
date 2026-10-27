@@ -33,7 +33,7 @@ async function showFile(entry){
  feedback("purchasesFeedback","Opening your private file…");
  try{
   // Supabase Storage validates ownership + age verification, not just the UI.
-  const {data,error}=await client.storage.from(BUCKET).createSignedUrl(entry.storage_path,90);
+  const {data,error}=await client.storage.from(BUCKET).createSignedUrl(entry.storage_path,entry.kind==="video"?3600:600);
   if(error||!data?.signedUrl)throw error||new Error("Media is unavailable");
   if(!userId)return;
   clearMedia();
