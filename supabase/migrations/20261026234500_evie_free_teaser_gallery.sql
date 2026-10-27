@@ -85,5 +85,5 @@ create policy "Gallery admins delete teaser photo files" on storage.objects
    bucket_id='evie-account-teasers'
    and exists(select 1 from public.evie_gallery_admins a where a.user_id=(select auth.uid()))
  );
-comment on public.evie_teaser_photos is
+comment on table public.evie_teaser_photos is
  'Account-only photos; uploader must pre-censor image bytes and inspect each draft before publish. No videos, no paid files.';
