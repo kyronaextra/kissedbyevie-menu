@@ -29,7 +29,7 @@ function deactivate(){
 }
 async function showFile(entry){
  if(!client||!userId||!entries.some(x=>x.id===entry.id))return;
- const btn=$("purchaseRefresh");btn.disabled=true;
+ const btn=$("purchasesRefresh");btn.disabled=true;
  feedback("purchasesFeedback","Opening your private file…");
  try{
   // Supabase Storage validates ownership + age verification, not just the UI.
