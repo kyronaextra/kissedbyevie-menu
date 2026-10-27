@@ -77,5 +77,5 @@ create policy "Evie administrators manage customer objects" on storage.objects
  using (bucket_id='evie-customer-deliveries' and
   (select auth.jwt()->'app_metadata'->>'evie_admin')='true');
 
-comment on public.evie_customer_deliveries is 'Permanent per-customer purchased media assignments; admin-only writes via protected Edge Function; age-verification required for reading.';
-comment on public.evie_customer_messages is 'Private one-way administrator dashboard messages, unrelated to public social inboxes.';
+comment on table public.evie_customer_deliveries is 'Permanent per-customer purchased media assignments; admin-only writes via protected Edge Function; age-verification required for reading.';
+comment on table public.evie_customer_messages is 'Private one-way administrator dashboard messages, unrelated to public social inboxes.';
