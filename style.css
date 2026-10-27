@@ -799,3 +799,24 @@ html{scroll-behavior:auto}
   .latest-feature-photos{gap:9px}
   .latest-feature-photo span{left:5px;bottom:6px;padding:6px 7px;font-size:9px;letter-spacing:.01em}
 }
+
+/* Menu purchase hierarchy and clear cart feedback */
+:root{--wine:#7b1e2b;--wine-deep:#571221;--wine-soft:#f4e3dc;--cream:#fbf6f0;--ink:#211316;--line:rgba(123,30,43,.22)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 26px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:background .22s,color .22s,box-shadow .22s,transform .22s;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+.btn-primary{background:var(--wine);color:var(--cream);box-shadow:0 10px 24px rgba(87,18,33,.25)}
+.btn-primary:hover{background:var(--wine-deep);transform:translateY(-1px);box-shadow:0 14px 28px rgba(87,18,33,.30)}
+.btn-secondary{background:rgba(251,246,240,.7);color:var(--wine);border-color:var(--line);backdrop-filter:blur(6px)}
+.btn-secondary:hover{background:var(--wine-soft);border-color:var(--wine)}
+.btn-text{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--wine);text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(123,30,43,.35)}
+.btn-text:hover{text-decoration-color:var(--wine)}
+.menu-v2-card .offer-btn.btn{border-radius:999px!important;font-size:12px!important;letter-spacing:.09em!important;min-height:52px!important;justify-content:center!important;white-space:normal!important}
+.menu-v2-card .offer-btn.btn-secondary{background:rgba(251,246,240,.08)!important;color:#fbf6f0!important;border:1px solid rgba(244,227,220,.4)!important}
+.menu-v2-card .offer-btn.btn-secondary:hover{background:rgba(244,227,220,.2)!important;border-color:#f4e3dc!important}
+.menu-v2-card .offer-btn.btn-primary{background:#a43d55!important;color:#fff!important;border:1px solid #d18ba0!important;box-shadow:0 10px 25px rgba(0,0,0,.3)!important}
+.menu-v2-card .offer-btn.btn-primary:hover{background:#7b1e2b!important;transform:translateY(-1px)}
+.menu-v2-card .offer-btn.is-added,.menu-v2-card .offer-btn.is-added:hover{background:#f4e3dc!important;color:#571221!important;border-color:#f4e3dc!important;transform:scale(1.015)!important;box-shadow:0 0 0 3px rgba(244,227,220,.2)!important;cursor:default}
+.bag-pill.bag-bump{animation:evieBagBump .48s ease-out}
+@keyframes evieBagBump{0%{transform:scale(1)}40%{transform:scale(1.13)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.bag-pill.bag-bump{animation:none}.btn,.menu-v2-card .offer-btn.btn{transition:none!important}}

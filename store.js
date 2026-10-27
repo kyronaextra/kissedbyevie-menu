@@ -140,12 +140,15 @@ categories.forEach(([section],i)=>{
    }
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
    const amount=el('strong','offer-price', (p.extra?'+':'')+'$'+p.price+(p.from?'+':''));
-   const action=el('button','offer-btn add-product');
+   const premium=p.group==='membership' && p.price>=150;
+   const action=el('button','offer-btn add-product btn '+(premium?'btn-primary':'btn-secondary')+(premium?' premium-cta':''));
    action.type='button';action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
    action.dataset.price=String(p.price);
    if(p.group)action.dataset.exclusive=p.group;
    action.setAttribute('aria-label','Add '+p.name+', '+(p.from?'from ':'')+'$'+p.price);
-   action.append(el('span','menu-v2-add-label','Add to bag'),el('span','menu-v2-plus','+'));
+   const cta=premium?(p.price>=350?'Get Ultimate VIP':'Get VIP Access'):'Add to bag';
+   action.dataset.defaultLabel=cta;
+   action.append(el('span','menu-v2-add-label',cta));
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
    card.append(info,buy);panel.append(card);
  });

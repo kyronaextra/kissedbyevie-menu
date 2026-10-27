@@ -252,14 +252,29 @@
     else cart.push({name:name,price:price,qty:1,exclusive:exclusive||null});
     renderCart();
     toast('Added to your bag ♡');
+    bagPill.classList.remove('bag-bump');
+    void bagPill.offsetWidth;
+    bagPill.classList.add('bag-bump');
     var feedback=document.getElementById('cartFeedback');
     feedback.textContent=name+' added to your bag.';
   }
   document.querySelectorAll('.add-product').forEach(function(button){
     button.addEventListener('click',function(){
-      addItem(button.dataset.name,Number(button.dataset.price),button.dataset.exclusive||null);
-      button.setAttribute('aria-label',button.dataset.name+' added to bag');
-      window.setTimeout(function(){button.removeAttribute('aria-label')},1400);
+      if(button.disabled)return;
+      const name=button.dataset.name;
+      addItem(name,Number(button.dataset.price),button.dataset.exclusive||null);
+      if(!cart.some(function(item){return item.name===name}))return;
+      const label=button.querySelector('.menu-v2-add-label');
+      button.disabled=true;
+      button.classList.add('is-added');
+      if(label)label.textContent='Added ✓';
+      button.setAttribute('aria-label',name+' added to bag');
+      window.setTimeout(function(){
+        if(label)label.textContent=button.dataset.defaultLabel||'Add to bag';
+        button.classList.remove('is-added');
+        button.disabled=false;
+        button.setAttribute('aria-label','Add '+name+' to bag');
+      },1300);
     });
   });
   function modifyItem(name,delta){
