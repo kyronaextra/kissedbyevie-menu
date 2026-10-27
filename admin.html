@@ -17,6 +17,7 @@
   <script defer src="admin-inbox.js"></script>
   <script defer src="admin.js"></script>
   <script defer src="admin-customer.js"></script>
+  <script defer src="admin-of.js"></script>
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
@@ -330,6 +331,13 @@
               <div id="customerDeliveryList" class="customer-delivery-list"></div>
               <h3>Dashboard messages</h3>
               <div id="customerMessageList" class="customer-message-list"></div>
+            </div>
+            <div class="surface customer-delivery-panel" id="adminOfSection">
+              <div class="surface-title"><h2>OnlyFans subscriber verification</h2><span>MANUAL REVIEW · NEVER AUTO VIP</span></div>
+              <p class="hint">Verify the subscriber's exact code in your OnlyFans creator inbox and confirm their subscription is active <strong>before</strong> approving. Their login and paid orders stay separate.</p>
+              <button id="adminOfRefresh" type="button" class="secondary small">↻ Refresh subscriber requests</button>
+              <p class="hint" role="status" id="adminOfFeedback"></p>
+              <div id="adminOfQueue" class="customer-message-list"><p class="hint">Open Members to load requests.</p></div>
             </div>
             <a href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol/auth/users" class="text-link" target="_blank" rel="noopener noreferrer">Open Supabase Auth users ↗</a>
           </div>
