@@ -101,6 +101,14 @@
       }).map(function(item){
         return {name:item.name,price:Number(item.price),qty:Math.min(10,Math.round(item.qty)),exclusive:item.exclusive||null};
       });
+      // Refresh saved VIP prices to this visit's active offer.
+      var vipButtons=Array.from(document.querySelectorAll('.add-product')).filter(function(b){
+        return b.dataset.name==='VIP Daddy Package'||b.dataset.name==='Ultimate VIP Daddy Package';
+      });
+      cart.forEach(function(item){
+        var b=vipButtons.find(function(button){return button.dataset.name===item.name});
+        if(b)item.price=Number(b.dataset.price);
+      });
     }catch(e){cart=[]}
   }
   var toastTimer=null;

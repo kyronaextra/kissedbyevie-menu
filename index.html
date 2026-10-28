@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10070c">
 <meta name="description" content="Kissed by Evie. A private menu and member experience.">
-<meta property="og:title" content="EVIE’S MENU 💗">
+<meta property="og:title" content="My Menu Is Here">
 <meta property="og:description" content="exclusive vault access • full menu • A private world for my favorites .">
 <meta property="og:image" content="https://kissedbyevie-menu.onrender.com/assets/photos/evie-hero-01.png">
 <meta property="og:url" content="https://kissedbyevie-menu.onrender.com/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>EVIE’S MENU 💗</title>
+<title>My Menu Is Here | Kissed by Evie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
@@ -18,12 +18,14 @@
 <link rel="stylesheet" href="evie-nav.css?v=20261028-nav-clean-3">
 <link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
+<link rel="stylesheet" href="vip-sale.css?v=20261028-1">
 <link rel="stylesheet" href="public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="store.js?v=20261027-price-refresh-1"></script>
 <script defer src="app.js?v=20261027-price-refresh-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
+<script defer src="vip-sale.js?v=20261028-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="public-gallery.js?v=20261027-gallery-1"></script>
@@ -34,6 +36,15 @@
 <noscript><style>#accessGate{display:none!important}</style></noscript>
 </head>
 <body id="top">
+<aside id="vipSaleAnnouncement" class="vip-sale-announcement" role="status" aria-label="VIP sale announcement" hidden>
+ <button type="button" id="vipSaleClose" class="vip-sale-close" aria-label="Close sale announcement">×</button>
+ <span class="vip-sale-kicker">AN EVIE EMERGENCY SALE</span>
+ <strong class="vip-sale-headline">40% off <em>VIP PACKAGES</em></strong>
+ <strong class="vip-sale-deadline">ENDING 10/31!</strong>
+ <span class="vip-sale-aside">(I’m broke af)</span>
+ <span class="vip-sale-fine">VIP Daddy + Ultimate VIP Daddy only</span>
+ <a id="vipSaleShop" class="vip-sale-shop" href="#boutique">SHOP VIP DEALS</a>
+</aside>
 
 <!-- ACCESS GATE (unchanged) -->
 <div id="accessGate" style="position:fixed;inset:0;z-index:99999;background:#10070c;color:#f5e9e0;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',system-ui,sans-serif;padding:24px;text-align:center;">
@@ -159,7 +170,7 @@
   <span id="custom" aria-hidden="true"></span>
   <div class="boutique-top reveal">
     <p class="eyebrow">KISSEDBYEVIE CONTENT MENU</p>
-    <h2 id="boutiqueHeading">The <em>Menu.</em></h2>
+    <h2 id="boutiqueHeading">My Menu <em>Is Here.</em></h2>
     <p>Start with $20 to $50, then under $20, VIP, custom videos and extras.</p>
   </div>
 
@@ -569,7 +580,7 @@
     localStorage.setItem(KEY, username);
     gate.style.opacity = '0';
     gate.style.transition = 'opacity .3s';
-    setTimeout(() => gate.remove(), 300);
+    setTimeout(() => { gate.remove(); window.dispatchEvent(new Event('evie:access-granted')); }, 300);
   });
 })();
 </script>
