@@ -95,3 +95,60 @@ body.evie-nav-open{overflow:hidden}
  .evie-nav-dialog[open]{animation:none}
  .evie-nav-toggle,.evie-nav-card,.evie-nav-card:before{transition:none}
 }
+
+
+/* Home hero actions: borderless VIP status and About Me. */
+.hero-slide:first-child .hero-cta-links.evie-hero-actions{
+  display:flex;flex-wrap:wrap;align-items:center;flex-direction:row;gap:10px 13px;margin:0 0 12px;
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-vip,
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-about{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:0;border-radius:4px;text-decoration:none;box-sizing:border-box;
+  min-height:43px;padding:11px 17px;transform:none;
+  font:700 11px/1.25 "Syne",sans-serif;letter-spacing:.045em;
+  transition:background .2s,transform .2s,box-shadow .2s;
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-vip{
+  color:#341020;
+  background:linear-gradient(112deg,#f7b6d3 0%,#ffe9f0 54%,#eda5c4 100%);
+  box-shadow:0 8px 25px rgba(8,2,7,.40),0 0 26px rgba(229,136,184,.18);
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-vip-arrows{
+  color:#68243e;font-size:13px;letter-spacing:-.08em;white-space:nowrap;
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-soon{
+  font-size:10px;font-weight:500;letter-spacing:0;white-space:nowrap;
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-about{
+  color:#fff0f7;background:rgba(23,8,20,.82);box-shadow:0 7px 22px rgba(0,0,0,.28);
+  padding-inline:19px;
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-vip:hover{
+  background:linear-gradient(112deg,#ffcee2,#fff1f7,#ffc4de);transform:translateY(-2px);
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-about:hover{
+  background:rgba(90,34,65,.93);transform:translateY(-2px);
+}
+.hero-slide:first-child .hero-cta-links.evie-hero-actions a:focus-visible{
+  outline:2px solid #fff;outline-offset:4px;
+}
+@media(max-width:700px){
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions{
+    flex-direction:row;align-items:center;gap:8px;margin:0 0 8px;
+  }
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-vip,
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-about{
+    width:auto;min-height:40px;padding:9px 11px;font-size:10px;
+  }
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-soon{font-size:9px}
+}
+@media(max-width:390px){
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions{gap:7px}
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-vip,
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-about{padding:9px 8px;font-size:9px}
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions .evie-hero-soon{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-slide:first-child .hero-cta-links.evie-hero-actions a{transition:none}
+}
