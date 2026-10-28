@@ -135,6 +135,7 @@ $('signOut').addEventListener('click',async()=>{
  try{await sb.auth.signOut();mode('login');feedback('Signed out.');}
  catch(err){feedback(errorText(err))}
 });
+if(window.location.hash.toLowerCase()==='#login')mode('login');
 if(!ready){$('setupError').hidden=false;document.querySelectorAll('form button[type="submit"]').forEach(b=>b.disabled=true);}
 else{
  sb.auth.onAuthStateChange((event)=>{
