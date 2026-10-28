@@ -17,3 +17,6 @@
 .ofauth-buttons button:disabled{opacity:.5;cursor:not-allowed}
 .ofauth-card .formnote{line-height:1.6;margin:18px 0 0}
 .ofauth-card .formnote a{color:var(--rose);text-decoration:underline}
+
+.ofauth-consent{display:flex;align-items:flex-start;gap:11px;font-size:12px;line-height:1.55;color:var(--white);margin:17px 0 4px}
+.ofauth-consent input{flex:0 0 auto;width:17px;height:17px;margin:1px 0 0;accent-color:var(--rose)}
