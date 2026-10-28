@@ -4,7 +4,7 @@ Public entry point: `/account.html`
 
 ## Shipped
 
-- Free account signup (verified email, login username, 8 digit PIN).
+- Free account signup (email, login username, 8 digit PIN) with no link, once the Supabase Confirm email requirement is disabled.
 - Existing Supabase Auth + `evie-username-login` for sign-in.
 - Optional Snapchat, Telegram or X reference (not used as proof of social account ownership).
 - Account session persistence and sign-out.
@@ -15,9 +15,9 @@ Public entry point: `/account.html`
 
 ## Supabase setup required
 
-1. Confirm that Email signup + Email confirmations are enabled in Supabase Auth.
-2. Set the Site URL to the production site and add `https://kissedbyevie-menu.onrender.com/account.html` to **Authentication > URL Configuration > Redirect URLs**. Also add any future custom-domain `/account.html` URL.
-3. Set up a production-compatible Auth email service for signup confirmations. Supabase's default Auth mailer is rate limited. Test email confirmation from an account you control.
+1. In Supabase Dashboard > Authentication > Providers > Email, turn **Confirm email OFF** and leave Email signup ON. This cannot be changed through the connected Supabase tools. Until disabled, Supabase may still create a user without a session; the website now reports this problem instead of waiting for a link.
+2. New signups now require no email confirmation redirect.
+3. **Important:** when Confirm email is disabled, Supabase marks emails confirmed even though actual email ownership has not been proven. Notifications still require a separate proof of address ownership (for example a code) and a clear opt-in before any email is delivered. Never use Supabase's automatically set email_confirmed_at as ownership evidence. Existing accounts stuck in pending state may need administrator assistance.
 4. An alert email service must independently approve this adult creator use case **before** connecting any marketing/notification send. Do not use Resend or MailerLite for sexually explicit promotions without permission: their policies prohibit pornographic content.
 5. For instantaneous livestream status, Stripchat has its own `Notify when online` control for viewers; linking the account's native notification setting is preferable to unapproved scraping.
 
@@ -30,7 +30,7 @@ Both booleans are false by default. RLS allows authenticated users to create, vi
 
 Build a separate privileged Edge Function whose delivery actions are authorized to an Evie Admin user. The sender must:
 
-- Fetch only recipients with a confirmed email AND the corresponding preference explicitly enabled.
+- Fetch only recipients with a separately verified email address AND the corresponding preference explicitly enabled.
 - Use a verified sender domain, appropriate unsubscribe links and suppression lists.
 - Rate-limit sends, deduplicate `stream_started` events, log deliveries and handle bounce/unsubscribe callbacks.
 - Never expose the subscriber list or secret to browser users.
@@ -46,7 +46,7 @@ Major US/Canadian providers prohibit messaging for sex-related businesses/campai
 
 ## Security / QA
 
-- Test signup with a new email, confirmation, username and email+PIN sign-in.
+- Test signup with a new email and no confirmation link, username and email+PIN sign-in after Supabase Confirm email is off.
 - Test preferences on a signed-in account and refresh to confirm persistence.
 - Verify one account cannot query or modify another user's preferences.
 - Verify both boxes are initially unchecked and opt-out persists.
