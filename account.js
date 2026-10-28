@@ -4,15 +4,14 @@ const $=id=>document.getElementById(id);
 const sdk=window.supabase;
 const ready=!!(sdk&&typeof sdk.createClient==='function'&&window.EVIE_SUPABASE_URL&&window.EVIE_SUPABASE_PUBLISHABLE_KEY);
 const sb=ready?sdk.createClient(window.EVIE_SUPABASE_URL,window.EVIE_SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'evie-member-auth'}}):null;
-let pendingEmail='',busy=false,refreshCounter=0;
-const redirect=window.location.origin+'/account.html';
+let busy=false,refreshCounter=0;
 const feedback=message=>$('accountMessage').textContent=message||'';
 const errorText=e=>e&&e.message?e.message:'Something went wrong. Please try again.';
 const validEmail=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)&&s.length<=254;
 const validUsername=s=>/^[A-Za-z0-9._-]{3,30}$/.test(s);
 const validPin=s=>/^\d{8}$/.test(s)&&!(/^(\d)\1{7}$/.test(s))&&!['12345678','87654321','12341234','12121212'].includes(s);
 function mode(which){
- $('signupArea').hidden=which!=='signup';$('loginArea').hidden=which!=='login';$('verifyArea').hidden=which!=='verify';
+ $('signupArea').hidden=which!=='signup';$('loginArea').hidden=which!=='login';
  $('tabSignup').classList.toggle('selected',which==='signup');$('tabLogin').classList.toggle('selected',which==='login');
  $('tabSignup').setAttribute('aria-selected',String(which==='signup'));$('tabLogin').setAttribute('aria-selected',String(which==='login'));
  $('dashboard').hidden=true;$('authPanel').hidden=false;
@@ -49,7 +48,7 @@ async function renderDashboard(user){
  if(turn!==refreshCounter)return;
  if(prefs.error)throw prefs.error;
  $('accountUsername').textContent=name?'@'+name:(user.email?.split('@')[0]||'Member');
- $('accountEmail').textContent=user.email||'Account verified';
+ $('accountEmail').textContent=user.email||'Account email';
  $('alertStripchat').checked=Boolean(prefs.data?.stripchat_email);
  $('alertAvailability').checked=Boolean(prefs.data?.availability_email);
  const m=membership.data;
@@ -68,7 +67,7 @@ async function refresh(){
 }
 $('tabSignup').addEventListener('click',()=>mode('signup'));
 $('tabLogin').addEventListener('click',()=>mode('login'));
-$('backToLogin').addEventListener('click',()=>mode('login'));
+// Signup uses no email confirmation link.
 $('signupForm').addEventListener('submit',async e=>{
  e.preventDefault();if(!sb||busy||!e.currentTarget.reportValidity())return;
  const email=$('signupEmail').value.trim().toLowerCase(),username=$('signupUsername').value.trim();
@@ -80,24 +79,18 @@ $('signupForm').addEventListener('submit',async e=>{
  if(!$('ageConsent').checked){feedback('Accounts on this site are for adults only.');return;}
  formBusy(e.currentTarget,true);feedback('Creating your account...');
  try{
-  const {data,error}=await sb.auth.signUp({email,password:pin,options:{emailRedirectTo:redirect,data:{age_asserted_18_plus:true,evie_login_username:username,evie_social_platform:platform||null,evie_social_handle:handle||null}}});
+  const {data,error}=await sb.auth.signUp({email,password:pin,options:{data:{age_asserted_18_plus:true,evie_login_username:username,evie_social_platform:platform||null,evie_social_handle:handle||null}}});
   if(error)throw error;
-  pendingEmail=email;
   $('signupPin').value='';$('signupConfirm').value='';
-  if(data?.session){await renderDashboard(data.user);feedback('Account created. Choose your alerts below.');}
-  else{mode('verify');$('verifyText').textContent='Check '+email+' for a confirmation link. Open it to confirm your email, then return to sign in.';feedback('Check your email to finish creating your account.');}
+  if(!data?.session || !data?.user) {
+    // If Confirm email is still enabled, Supabase returns a user but no session.
+    // Never claim their account is ready or tell them a link was required.
+    throw new Error('Instant signup is not enabled in the site settings yet. Please contact Evie to activate signups without email confirmation.');
+  }
+  await renderDashboard(data.user);
+  feedback('Account created! Pick your notification preferences below.');
  }catch(err){feedback(errorText(err))}
  finally{formBusy(e.currentTarget,false)}
-});
-$('resend').addEventListener('click',async e=>{
- if(!sb||!pendingEmail)return;
- e.currentTarget.disabled=true;feedback('Sending...');
- try{
-  const {error}=await sb.auth.resend({type:'signup',email:pendingEmail,options:{emailRedirectTo:redirect}});
-  if(error)throw error;
-  feedback('If the account needs confirmation, a new link has been requested.');
- }catch(err){feedback(errorText(err))}
- finally{e.currentTarget.disabled=false}
 });
 $('loginForm').addEventListener('submit',async e=>{
  e.preventDefault();if(!sb||busy||!e.currentTarget.reportValidity())return;
@@ -130,7 +123,6 @@ $('alertsForm').addEventListener('submit',async e=>{
  try{
   const {data,error}=await sb.auth.getUser();
   if(error||!data?.user)throw Error('Your session expired. Please sign in again.');
-  if(!data.user.email_confirmed_at)throw Error('Verify your email before subscribing.');
   const payload={user_id:data.user.id,stripchat_email:$('alertStripchat').checked,availability_email:$('alertAvailability').checked};
   const saved=await sb.from('evie_alert_preferences').upsert(payload,{onConflict:'user_id'});
   if(saved.error)throw saved.error;
