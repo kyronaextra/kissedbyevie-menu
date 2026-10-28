@@ -362,8 +362,9 @@ categories.forEach(([section],i)=>{
    }
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
     const onSale=vipSaleActive&&vipSaleNames.has(p.name);
-    const effectivePrice=onSale?Math.round(p.price*0.6*100)/100:p.price;
-    const amount=el('strong','offer-price'+(onSale?' vip-sale-price':''),onSale?null:(p.priceDisplay||((p.extra?'+':'')+'
+    const effectivePrice=onSale?Math.round(p.price*0.60*100)/100:p.price;
+    const amount=el('strong','offer-price'+(onSale?' vip-sale-price':''),onSale?null:(p.priceDisplay||((p.extra?'+':'')+'$'+p.price+(p.from?'+''))));
+    if(onSale)amount.append(el('s','vip-sale-was','$'+p.price),el('span','vip-sale-now','$'+effectivePrice),el('span','vip-sale-flag','40% OFF · ENDS 10/31'));
    const cta=menuAction(p);
    const action=el('button','offer-btn add-product btn '+cta.variant);
    action.type='button';
@@ -372,119 +373,7 @@ categories.forEach(([section],i)=>{
    action.dataset.price=String(effectivePrice);
    action.dataset.cta=cta.label;
    if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+' to your bag for review.');+effectivePrice+'. Adds to your bag for review.');
-   action.append(el('span','menu-v2-add-label',cta.label));
-   if(p.pickCategory){
-     const categoryLabel=el('label','menu-v2-choice-label','Pick a category');
-     const categorySelect=el('select','menu-v2-category-select');
-     const categoryId='menu-category-'+section+'-'+panel.children.length;
-     categorySelect.id=categoryId; categoryLabel.htmlFor=categoryId;
-     const prompt=el('option','','Choose a category');prompt.value='';prompt.disabled=true;prompt.selected=true;categorySelect.append(prompt);
-     ['Solo','B/G','Squirt','Dildo','Feet','Surprise me'].forEach(function(choice){const opt=el('option','',choice);opt.value=choice;categorySelect.append(opt)});
-     action.disabled=true;
-     categorySelect.addEventListener('change',function(){
-       action.dataset.name=baseName+' | '+categorySelect.value;
-       action.disabled=!categorySelect.value;
-       action.setAttribute('aria-label',cta.label+': '+action.dataset.name+'. Adds to your bag for review.');
-     });
-     info.append(categoryLabel,categorySelect);
-   }
-   const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   card.append(info,buy);panel.append(card);
- });
- const list=notes[section]||[];
- if(list.length){
-   const note=el('div','menu-v2-notes');
-   list.forEach(s=>note.append(el('p','',s)));
-   panel.append(note);
- }
- root.append(panel);
-});
-})();+p.price+(p.from?'+''))));
-    if(onSale)amount.append(el('s','vip-sale-was','
-   const cta=menuAction(p);
-   const action=el('button','offer-btn add-product btn '+cta.variant);
-   action.type='button';
-   const baseName=p.name+(p.from?' (starting at $'+p.price+')':'');
-   action.dataset.name=baseName;
-   action.dataset.price=String(p.price);
-   action.dataset.cta=cta.label;
-   if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
-   action.append(el('span','menu-v2-add-label',cta.label));
-   if(p.pickCategory){
-     const categoryLabel=el('label','menu-v2-choice-label','Pick a category');
-     const categorySelect=el('select','menu-v2-category-select');
-     const categoryId='menu-category-'+section+'-'+panel.children.length;
-     categorySelect.id=categoryId; categoryLabel.htmlFor=categoryId;
-     const prompt=el('option','','Choose a category');prompt.value='';prompt.disabled=true;prompt.selected=true;categorySelect.append(prompt);
-     ['Solo','B/G','Squirt','Dildo','Feet','Surprise me'].forEach(function(choice){const opt=el('option','',choice);opt.value=choice;categorySelect.append(opt)});
-     action.disabled=true;
-     categorySelect.addEventListener('change',function(){
-       action.dataset.name=baseName+' | '+categorySelect.value;
-       action.disabled=!categorySelect.value;
-       action.setAttribute('aria-label',cta.label+': '+action.dataset.name+'. Adds to your bag for review.');
-     });
-     info.append(categoryLabel,categorySelect);
-   }
-   const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   card.append(info,buy);panel.append(card);
- });
- const list=notes[section]||[];
- if(list.length){
-   const note=el('div','menu-v2-notes');
-   list.forEach(s=>note.append(el('p','',s)));
-   panel.append(note);
- }
- root.append(panel);
-});
-})();+p.price),el('span','vip-sale-now','
-   const cta=menuAction(p);
-   const action=el('button','offer-btn add-product btn '+cta.variant);
-   action.type='button';
-   const baseName=p.name+(p.from?' (starting at $'+p.price+')':'');
-   action.dataset.name=baseName;
-   action.dataset.price=String(p.price);
-   action.dataset.cta=cta.label;
-   if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
-   action.append(el('span','menu-v2-add-label',cta.label));
-   if(p.pickCategory){
-     const categoryLabel=el('label','menu-v2-choice-label','Pick a category');
-     const categorySelect=el('select','menu-v2-category-select');
-     const categoryId='menu-category-'+section+'-'+panel.children.length;
-     categorySelect.id=categoryId; categoryLabel.htmlFor=categoryId;
-     const prompt=el('option','','Choose a category');prompt.value='';prompt.disabled=true;prompt.selected=true;categorySelect.append(prompt);
-     ['Solo','B/G','Squirt','Dildo','Feet','Surprise me'].forEach(function(choice){const opt=el('option','',choice);opt.value=choice;categorySelect.append(opt)});
-     action.disabled=true;
-     categorySelect.addEventListener('change',function(){
-       action.dataset.name=baseName+' | '+categorySelect.value;
-       action.disabled=!categorySelect.value;
-       action.setAttribute('aria-label',cta.label+': '+action.dataset.name+'. Adds to your bag for review.');
-     });
-     info.append(categoryLabel,categorySelect);
-   }
-   const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   card.append(info,buy);panel.append(card);
- });
- const list=notes[section]||[];
- if(list.length){
-   const note=el('div','menu-v2-notes');
-   list.forEach(s=>note.append(el('p','',s)));
-   panel.append(note);
- }
- root.append(panel);
-});
-})();+effectivePrice),el('span','vip-sale-flag','40% OFF · ENDS 10/31'));
-   const cta=menuAction(p);
-   const action=el('button','offer-btn add-product btn '+cta.variant);
-   action.type='button';
-   const baseName=p.name+(p.from?' (starting at $'+p.price+')':'');
-   action.dataset.name=baseName;
-   action.dataset.price=String(p.price);
-   action.dataset.cta=cta.label;
-   if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
+   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+''. Adds to your bag for review.');+effectivePrice+'. Adds to your bag for review.');
    action.append(el('span','menu-v2-add-label',cta.label));
    if(p.pickCategory){
      const categoryLabel=el('label','menu-v2-choice-label','Pick a category');
