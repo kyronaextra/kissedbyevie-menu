@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20261027-menu-flash-2">
-<link rel="stylesheet" href="evie-nav.css?v=20261028-explore-1">
+<link rel="stylesheet" href="evie-nav.css?v=20261028-hero-layout-2">
 <link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
 <link rel="stylesheet" href="public-gallery.css?v=20261027-gallery-1">
@@ -56,7 +56,6 @@
     <div class="evie-nav-quick">
       <a href="#boutique">Menu</a>
       <a href="#members">VIP Memberships</a>
-      <a href="#about">About Me</a>
       <a href="#blog">Blog</a>
     </div>
     <button class="evie-nav-toggle" type="button" id="evieNavToggle" aria-haspopup="dialog" aria-controls="evieNavDialog" aria-expanded="false">
@@ -105,9 +104,9 @@
         <div class="eyebrow">WELCOME TO MY SIDE OF THE INTERNET</div>
         <h1 class="hero-brand-title">KISSED<br><em>BYEVIE</em></h1>
         <p>Everything you'd normally have to DM me six times to figure out: menu, gallery, VIP, the whole thing. All in one place. You're welcome.</p>
-        <div class="hero-cta-links" aria-label="Explore the site">
-          <a class="hero-cta-primary" href="#boutique">See the menu</a>
-          <a class="hero-cta-secondary" href="#vip">What's VIP?</a>
+        <div class="hero-cta-links evie-hero-actions" aria-label="Explore the site">
+          <a class="evie-hero-vip" href="#members"><span class="evie-hero-vip-arrows" aria-hidden="true">&gt;&gt;</span> VIP ACCESS <span class="evie-hero-soon">(coming soon)</span></a>
+          <a class="evie-hero-about" href="#about">About me</a>
         </div>
       </div>
     </article>
@@ -156,21 +155,6 @@
   </div>
 </section>
 
-<section class="payments" aria-labelledby="payHeading">
-  <h2 id="payHeading">How to pay</h2>
-  <p class="sub">No checkout here yet. Build your order, copy it, and send it in our chat. I'll confirm payment details before you pay.</p>
-  <div class="pay-grid">
-    <span class="pay-chip">CashApp</span>
-    <span class="pay-chip">Venmo</span>
-    <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
-    <span class="pay-chip">Coinbase / crypto (BTC · ETH · USDC)</span>
-    <span class="pay-chip pay-chip-soon">Revolut — coming soon</span>
-    <span class="pay-chip pay-chip-soon">Stripe — coming soon</span>
-  </div>
-  <p class="sub" style="margin-top:1.25rem;">Order flow: add your picks to the bag, review your order, and send it in chat. I’ll confirm payment details before you pay, then deliver your content.</p>
-  <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
-</section>
-
 <!-- BOUTIQUE (unchanged, now also the #custom target) -->
 <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
   <span id="custom" aria-hidden="true"></span>
@@ -199,6 +183,23 @@
     <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your favorites above, then tap here.</p>
   </div>
 </section>
+
+<!-- PAYMENT OPTIONS: directly after the menu -->
+<section class="payments" aria-labelledby="payHeading">
+  <h2 id="payHeading">How to pay</h2>
+  <p class="sub">No checkout here yet. Build your order, copy it, and send it in our chat. I'll confirm payment details before you pay.</p>
+  <div class="pay-grid">
+    <span class="pay-chip">CashApp</span>
+    <span class="pay-chip">Venmo</span>
+    <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
+    <span class="pay-chip">Coinbase / crypto (BTC · ETH · USDC)</span>
+    <span class="pay-chip pay-chip-soon">Revolut — coming soon</span>
+    <span class="pay-chip pay-chip-soon">Stripe — coming soon</span>
+  </div>
+  <p class="sub" style="margin-top:1.25rem;">Order flow: add your picks to the bag, review your order, and send it in chat. I’ll confirm payment details before you pay, then deliver your content.</p>
+  <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
+</section>
+
 
 <!-- INTRO / ABOUT (now the #about target) -->
 <section class="intro-section" id="about">
