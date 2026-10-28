@@ -3,15 +3,178 @@
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
 // Prices marked "from" are minimums; all orders are reviewed before payment.
 const categories=[
-  ['Quick','Quick Interactions'],
-  ['Memberships','VIP & GFE'],
-  ['Bundles','Quick Bundles'],
-  ['Themed','Themed Sets'],
-  ['AlaCarte','À la Carte'],
-  ['Addons','Extras & Add-ons']
+  [
+    "Mid",
+    "$20 to $50 · Lives & More"
+  ],
+  [
+    "Budget",
+    "Under $20"
+  ],
+  [
+    "Memberships",
+    "VIP & GFE"
+  ],
+  [
+    "Customs",
+    "Custom Videos"
+  ],
+  [
+    "More",
+    "Calls & Extras"
+  ]
 ];
 const products=[
-  {section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
+{
+    "section": "Mid",
+    "name": "Live Snaps, 15 Minutes",
+    "price": 45,
+    "badge": "LIVE FAVORITE",
+    "description": "15 minutes of live Snapchat content, scheduled when I'm available.",
+    "note": "Live availability confirmed before payment."
+  },
+  {
+    "section": "Mid",
+    "name": "10 Live Pics & Videos",
+    "price": 20,
+    "description": "Ten pics and videos made live for you. We confirm the timing first."
+  },
+  {
+    "section": "Mid",
+    "name": "20 Live Pics & Videos",
+    "price": 40,
+    "description": "Double the live snaps. Twenty real time pics and videos."
+  },
+  {
+    "section": "Mid",
+    "name": "Live Bubble, 2+ Minutes",
+    "price": 35,
+    "description": "A personal live Snapchat bubble plus pics. Available when I'm online."
+  },
+  {
+    "section": "Mid",
+    "name": "1 Minute Live Interaction",
+    "price": 45,
+    "description": "A quick live request, subject to my approval and availability."
+  },
+  {
+    "section": "Mid",
+    "name": "Sexting, 10 Minutes",
+    "price": 20,
+    "unit": "text only",
+    "description": "Ten minutes of private one on one texting. Let's schedule it."
+  },
+  {
+    "section": "Mid",
+    "name": "Sexting, 15 Minutes",
+    "price": 35,
+    "unit": "text only",
+    "description": "Fifteen minutes of private one on one texting, scheduled with me."
+  },
+  {
+    "section": "Mid",
+    "name": "Casual Phone Call, 20 Minutes",
+    "price": 30,
+    "description": "A normal voice call and some one on one time. Casual conversation only."
+  },
+  {
+    "section": "Mid",
+    "name": "Video Dick Rate",
+    "price": 30,
+    "from": true,
+    "description": "A personalized video rating, priced from $30 up to $55 depending on the request.",
+    "note": "Final quote confirmed before payment."
+  },
+  {
+    "section": "Mid",
+    "name": "Big Photo Set With Videos",
+    "price": 30,
+    "pickCategory": true,
+    "description": "A bigger premade set with photos and videos. You pick the category."
+  },
+  {
+    "section": "Mid",
+    "name": "Custom Video, 1 Minute",
+    "price": 45,
+    "description": "One minute made for you, based on an approved request.",
+    "note": "Base price $45. Optional add ons may cost extra."
+  },
+  {
+    "section": "Mid",
+    "name": "20 Surprise Pics & Videos",
+    "price": 20,
+    "description": "Twenty surprises. Let me choose for you."
+  },
+  {
+    "section": "Mid",
+    "name": "50 Surprise Pics & Videos",
+    "price": 40,
+    "badge": "BEST CONTENT",
+    "description": "50 of my best pics and videos, with long videos included."
+  },
+  {
+    "section": "Mid",
+    "name": "Flash & 5 Live Teasers",
+    "price": 25,
+    "description": "A quick flash and five live teaser videos, when available."
+  },
+  {
+    "section": "Mid",
+    "name": "Five Feet Photos",
+    "price": 20,
+    "description": "Five feet photos, picked for you."
+  },
+{
+    "section": "Budget",
+    "name": "Premade Video, 1 Minute",
+    "price": 5,
+    "unit": "$5 per minute",
+    "pickCategory": true,
+    "description": "Pick a category. Add a quantity for more minutes. Subject to available videos."
+  },
+  {
+    "section": "Budget",
+    "name": "Single Photo",
+    "price": 2,
+    "from": true,
+    "pickCategory": true,
+    "priceDisplay": "$2 to $3",
+    "description": "Pick a category and choose your photo. Each photo is $2 or $3.",
+    "note": "The final price is confirmed for your selection."
+  },
+  {
+    "section": "Budget",
+    "name": "Premade Photo Set",
+    "price": 15,
+    "pickCategory": true,
+    "description": "A ready made photo set in the category you choose."
+  },
+  {
+    "section": "Budget",
+    "name": "Sexting, 5 Minutes",
+    "price": 15,
+    "unit": "text only",
+    "description": "Five minutes of private one on one texting. Scheduled with me."
+  },
+  {
+    "section": "Budget",
+    "name": "Text Dick Rate",
+    "price": 15,
+    "description": "A personalized written rating. No video included."
+  },
+  {
+    "section": "Budget",
+    "name": "Voice Note",
+    "price": 12,
+    "description": "A personal voice note from me."
+  },
+  {
+    "section": "Budget",
+    "name": "10 Surprise Pics & Videos",
+    "price": 10,
+    "description": "Ten surprise photos and videos. I choose the mix."
+  },
+{section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
    description:'Daily content, priority replies, and a little more of my time. For a month.',
    features:['1 month of OnlyFans access','Priority replies','Daily selfies and nudes','20 random photos','Casual calls only — no sexual FaceTimes']},
   {section:'Memberships',name:'VIP Daddy Package',price:150,unit:'3 months',group:'membership',badge:'Most Popular',
@@ -24,83 +187,115 @@ const products=[
   {section:'Memberships',name:'VIP / Daddy Membership Renewal',price:60,unit:'per renewal',group:'membership',
    description:'Already one of my favorites? Keep it going when your term ends.',
    note:'Renewal and next membership term are confirmed directly before payment.'},
-
-  {section:'Memberships',name:'OnlyFans — One Year',price:45,unit:'1 year',group:'of',
-   description:'The long game. A whole year, sorted directly with me.'},
-
-  {section:'Bundles',name:'10 Random Pics & Videos',price:10,
-   description:'Curated chaos. No theme, no rules, just whatever I felt like sending that day.'},
-  {section:'Bundles',name:'20 Surprise Pics & Videos',price:20,
-   description:'Twenty surprises. You\'re leaving the picking to me.'},
-  {section:'Bundles',name:'50 Surprise Pics & Videos',price:40,badge:'Bundle Favorite',
-   description:'50 of my BEST photos and videos. Long, full length videos included. No filler, just the good stuff.'},
-  {section:'Bundles',name:'Deluxe Dropbox — 800+',price:75,group:'vault',
-   description:'800+ photos and videos. Yes, I keep adding more.',
-   note:'Collection access is arranged after your order is confirmed.'},
-
-  {section:'Themed',name:'Signature Set',price:35,badge:'Most Popular',
-   description:'Five themed photos and a one-minute video. Cute little starter.'},
-  {section:'Themed',name:'Full Shoot Collection',price:50,
-   description:'Ten themed photos, two minutes of video. More of the good stuff.'},
-  {section:'Themed',name:'Custom Full Shoot — 2-Minute Video',price:90,
-   description:'Your idea, ten photos, and two minutes on video. If I approve it, I make it.'},
-  {section:'Themed',name:'Custom Full Shoot — 4-Minute Video',price:150,
-   description:'Four minutes of video and ten photos. You wanted extra.'},
-
-  {section:'AlaCarte',name:'Custom 10-Photo Set',price:45,from:true,
-   description:'Tell me your idea. I\'ll make ten photos if we\'re on the same page.'},
-  {section:'AlaCarte',name:'Custom 1-Minute Video',price:50,from:true,
-   description:'One minute, made to order. Tell me the vibe first.'},
-
-  {section:'Quick',name:'Detailed Rating',price:15,
-   description:'A detailed rating of you. Fair warning: I\'m honest.'},
-  {section:'Quick',name:'Voice Note',price:12,
-   description:'A personalized voice note. Yes, it\'s actually my voice. Yes, you\'ll replay it.'},
-  {section:'Quick',name:'Flash + 5 Live Teaser Videos',price:25,
-   description:'A quick flash and five live teasers. Try not to get distracted.'},
-  {section:'Quick',name:'1-Minute Live Ass / Tit / Spit Play',price:45,
-   description:'One minute, your pick. Only when I\'m actually available.'},
-  {section:'Quick',name:'Five Feet Photos',price:20,
-   description:'Five feet photos for the feet people. You know who you are.'},
-
-  {section:'Addons',name:'Dick Rating',price:35,
-   description:'A personalized rating. No sugarcoating.'},
-  {section:'Addons',name:'Custom Request',price:50,from:true,
-   description:'You tell me what you want, I tell you if it\'s doable. Starts at $50.'},
-  {section:'Addons',name:'Live Show',price:55,
-   description:'A live show, when we\'re both free. We schedule it first.'},
-  {section:'Addons',name:'Say Your Name / Talk Dirty',price:25,extra:true,
-   description:'Your name, my voice. Add it to an eligible custom or live.'},
-  {section:'Addons',name:'Dommy Mommy Mode',price:30,extra:true,
-   description:'Want me to take charge? Add this to an eligible custom request.'},
-  {section:'Addons',name:'Submissive Mode',price:20,extra:true,
-   description:'Want to switch it up? Add this to an eligible custom request.'},
-  {section:'Addons',name:'Panty Play',price:20,extra:true,
-   description:'An extra for an eligible request. We\'ll confirm the details first.'},
-  {section:'Addons',name:'Themed Shoot Priority — 12 Hours',price:15,extra:true,
-   description:'Bought the outfit? Ask to move your shoot up once it arrives.'},
-  {section:'Addons',name:'À la Carte Priority — 6 Hours',price:15,extra:true,
-   description:'Need it sooner? Six hours if I\'m free. Ask first.'},
-  {section:'Addons',name:'Quick Interaction Priority — 30 Minutes',price:10,extra:true,
-   description:'In a rush? Thirty minutes if I\'m home. Ask, don\'t assume.'}
+{
+    "section": "Memberships",
+    "name": "OnlyFans, One Year",
+    "price": 45,
+    "unit": "1 year",
+    "group": "of",
+    "description": "A whole year of OnlyFans, arranged directly with me."
+  },
+{
+    "section": "Customs",
+    "name": "Custom Video, 2 Minutes",
+    "price": 55,
+    "description": "Two minutes made to order after I approve the idea.",
+    "note": "Base price $55. Optional add ons may cost extra."
+  },
+  {
+    "section": "Customs",
+    "name": "Custom Video, 3 Minutes",
+    "price": 65,
+    "description": "Three minutes made to order after I approve the idea.",
+    "note": "Base price $65. Optional add ons may cost extra."
+  },
+  {
+    "section": "Customs",
+    "name": "Custom Video, 4 Minutes",
+    "price": 75,
+    "description": "Four minutes made to order after I approve the idea.",
+    "note": "Base price $75. Optional add ons may cost extra."
+  },
+{
+    "section": "More",
+    "name": "Casual Phone Call, 40 Minutes",
+    "price": 60,
+    "description": "A longer casual voice call, scheduled with me."
+  },
+  {
+    "section": "More",
+    "name": "Casual Phone Call, 1 Hour",
+    "price": 70,
+    "description": "A full hour to talk. Casual conversation only."
+  },
+  {
+    "section": "More",
+    "name": "Worn Panties",
+    "price": 50,
+    "from": true,
+    "description": "Worn panties, from $50 up to $200 depending on the request.",
+    "note": "Availability, shipping details and the final price are confirmed before payment."
+  },
+  {
+    "section": "More",
+    "name": "Worn Socks",
+    "price": 50,
+    "from": true,
+    "description": "Worn socks, from $50 up to $200 depending on the request.",
+    "note": "Availability, shipping details and the final price are confirmed before payment."
+  },
+  {
+    "section": "More",
+    "name": "Deluxe Dropbox, 800+ Items",
+    "price": 75,
+    "group": "vault",
+    "description": "800+ photos and videos, with new uploads added regularly."
+  },
+  {
+    "section": "More",
+    "name": "Custom Request Add On",
+    "price": 20,
+    "from": true,
+    "extra": true,
+    "description": "Want a little something extra on an approved custom? Ask first.",
+    "note": "Price varies by request and is always confirmed before payment."
+  },
+  {
+    "section": "More",
+    "name": "Quick Delivery Priority",
+    "price": 10,
+    "extra": true,
+    "description": "Priority delivery within 30 minutes when I am home and available.",
+    "note": "Ask before buying. This is not guaranteed."
+  }
 ];
 const notes={
-  Memberships:[
-    'Membership perks are arranged directly with me; the private website member lounge is still coming soon.',
-    'Paid FaceTimes may be requested by active VIP Daddy or Ultimate VIP Daddy members, or consistent buyers of pre-made content/lives. Eligibility does not guarantee scheduling; I confirm the time and price first.'
+  "Mid": [
+    "Live content and calls are scheduled with me. Please confirm availability before paying.",
+    "All times and quantities refer to the item you select. There are no automatic bookings."
   ],
-  // The direct OnlyFans profile link lives beside the category tabs. The yearly plan remains under VIP & GFE.
-  Bundles:['Available content: Squirt • B/G • Solo • Dildo. Take your pick.'],
-  Themed:['If I don’t have the lingerie you want, you can purchase it through Amazon.','Delivery is 1–2 days after the lingerie arrives; 12-hour priority after arrival is +$15, subject to confirmation.'],
-  AlaCarte:['Usual delivery: within 24 hours. Priority within 6 hours: +$15, if available.'],
-  Quick:['Usual delivery: within 6 hours. Priority within 30 minutes: +$10 if I’m home and available.','10-minute delivery is only possible if I’m already dressed and ready — ask me first.'],
-  Addons:['FaceTimes require an active VIP Daddy/Ultimate VIP Daddy package or consistent content/live purchases, plus my approval. All calls are paid; add-ons and scheduling are confirmed before payment.']
+  "Budget": [
+    "For premade photos and videos, choose your content category before adding to the bag.",
+    "Premade video pricing is $5 per minute. Single photos are $2 to $3 each. Quotes are confirmed before payment."
+  ],
+  "Memberships": [
+    "Membership perks are arranged directly with me; private lounge access is still being built.",
+    "Paid FaceTimes are not included with VIP. Eligibility and scheduling are confirmed directly."
+  ],
+  "Customs": [
+    "Custom video base prices: 1 minute $45, 2 minutes $55, 3 minutes $65, 4 minutes $75.",
+    "Optional add ons cost extra and all requests are subject to approval."
+  ],
+  "More": [
+    "Worn items range from $50 to $200. Any shipping charges are confirmed separately.",
+    "Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment."
+  ]
 };
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Choose what you want, add it to your bag, and send me your order. Customs get a quote first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then shop under $20, VIP, customs and extras. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -135,10 +330,12 @@ function menuAction(p){
  if(p.name==='Basic GFE')return {label:'Start with GFE',variant:'btn-primary'};
  if(p.name.includes('Membership Renewal'))return {label:'Renew my VIP',variant:'btn-secondary'};
  if(p.group==='vault')return {label:'Get the vault',variant:'btn-primary'};
- if(p.section==='Bundles')return {label:'Grab this bundle',variant:'btn-secondary'};
- if(/Custom/i.test(p.name))return {label:'Request this custom',variant:'btn-primary'};
- if(p.section==='Themed')return {label:'Pick this set',variant:'btn-secondary'};
- if(p.section==='Addons')return {label:'Add this extra',variant:'btn-secondary'};
+ if(p.name.includes('Live'))return {label:'Choose this live',variant:'btn-primary'};
+ if(p.name.includes('Sexting'))return {label:'Choose this session',variant:'btn-primary'};
+ if(p.name.includes('Phone Call'))return {label:'Request a call',variant:'btn-secondary'};
+ if(p.name.includes('Custom'))return {label:'Request this custom',variant:'btn-primary'};
+ if(p.name.includes('Worn'))return {label:'Ask about this',variant:'btn-secondary'};
+ if(p.section==='Mid')return {label:'Add this pick',variant:'btn-primary'};
  return {label:'Add to bag',variant:'btn-secondary'};
 }
 categories.forEach(([section],i)=>{
@@ -162,7 +359,73 @@ categories.forEach(([section],i)=>{
      info.append(list);
    }
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
-   const amount=el('strong','offer-price', (p.extra?'+':'')+'$'+p.price+(p.from?'+':''));
+   const amount=el('strong','offer-price',p.priceDisplay||((p.extra?'+':'')+'
+   const cta=menuAction(p);
+   const action=el('button','offer-btn add-product btn '+cta.variant);
+   action.type='button';
+   action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
+   action.dataset.price=String(p.price);
+   action.dataset.cta=cta.label;
+   if(p.group)action.dataset.exclusive=p.group;
+   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
+   action.append(el('span','menu-v2-add-label',cta.label));
+   if(p.pickCategory){
+     const categoryLabel=el('label','menu-v2-choice-label','Pick your category');
+     const categorySelect=el('select','menu-v2-category-select');
+     const categoryId='menu-category-'+section+'-'+panel.children.length;
+     categorySelect.id=categoryId;
+     categoryLabel.htmlFor=categoryId;
+     const prompt=el('option','','Choose a category');prompt.value='';prompt.disabled=true;prompt.selected=true;categorySelect.append(prompt);
+     ['Solo','B/G','Squirt','Dildo','Feet','Surprise me'].forEach(function(choice){const opt=el('option','',choice);opt.value=choice;categorySelect.append(opt)});
+     const baseName=action.dataset.name;
+     action.disabled=true;
+     categorySelect.addEventListener('change',function(){action.dataset.name=baseName+' | '+categorySelect.value;action.disabled=!categorySelect.value;action.setAttribute('aria-label',cta.label+': '+action.dataset.name+', 
+   card.append(info,buy);panel.append(card);
+ });
+ const list=notes[section]||[];
+ if(list.length){
+  const note=el('div','menu-v2-notes');
+  list.forEach(s=>note.append(el('p','',s)));
+  panel.append(note);
+ }
+ root.append(panel);
+});
+})();+p.price+(p.from?'+':'')));
+   const cta=menuAction(p);
+   const action=el('button','offer-btn add-product btn '+cta.variant);
+   action.type='button';
+   action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
+   action.dataset.price=String(p.price);
+   action.dataset.cta=cta.label;
+   if(p.group)action.dataset.exclusive=p.group;
+   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
+   action.append(el('span','menu-v2-add-label',cta.label));
+   const buy=el('div','menu-v2-buy');buy.append(amount,action);
+   card.append(info,buy);panel.append(card);
+ });
+ const list=notes[section]||[];
+ if(list.length){
+  const note=el('div','menu-v2-notes');
+  list.forEach(s=>note.append(el('p','',s)));
+  panel.append(note);
+ }
+ root.append(panel);
+});
+})();+p.price+'. Adds to your bag for review.')});
+     info.append(categoryLabel,categorySelect);
+   }
+   const buy=el('div','menu-v2-buy');buy.append(amount,action);
+   card.append(info,buy);panel.append(card);
+ });
+ const list=notes[section]||[];
+ if(list.length){
+  const note=el('div','menu-v2-notes');
+  list.forEach(s=>note.append(el('p','',s)));
+  panel.append(note);
+ }
+ root.append(panel);
+});
+})();+p.price+(p.from?'+':'')));
    const cta=menuAction(p);
    const action=el('button','offer-btn add-product btn '+cta.variant);
    action.type='button';
