@@ -13,7 +13,8 @@ const authClient = createClient(SB_URL, SB_ANON, sbOptions);
 const admin = createClient(SB_URL, SB_SERVICE, sbOptions);
 const urlPattern = /^https:\/\/(link\.)?ofauth\.com\//i;
 const idPattern = /^conn_[A-Za-z0-9_-]{3,180}$/;
-const disabled = !OF_KEY;
+// Explicit flag prevents enabling a third-party account-access flow before consent and sandbox review.
+const disabled = !OF_KEY || Deno.env.get("OFAUTH_LINK_ENABLED") !== "true";
 
 function cors(origin: string): Headers {
   const h = new Headers({
@@ -31,10 +32,10 @@ function display(row: any) {
   return { connected: row?.state === "connected", pending: row?.state === "pending",
     connected_at: row?.state === "connected" ? row.connected_at : null };
 }
-async function provider(path: string, init?: Record<string, unknown>) {
+async function provider(path: string, init?: Record<string, unknown>, method: "GET"|"POST"|"DELETE" = init ? "POST" : "GET") {
   if (!OF_KEY) throw new Error("NOT_CONFIGURED");
   const response = await fetch(API + path, {
-    method: init ? "POST" : "GET",
+    method,
     headers: { apikey: OF_KEY, ...(init ? {"Content-Type": "application/json"} : {}) },
     body: init ? JSON.stringify(init) : undefined,
     signal: AbortSignal.timeout(12000)
@@ -109,6 +110,20 @@ Deno.serve(async (req: Request) => {
         link_client_secret:null,reference_id:null,
         started_at:row.started_at,connected_at:new Date().toISOString(),updated_at:new Date().toISOString()});
       return json(origin,200,{available:true,link:{connected:true,pending:false}});
+    }
+    if (body.action === "disconnect") {
+      if (!row || row.state !== "connected" || !row.connection_id)
+        return json(origin,200,{link:{connected:false,pending:false}});
+      // Only remove the local link after OFAuth confirms provider-side revocation.
+      // Do not silently claim revocation when a vendor endpoint is unavailable.
+      const response = await fetch(API+"/account/connections/"+encodeURIComponent(row.connection_id), {
+        method:"DELETE",headers:{apikey:OF_KEY},signal:AbortSignal.timeout(12000)
+      });
+      if (!response.ok)
+        return json(origin,502,{error:"Could not revoke access at OFAuth. The link is still active. Please contact support."});
+      const del=await admin.from("evie_ofauth_links").delete().eq("user_id",user.id).eq("connection_id",row.connection_id);
+      if (del.error) throw del.error;
+      return json(origin,200,{link:{connected:false,pending:false}});
     }
     if (body.action === "cancel") {
       if (row?.state === "pending") {
