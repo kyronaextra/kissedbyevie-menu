@@ -2,6 +2,13 @@
 
 Public entry point: `/account.html`
 
+## Access model (October 28, 2026)
+
+- **Continue as Guest:** browse public menu, existing public previews and public site without giving email or creating any Supabase identity. This is intentionally not Supabase anonymous sign-in. It avoids creating disposable accounts that are easy to lose and avoids widening existing authenticated RLS policies.
+- **Create account / sign in:** permanent free email + username + PIN login with saved alert preferences. Free registration does not grant private media access.
+- **Paid / VIP:** requires an authenticated permanent account, separate paid approval and age verification for protected media. Never infer paid entitlement from an authenticated session or user-controlled metadata. The existing Supabase RLS private-gallery policy requires active Daddy tier and verified age.
+- The homepage gate now offers both guest browsing and account creation. Guest choice is stored only as a local browser preference, not an auth account. `?browse=guest` can open the public menu directly from the account page; it does not bypass private media authorization.
+
 ## Shipped
 
 - Free account signup (email, login username, 8 digit PIN) with no link, once the Supabase Confirm email requirement is disabled.
