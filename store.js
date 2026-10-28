@@ -363,7 +363,7 @@ categories.forEach(([section],i)=>{
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
     const onSale=vipSaleActive&&vipSaleNames.has(p.name);
     const effectivePrice=onSale?Math.round(p.price*0.60*100)/100:p.price;
-    const amount=el('strong','offer-price'+(onSale?' vip-sale-price':''),onSale?null:(p.priceDisplay||((p.extra?'+':'')+'$'+p.price+(p.from?'+''))));
+    const amount=el('strong','offer-price'+(onSale?' vip-sale-price':''),onSale?null:(p.priceDisplay||((p.extra?'+':'')+'$'+p.price+(p.from?'+':''))));
     if(onSale)amount.append(el('s','vip-sale-was','$'+p.price),el('span','vip-sale-now','$'+effectivePrice),el('span','vip-sale-flag','40% OFF · ENDS 10/31'));
    const cta=menuAction(p);
    const action=el('button','offer-btn add-product btn '+cta.variant);
