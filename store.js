@@ -359,59 +359,30 @@ categories.forEach(([section],i)=>{
      info.append(list);
    }
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
-   const amount=el('strong','offer-price',p.priceDisplay||((p.extra?'+':'')+'
+   const amount=el('strong','offer-price',p.priceDisplay||((p.extra?'+':'')+'$'+p.price+(p.from?'+':'')));
    const cta=menuAction(p);
    const action=el('button','offer-btn add-product btn '+cta.variant);
    action.type='button';
-   action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
+   const baseName=p.name+(p.from?' (starting at $'+p.price+')':'');
+   action.dataset.name=baseName;
    action.dataset.price=String(p.price);
    action.dataset.cta=cta.label;
    if(p.group)action.dataset.exclusive=p.group;
    action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
    action.append(el('span','menu-v2-add-label',cta.label));
    if(p.pickCategory){
-     const categoryLabel=el('label','menu-v2-choice-label','Pick your category');
+     const categoryLabel=el('label','menu-v2-choice-label','Pick a category');
      const categorySelect=el('select','menu-v2-category-select');
      const categoryId='menu-category-'+section+'-'+panel.children.length;
-     categorySelect.id=categoryId;
-     categoryLabel.htmlFor=categoryId;
+     categorySelect.id=categoryId; categoryLabel.htmlFor=categoryId;
      const prompt=el('option','','Choose a category');prompt.value='';prompt.disabled=true;prompt.selected=true;categorySelect.append(prompt);
      ['Solo','B/G','Squirt','Dildo','Feet','Surprise me'].forEach(function(choice){const opt=el('option','',choice);opt.value=choice;categorySelect.append(opt)});
-     const baseName=action.dataset.name;
      action.disabled=true;
-     categorySelect.addEventListener('change',function(){action.dataset.name=baseName+' | '+categorySelect.value;action.disabled=!categorySelect.value;action.setAttribute('aria-label',cta.label+': '+action.dataset.name+', 
-   card.append(info,buy);panel.append(card);
- });
- const list=notes[section]||[];
- if(list.length){
-  const note=el('div','menu-v2-notes');
-  list.forEach(s=>note.append(el('p','',s)));
-  panel.append(note);
- }
- root.append(panel);
-});
-})();+p.price+(p.from?'+':'')));
-   const cta=menuAction(p);
-   const action=el('button','offer-btn add-product btn '+cta.variant);
-   action.type='button';
-   action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
-   action.dataset.price=String(p.price);
-   action.dataset.cta=cta.label;
-   if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
-   action.append(el('span','menu-v2-add-label',cta.label));
-   const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   card.append(info,buy);panel.append(card);
- });
- const list=notes[section]||[];
- if(list.length){
-  const note=el('div','menu-v2-notes');
-  list.forEach(s=>note.append(el('p','',s)));
-  panel.append(note);
- }
- root.append(panel);
-});
-})();+p.price+'. Adds to your bag for review.')});
+     categorySelect.addEventListener('change',function(){
+       action.dataset.name=baseName+' | '+categorySelect.value;
+       action.disabled=!categorySelect.value;
+       action.setAttribute('aria-label',cta.label+': '+action.dataset.name+'. Adds to your bag for review.');
+     });
      info.append(categoryLabel,categorySelect);
    }
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
@@ -419,30 +390,9 @@ categories.forEach(([section],i)=>{
  });
  const list=notes[section]||[];
  if(list.length){
-  const note=el('div','menu-v2-notes');
-  list.forEach(s=>note.append(el('p','',s)));
-  panel.append(note);
- }
- root.append(panel);
-});
-})();+p.price+(p.from?'+':'')));
-   const cta=menuAction(p);
-   const action=el('button','offer-btn add-product btn '+cta.variant);
-   action.type='button';
-   action.dataset.name=p.name+(p.from?' (starting at $'+p.price+')':'');
-   action.dataset.price=String(p.price);
-   action.dataset.cta=cta.label;
-   if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+p.price+'. Adds to your bag for review.');
-   action.append(el('span','menu-v2-add-label',cta.label));
-   const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   card.append(info,buy);panel.append(card);
- });
- const list=notes[section]||[];
- if(list.length){
-  const note=el('div','menu-v2-notes');
-  list.forEach(s=>note.append(el('p','',s)));
-  panel.append(note);
+   const note=el('div','menu-v2-notes');
+   list.forEach(s=>note.append(el('p','',s)));
+   panel.append(note);
  }
  root.append(panel);
 });
