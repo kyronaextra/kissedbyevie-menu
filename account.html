@@ -12,15 +12,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="account.css?v=20261028-1">
+<link rel="stylesheet" href="account.css?v=20261028-guest-entry-1">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
-<script defer src="account.js?v=20261028-2"></script>
+<script defer src="account.js?v=20261028-guest-entry-1"></script>
 </head>
 <body>
 <header class="header">
 <a class="wordmark" href="./">KISSEDBYEVIE <span>✧</span></a>
-<a class="back" href="./">Back to my menu</a>
+<a class="back" href="./?browse=guest#boutique">Browse as Guest</a>
 </header>
 <main class="layout">
 <section class="intro" aria-label="Your Evie account">
@@ -28,6 +28,8 @@
 <h1>Stay in<br><em>my loop.</em></h1>
 <p>Make a free account, save your username and pick which updates you actually want. No VIP purchase required just to join.</p>
 <div class="intro-note"><span class="sparkle">✧</span><span>Live reminders, FT availability, and account settings all in one place.</span></div>
+<a class="guest-shortcut" href="./?browse=guest#boutique">Continue as Guest <span aria-hidden="true">↗</span></a>
+<p class="guest-note">Just looking? No account necessary. Browsing never unlocks private content.</p>
 </section>
 <section class="panel" aria-label="Account and alert preferences">
 <div id="authPanel">
@@ -84,7 +86,7 @@
 <p class="formnote">Your choices are saved securely. Emails aren't being sent yet while a compatible delivery service and livestream trigger are being connected. For immediate stream alerts, visit my Stripchat profile and use its “Notify when online” feature.</p>
 </form>
 <div class="sms-note"><strong>What about texts?</strong><p>SMS alerts aren't active. I don't collect your phone number for these until a carrier-approved option is available. Your email preferences still work independently.</p></div>
-<a href="./" class="return-menu">Back to my menu <span>↗</span></a>
+<a href="./?browse=guest#boutique" class="return-menu">Back to my menu <span>↗</span></a>
 </div>
 <div class="feedback" id="accountMessage" role="status" aria-live="polite"></div>
 <div class="setup-error" id="setupError" hidden>Account sign-in isn't available right now. Please come back later.</div>
