@@ -4,3 +4,16 @@
 .guest-shortcut{display:flex;align-items:center;justify-content:space-between;gap:15px;width:min(100%,380px);border:1px solid #e0a8c0;border-radius:9px;padding:15px 18px;margin-top:28px;color:var(--white);font-size:13px;font-weight:700;text-decoration:none}
 .guest-shortcut:hover{background:rgba(243,182,206,.12)}
 .guest-note{font-size:12px!important;margin:10px 0 0!important;color:var(--muted)!important}
+
+/* Optional OnlyFans linking stays separate from free registration and VIP entitlement. */
+.ofauth-card{margin:22px 0 27px;padding:22px;border:1px solid rgba(243,182,206,.3);background:rgba(244,155,194,.07);border-radius:12px}
+.ofauth-card h3{font:normal clamp(28px,5vw,39px)/1.1 'Italiana',Georgia,serif;margin:8px 0 11px}
+.ofauth-card h3 em{color:var(--rose)}
+.ofauth-card>p:not(.formnote){margin:0 0 16px;font-size:13px;line-height:1.6;color:var(--muted)}
+.ofauth-state{font-size:12px;line-height:1.6;color:var(--white);padding:11px 0}
+.ofauth-buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ofauth-buttons .primary{width:auto;min-height:45px}
+.ofauth-buttons button[hidden]{display:none!important}
+.ofauth-buttons button:disabled{opacity:.5;cursor:not-allowed}
+.ofauth-card .formnote{line-height:1.6;margin:18px 0 0}
+.ofauth-card .formnote a{color:var(--rose);text-decoration:underline}
