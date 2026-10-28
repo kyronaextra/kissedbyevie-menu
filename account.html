@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="account.css?v=20261028-1">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
-<script defer src="account.js?v=20261028-1"></script>
+<script defer src="account.js?v=20261028-2"></script>
 </head>
 <body>
 <header class="header">
@@ -53,7 +53,7 @@
 <label class="checkline"><input type="checkbox" id="ageConsent" required><span>I'm at least 18 and understand this is an adult creator's site. This does not grant access to paid or restricted content.</span></label>
 <button class="primary" type="submit">Create my free account <span aria-hidden="true">↗</span></button>
 </form>
-<p class="formnote">I only use your details for your account and alerts you choose. Creating an account doesn't subscribe you to anything automatically.</p>
+<p class="formnote">I only use your details for your account and alerts you choose. No confirmation link required once instant signups are enabled. Creating an account doesn't subscribe you to anything automatically.</p>
 </div>
 <div id="loginArea" hidden>
 <p class="eyebrow">WELCOME BACK</p>
@@ -65,17 +65,10 @@
 </form>
 <p class="formnote">Forgot your PIN? <a href="https://t.me/kissedbyevie" rel="noopener noreferrer" target="_blank">Message me on Telegram</a> for account recovery. Never share your PIN.</p>
 </div>
-<div id="verifyArea" hidden>
-<p class="eyebrow">ONE QUICK THING</p>
-<h2>Check your <em>inbox.</em></h2>
-<p id="verifyText">Open the verification email, then come back and sign in.</p>
-<button type="button" class="outline" id="resend">Resend confirmation email</button>
-<button type="button" class="textbutton" id="backToLogin">Back to sign in</button>
-</div>
 </div>
 <div id="dashboard" hidden>
 <div class="dashboard-top"><div><span class="eyebrow">FREE MEMBER ACCOUNT</span><h2>You're <em>in.</em></h2></div><button type="button" class="outline small" id="signOut">Sign out</button></div>
-<div class="identity"><span id="accountUsername">@member</span><small id="accountEmail">Verified account</small></div>
+<div class="identity"><span id="accountUsername">@member</span><small id="accountEmail">Account email</small></div>
 <div class="membership"><span>YOUR ACCESS</span><strong id="membershipStatus">Free account</strong><small>VIP perks and private content require separate purchase and approval.</small></div>
 <form id="alertsForm">
 <div class="alerts-title"><span class="eyebrow">NOTIFICATION SETTINGS</span><h3>Tell me when.</h3><p>Pick what you want to hear about. You can change your mind anytime.</p></div>
