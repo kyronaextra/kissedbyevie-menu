@@ -13,8 +13,9 @@
 <title>EVIE’S MENU 💗</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20261027-menu-flash-2">
+<link rel="stylesheet" href="evie-nav.css?v=20261028-explore-1">
 <link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
 <link rel="stylesheet" href="public-gallery.css?v=20261027-gallery-1">
@@ -22,6 +23,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="store.js?v=20261027-price-refresh-1"></script>
 <script defer src="app.js?v=20261027-price-refresh-1"></script>
+<script defer src="evie-nav.js?v=20261028-explore-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="public-gallery.js?v=20261027-gallery-1"></script>
@@ -51,13 +53,45 @@
 <header class="site-header">
   <a class="wordmark" href="#top">KISSEDBYEVIE <span aria-hidden="true">✧</span></a>
   <nav class="site-nav" aria-label="Main navigation">
-    <a href="#boutique">Menu</a>
-    <a href="#members">VIP Memberships</a>
-    <a href="#about">About Me</a>
-    <a href="#blog">Blog</a>
-    <a class="nav-shop" href="#boutique">Shop the Menu</a>
+    <div class="evie-nav-quick">
+      <a href="#boutique">Menu</a>
+      <a href="#members">VIP Memberships</a>
+      <a href="#about">About Me</a>
+      <a href="#blog">Blog</a>
+    </div>
+    <button class="evie-nav-toggle" type="button" id="evieNavToggle" aria-haspopup="dialog" aria-controls="evieNavDialog" aria-expanded="false">
+      <span>EXPLORE</span><span class="evie-nav-toggle-bars" aria-hidden="true"></span>
+    </button>
   </nav>
 </header>
+<dialog id="evieNavDialog" class="evie-nav-dialog" aria-labelledby="evieNavTitle">
+  <div class="evie-nav-inner">
+    <div class="evie-nav-top">
+      <span class="evie-nav-overline">KISSEDBYEVIE / THE PRIVATE INDEX</span>
+      <button type="button" class="evie-nav-close" id="evieNavClose" aria-label="Close navigation">CLOSE <span aria-hidden="true">×</span></button>
+    </div>
+    <h2 class="evie-nav-title" id="evieNavTitle">Where to, <em>darling?</em></h2>
+    <nav class="evie-nav-grid" aria-label="Explore this website">
+      <a class="evie-nav-card" href="#about">
+        <span class="evie-nav-card-index">ACCESS 001</span>
+        <span><span class="evie-nav-card-title">Just <em>lurking.</em></span><span class="evie-nav-card-caption">About me &amp; socials</span></span>
+      </a>
+      <a class="evie-nav-card evie-nav-card--featured" href="#boutique">
+        <span class="evie-nav-card-index">ACCESS 002</span>
+        <span><span class="evie-nav-card-title">Shop <em>my menu.</em></span><span class="evie-nav-card-caption">The good stuff</span></span>
+      </a>
+      <a class="evie-nav-card" href="#vip">
+        <span class="evie-nav-card-index">ACCESS 003</span>
+        <span><span class="evie-nav-card-title">The <em>VIP club.</em></span><span class="evie-nav-card-caption">Memberships &amp; perks</span></span>
+      </a>
+      <button type="button" class="evie-nav-card" data-open-vip-terms aria-haspopup="dialog">
+        <span class="evie-nav-card-index">ACCESS 004</span>
+        <span><span class="evie-nav-card-title">House <em>rules.</em></span><span class="evie-nav-card-caption">Read before buying</span></span>
+      </button>
+    </nav>
+    <div class="evie-nav-footer"><a href="#blog">READ THE BLOG</a><a href="#members">VIP MEMBERSHIPS</a></div>
+  </div>
+</dialog>
 
 <main>
 
@@ -119,33 +153,6 @@
         <span>02 / OPEN PHOTO</span>
       </button>
     </div>
-  </div>
-</section>
-
-<!-- ============ NEW: START HERE CHOOSER ============ -->
-<section class="chooser" aria-label="Where to start">
-  <h2>Where do you wanna go?</h2>
-  <div class="chooser-grid">
-    <a class="choice" href="#about">
-      <span class="choice-emoji" aria-hidden="true">👋</span>
-      <h3>Just here to lurk</h3>
-      <p>About me, socials, zero commitment. Perfectly valid.</p>
-    </a>
-    <a class="choice" href="#boutique">
-      <span class="choice-emoji" aria-hidden="true">💸</span>
-      <h3>Buy something</h3>
-      <p>Straight to the menu. Prices are right there, no games.</p>
-    </a>
-    <a class="choice" href="#vip">
-      <span class="choice-emoji" aria-hidden="true">👑</span>
-      <h3>Go VIP</h3>
-      <p>Set-term access, priority replies, and I actually know your name. No auto-charges.</p>
-    </a>
-    <button type="button" class="choice" data-open-vip-terms aria-haspopup="dialog">
-      <span class="choice-emoji" aria-hidden="true">📖</span>
-      <h3>Read the rules first</h3>
-      <p>Yes, read them. I mean it.</p>
-    </button>
   </div>
 </section>
 
