@@ -1,0 +1,97 @@
+/* KissedByEvie custom editorial navigation */
+.site-header .site-nav{display:flex;align-items:center;gap:18px}
+.evie-nav-quick{display:flex;gap:clamp(14px,2vw,29px);align-items:center}
+.evie-nav-quick a{font-size:12px;text-decoration:none;letter-spacing:.035em;transition:color .2s}
+.evie-nav-quick a:hover{color:#f7bdcf}
+.evie-nav-toggle{
+  appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:14px;
+  min-height:43px;padding:10px 15px 10px 18px;color:#fff0f7;
+  border:1px solid rgba(246,174,209,.84);background:linear-gradient(120deg,#4b2239,#21101d);
+  border-radius:2px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  font:700 10px/1 "Syne",sans-serif;letter-spacing:.17em;cursor:pointer;
+  transition:background .25s,filter .25s,transform .25s;white-space:nowrap;
+}
+.evie-nav-toggle:hover,.evie-nav-toggle[aria-expanded="true"]{background:linear-gradient(120deg,#8a3c61,#442138);filter:brightness(1.12)}
+.evie-nav-toggle:active{transform:scale(.97)}
+.evie-nav-toggle-bars{display:flex;flex-direction:column;justify-content:center;gap:4px;width:17px;height:18px}
+.evie-nav-toggle-bars::before,.evie-nav-toggle-bars::after{content:"";height:1px;width:100%;background:#f9bed9;display:block;transition:transform .2s}
+.evie-nav-toggle[aria-expanded="true"] .evie-nav-toggle-bars::before{transform:translateY(2.5px) rotate(45deg)}
+.evie-nav-toggle[aria-expanded="true"] .evie-nav-toggle-bars::after{transform:translateY(-2.5px) rotate(-45deg)}
+body.evie-nav-open{overflow:hidden}
+.evie-nav-dialog{
+  position:fixed;inset:0;margin:auto;width:min(900px,calc(100vw - 36px));max-width:none;
+  max-height:min(90dvh,760px);padding:0;border:1px solid rgba(231,156,191,.55);
+  border-radius:5px;background:#110a11;color:#f9eaf0;box-shadow:0 24px 95px #000b;
+  overflow-y:auto;overscroll-behavior:contain;
+}
+.evie-nav-dialog::backdrop{background:rgba(5,2,5,.82);backdrop-filter:blur(13px)}
+.evie-nav-dialog[open]{animation:evieNavReveal .33s cubic-bezier(.2,.8,.2,1) both}
+@keyframes evieNavReveal{from{opacity:0;transform:translateY(15px) scale(.985)}to{opacity:1;transform:none}}
+.evie-nav-inner{padding:clamp(24px,4.5vw,46px);background:
+  radial-gradient(ellipse at 86% 3%,rgba(138,54,92,.24),transparent 49%),
+  linear-gradient(145deg,#1d101a,#100a10 70%)}
+.evie-nav-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.evie-nav-overline,.evie-nav-meta{
+  font:600 9px/1.5 "Syne",sans-serif;text-transform:uppercase;letter-spacing:.18em;color:#dca5bf
+}
+.evie-nav-close{
+  border:0;background:transparent;color:#f3ccde;font:600 11px "Syne",sans-serif;letter-spacing:.11em;
+  padding:8px;min-height:38px;display:flex;align-items:center;gap:11px;cursor:pointer
+}
+.evie-nav-close span{font:normal 25px/1 "Instrument Serif",Georgia,serif}
+.evie-nav-title{font:400 clamp(46px,6.5vw,83px)/.96 "Instrument Serif",Georgia,serif;
+  letter-spacing:-.02em;margin:23px 0 25px;color:#fff1f7}
+.evie-nav-title em{color:#f1a7c9;font-weight:400}
+.evie-nav-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.evie-nav-card{
+  isolation:isolate;position:relative;display:flex;flex-direction:column;justify-content:space-between;
+  gap:14px;text-align:left;min-width:0;min-height:150px;padding:19px;
+  border:1px solid #80576e;border-radius:1px;background:linear-gradient(140deg,#271522,#180e19);
+  clip-path:polygon(0 0,calc(100% - 15px) 0,100% 15px,100% 100%,15px 100%,0 calc(100% - 15px));
+  color:#fff0f7;text-decoration:none;cursor:pointer;overflow:hidden;
+  transition:background .3s,transform .26s,filter .26s,border-color .26s
+}
+.evie-nav-card:before{
+  content:"";position:absolute;z-index:-1;top:-110%;left:-85%;height:330%;width:50%;transform:rotate(21deg);
+  background:linear-gradient(90deg,transparent,rgba(255,197,223,.16),transparent);
+  transition:left .6s ease
+}
+.evie-nav-card:hover:before,.evie-nav-card:focus-visible:before{left:135%}
+.evie-nav-card:hover,.evie-nav-card:focus-visible{border-color:#ffc8e1;filter:brightness(1.1);transform:translateY(-3px)}
+.evie-nav-card:active{transform:scale(.98)}
+.evie-nav-card--featured{background:linear-gradient(140deg,#913e69,#4b1e3a 75%);border-color:#eda6c9}
+.evie-nav-card-index{font:700 9px "Syne",sans-serif;letter-spacing:.16em;color:#e5b6cb}
+.evie-nav-card--featured .evie-nav-card-index{color:#ffe0ee}
+.evie-nav-card-title{display:block;font:400 clamp(29px,4vw,45px)/.9 "Instrument Serif",Georgia,serif;letter-spacing:-.015em}
+.evie-nav-card-title em{font-weight:400;color:#ffb9dc}
+.evie-nav-card-caption{display:block;margin-top:8px;color:#d1b0c1;font:500 9px/1.35 "Syne",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.evie-nav-card--featured .evie-nav-card-caption{color:#ffe0ef}
+.evie-nav-footer{border-top:1px solid #614255;margin-top:21px;padding-top:17px;display:flex;flex-wrap:wrap;gap:14px 25px}
+.evie-nav-footer a{font:600 10px "Syne",sans-serif;letter-spacing:.12em;text-decoration:none;color:#f2c5da;text-transform:uppercase}
+.evie-nav-footer a:hover{color:#fff}
+@media(max-width:700px){
+  .site-header{display:flex!important;flex-direction:row!important;align-items:center!important;
+    justify-content:space-between;gap:12px;padding:13px 16px!important;
+    background:rgba(13,6,11,.94)}
+  .site-header .wordmark{align-self:center!important;letter-spacing:.1em;min-width:0}
+  .site-header .site-nav{width:auto!important;display:flex;justify-content:flex-end;gap:0}
+  .evie-nav-quick{display:none}
+  .evie-nav-toggle{min-height:41px;padding:9px 12px 9px 15px;gap:10px;font-size:10px}
+  .evie-nav-dialog{width:100vw;height:100dvh;max-height:none;max-width:none;margin:0;border:0;border-radius:0}
+  .evie-nav-inner{min-height:100%;padding:calc(24px + env(safe-area-inset-top)) 18px calc(25px + env(safe-area-inset-bottom))}
+  .evie-nav-title{margin:25px 0 28px;font-size:clamp(47px,12vw,68px)}
+  .evie-nav-card{min-height:clamp(138px,24vh,190px);padding:16px 12px}
+  .evie-nav-card-title{font-size:clamp(29px,8vw,40px)}
+  .evie-nav-card-caption{font-size:9px}
+}
+@media(max-width:360px){
+  .evie-nav-inner{padding-left:12px;padding-right:12px}
+  .evie-nav-grid{gap:7px}
+  .evie-nav-card{padding:13px 9px;min-height:134px}
+  .evie-nav-card-title{font-size:28px}
+  .evie-nav-card-index{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .evie-nav-dialog[open]{animation:none}
+ .evie-nav-toggle,.evie-nav-card,.evie-nav-card:before{transition:none}
+}
