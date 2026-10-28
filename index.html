@@ -562,7 +562,7 @@
     return;
   }
   try {
-    if (window.localStorage.getItem(key) === 'guest' || window.localStorage.getItem('evie-access-username')) {
+    if (window.localStorage.getItem(key) === 'guest') {
       dismiss();
       return;
     }
