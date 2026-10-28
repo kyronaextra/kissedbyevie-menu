@@ -5,6 +5,95 @@ const sdk=window.supabase;
 const ready=!!(sdk&&typeof sdk.createClient==='function'&&window.EVIE_SUPABASE_URL&&window.EVIE_SUPABASE_PUBLISHABLE_KEY);
 const sb=ready?sdk.createClient(window.EVIE_SUPABASE_URL,window.EVIE_SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'evie-member-auth'}}):null;
 let busy=false,refreshCounter=0;
+
+// Optional OFAuth link is a third-party connection, not a membership or a sign-in method.
+const ofauthParams = new URLSearchParams(window.location.search);
+let ofauthCallback = ["success","cancelled","error"].includes(ofauthParams.get("status")) ?
+ {status:ofauthParams.get("status"),connection_id:ofauthParams.get("connection_id")||null}:null;
+if (ofauthCallback) {
+  const clean = new URL(window.location.href);
+  for (const key of ["status","connection_id","client_reference_id","error_code","step"]) clean.searchParams.delete(key);
+  window.history.replaceState(null,"",clean.pathname+clean.search+clean.hash);
+}
+let ofauthBusy=false;
+function ofauthState(text,enabled=false,connected=false,pending=false) {
+ $('ofauthStatus').textContent=text;
+ $('ofauthConnect').hidden=connected;
+ $('ofauthConnect').disabled=!enabled||connected||ofauthBusy;
+ $('ofauthCancel').hidden=!pending;
+ $('ofauthCancel').disabled=ofauthBusy;
+ $('ofauthDisconnect').hidden=!connected;
+ $('ofauthDisconnect').disabled=ofauthBusy;
+}
+async function ofauthRequest(action,detail={}) {
+ const {data,error}=await sb.auth.getSession();
+ if(error||!data?.session?.access_token)throw Error('Sign in first to connect your OnlyFans.');
+ const res=await fetch(window.EVIE_SUPABASE_URL+'/functions/v1/evie-ofauth-link',{
+  method:action?'POST':'GET',
+  headers:{'Content-Type':'application/json',apikey:window.EVIE_SUPABASE_PUBLISHABLE_KEY,
+   Authorization:'Bearer '+data.session.access_token},
+  cache:'no-store',...(action?{body:JSON.stringify({action,...detail})}:{})
+ });
+ const value=await res.json().catch(()=>({}));
+ if(!res.ok)throw Error(value.error||'Account linking is temporarily unavailable.');
+ return value;
+}
+async function refreshOFAuth(){
+ if(!sb)return;
+ ofauthBusy=true;ofauthState('Checking your OnlyFans connection...');
+ try {
+  let result=await ofauthRequest(null);
+  if(ofauthCallback){
+   const callback=ofauthCallback;ofauthCallback=null;
+   if(callback.status==='success'&&callback.connection_id) {
+    try {
+     result=await ofauthRequest('complete',callback);
+     feedback('OnlyFans connection verified.');
+    } catch(e){feedback('OnlyFans connection not confirmed: '+errorText(e));}
+   } else if(callback.status==='cancelled') feedback('OnlyFans connection canceled.');
+   else feedback('OnlyFans connection did not complete.');
+   // Always refresh trusted backend state after the callback.
+   result=await ofauthRequest(null);
+  }
+  const enabled=Boolean(result.available);
+  ofauthBusy=false;
+  if(result.link?.connected){
+   ofauthState('Connected. Your OF account is linked to this free profile. VIP access remains separate.',enabled,true,false);
+  }else if(result.link?.pending){
+   ofauthState('Link request started. Finish connecting at OFAuth, or cancel this request.',enabled,false,true);
+  }else{
+   ofauthState(enabled?'Not connected. You can link your account whenever you like.':'OnlyFans account linking is not available yet.',enabled,false,false);
+  }
+ }catch(e){
+  ofauthBusy=false;ofauthState('OnlyFans linking is unavailable right now.',false,false,false);
+ }
+}
+$('ofauthConnect').addEventListener('click',async()=>{
+ if(!sb||ofauthBusy)return;
+ ofauthBusy=true;ofauthState('Opening secure OnlyFans connection...');
+ try {
+  const result=await ofauthRequest('start');
+  if(typeof result.url!=='string'||!/^https:\/\/link\.ofauth\.com\//i.test(result.url))
+   throw Error('OFAuth did not return a valid connection page.');
+  window.location.assign(result.url);
+ }catch(e){feedback('Could not connect: '+errorText(e));ofauthBusy=false;refreshOFAuth();}
+});
+$('ofauthCancel').addEventListener('click',async()=>{
+ if(!sb||ofauthBusy)return;
+ ofauthBusy=true;
+ try{await ofauthRequest('cancel');feedback('Link request canceled.');}
+ catch(e){feedback(errorText(e));}
+ finally{ofauthBusy=false;refreshOFAuth();}
+});
+$('ofauthDisconnect').addEventListener('click',async()=>{
+ if(!sb||ofauthBusy)return;
+ if(!window.confirm('Disconnect your OnlyFans account? Your free account and purchases will remain.'))return;
+ ofauthBusy=true;
+ try{await ofauthRequest('disconnect');feedback('OnlyFans connection revoked. Your free account is unchanged.');}
+ catch(e){feedback(errorText(e));}
+ finally{ofauthBusy=false;refreshOFAuth();}
+});
+
 const feedback=message=>$('accountMessage').textContent=message||'';
 const errorText=e=>e&&e.message?e.message:'Something went wrong. Please try again.';
 const validEmail=s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)&&s.length<=254;
@@ -56,6 +145,7 @@ async function renderDashboard(user){
  $('membershipStatus').textContent=active?(m.tier==='daddy'?'VIP Daddy member':m.tier==='vault'?'Vault member':'Free account'):'Free account';
  $('authPanel').hidden=true;$('dashboard').hidden=false;
  syncSocial(user).catch(()=>{});
+ refreshOFAuth();
 }
 async function refresh(){
  if(!sb)return;
