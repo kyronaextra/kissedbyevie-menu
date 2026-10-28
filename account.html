@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="account.css?v=20261028-guest-entry-1">
+<link rel="stylesheet" href="account.css?v=20261028-ofauth-1">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
-<script defer src="account.js?v=20261028-guest-entry-1"></script>
+<script defer src="account.js?v=20261028-ofauth-1"></script>
 </head>
 <body>
 <header class="header">
@@ -72,6 +72,18 @@
 <div class="dashboard-top"><div><span class="eyebrow">FREE MEMBER ACCOUNT</span><h2>You're <em>in.</em></h2></div><button type="button" class="outline small" id="signOut">Sign out</button></div>
 <div class="identity"><span id="accountUsername">@member</span><small id="accountEmail">Account email</small></div>
 <div class="membership"><span>YOUR ACCESS</span><strong id="membershipStatus">Free account</strong><small>VIP perks and private content require separate purchase and approval.</small></div>
+<section class="ofauth-card" aria-label="Optional OnlyFans account linking">
+  <span class="eyebrow">OPTIONAL ACCOUNT CONNECTION</span>
+  <h3>Connect your <em>OnlyFans.</em></h3>
+  <p>Want your OnlyFans account linked to this profile? You'll leave this website to review OFAuth's permissions before connecting. Only connect an account you own.</p>
+  <div class="ofauth-state" id="ofauthStatus" role="status" aria-live="polite">Checking availability...</div>
+  <div class="ofauth-buttons">
+    <button type="button" id="ofauthConnect" class="primary" disabled>Connect OnlyFans <span aria-hidden="true">↗</span></button>
+    <button type="button" id="ofauthCancel" class="outline small" hidden>Cancel request</button>
+    <button type="button" id="ofauthDisconnect" class="outline small" hidden>Disconnect OnlyFans</button>
+  </div>
+  <p class="formnote">This is optional. Linking does not automatically grant VIP, verify your age, or prove a purchase. OFAuth is a third-party service. Read its <a href="https://ofauth.com/policies/account-linking-agreement" target="_blank" rel="noopener noreferrer">account linking agreement</a> before connecting. You can request disconnection here once linked.</p>
+</section>
 <form id="alertsForm">
 <div class="alerts-title"><span class="eyebrow">NOTIFICATION SETTINGS</span><h3>Tell me when.</h3><p>Pick what you want to hear about. You can change your mind anytime.</p></div>
 <label class="alert-option" for="alertStripchat">
