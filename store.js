@@ -14,10 +14,6 @@ const categories=[
     "Under $20"
   ],
   [
-    "VideoCalls",
-    "VIDEO CALLS"
-  ],
-  [
     "Memberships",
     "VIP & GFE"
   ],
@@ -301,11 +297,6 @@ const notes={
     "For premade photos and videos, choose your content category before adding to the bag.",
     "Premade video pricing is $5 per minute. Single photos are $2 to $3 each. Quotes are confirmed before payment."
   ],
-  "VideoCalls": [
-    "WITH VIP: 5 minutes $50 or 8 minutes $70, flat rates. Active VIP membership is required and verified.",
-    "WITHOUT VIP: 5 minutes $80 or 8 minutes $105, flat rates. Non-VIP calls are selective and approved before payment.",
-    "No, I’m not lowering it if you don’t have VIP and especially if you have no interest in anything else."
-  ],
   "Memberships": [
     "Membership perks are arranged directly with me; private lounge access is still being built.",
     "Video calls are paid separately at the listed flat rates. Eligibility and scheduling are confirmed directly."
@@ -316,14 +307,17 @@ const notes={
   ],
   "More": [
     "Worn items range from $50 to $200. Any shipping charges are confirmed separately.",
-    "Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment."
+    "Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
+    "VIDEO CALLS · WITH VIP: 5 minutes $50 or 8 minutes $70. Active VIP membership required.",
+    "WITHOUT VIP: 5 minutes $80 or 8 minutes $105. Calls are selective and approved before payment.",
+    "No, I’m not lowering it if you don’t have VIP and especially if you have no interest in anything else."
   ]
 };
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then shop under $20, video calls, VIP, customs and extras. For premade content, pick your category first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, VIP, customs, and Calls & Extras. Video calls are last. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -373,12 +367,17 @@ categories.forEach(([section],i)=>{
  panel.setAttribute('role','tabpanel');
  panel.setAttribute('aria-labelledby','tab-'+section);
  panel.hidden=i!==0;
- if(section==='VideoCalls'){
-   const intro=el('div','video-call-intro');
-   intro.append(el('h3','','VIDEO CALLS. MY RATES, MY RULES.'),el('p','','VIP saves you money. No VIP? You pay the standard flat rate. Calls are scheduled and approved by me before payment.'));
-   panel.append(intro);
- }
- products.filter(p=>p.section===section).forEach(p=>{
+ const categoryProducts=products.filter(p=>p.section===section);
+ // Calls & Extras stays last, with video call options at the end.
+ if(section==='More')categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
+ let videoHeadingAdded=false;
+ categoryProducts.forEach(p=>{
+   if(p.section==='VideoCalls'&&!videoHeadingAdded){
+     const videoHeading=el('div','video-call-intro');
+     videoHeading.append(el('h3','','VIDEO CALLS. MY RATES, MY RULES.'),el('p','','VIP saves you money. No VIP? You pay the standard flat rate. Calls are scheduled and approved by me before payment.'));
+     panel.append(videoHeading);
+     videoHeadingAdded=true;
+   }
    const spotlight=p.name==='VIP Daddy Package';
    const ultimate=p.name==='Ultimate VIP Daddy Package';
    const card=el('article','product-card menu-v2-card'+(p.badge?' featured':'')+(spotlight?' is-spotlight':'')+(ultimate?' is-ultimate':''));

@@ -21,8 +21,8 @@
 .vip-sale-kicker{max-width:320px;margin:0 auto 11px;color:#ffe0ef;font-size:12px;line-height:1.5;letter-spacing:.035em;font-weight:700}
 .vip-sale-aside{display:block;margin:10px auto;font-family:'DM Sans',sans-serif;color:#ffe0ef;font-size:14px;font-weight:700;font-style:normal;line-height:1.5}
 .vip-sale-fine{font-size:11px;line-height:1.45}
-#boutique #tab-VideoCalls{border:1px solid rgba(255,154,197,.8)!important;background:linear-gradient(115deg,#70213e,#390f2b)!important;color:#fff3fa!important;font-weight:800!important}
-#boutique #tab-VideoCalls.active{box-shadow:0 0 25px rgba(244,73,149,.36)!important;outline:2px solid #ffadd1!important;outline-offset:1px}
+#boutique #tab-More{border:1px solid rgba(255,154,197,.8)!important;background:linear-gradient(115deg,#70213e,#390f2b)!important;color:#fff3fa!important;font-weight:800!important}
+#boutique #tab-More.active{box-shadow:0 0 25px rgba(244,73,149,.36)!important;outline:2px solid #ffadd1!important;outline-offset:1px}
 #boutique .video-call-intro{grid-column:1/-1;border:1px solid rgba(255,173,209,.5);border-radius:12px;background:linear-gradient(120deg,rgba(118,22,63,.8),rgba(31,9,30,.88));padding:20px 22px;margin-bottom:8px}
 #boutique .video-call-intro h3{margin:0 0 7px;font-family:'Syne',sans-serif;font-size:clamp(16px,3vw,22px);color:#ffe1ee}
 #boutique .video-call-intro p{margin:0;color:#ffd0e0;font-size:13px;line-height:1.6}
