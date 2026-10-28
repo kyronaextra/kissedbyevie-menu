@@ -29,9 +29,6 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="public-gallery.js?v=20261027-gallery-1"></script>
-<script defer src="daddy-gallery.js"></script>
-<script defer src="daddy-lounge.js"></script>
-<script defer src="member-auth.js"></script>
 <script defer src="vip-terms.js"></script>
 <noscript><style>#accessGate{display:none!important}</style></noscript>
 </head>
@@ -68,6 +65,7 @@
       <a href="#boutique">Menu</a>
       <a href="#members">VIP Memberships</a>
       <a href="#blog">Blog</a>
+       <a href="account.html">My Account</a>
     </div>
     <button class="evie-nav-toggle" type="button" id="evieNavToggle" aria-haspopup="dialog" aria-controls="evieNavDialog" aria-expanded="false">
       <span>EXPLORE</span><span class="evie-nav-toggle-bars" aria-hidden="true"></span>
@@ -98,7 +96,7 @@
         <span><span class="evie-nav-card-title">House <em>rules.</em></span><span class="evie-nav-card-caption">Read before buying</span></span>
       </button>
     </nav>
-    <div class="evie-nav-footer"><a href="#blog">READ THE BLOG</a><a href="#members">VIP MEMBERSHIPS</a></div>
+    <div class="evie-nav-footer"><a href="#blog">READ THE BLOG</a><a href="#members">VIP MEMBERSHIPS</a><a href="account.html">FREE ACCOUNT + ALERTS</a></div>
   </div>
 </dialog>
 
@@ -285,17 +283,18 @@
 <section class="members-section" id="members" aria-labelledby="membersHeading">
   <span id="vip" aria-hidden="true"></span>
   <div class="members-copy reveal">
-    <p class="eyebrow">VIP BENEFITS · PRIVATE ACCESS COMING SOON</p>
+    <p class="eyebrow">FREE ACCOUNTS ARE OPEN · VIP IS SEPARATE</p>
     <h2 id="membersHeading">Private <em>Members.</em></h2>
-    <p>Shop Basic GFE, VIP Daddy, and Ultimate VIP above. The October VIP sale includes one 30-minute live sexting, Snap session, or show bonus, scheduled with me.</p>
+    <p>Make a free account to save your details and choose email alerts when I go live or have availability for FT. VIP perks are separate and never required just to sign up.</p>
     <a href="#boutique" class="text-link">See VIP packages</a>
   </div>
   <div class="members-card reveal">
     <div class="members-card-top">
-      <span>VIP ACCESS (Coming Soon)</span>
-      <strong>SEE VIP PACKAGES</strong>
+      <span>YOUR FREE ACCOUNT</span>
+      <strong>GET NOTIFIED</strong>
     </div>
-    <p>VIP perks can be ordered now; private website lounge access is still being built. I'll confirm your access details directly as soon as it’s finished.</p>
+    <p>Sign up for free, pick your email alerts, and change them whenever you want. I’m setting up delivery now; the preferences save today. Text alerts and automatic sending aren’t active yet.</p>
+    <a href="account.html" class="text-link">Create account &amp; set alerts</a>
   </div>
 </section>
 
@@ -381,39 +380,7 @@
 
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
 
-<!-- MEMBER DIALOG (unchanged) -->
-<dialog class="member-dialog" id="memberDialog" aria-labelledby="memberDialogTitle">
-  <button type="button" class="member-close" id="memberClose" aria-label="Close">×</button>
-  <div class="member-panel" id="memberAuthPanel">
-    <p class="eyebrow">PRIVATE MEMBERS</p>
-    <h2 id="memberDialogTitle">Daddy <em>access.</em></h2>
-    <p id="memberDialogDescription">Sign in with the email I approved for your membership.</p>
-    <form id="memberSignInForm" class="member-form">
-      <label>Email<input id="memberEmail" type="email" autocomplete="username" required></label>
-      <label>Password<input id="memberPassword" type="password" autocomplete="current-password" required minlength="8"></label>
-      <button type="submit" class="primary-btn" id="memberSignIn">Sign in</button>
-    </form>
-    <p id="memberAuthFeedback" class="member-feedback" role="status"></p>
-    <button type="button" class="member-inline-button" id="memberShowForgot">Forgot password?</button>
-  </div>
-  <div class="member-panel" id="memberForgotPanel" hidden>
-    <p class="eyebrow">PASSWORD RESET</p>
-    <h3>Reset your password</h3>
-    <form id="memberForgotForm" class="member-form">
-      <label>Email<input id="memberForgotEmail" type="email" autocomplete="username" required></label>
-      <button type="submit" class="primary-btn" id="memberSendReset">Send reset link</button>
-    </form>
-    <button type="button" class="member-inline-button" id="memberForgotBack">← Back to sign in</button>
-  </div>
-  <div class="member-panel" id="memberVerifyPanel" hidden>
-    <p class="eyebrow">CHECK YOUR EMAIL</p>
-    <h3>Check your inbox</h3>
-    <p id="memberVerifyDescription">We sent a verification link to your email address. Open that link, then come back to sign in.</p>
-    <button type="button" id="memberResendConfirmation" class="secondary-btn">Resend confirmation</button>
-    <button type="button" class="member-inline-button" id="memberVerifyBack">← Back</button>
-  </div>
-</dialog>
-
+<!-- Free member registration and preferences now live on account.html. -->
 
 <!-- VIP purchase rules: always available from the top of the page and the bag -->
 <dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">
