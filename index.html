@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261027-menu-flash-2">
+<link rel="stylesheet" href="style.css?v=20261028-guest-entry-1">
 <link rel="stylesheet" href="evie-nav.css?v=20261028-nav-clean-3">
 <link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
@@ -43,17 +43,19 @@
  <a id="vipSaleShop" class="vip-sale-shop" href="#boutique">SHOP VIP DEALS</a>
 </aside>
 
-<!-- ACCESS GATE (unchanged) -->
-<div id="accessGate" style="position:fixed;inset:0;z-index:99999;background:#10070c;color:#f5e9e0;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',system-ui,sans-serif;padding:24px;text-align:center;">
-  <div style="max-width:380px;width:100%;">
-    <div style="font-family:Italiana,serif;font-size:2.2rem;letter-spacing:.08em;margin-bottom:8px;">KISSED BY EVIE ✧</div>
-    <p style="opacity:.75;margin:0 0 28px;font-size:.95rem;">Enter your username to continue<br><span style="font-size:.8rem;">Snapchat · Telegram · X</span></p>
-    <form id="gateForm" style="display:flex;flex-direction:column;gap:12px;">
-      <input id="gateUsername" type="text" required placeholder="your username" autocomplete="username" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:14px 16px;color:#fff;font-size:1rem;outline:none;">
-      <button type="submit" style="background:#c9a27c;color:#10070c;border:none;border-radius:8px;padding:14px;font-weight:600;font-size:1rem;cursor:pointer;">Enter</button>
-    </form>
+<!-- Free guest browsing or a permanent account. Guest does not create an auth identity. -->
+<section id="accessGate" class="evie-entry-gate" aria-labelledby="entryGateTitle" role="dialog" aria-modal="true">
+  <div class="evie-entry-panel">
+    <span class="evie-entry-kicker">WELCOME TO MY SIDE OF THE INTERNET</span>
+    <h2 id="entryGateTitle">KISSED <em>BY EVIE.</em></h2>
+    <p>Here to look around, or wanna stay in the loop?</p>
+    <button type="button" id="continueAsGuest" class="evie-entry-guest">Continue as Guest <span aria-hidden="true">↗</span></button>
+    <span class="evie-entry-description">Browse my menu and public previews. No account or email needed.</span>
+    <a class="evie-entry-account" href="account.html">Create Account / Sign In <span aria-hidden="true">↗</span></a>
+    <span class="evie-entry-description">Save your settings and choose updates. Free to join. VIP is separate.</span>
+    <p class="evie-entry-foot">Private content requires separate purchase and age verification.</p>
   </div>
-</div>
+</section>
 
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <a class="skip-link" href="#boutique">Skip to menu</a>
@@ -285,7 +287,7 @@
   <div class="members-copy reveal">
     <p class="eyebrow">FREE ACCOUNTS ARE OPEN · VIP IS SEPARATE</p>
     <h2 id="membersHeading">Private <em>Members.</em></h2>
-    <p>Make a free account to save your details and choose email alerts when I go live or have availability for FT. VIP perks are separate and never required just to sign up.</p>
+    <p>Look around without an account, or create a free one to save your details and choose email updates. VIP access and purchases are separate.</p>
     <a href="#boutique" class="text-link">See VIP packages</a>
   </div>
   <div class="members-card reveal">
@@ -532,23 +534,40 @@
   <span id="lightboxCount" class="lightbox-count"></span>
 </dialog>
 
-<!-- ACCESS GATE SCRIPT (unchanged) -->
+<!-- A guest can browse without an email address or Supabase account. -->
 <script>
 (function(){
   const gate = document.getElementById('accessGate');
-  const form = document.getElementById('gateForm');
-  const input = document.getElementById('gateUsername');
-  const KEY = 'evie-access-username';
-  if (localStorage.getItem(KEY)) { gate.remove(); return; }
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    const username = input.value.trim();
-    if (!username) return;
-    localStorage.setItem(KEY, username);
-    gate.style.opacity = '0';
-    gate.style.transition = 'opacity .3s';
-    setTimeout(() => { gate.remove(); window.dispatchEvent(new Event('evie:access-granted')); }, 300);
-  });
+  const button = document.getElementById('continueAsGuest');
+  if (!gate || !button) return;
+  const key = 'evie-browse-mode';
+  const params = new URLSearchParams(window.location.search);
+  const linkFromAccount = params.get('browse') === 'guest';
+  function dismiss(){
+    gate.remove();
+    window.dispatchEvent(new Event('evie:access-granted'));
+  }
+  function guest(){
+    try {
+      window.localStorage.setItem(key, 'guest');
+      window.localStorage.removeItem('evie-access-username');
+    } catch (_) {}
+    dismiss();
+  }
+  if (linkFromAccount) {
+    try {
+      window.history.replaceState(null, '', window.location.pathname + window.location.hash);
+    } catch (_) {}
+    guest();
+    return;
+  }
+  try {
+    if (window.localStorage.getItem(key) === 'guest' || window.localStorage.getItem('evie-access-username')) {
+      dismiss();
+      return;
+    }
+  } catch (_) {}
+  button.addEventListener('click', guest);
 })();
 </script>
 
