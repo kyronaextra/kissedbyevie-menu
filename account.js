@@ -15,11 +15,12 @@ if (ofauthCallback) {
   for (const key of ["status","connection_id","client_reference_id","error_code","step"]) clean.searchParams.delete(key);
   window.history.replaceState(null,"",clean.pathname+clean.search+clean.hash);
 }
-let ofauthBusy=false;
+let ofauthBusy=false,ofauthAvailable=false;
 function ofauthState(text,enabled=false,connected=false,pending=false) {
+ ofauthAvailable=enabled;
  $('ofauthStatus').textContent=text;
  $('ofauthConnect').hidden=connected;
- $('ofauthConnect').disabled=!enabled||connected||ofauthBusy;
+ $('ofauthConnect').disabled=!enabled||connected||ofauthBusy||!$('ofauthConsent').checked;
  $('ofauthCancel').hidden=!pending;
  $('ofauthCancel').disabled=ofauthBusy;
  $('ofauthDisconnect').hidden=!connected;
@@ -68,7 +69,9 @@ async function refreshOFAuth(){
   ofauthBusy=false;ofauthState('OnlyFans linking is unavailable right now.',false,false,false);
  }
 }
+$('ofauthConsent').addEventListener('change',()=>{$('ofauthConnect').disabled=!ofauthAvailable||ofauthBusy||!$('ofauthConsent').checked;});
 $('ofauthConnect').addEventListener('click',async()=>{
+ if(!$('ofauthConsent').checked){feedback('Read and accept the connection consent first.');return;}
  if(!sb||ofauthBusy)return;
  ofauthBusy=true;ofauthState('Opening secure OnlyFans connection...');
  try {
