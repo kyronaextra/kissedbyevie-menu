@@ -2,6 +2,8 @@
 'use strict';
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
 // Prices marked "from" are minimums; all orders are reviewed before payment.
+const vipSaleActive=Date.now()<Date.parse('2026-11-01T00:00:00-07:00');
+const vipSaleNames=new Set(['VIP Daddy Package','Ultimate VIP Daddy Package']);
 const categories=[
   [
     "Mid",
@@ -10,6 +12,10 @@ const categories=[
   [
     "Budget",
     "Under $20"
+  ],
+  [
+    "VideoCalls",
+    "VIDEO CALLS"
   ],
   [
     "Memberships",
@@ -174,7 +180,19 @@ const products=[
     "price": 10,
     "description": "Ten surprise photos and videos. I choose the mix."
   },
-{section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
+{section:'VideoCalls',name:'VIP Video Call, 5 Minutes',price:50,unit:'5 minutes · VIP flat rate',
+    description:'A 5-minute video call at my VIP-only price.',
+    note:'Active VIP membership required. I confirm your membership and availability before payment.'},
+  {section:'VideoCalls',name:'VIP Video Call, 8 Minutes',price:70,unit:'8 minutes · VIP flat rate',
+    badge:'VIP RATE',description:'An 8-minute video call at the flat VIP rate of $70.',
+    note:'Active VIP membership required. I confirm your membership and availability before payment.'},
+  {section:'VideoCalls',name:'Non-VIP Video Call, 5 Minutes',price:80,unit:'5 minutes · standard flat rate',
+    description:'A 5-minute video call at my standard non-VIP rate.',
+    note:'Non-VIP calls are selective and subject to my approval before payment.'},
+  {section:'VideoCalls',name:'Non-VIP Video Call, 8 Minutes',price:105,unit:'8 minutes · standard flat rate',
+    description:'An 8-minute video call. Flat rate. No VIP discount.',
+    note:'Non-VIP calls are selective and subject to my approval before payment.'},
+  {section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
    description:'Daily content, priority replies, and a little more of my time. For a month.',
    features:['1 month of OnlyFans access','Priority replies','Daily selfies and nudes','20 random photos','Casual calls only — no sexual FaceTimes']},
   {section:'Memberships',name:'VIP Daddy Package',price:150,unit:'3 months',group:'membership',badge:'Most Popular',
@@ -269,6 +287,11 @@ const products=[
     "note": "Ask before buying. This is not guaranteed."
   }
 ];
+if(vipSaleActive){
+  products.filter(p=>vipSaleNames.has(p.name)).forEach(p=>{
+    p.features.push('October sale bonus: one 30-minute live sexting, Snap session, or show. Format and scheduling confirmed with me.');
+  });
+}
 const notes={
   "Mid": [
     "Live content and calls are scheduled with me. Please confirm availability before paying.",
@@ -278,9 +301,14 @@ const notes={
     "For premade photos and videos, choose your content category before adding to the bag.",
     "Premade video pricing is $5 per minute. Single photos are $2 to $3 each. Quotes are confirmed before payment."
   ],
+  "VideoCalls": [
+    "WITH VIP: 5 minutes $50 or 8 minutes $70, flat rates. Active VIP membership is required and verified.",
+    "WITHOUT VIP: 5 minutes $80 or 8 minutes $105, flat rates. Non-VIP calls are selective and approved before payment.",
+    "No, I’m not lowering it if you don’t have VIP and especially if you have no interest in anything else."
+  ],
   "Memberships": [
     "Membership perks are arranged directly with me; private lounge access is still being built.",
-    "Paid FaceTimes are not included with VIP. Eligibility and scheduling are confirmed directly."
+    "Video calls are paid separately at the listed flat rates. Eligibility and scheduling are confirmed directly."
   ],
   "Customs": [
     "Custom video base prices: 1 minute $45, 2 minutes $55, 3 minutes $65, 4 minutes $75.",
@@ -291,13 +319,11 @@ const notes={
     "Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment."
   ]
 };
-const vipSaleActive=Date.now()<Date.parse('2026-11-01T00:00:00-07:00');
-const vipSaleNames=new Set(['VIP Daddy Package','Ultimate VIP Daddy Package']);
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then shop under $20, VIP, customs and extras. For premade content, pick your category first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then shop under $20, video calls, VIP, customs and extras. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -327,6 +353,7 @@ onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.wid
 onlyfans.append(onlyfansIcon,el('span','','ONLYFANS'));
 controls.append(onlyfans);
 function menuAction(p){
+  if(p.section==='VideoCalls')return {label:'Request this video call',variant:p.name.startsWith('VIP')?'btn-spotlight':'btn-primary'};
  if(p.name==='VIP Daddy Package')return {label:'Choose VIP Daddy',variant:'btn-spotlight'};
  if(p.name==='Ultimate VIP Daddy Package')return {label:'Go Ultimate VIP',variant:'btn-ultimate'};
  if(p.name==='Basic GFE')return {label:'Start with GFE',variant:'btn-primary'};
@@ -346,6 +373,11 @@ categories.forEach(([section],i)=>{
  panel.setAttribute('role','tabpanel');
  panel.setAttribute('aria-labelledby','tab-'+section);
  panel.hidden=i!==0;
+ if(section==='VideoCalls'){
+   const intro=el('div','video-call-intro');
+   intro.append(el('h3','','VIDEO CALLS. MY RATES, MY RULES.'),el('p','','VIP saves you money. No VIP? You pay the standard flat rate. Calls are scheduled and approved by me before payment.'));
+   panel.append(intro);
+ }
  products.filter(p=>p.section===section).forEach(p=>{
    const spotlight=p.name==='VIP Daddy Package';
    const ultimate=p.name==='Ultimate VIP Daddy Package';
