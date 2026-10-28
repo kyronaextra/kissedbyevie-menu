@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#130810">
 <meta name="description" content="Create a free Kissed by Evie account and choose which updates you want to receive.">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'self'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://cmjhecwwjoeqpcownkol.supabase.co; upgrade-insecure-requests">
 <title>My Account | Kissed by Evie</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="account.css?v=20261028-ofauth-1">
+<link rel="stylesheet" href="account.css?v=20261028-ofauth-2">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
-<script defer src="account.js?v=20261028-ofauth-1"></script>
+<script defer src="account.js?v=20261028-ofauth-2"></script>
 </head>
 <body>
 <header class="header">
@@ -76,6 +76,7 @@
   <span class="eyebrow">OPTIONAL ACCOUNT CONNECTION</span>
   <h3>Connect your <em>OnlyFans.</em></h3>
   <p>Want your OnlyFans account linked to this profile? You'll leave this website to review OFAuth's permissions before connecting. Only connect an account you own.</p>
+  <label class="ofauth-consent"><input type="checkbox" id="ofauthConsent"><span>I'm 18 or older, own the OnlyFans account I'm connecting, and understand that OFAuth is a third-party service whose requested permissions I can review before authorizing.</span></label>
   <div class="ofauth-state" id="ofauthStatus" role="status" aria-live="polite">Checking availability...</div>
   <div class="ofauth-buttons">
     <button type="button" id="ofauthConnect" class="primary" disabled>Connect OnlyFans <span aria-hidden="true">↗</span></button>
