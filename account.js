@@ -62,7 +62,7 @@ async function refresh(){
  if(!sb)return;
  try{
   const {data,error}=await sb.auth.getUser();
-  if(error||!data?.user){mode('login');return;}
+  if(error||!data?.user){$('authPanel').hidden=false;$('dashboard').hidden=true;return;}
   await renderDashboard(data.user);
  }catch(e){feedback('Unable to load your account right now. '+errorText(e));}
 }
@@ -85,7 +85,7 @@ $('signupForm').addEventListener('submit',async e=>{
   pendingEmail=email;
   $('signupPin').value='';$('signupConfirm').value='';
   if(data?.session){await renderDashboard(data.user);feedback('Account created. Choose your alerts below.');}
-  else{mode('verify');$('verifyText').textContent='I sent a verification link to '+email+'. Open it to confirm your email, then return to sign in.';feedback('Check your email to finish creating your account.');}
+  else{mode('verify');$('verifyText').textContent='Check '+email+' for a confirmation link. Open it to confirm your email, then return to sign in.';feedback('Check your email to finish creating your account.');}
  }catch(err){feedback(errorText(err))}
  finally{formBusy(e.currentTarget,false)}
 });
@@ -102,16 +102,18 @@ $('resend').addEventListener('click',async e=>{
 $('loginForm').addEventListener('submit',async e=>{
  e.preventDefault();if(!sb||busy||!e.currentTarget.reportValidity())return;
  const identity=$('loginIdentity').value.trim(),pin=$('loginPin').value;
+ const isEmail=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identity);
+ const username=identity.replace(/^@/,'');
  if(!/^\d{8}$/.test(pin)){feedback('Enter your 8 digit PIN.');return;}
  formBusy(e.currentTarget,true);feedback('Signing in...');
  try{
-  if(identity.includes('@')){
+  if(isEmail){
    const {error}=await sb.auth.signInWithPassword({email:identity.toLowerCase(),password:pin});
    if(error)throw error;
   }else{
-   if(!validUsername(identity))throw Error('Please enter your username or email.');
+   if(!validUsername(username))throw Error('Please enter your username or email.');
    const response=await fetch(window.EVIE_SUPABASE_URL+'/functions/v1/evie-username-login',{method:'POST',cache:'no-store',
-    headers:{'Content-Type':'application/json',apikey:window.EVIE_SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify({username:identity,pin})});
+    headers:{'Content-Type':'application/json',apikey:window.EVIE_SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify({username,pin})});
    const result=await response.json().catch(()=>null);
    if(!response.ok||!result?.access_token||!result?.refresh_token)throw Error('Username or PIN not recognized. Try your email or check your details.');
    const {error}=await sb.auth.setSession({access_token:result.access_token,refresh_token:result.refresh_token});
