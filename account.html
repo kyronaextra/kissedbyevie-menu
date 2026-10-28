@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#130810">
+<meta name="description" content="Create a free Kissed by Evie account and choose which updates you want to receive.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'self'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://cmjhecwwjoeqpcownkol.supabase.co; upgrade-insecure-requests">
+<title>My Account | Kissed by Evie</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="account.css?v=20261028-1">
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+<script defer src="member-config.js"></script>
+<script defer src="account.js?v=20261028-1"></script>
+</head>
+<body>
+<header class="header">
+<a class="wordmark" href="./">KISSEDBYEVIE <span>✧</span></a>
+<a class="back" href="./">Back to my menu</a>
+</header>
+<main class="layout">
+<section class="intro" aria-label="Your Evie account">
+<span class="kicker">YOUR OWN LITTLE CORNER</span>
+<h1>Stay in<br><em>my loop.</em></h1>
+<p>Make a free account, save your username and pick which updates you actually want. No VIP purchase required just to join.</p>
+<div class="intro-note"><span class="sparkle">✧</span><span>Live reminders, FT availability, and account settings all in one place.</span></div>
+</section>
+<section class="panel" aria-label="Account and alert preferences">
+<div id="authPanel">
+<div class="tabbar" role="tablist" aria-label="Account access">
+<button type="button" id="tabSignup" class="selected" role="tab" aria-selected="true">Create account</button>
+<button type="button" id="tabLogin" role="tab" aria-selected="false">Sign in</button>
+</div>
+<div id="signupArea">
+<p class="eyebrow">IT'S FREE. OBVIOUSLY.</p>
+<h2>Be on <em>the list.</em></h2>
+<form id="signupForm" class="fields">
+<label>Email address<input id="signupEmail" type="email" required autocomplete="email" maxlength="254" placeholder="you@example.com"></label>
+<label>Your login username<input id="signupUsername" type="text" required minlength="3" maxlength="30" pattern="[a-zA-Z0-9._-]{3,30}" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="yourusername"></label>
+<div class="formrow">
+<label>8 digit private PIN<input id="signupPin" type="password" inputmode="numeric" required minlength="8" maxlength="8" pattern="[0-9]{8}" autocomplete="new-password" placeholder="8 digits"></label>
+<label>Repeat PIN<input id="signupConfirm" type="password" inputmode="numeric" required minlength="8" maxlength="8" pattern="[0-9]{8}" autocomplete="new-password" placeholder="Again"></label>
+</div>
+<div class="formrow">
+<label>Where do I know you from? <span class="optional">(optional)</span>
+<select id="signupPlatform"><option value="">Skip for now</option><option value="snapchat">Snapchat</option><option value="telegram">Telegram</option><option value="x">X</option></select></label>
+<label>Social username <span class="optional">(optional)</span><input id="signupHandle" type="text" maxlength="80" autocapitalize="none" spellcheck="false" placeholder="@yourhandle"></label>
+</div>
+<label class="checkline"><input type="checkbox" id="ageConsent" required><span>I'm at least 18 and understand this is an adult creator's site. This does not grant access to paid or restricted content.</span></label>
+<button class="primary" type="submit">Create my free account <span aria-hidden="true">↗</span></button>
+</form>
+<p class="formnote">I only use your details for your account and alerts you choose. Creating an account doesn't subscribe you to anything automatically.</p>
+</div>
+<div id="loginArea" hidden>
+<p class="eyebrow">WELCOME BACK</p>
+<h2>Hey, <em>you.</em></h2>
+<form id="loginForm" class="fields">
+<label>Username or email<input id="loginIdentity" type="text" autocomplete="username" required maxlength="254" placeholder="yourusername"></label>
+<label>Your private PIN<input id="loginPin" type="password" inputmode="numeric" autocomplete="current-password" required minlength="8" maxlength="8" pattern="[0-9]{8}" placeholder="8 digits"></label>
+<button class="primary" type="submit">Sign in <span aria-hidden="true">↗</span></button>
+</form>
+<p class="formnote">Forgot your PIN? <a href="https://t.me/kissedbyevie" rel="noopener noreferrer" target="_blank">Message me on Telegram</a> for account recovery. Never share your PIN.</p>
+</div>
+<div id="verifyArea" hidden>
+<p class="eyebrow">ONE QUICK THING</p>
+<h2>Check your <em>inbox.</em></h2>
+<p id="verifyText">Open the verification email, then come back and sign in.</p>
+<button type="button" class="outline" id="resend">Resend confirmation email</button>
+<button type="button" class="textbutton" id="backToLogin">Back to sign in</button>
+</div>
+</div>
+<div id="dashboard" hidden>
+<div class="dashboard-top"><div><span class="eyebrow">FREE MEMBER ACCOUNT</span><h2>You're <em>in.</em></h2></div><button type="button" class="outline small" id="signOut">Sign out</button></div>
+<div class="identity"><span id="accountUsername">@member</span><small id="accountEmail">Verified account</small></div>
+<div class="membership"><span>YOUR ACCESS</span><strong id="membershipStatus">Free account</strong><small>VIP perks and private content require separate purchase and approval.</small></div>
+<form id="alertsForm">
+<div class="alerts-title"><span class="eyebrow">NOTIFICATION SETTINGS</span><h3>Tell me when.</h3><p>Pick what you want to hear about. You can change your mind anytime.</p></div>
+<label class="alert-option" for="alertStripchat">
+<span class="alert-copy"><strong>When I'm online on Stripchat</strong><small>Email me about a livestream.</small></span>
+<input type="checkbox" id="alertStripchat">
+</label>
+<label class="alert-option" for="alertAvailability">
+<span class="alert-copy"><strong>FT &amp; live availability</strong><small>Email me when Evie announces available calls or live sessions.</small></span>
+<input type="checkbox" id="alertAvailability">
+</label>
+<button type="submit" class="primary">Save my preferences <span aria-hidden="true">✓</span></button>
+<p class="formnote">Your choices are saved securely. Emails aren't being sent yet while a compatible delivery service and livestream trigger are being connected. For immediate stream alerts, visit my Stripchat profile and use its “Notify when online” feature.</p>
+</form>
+<div class="sms-note"><strong>What about texts?</strong><p>SMS alerts aren't active. I don't collect your phone number for these until a carrier-approved option is available. Your email preferences still work independently.</p></div>
+<a href="./" class="return-menu">Back to my menu <span>↗</span></a>
+</div>
+<div class="feedback" id="accountMessage" role="status" aria-live="polite"></div>
+<div class="setup-error" id="setupError" hidden>Account sign-in isn't available right now. Please come back later.</div>
+</section>
+</main>
+<footer>© KISSED BY EVIE <span>PRIVATE IS THE POINT</span></footer>
+</body>
+</html>
