@@ -373,7 +373,7 @@ categories.forEach(([section],i)=>{
    action.dataset.price=String(effectivePrice);
    action.dataset.cta=cta.label;
    if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+''. Adds to your bag for review.');+effectivePrice+'. Adds to your bag for review.');
+   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+effectivePrice+'. Adds to your bag for review.');
    action.append(el('span','menu-v2-add-label',cta.label));
    if(p.pickCategory){
      const categoryLabel=el('label','menu-v2-choice-label','Pick a category');
