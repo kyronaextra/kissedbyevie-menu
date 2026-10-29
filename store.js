@@ -263,6 +263,73 @@ const products=[
     "note": "Availability, shipping details and the final price are confirmed before payment."
   },
   {
+    section: 'Physical',
+    name: 'Evidence Mystery Bag · Panties + Digital Photos',
+    price: 85,
+    badge: 'THE $85 EVIDENCE BAG',
+    description: 'A sealed surprise with panties, digital photos, and a handwritten note. A little evidence that I exist outside your phone.',
+    note: 'Each bag is different. Final contents and shipping are confirmed before payment.'
+  },
+  {
+    section: 'Physical',
+    name: 'Evidence Mystery Bag · Panties + Printed Photos + Video',
+    price: 105,
+    badge: 'THE $105 EVIDENCE BAG',
+    description: 'Panties, physical printed photos, a digital video, and a handwritten note. A surprise made personal.',
+    note: 'Each bag is different. Final contents, digital delivery, and shipping are confirmed before payment.'
+  },
+  {
+    section: 'Physical',
+    name: 'Evidence Mystery Box',
+    price: 160,
+    badge: 'THE MYSTERY BOX',
+    description: 'A sealed surprise package with weird or sexy collectibles, a photo, and a handwritten note. No two boxes are exactly alike. I put real thought into it, especially when I know your tastes.',
+    addons: [{label:'Add panties',price:35}],
+    note: 'Panties are not included in the $160 base box. Check the $35 add-on if you want them. Details and shipping confirmed before payment.'
+  },
+  {
+    section: 'Physical',
+    name: 'Basic Physical Photo Set · 3 Prints',
+    price: 25,
+    description: 'Three printed physical photos with light, basic customization.',
+    note: 'You choose the general vibe. Printing and shipping details confirmed before payment.'
+  },
+  {
+    section: 'Physical',
+    name: 'True Custom Studio Photo Set · 3 Prints',
+    price: 60,
+    badge: 'STUDIO QUALITY',
+    description: 'Three studio-quality physical photos made for your request. We plan the theme together.',
+    addons: [
+      {label:'Add a signed physical copy',price:20},
+      {label:'Add a signed custom photo poster',price:130}
+    ],
+    note: 'Themes can include your favorite beer brand, sports team, or car. I approve the concept first. A frame is recommended for posters. Shipping quoted separately.'
+  },
+  {
+    section: 'Physical',
+    name: 'Signed Custom Photo Poster',
+    price: 130,
+    description: 'A signed physical poster made from your custom photo concept. Your favorite beer brand, sports team, or car? Tell me your idea.',
+    note: 'Poster only at this price. Custom photo production, approval, dimensions, and shipping are confirmed directly. I recommend buying a frame.'
+  },
+  {
+    section: 'Physical',
+    name: 'Original Photo Poster · Poster Only',
+    price: 60,
+    description: 'Just the physical poster featuring an original photo from my collection. No custom shoot included.',
+    note: 'Photo choice, dimensions, availability, and shipping confirmed before payment.'
+  },
+  {
+    section: 'Physical',
+    name: 'Lipstick Kiss + Handwritten Sexy Letter',
+    price: 0,
+    priceDisplay: 'Price on request',
+    quoteOnly: true,
+    description: 'A personalized handwritten letter finished with a lipstick kiss. Sweet, teasing, or a little mean. You pick the mood.',
+    note: 'Request a quote. Price and mailing details are confirmed before payment.'
+  },
+  {
     "section": "More",
     "name": "Deluxe Dropbox, 800+ Items",
     "price": 75,
@@ -310,9 +377,9 @@ const notes={
     "Optional add ons cost extra and all requests are subject to approval."
   ],
   "Physical": [
-    "Panties, worn socks and other approved physical customs are handled by request.",
-    "Worn items start at $50 and may cost up to $200 depending on your request. Shipping is quoted separately.",
-    "Tell me what you want when you send your order. I confirm availability, pricing and shipping before payment."
+    "Evidence bags: $85 with panties, digital photos and a note; $105 with panties, printed photos, digital video and a note.",
+    "Evidence Mystery Box: $160. Optional panties are +$35, selected on the box itself.",
+    "Custom themes, availability, print sizes, and shipping are confirmed with me before payment. No boxes are exactly alike."
   ],
   "More": [
     "Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
@@ -355,6 +422,9 @@ onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.wid
 onlyfans.append(onlyfansIcon,el('span','','FREE MONTH W/ PURCHASE · THEN $4/MO'));
 controls.append(onlyfans);
 function menuAction(p){
+  if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
+  if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
+  if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
   if(p.section==='VideoCalls')return {label:'Request this video call',variant:p.name.startsWith('VIP')?'btn-spotlight':'btn-primary'};
  if(p.name==='VIP Daddy Package')return {label:'Choose VIP Daddy',variant:'btn-spotlight'};
  if(p.name==='Ultimate VIP Daddy Package')return {label:'Go Ultimate VIP',variant:'btn-ultimate'};
@@ -412,23 +482,50 @@ categories.forEach(([section],i)=>{
    action.dataset.price=String(effectivePrice);
    action.dataset.cta=cta.label;
    if(p.group)action.dataset.exclusive=p.group;
-   action.setAttribute('aria-label',cta.label+': '+p.name+', '+(p.from?'from ':'')+'$'+effectivePrice+'. Adds to your bag for review.');
+   if(p.quoteOnly)action.dataset.exclusive='quote';
    action.append(el('span','menu-v2-add-label',cta.label));
+   let categorySelect=null;
+   const addonInputs=[];
+   function refreshChoices(){
+     const addons=addonInputs.filter(entry=>entry.input.checked).map(entry=>entry.addon);
+     const parts=[];
+     if(categorySelect&&categorySelect.value)parts.push(categorySelect.value);
+     addons.forEach(addon=>parts.push(addon.label+' (+$'+addon.price+')'));
+     const selectedName=baseName+(parts.length?' | '+parts.join(' | '):'');
+     const selectedPrice=effectivePrice+addons.reduce((sum,addon)=>sum+addon.price,0);
+     action.dataset.name=selectedName;
+     action.dataset.price=String(selectedPrice);
+     action.disabled=!!(categorySelect&&!categorySelect.value);
+     action.setAttribute('aria-label',p.quoteOnly?cta.label+': '+selectedName+'. Price to be confirmed before payment.':cta.label+': '+selectedName+', $'+selectedPrice+'. Adds to your bag for review.');
+     if(!onSale&&!p.quoteOnly&&p.addons&&p.addons.length)amount.textContent='$'+selectedPrice;
+   }
    if(p.pickCategory){
      const categoryLabel=el('label','menu-v2-choice-label','Pick a category');
-     const categorySelect=el('select','menu-v2-category-select');
+     categorySelect=el('select','menu-v2-category-select');
      const categoryId='menu-category-'+section+'-'+panel.children.length;
-     categorySelect.id=categoryId; categoryLabel.htmlFor=categoryId;
+     categorySelect.id=categoryId;categoryLabel.htmlFor=categoryId;
      const prompt=el('option','','Choose a category');prompt.value='';prompt.disabled=true;prompt.selected=true;categorySelect.append(prompt);
      ['Solo','B/G','Squirt','Dildo','Feet','Surprise me'].forEach(function(choice){const opt=el('option','',choice);opt.value=choice;categorySelect.append(opt)});
-     action.disabled=true;
-     categorySelect.addEventListener('change',function(){
-       action.dataset.name=baseName+' | '+categorySelect.value;
-       action.disabled=!categorySelect.value;
-       action.setAttribute('aria-label',cta.label+': '+action.dataset.name+'. Adds to your bag for review.');
-     });
+     categorySelect.addEventListener('change',refreshChoices);
      info.append(categoryLabel,categorySelect);
    }
+   if(p.addons&&p.addons.length){
+     const addonSet=el('fieldset','menu-v2-addons');
+     addonSet.append(el('legend','menu-v2-addon-heading','Make it yours'));
+     p.addons.forEach((addon,j)=>{
+       const label=el('label','menu-v2-addon');
+       const input=document.createElement('input');
+       input.type='checkbox';
+       input.name='addon-'+section+'-'+panel.children.length+'-'+j;
+       input.value=addon.label;
+       input.addEventListener('change',refreshChoices);
+       label.append(input,el('span','',addon.label+' (+$'+addon.price+')'));
+       addonInputs.push({input,addon});
+       addonSet.append(label);
+     });
+     info.append(addonSet);
+   }
+   refreshChoices();
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
    card.append(info,buy);panel.append(card);
  });
