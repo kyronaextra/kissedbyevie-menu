@@ -22,6 +22,10 @@ const categories=[
     "Custom Videos"
   ],
   [
+    "Physical",
+    "Panties & Physical Customs"
+  ],
+  [
     "More",
     "Calls & Extras"
   ]
@@ -243,7 +247,7 @@ const products=[
     "description": "A full hour to talk. Casual conversation only."
   },
   {
-    "section": "More",
+    "section": "Physical",
     "name": "Worn Panties",
     "price": 50,
     "from": true,
@@ -251,7 +255,7 @@ const products=[
     "note": "Availability, shipping details and the final price are confirmed before payment."
   },
   {
-    "section": "More",
+    "section": "Physical",
     "name": "Worn Socks",
     "price": 50,
     "from": true,
@@ -305,8 +309,12 @@ const notes={
     "Custom video base prices: 1 minute $45, 2 minutes $55, 3 minutes $65, 4 minutes $75.",
     "Optional add ons cost extra and all requests are subject to approval."
   ],
+  "Physical": [
+    "Panties, worn socks and other approved physical customs are handled by request.",
+    "Worn items start at $50 and may cost up to $200 depending on your request. Shipping is quoted separately.",
+    "Tell me what you want when you send your order. I confirm availability, pricing and shipping before payment."
+  ],
   "More": [
-    "Worn items range from $50 to $200. Any shipping charges are confirmed separately.",
     "Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
     "VIDEO CALLS · WITH VIP: 5 minutes $50 or 8 minutes $70. Active VIP membership required.",
     "WITHOUT VIP: 5 minutes $80 or 8 minutes $105. Calls are selective and approved before payment.",
@@ -317,7 +325,7 @@ const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, VIP, customs, and Calls & Extras. Video calls are last. For premade content, pick your category first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, VIP, custom videos, panties & physical customs, and calls. Video calls are last. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
