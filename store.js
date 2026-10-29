@@ -341,10 +341,10 @@ categories.forEach(([key,label],i)=>{
 const onlyfans=el('a','onlyfans-category-link');
 onlyfans.href='https://onlyfans.com/kissedbyevie';
 onlyfans.target='_blank';onlyfans.rel='noopener noreferrer';
-onlyfans.setAttribute('aria-label','Visit Kissed by Evie on OnlyFans (opens a new tab)');
+onlyfans.setAttribute('aria-label','OnlyFans: free first month, then $4 per month (opens a new tab)');
 const onlyfansIcon=el('img','onlyfans-brand-icon');
 onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.width=23;onlyfansIcon.height=23;
-onlyfans.append(onlyfansIcon,el('span','','ONLYFANS'));
+onlyfans.append(onlyfansIcon,el('span','','FREE 1 MONTH · THEN $4/MO'));
 controls.append(onlyfans);
 function menuAction(p){
   if(p.section==='VideoCalls')return {label:'Request this video call',variant:p.name.startsWith('VIP')?'btn-spotlight':'btn-primary'};
