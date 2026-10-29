@@ -87,7 +87,7 @@
   var bagPill=document.getElementById('bagPill');
   var cart=[];
   function singleQty(exclusive,name){
-    return ['membership','of','vault'].includes(exclusive)||/monthly|renewal/i.test(name||'');
+    return ['membership','of','vault','quote'].includes(exclusive)||/monthly|renewal/i.test(name||'');
   }
   function saveCart(){
     try{sessionStorage.setItem('evie-bag-v3',JSON.stringify(cart))}catch(e){}
@@ -324,14 +324,14 @@
       var row=document.createElement('div');row.className='cart-item';
       var info=document.createElement('div');
       var name=document.createElement('strong');name.textContent=item.name;
-      var price=document.createElement('small');price.textContent=money(item.price)+' each';
+      var price=document.createElement('small');price.textContent=item.exclusive==='quote'?'Price confirmed before payment':money(item.price)+' each';
       info.append(name,price);
       var controls=document.createElement('div');controls.className='cart-controls';
       var minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.setAttribute('aria-label','Remove one '+item.name);minus.addEventListener('click',function(){modifyItem(item.name,-1)});
       var qty=document.createElement('span');qty.textContent=String(item.qty);qty.setAttribute('aria-label','Quantity '+item.qty);
       var plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.setAttribute('aria-label','Add one '+item.name);plus.disabled=singleQty(item.exclusive,item.name);plus.addEventListener('click',function(){modifyItem(item.name,1)});
       controls.append(minus,qty,plus);
-      var subtotal=document.createElement('strong');subtotal.textContent=money(item.price*item.qty);
+      var subtotal=document.createElement('strong');subtotal.textContent=item.exclusive==='quote'?'Quote pending':money(item.price*item.qty);
       var remove=document.createElement('button');remove.type='button';remove.className='remove-item';remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+item.name+' from bag');
       remove.addEventListener('click',function(){cart=cart.filter(function(entry){return entry!==item});renderCart()});
       var right=document.createElement('div');right.style.textAlign='right';right.append(subtotal,controls,remove);
@@ -342,8 +342,8 @@
     }
     var voiceUpsell=document.getElementById('voiceNoteUpsell');
     if(voiceUpsell)voiceUpsell.hidden=cart.some(function(item){return item.name==='Voice Note'});
-    document.getElementById('drawerTotal').textContent=money(cartTotal());
-    document.getElementById('bagTotal').textContent=money(cartTotal());
+    document.getElementById('drawerTotal').textContent=money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + quote':'');
+    document.getElementById('bagTotal').textContent=money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + quote':'');
     document.getElementById('bagCount').textContent=String(cart.reduce(function(sum,item){return sum+item.qty},0));
     document.getElementById('monthlyNote').hidden=!cart.some(function(item){return item.exclusive==='membership'||item.exclusive==='of'});
     document.getElementById('copyOrder').disabled=cart.length===0;
@@ -355,8 +355,8 @@
   }
   function orderMessage(){
     return 'Hey Evie ♡ Here are my picks:\n\n'+cart.map(function(item){
-      return '• '+item.qty+' × '+item.name+' — '+money(item.price*item.qty);
-    }).join('\n')+'\n\nEstimated total: '+money(cartTotal())+
+      return '• '+item.qty+' × '+item.name+' — '+(item.exclusive==='quote'?'PRICE TO CONFIRM':money(item.price*item.qty));
+    }).join('\n')+'\n\nEstimated total for priced items: '+money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + custom quote(s) pending':'')+
     '\n\nMy Snap/Telegram: [your username]'+
     '\nExtras or requests: [optional]'+
     '\n\nPlease confirm availability, delivery time, final custom quotes and how to pay!'+
