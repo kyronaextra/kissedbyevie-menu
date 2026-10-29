@@ -1029,3 +1029,11 @@ html{scroll-behavior:auto}
 .evie-entry-foot{border-top:1px solid rgba(255,255,255,.16);padding-top:20px;margin:27px 0 0;font:400 11px/1.6 'DM Sans',sans-serif;color:#d9b2c4}
 .evie-entry-gate button:focus-visible,.evie-entry-gate a:focus-visible{outline:2px solid #fff;outline-offset:4px}
 @media (prefers-reduced-motion:reduce){.evie-entry-gate *{transition:none!important}}
+
+
+/* Physical customs: native, accessible add-ons that update the displayed price. */
+#boutique .menu-v2-addons{min-width:0;margin:15px 0 4px;padding:13px 14px 12px;border:1px solid rgba(246,179,203,.4);border-radius:11px;background:rgba(60,18,41,.33)}
+#boutique .menu-v2-addon-heading{padding:0 7px;color:#ffc6dd;font:800 11px/1.4 var(--body);letter-spacing:.09em;text-transform:uppercase}
+#boutique .menu-v2-addon{display:flex;align-items:flex-start;gap:11px;margin:7px 0;padding:6px 0;color:#ffe3ee;font:600 14px/1.5 var(--body);cursor:pointer}
+#boutique .menu-v2-addon input[type="checkbox"]{flex:0 0 auto;appearance:auto;width:19px;height:19px;margin:2px 0 0;accent-color:#f5a0bd;cursor:pointer}
+#boutique .menu-v2-addon input[type="checkbox"]:focus-visible{outline:2px solid #fff;outline-offset:3px}
