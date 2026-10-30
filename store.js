@@ -7,7 +7,7 @@ const vipSaleNames=new Set(['VIP Daddy Package','Ultimate VIP Daddy Package']);
 const categories=[
   [
     "Mid",
-    "$20 to $50 · Lives & More"
+    "$20 to $50 · Lives"
   ],
   [
     "Budget",
@@ -19,7 +19,7 @@ const categories=[
   ],
   [
     "Customs",
-    "Custom Videos"
+    "Customs & Photo Sets"
   ],
   [
     "Physical",
@@ -27,12 +27,12 @@ const categories=[
   ],
   [
     "More",
-    "Calls & Extras"
+    "Calls, Live Snaps & Extras"
   ]
 ];
 const products=[
 {
-    "section": "Mid",
+    "section": "More",
     "name": "Live Snaps, 15 Minutes",
     "price": 45,
     "badge": "LIVE FAVORITE",
@@ -40,19 +40,19 @@ const products=[
     "note": "Live availability confirmed before payment."
   },
   {
-    "section": "Mid",
+    "section": "More",
     "name": "10 Live Pics & Videos",
     "price": 20,
     "description": "Ten pics and videos made live for you. We confirm the timing first."
   },
   {
-    "section": "Mid",
+    "section": "More",
     "name": "20 Live Pics & Videos",
     "price": 40,
     "description": "Double the live snaps. Twenty real time pics and videos."
   },
   {
-    "section": "Mid",
+    "section": "More",
     "name": "Live Bubble, 2+ Minutes",
     "price": 35,
     "description": "A personal live Snapchat bubble plus pics. Available when I'm online."
@@ -92,14 +92,14 @@ const products=[
     "note": "Final quote confirmed before payment."
   },
   {
-    "section": "Mid",
+    "section": "Customs",
     "name": "Big Photo Set With Videos",
     "price": 30,
     "pickCategory": true,
     "description": "A bigger premade set with photos and videos. You pick the category."
   },
   {
-    "section": "Mid",
+    "section": "Customs",
     "name": "Custom Video, 1 Minute",
     "price": 45,
     "description": "One minute made for you, based on an approved request.",
@@ -119,7 +119,7 @@ const products=[
     "description": "50 of my best pics and videos, with long videos included."
   },
   {
-    "section": "Mid",
+    "section": "More",
     "name": "Flash & 5 Live Teasers",
     "price": 25,
     "description": "A quick flash and five live teaser videos, when available."
@@ -149,7 +149,7 @@ const products=[
     "note": "The final price is confirmed for your selection."
   },
   {
-    "section": "Budget",
+    "section": "Customs",
     "name": "Premade Photo Set",
     "price": 15,
     "pickCategory": true,
@@ -361,7 +361,7 @@ if(vipSaleActive){
 }
 const notes={
   "Mid": [
-    "Live content and calls are scheduled with me. Please confirm availability before paying.",
+    "Live sessions are scheduled with me. Please confirm availability before paying.",
     "All times and quantities refer to the item you select. There are no automatic bookings."
   ],
   "Budget": [
@@ -382,7 +382,7 @@ const notes={
     "Custom themes, availability, print sizes, and shipping are confirmed with me before payment. No boxes are exactly alike."
   ],
   "More": [
-    "Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
+    "Live Snaps and videos are scheduled with me. Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
     "VIDEO CALLS · WITH VIP: 5 minutes $50 or 8 minutes $70. Active VIP membership required.",
     "WITHOUT VIP: 5 minutes $80 or 8 minutes $105. Calls are selective and approved before payment.",
     "No, I’m not lowering it if you don’t have VIP and especially if you have no interest in anything else."
@@ -392,7 +392,7 @@ const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, VIP, custom videos, panties & physical customs, and calls. Video calls are last. For premade content, pick your category first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, VIP, customs & photo sets, panties & physical customs, and more. Video calls are last. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -446,7 +446,7 @@ categories.forEach(([section],i)=>{
  panel.setAttribute('aria-labelledby','tab-'+section);
  panel.hidden=i!==0;
  const categoryProducts=products.filter(p=>p.section===section);
- // Calls & Extras stays last, with video call options at the end.
+ // More stays last, with calls, live Snaps and videos, and video call options at the end.
  if(section==='More')categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
  let videoHeadingAdded=false;
  categoryProducts.forEach(p=>{
