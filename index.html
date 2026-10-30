@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10070c">
 <meta name="description" content="Kissed by Evie. A private menu and member experience.">
-<meta property="og:title" content="My Menu Is Here">
-<meta property="og:description" content="exclusive vault access • full menu • A private world for my favorites .">
+<meta property="og:title" content="Everything I Sell | Kissed by Evie">
+<meta property="og:description" content="The full menu, the vault, VIP, and my order rules. Pick fast.">
 <meta property="og:image" content="https://kissedbyevie-menu.onrender.com/assets/photos/evie-hero-new.jpg">
 <meta property="og:url" content="https://kissedbyevie-menu.onrender.com/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>My Menu Is Here | Kissed by Evie</title>
+<title>Everything I Sell | Kissed by Evie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
@@ -21,8 +21,9 @@
 <link rel="stylesheet" href="public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script defer src="store.js?v=20261030-vip-gallery-3"></script>
-<script defer src="app.js?v=20261030-gallery-drop-4"></script>\n<script defer src="vip-terms.js?v=20261030-fulfillment-1"></script>
+<script defer src="store.js?v=20261030-menu-copy-1"></script>
+<script defer src="app.js?v=20261030-bratty-copy-1"></script>
+<script defer src="vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
@@ -71,12 +72,10 @@
 .menu-home-main .boutique-top .eyebrow{color:#edcfaa}
 .menu-home-main .boutique-top>p:last-child{margin:15px auto 0}
 .menu-home-main .payments{padding-top:45px}
-.menu-high-value-photo{width:clamp(116px,15vw,184px);align-self:stretch;flex:0 0 auto;overflow:hidden;border:1px solid rgba(240,217,183,.28);border-radius:8px;background:#180d14}
-.menu-high-value-photo img{display:block;width:100%;height:100%;min-height:190px;max-height:270px;object-fit:cover;object-position:center 25%}
 .menu-home-footer{padding:24px clamp(18px,5vw,72px);display:flex;justify-content:space-between;gap:14px;align-items:center;border-top:1px solid rgba(240,217,183,.18);color:#d0bcb6;font:11px/1.5 "DM Sans",sans-serif}
 .menu-home-footer a{color:#f0d9b7}
 .terms-cart-note button{color:#e8d0b5}
-@media(max-width:680px){.menu-high-value-photo{width:100%;height:210px;max-height:none}.menu-high-value-photo img{height:100%;min-height:0;max-height:none}.menu-home-footer{flex-direction:column;align-items:flex-start}}
+@media(max-width:680px){.menu-home-footer{flex-direction:column;align-items:flex-start}}
 
 /* USDC receive panel */
 .crypto-wallet-grid{max-width:1120px;margin:34px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:18px;align-items:stretch}
@@ -111,16 +110,17 @@
 .age-gate-actions a{color:#ffe6f5}
 .age-gate-note{font-size:12px!important;color:#c9b5c4!important}
 </style></head>
-<body id="top">\n<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
+<body id="top">
+<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
   <div class="age-gate-panel">
     <span class="age-gate-kicker">ADULTS ONLY · 18+</span>
-    <h1 id="ageGateTitle">Before you <em>come in.</em></h1>
-    <p id="ageGateDescription">This site is for adults. Confirm that you are at least 18 years old to continue.</p>
+    <h1 id="ageGateTitle">You’re not supposed to <em>be here.</em></h1>
+    <p id="ageGateDescription">Unless you’re 18. Then you are.</p>
     <div class="age-gate-actions">
-      <button type="button" id="ageGateConfirm">I am 18 or older · Enter</button>
-      <a href="https://www.google.com/" rel="nofollow">I am under 18 · Leave</a>
+      <button type="button" id="ageGateConfirm">I’m 18+ · Let me in</button>
+      <a href="https://www.google.com/" rel="nofollow">I’m not · Leave</a>
     </div>
-    <p class="age-gate-note">This is an age self-confirmation. It does not verify your identity or replace any separate age check required for restricted content.</p>
+    <p class="age-gate-note">Self-confirmation only. Don’t lie to me. I’ll find out.</p>
   </div>
 </div>
 <header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a></nav></header>
@@ -130,19 +130,19 @@
   <span id="custom" aria-hidden="true"></span>
   <div class="boutique-top reveal">
     <p class="eyebrow">KISSEDBYEVIE CONTENT MENU</p>
-    <h2 id="boutiqueHeading">My Menu <em>Is Here</em></h2>
-    <p>Browse the full menu, choose your picks, then send your order for confirmation.</p>
+    <h2 id="boutiqueHeading">Everything I sell. <em>Pick fast.</em></h2>
+    <p>No haggling. The prices are the prices. They’re not changing because you asked nicely.</p>
   </div>
 
   <div id="boutiqueCatalog"></div>
 
   <div class="menu-order-panel" id="work-order">
-    <p class="eyebrow">SO. ARE YOU READY OR WHAT</p>
-    <h3>Your picks, my inbox.</h3>
-    <p>After I confirm your order and amount, you can send USDC using the wallet details below.</p>
-    <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Review &amp; send my order</button>
+    <p class="eyebrow">SO. ARE YOU READY, OR WHAT?</p>
+    <h3>Your picks. My inbox. Don’t waste my time.</h3>
+    <p>Build the order, send it to me, I confirm the amount, then you pay. In that order.</p>
+    <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Send me your order</button>
     <a class="primary-btn offer-x-button" href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me your offer on X <span aria-hidden="true">↗</span></a>
-    <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your favorites above, then tap here.</p>
+    <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your picks above first. I can’t read your mind.</p>
   </div>
 </section>
 
@@ -151,7 +151,7 @@
   <div class="curated-gallery-heading">
     <p class="eyebrow">A LITTLE LOOK INTO MY WORLD</p>
     <h2 id="curatedGalleryHeading">Some photos <em>of me</em></h2>
-    <p>A few favorite moments, gathered in one place.</p>
+    <p>A few I actually like. The rest you’ll have to buy.</p>
   </div>
   <div class="curated-gallery-grid">
     <a href="/assets/photos/evie-gallery-15.webp" target="_blank" rel="noopener"><img src="/assets/photos/evie-gallery-15.webp" alt="Evie in a burgundy look" loading="lazy"></a>
@@ -166,14 +166,13 @@
 <!-- PAYMENT OPTIONS -->
 <section class="payments" aria-labelledby="payHeading">
   <h2 id="payHeading">How to pay</h2>
-  <p class="sub">Build your order, copy it, and send it in our chat. I’ll confirm your order and amount before you send payment.</p>
+  <p class="sub">Build the order, send it, I confirm the amount, then you pay. In that order.</p>
   <div class="pay-grid">
     <span class="pay-chip">CashApp</span>
     <span class="pay-chip">Venmo</span>
-    <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
     <span class="pay-chip">USDC crypto</span>
-    <span class="pay-chip pay-chip-soon">Revolut — coming soon</span>
-    <span class="pay-chip pay-chip-soon">Stripe — coming soon</span>
+    <span class="pay-chip">Bitcoin</span>
+    <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
   </div>
   <div class="crypto-wallet-grid" id="crypto-payment">
     <article class="crypto-receive-card">
@@ -228,8 +227,9 @@
       </figure>
     </article>
   </div>
-  <p class="sub" style="margin-top:1.25rem;">Add your picks to the bag, review your order, and send it in chat. I’ll confirm payment and delivery with you.</p>
-  <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
+  <p class="sub" style="margin-top:1.25rem;">Build the order, send it, I confirm the amount, then you pay. In that order.</p>
+  <p class="sub">Anyone who sends crypto before I confirm gets to wait while I sort it out.</p>
+  <p class="sub">Stripe and Revolut aren’t coming. I keep being told they are. They’re not.</p>
 </section>
 
 
@@ -244,7 +244,7 @@
       <p>I'm Evie. I study, I work a real job, I build weird tools for this industry, and somewhere in between all that I take my clothes off for money.</p>
       <p>Everything relevant lives here: my life, my interests, what I'm studying, what I'm building, and the occasional completely unfiltered rant. If you want the polished version, you're on the wrong site.</p>
       <a class="evie-about-link" href="blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots &amp; fake personalities</a>
-      <span class="handwritten">Take your time. ♡</span>
+      <p class="about-closing">I’m not for everyone. That’s the point.</p>
     </div>
     <button class="editorial-image image-button reveal" type="button" data-set="diary" data-photo="0" aria-label="View first photo diary image">
       <img src="/assets/photos/evie-about-01.jpg" alt="Evie sitting comfortably on a couch in warm natural light" loading="lazy" style="object-position:center 18%">
@@ -253,7 +253,8 @@
   </div>
 </section>
 
-</main>\n<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
+</main>
+<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
 <button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag"><span id="bagCount">0</span><span>Bag · <strong id="bagTotal">$0</strong></span></button>
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
 <dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">

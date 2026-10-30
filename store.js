@@ -11,77 +11,78 @@ const categories=[
 ];
 const products=[
   {section:'BestSellers',name:'10 Items · This Month’s Set',price:10,
-   description:'10 items from this month’s set.',unit:'$1 per item'},
+   description:'Ten things from this month. That’s it. Don’t expect me to be grateful.',unit:'$1 per item'},
   {section:'BestSellers',name:'20 Items + Free Voice Note',price:20,
-   description:'20 items from this month’s set plus one free voice note.',unit:'$1 per item'},
+   description:'Twenty, plus a voice note saying your name like I mean it. I won’t.',unit:'$1 per item'},
   {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
-   description:'50 items from this month’s set with live, teasing Snaps.',unit:'$1 per item'},
-  {section:'Dropbox',name:'The Dropbox · 800+ Items',price:75,group:'vault',
-   description:'The whole archive with lifetime access and one new drop added monthly.',
-   note:'Includes squirting, JOI, B/G, anal, teasers, pics, clips, BJ, BJ POV, solo content, orgasms, cream, feet, fetish content, and collabs.'},
+   description:'The whole month, plus live teasy Snaps while I’m in the mood to send them.',unit:'$1 per item'},
+  {section:'Dropbox',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',
+   description:'Everything I’ve made since 2021. Lifetime access, plus one new drop a month. You really don’t need to ask me for the archive again.',
+   note:'Squirting, JOI, B/G, anal, teasers, pics, clips, BJ, BJ POV, solo, orgasms, cream, feet, fetish, collabs. If it’s not in there, I haven’t done it yet.',
+   badge:'800+ PIECES'},
   {section:'VIP',name:'GFE',price:70,group:'membership',
-   description:'Your everyday girlfriend experience.',
-   features:['Daily Snaps + Videos (LIVE)','Priority messaging','Casual conversations','Phone number','Free OnlyFans','50 curated videos + photos','Casual FaceTimes and calls only']},
-  {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'BEST VALUE',
-   description:'One month of GFE with my complete content vault and personal access.',
-   features:['1 month GFE','1 minute free custom snap','Priority messaging','Casual conversations','Phone number','Free OnlyFans','My whole vault · 800+ pieces of content','Curated videos + photos sent in chat','Explicit and casual FaceTimes + calls']},
-  {section:'VIP',name:'VIP · 3 Months GFE',price:300,group:'membership',
-   description:'Three months of GFE, with extra custom content and a more personalized experience.',
-   features:['3 months GFE','Everything in 1 Month VIP','2 minute custom video','Discounted FaceTimes + calls','Free OnlyFans for 1 year','One request each week for an upcoming Stripchat Live; I’ll record it if you can’t attend','Daily snaps + videos made just for you','Personalized experience based on your kinks']},
+   description:'The starter version. Let’s see if you can keep up.',
+   features:['A Snap every morning. A clip most nights.','I answer you first. Not always fast. First.','Actual conversation about your day, not just my content.','My real number, not a burner.','OnlyFans on me.','Fifty things I picked for you. No folder dump.','Casual FaceTime or call when I’m free. Free means free. Don’t push it.'],
+   note:'No vault and no explicit calls. If that’s what you came for, keep scrolling.'},
+  {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'MOST AFFORDABLE VIP',
+   description:'The real version. Everything in GFE, plus the things I don’t hand out.',
+   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me'],
+   note:'10 seats. That’s the whole thing. I can’t look after more than ten at once.'},
+  {section:'VIP',name:'VIP · 3 Months GFE',price:300,group:'membership',badge:'BEST VALUE',
+   description:'Three months. One month is a trial run and we both know it.',
+   features:['Three months of GFE','Everything in 1 Month VIP','A two-minute custom video','Discounted FaceTimes and calls','OnlyFans on me for a year','One request a week for my Stripchat live. Can’t make it? I’ll record it.','Daily Snaps and videos made just for you','Built around your kinks. Tell me what they are.'],
+   note:'$3.30 a day. Less than the coffee you’re drinking while you decide.'},
   {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
-   description:'Five custom photos. Add $7 per additional photo.'},
+   description:'Five photos, exactly what you ask for. Add $7 for each one after that.'},
   {section:'Customs',name:'Custom Video · 3 Minutes',price:60,
-   description:'Three minute custom video. Add $15 per minute after the first three. Potential add on fees are quoted first.'},
+   description:'Three minutes, your idea. Add $15 a minute after that. Anything unusual gets quoted before I start.'},
   {section:'Customs',name:'Same Day Turnaround',price:15,extra:true,
-   description:'Priority delivery when my schedule allows. Ask first.'},
-  {section:'More',name:'Live Content Add On',price:10,
-   description:'Live content made for you and sent in chat.'},
+   description:'If my schedule allows. It usually doesn’t. Ask anyway.'},
+  {section:'More',name:'Live Clips · Sent to Your Chat',price:10,
+   description:'A few live clips, sent to your chat. Don’t ask what they are. You’ll see.'},
   {section:'More',name:'Moan Your Name',price:10,
-   description:'Add your name to an approved custom. This keeps the content exclusive to your order.'},
-  {section:'More',name:'JOI Add On',price:20,
-   description:'Dirty talk and JOI added to an approved session.'},
+   description:'Your name in my mouth on an approved custom. This version is just for you.'},
+  {section:'More',name:'JOI Add-On',price:20,
+   description:'Dirty talk and JOI on top of a session you already booked.'},
   {section:'More',name:'Voice Note',price:10,
-   description:'A personal voice note from me.'},
+   description:'Me, saying something to you specifically. I’ll be nice. Probably.'},
   {section:'More',name:'Dick Rate · Text',price:20,
-   description:'A personalized written rating.'},
+   description:'Written. Blunt. You asked.'},
   {section:'More',name:'Dick Rate · Video',price:35,
-   description:'A personalized video rating.'},
+   description:'On camera, out loud, to your face.'},
   {section:'More',name:'Sexting · 10 Minutes',price:30,unit:'text only',
-   description:'Ten minutes of private sexting, scheduled with me.'},
+   description:'Text only. Ten minutes.'},
   {section:'More',name:'Sexting · 15 Minutes',price:40,unit:'text only',
-   description:'Fifteen minutes of private sexting, scheduled with me.'},
+   description:'Fifteen. Use them well.'},
   {section:'More',name:'Sexting · 30 Minutes',price:75,unit:'text only',
-   description:'Thirty minutes of private sexting, scheduled with me.'},
-  {section:'More',name:'Live Snap Show · 2 Minutes',price:45,
-   description:'A 2 minute live Snap show.'},
-  {section:'More',name:'Live Snap Show · 5 Minutes',price:65,
-   description:'A 5 minute live Snap show. Sit back and relax, like a FaceTime, without me needing to see you.'}
+   description:'Half an hour of my full attention. That’s a lot of time I could be making sales.'},
+  {section:'More',name:'Live Snap Show · 2 Minutes',price:35,
+   description:'Like a FaceTime, except I don’t have to look at you. Sit back and watch. Includes a few live pics. Content only, no extended chatting or dirty talk.'},
+  {section:'More',name:'Live Snap Show · 4 Minutes',price:60,
+   description:'Four minutes, plus a few live pics. Content only, no extended chatting or dirty talk.'}
 ];
 const notes={
   "BestSellers": [
-    "A new set drops on the 1st. Last month’s set is pulled and moved to the Dropbox, so it becomes archive only.",
-    "The 10, 20, and 50 item offers are from this month’s set."
+    "New set on the 1st. Last month’s gets pulled and buried in the Dropbox, so if you wanted it, you should’ve been faster. These packs are this month only."
   ],
   "Dropbox": [
-    "The Dropbox is the whole archive with lifetime access and one new drop added monthly."
+    "Already bought a pack and want VIP? Ask and I’ll send the difference. I’m generous, not stupid. Cheaper per piece than anything else on this page. I’m aware. Don’t get used to it."
   ],
   "VIP": [
-    "VIP has 10 seats. VIP Elite has 5 seats. FaceTime and sexting minutes reset monthly.",
-    "Additional FaceTime is $60 per 8 minutes and is only available to VIP members."
+    "FaceTime comes with VIP. Extra time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
   ],
   "Customs": [
-    "Custom photo sets start at 5 for $45, plus $7 per additional photo.",
-    "Custom videos start at 3 minutes for $60, plus $15 per minute after the first three. Same day priority is $15 when my schedule allows."
+    "Custom photo sets start at 5 for $45, plus $7 a photo. Videos start at 3 minutes for $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve quoted you and you’ve agreed. No surprise invoices, no surprise requests."
   ],
   "More": [
-    "Live content and add ons are scheduled with me. Please confirm availability before paying."
+    "Live things get scheduled with me. I confirm the time before you pay. Don’t send money for a live without a confirmed time."
   ]
 };
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
-const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the best sellers, then browse the rest of the menu. For premade content, pick your category first.';
+const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Know what you want?';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Most of you don’t. Start with the Dropbox. It’s the only thing here that’s actually a bargain, and I don’t say that often.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -114,9 +115,10 @@ function menuAction(p){
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
-  if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
+ if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
  if(p.group==='vault')return {label:'Get the vault',variant:'btn-primary'};
- if(p.name.includes('Live'))return {label:'Choose this live',variant:'btn-primary'};
+  if(p.name==='Live Clips · Sent to Your Chat')return {label:'Add these clips',variant:'btn-primary'};
+  if(p.name.startsWith('Live Snap Show'))return {label:'Choose this live',variant:'btn-primary'};
  if(p.name.includes('Sexting'))return {label:'Choose this session',variant:'btn-primary'};
  if(p.name.includes('Phone Call'))return {label:'Request a call',variant:'btn-secondary'};
  if(p.name.includes('Custom'))return {label:'Request this custom',variant:'btn-primary'};
@@ -124,7 +126,7 @@ function menuAction(p){
  return {label:'Add to bag',variant:'btn-secondary'};
 }
 categories.forEach(([section],i)=>{
- const panel=el('div','product-panel menu-v2-panel');
+ const panel=el('div','product-panel menu-v2-panel'+(section==='VIP'?' vip-three':''));
  panel.id='panel-'+section;
  panel.setAttribute('role','tabpanel');
  panel.setAttribute('aria-labelledby','tab-'+section);
@@ -209,16 +211,7 @@ categories.forEach(([section],i)=>{
    }
    refreshChoices();
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   if(p.price>=55&&section!=='VIP'){
-     const photo=el('div','menu-high-value-photo');
-     const image=document.createElement('img');
-     const photoIndex=(Math.abs(p.name.split('').reduce((sum,ch)=>sum+ch.charCodeAt(0),0))%6)+1;
-     image.src=p.photo||('/assets/photos/evie-menu-0'+photoIndex+'.jpg');
-     image.alt='Evie photo preview for '+p.name;
-     image.loading='lazy';image.decoding='async';
-     photo.append(image);
-     card.append(info,photo,buy);
-   }else card.append(info,buy);
+   card.append(info,buy);
    panel.append(card);
  });
  const list=notes[section]||[];

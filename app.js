@@ -361,7 +361,7 @@
       row.append(info,right);lines.append(row);
     });
     if(!cart.length){
-      var empty=document.createElement('p');empty.className='empty-cart';empty.textContent='Nothing in your bag yet. Pick something you love from the menu. ♡';lines.append(empty);
+      var empty=document.createElement('p');empty.className='empty-cart';empty.textContent='Nothing in here yet. Bold of you to scroll this far empty-handed.';lines.append(empty);
     }
     var voiceUpsell=document.getElementById('voiceNoteUpsell');
     if(voiceUpsell)voiceUpsell.hidden=cart.some(function(item){return item.name==='Voice Note'});
@@ -377,12 +377,12 @@
     saveCart();
   }
   function orderMessage(){
-    return 'Hey Evie ♡ Here are my picks:\n\n'+cart.map(function(item){
+    return 'Hey Evie, here are my picks:\n\n'+cart.map(function(item){
       return '• '+item.qty+' × '+item.name+' — '+(item.exclusive==='quote'?'PRICE TO CONFIRM':money(item.price*item.qty));
     }).join('\n')+'\n\nEstimated total for priced items: '+money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + custom quote(s) pending':'')+
     '\n\nMy Snap/Telegram: [your username]'+
     '\nExtras or requests: [optional]'+
-    '\n\nPlease confirm availability, delivery time, final custom quotes and how to pay!'+
+    '\n\nPlease confirm the amount, delivery timing, any final custom quotes, and payment details before I pay.'+
     '\n\nI confirm I am 18+ and agree to the Fulfillment Agreement.';
   }
   async function copyOrderText(){
@@ -402,7 +402,7 @@
   if(reviewOrder)reviewOrder.addEventListener('click',function(){
     if(!cart.length){
       const hint=document.getElementById('reviewOrderHint');
-      if(hint)hint.textContent='Choose an item above first ♡';
+      if(hint)hint.textContent='Choose an item above first.';
       document.getElementById('boutiqueCatalog').scrollIntoView({behavior:reduceBehavior,block:'start'});
       return;
     }
@@ -412,7 +412,7 @@
     var feedback=document.getElementById('cartFeedback');
     try{
       await copyOrderText();
-      feedback.textContent='Copied! Paste your picks into our Telegram chat and hit send ♡';
+      feedback.textContent='Copied! Paste your picks into our Telegram chat and hit send.';
       window.location.assign('https://t.me/kissedbyevie');
     }catch(e){
       feedback.textContent='Copy failed. Tap Copy order only, then paste your picks into our chat.';
