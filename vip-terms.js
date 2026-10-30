@@ -7,7 +7,7 @@
   const close=document.getElementById('termsClose');
   if(!dialog||!agree||!checkbox||!close)return;
 
-  const KEY='evie-vip-terms-accepted-2026-10-26';
+  const KEY='evie-fulfillment-agreement-accepted-2026-10-30';
   let previousFocus=null;
   function hasAccepted(){
     try{return sessionStorage.getItem(KEY)==='yes'}catch(_e){return false}
@@ -30,7 +30,7 @@
     try{sessionStorage.setItem(KEY,'yes')}catch(_e){}
     closeTerms();
     const feedback=document.getElementById('cartFeedback');
-    if(feedback)feedback.textContent='Rules acknowledged ♡ You can now tap your order button again.';
+    if(feedback)feedback.textContent='Fulfillment agreement acknowledged ♡ You can now send your order.';
   });
   dialog.addEventListener('close',function(){
     if(previousFocus&&previousFocus.isConnected&&previousFocus.focus)previousFocus.focus();
