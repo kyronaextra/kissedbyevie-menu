@@ -108,11 +108,11 @@
     return ['membership','of','vault','quote'].includes(exclusive)||/monthly|renewal/i.test(name||'');
   }
   function saveCart(){
-    try{sessionStorage.setItem('evie-bag-v3',JSON.stringify(cart))}catch(e){}
+    try{sessionStorage.setItem('evie-bag-v4',JSON.stringify(cart))}catch(e){}
   }
   function loadCart(){
     try{
-      var parsed=JSON.parse(sessionStorage.getItem('evie-bag-v3')||'[]');
+      var parsed=JSON.parse(sessionStorage.getItem('evie-bag-v4')||'[]');
       if(!Array.isArray(parsed))return;
       cart=parsed.filter(function(item){
         return item&&typeof item.name==='string'&&item.name!=='OnlyFans Monthly'&&Number.isFinite(Number(item.price))&&item.qty>0;
