@@ -19,12 +19,15 @@ const products=[
   {section:'Dropbox',name:'The Dropbox · 800+ Items',price:75,group:'vault',
    description:'The whole archive with lifetime access and one new drop added monthly.',
    note:'Includes squirting, JOI, B/G, anal, teasers, pics, clips, BJ, BJ POV, solo content, orgasms, cream, feet, fetish content, and collabs.'},
-  {section:'VIP',name:'VIP',price:70,group:'membership',
-   description:'Dropbox access, one 5 minute FaceTime per month, 30 minutes of sexting per month, custom content, and priority booking.',
-   note:'10 seats. New drops have standard access. Additional FaceTime is $60 per 8 minutes and is available only to VIP members.'},
-  {section:'VIP',name:'VIP Elite',price:150,group:'membership',
-   description:'Dropbox access, one 15 minute FaceTime per month, 60 minutes of sexting per month, custom content, first access to new drops and live content, and priority expedited booking.',
-   note:'5 seats. Includes one 2 minute video custom.'},
+  {section:'VIP',name:'GFE',price:70,group:'membership',photo:'/assets/photos/evie-gallery-15.webp',
+   description:'Your everyday girlfriend experience.',
+   features:['Daily Snaps + Videos (LIVE)','Priority messaging','Casual conversations','Phone number','Free OnlyFans','50 curated videos + photos','Casual FaceTimes and calls only']},
+  {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',photo:'/assets/photos/evie-gallery-16.webp',badge:'BEST VALUE',
+   description:'One month of GFE with my complete content vault and personal access.',
+   features:['1 month GFE','1 minute free custom snap','Priority messaging','Casual conversations','Phone number','Free OnlyFans','My whole vault · 800+ pieces of content','Curated videos + photos sent in chat','Explicit and casual FaceTimes + calls']},
+  {section:'VIP',name:'VIP · 3 Months GFE',price:300,group:'membership',photo:'/assets/photos/evie-gallery-17.webp',
+   description:'Three months of GFE, with extra custom content and a more personalized experience.',
+   features:['3 months GFE','Everything in 1 Month VIP','2 minute custom video','Discounted FaceTimes + calls','Free OnlyFans for 1 year','One request each week for an upcoming Stripchat Live; I’ll record it if you can’t attend','Daily snaps + videos made just for you','Personalized experience based on your kinks']},
   {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
    description:'Five custom photos. Add $7 per additional photo.'},
   {section:'Customs',name:'Custom Video · 3 Minutes',price:60,
@@ -210,7 +213,7 @@ categories.forEach(([section],i)=>{
      const photo=el('div','menu-high-value-photo');
      const image=document.createElement('img');
      const photoIndex=(Math.abs(p.name.split('').reduce((sum,ch)=>sum+ch.charCodeAt(0),0))%6)+1;
-     image.src='/assets/photos/evie-menu-0'+photoIndex+'.jpg';
+     image.src=p.photo||('/assets/photos/evie-menu-0'+photoIndex+'.jpg');
      image.alt='Evie photo preview for '+p.name;
      image.loading='lazy';image.decoding='async';
      photo.append(image);
