@@ -16,10 +16,6 @@ const categories=[
     "Customs & Photo Sets"
   ],
   [
-    "Physical",
-    "Panties & Physical Customs"
-  ],
-  [
     "More",
     "Calls, Live Snaps & Extras"
   ]
@@ -222,89 +218,6 @@ const products=[
     "description": "A full hour to talk. Casual conversation only."
   },
   {
-    "section": "Physical",
-    "name": "Worn Panties",
-    "price": 50,
-    "from": true,
-    "description": "Worn panties, from $50 up to $200 depending on the request.",
-    "note": "Availability, shipping details and the final price are confirmed before payment."
-  },
-  {
-    "section": "Physical",
-    "name": "Worn Socks",
-    "price": 50,
-    "from": true,
-    "description": "Worn socks, from $50 up to $200 depending on the request.",
-    "note": "Availability, shipping details and the final price are confirmed before payment."
-  },
-  {
-    section: 'Physical',
-    name: 'Evidence Mystery Bag · Panties + Digital Photos',
-    price: 85,
-    badge: 'THE $85 EVIDENCE BAG',
-    description: 'A sealed surprise with panties, digital photos, and a handwritten note. A little evidence that I exist outside your phone.',
-    note: 'Each bag is different. Final contents and shipping are confirmed before payment.'
-  },
-  {
-    section: 'Physical',
-    name: 'Evidence Mystery Bag · Panties + Printed Photos + Video',
-    price: 105,
-    badge: 'THE $105 EVIDENCE BAG',
-    description: 'Panties, physical printed photos, a digital video, and a handwritten note. A surprise made personal.',
-    note: 'Each bag is different. Final contents, digital delivery, and shipping are confirmed before payment.'
-  },
-  {
-    section: 'Physical',
-    name: 'Evidence Mystery Box',
-    price: 160,
-    badge: 'THE MYSTERY BOX',
-    description: 'A sealed surprise package with weird or sexy collectibles, a photo, and a handwritten note. No two boxes are exactly alike. I put real thought into it, especially when I know your tastes.',
-    addons: [{label:'Add panties',price:35}],
-    note: 'Panties are not included in the $160 base box. Check the $35 add-on if you want them. Details and shipping confirmed before payment.'
-  },
-  {
-    section: 'Physical',
-    name: 'Basic Physical Photo Set · 3 Prints',
-    price: 25,
-    description: 'Three printed physical photos with light, basic customization.',
-    note: 'You choose the general vibe. Printing and shipping details confirmed before payment.'
-  },
-  {
-    section: 'Physical',
-    name: 'True Custom Studio Photo Set · 3 Prints',
-    price: 60,
-    badge: 'STUDIO QUALITY',
-    description: 'Three studio-quality physical photos made for your request. We plan the theme together.',
-    addons: [
-      {label:'Add a signed physical copy',price:20},
-      {label:'Add a signed custom photo poster',price:130}
-    ],
-    note: 'Themes can include your favorite beer brand, sports team, or car. I approve the concept first. A frame is recommended for posters. Shipping quoted separately.'
-  },
-  {
-    section: 'Physical',
-    name: 'Signed Custom Photo Poster',
-    price: 130,
-    description: 'A signed physical poster made from your custom photo concept. Your favorite beer brand, sports team, or car? Tell me your idea.',
-    note: 'Poster only at this price. Custom photo production, approval, dimensions, and shipping are confirmed directly. I recommend buying a frame.'
-  },
-  {
-    section: 'Physical',
-    name: 'Original Photo Poster · Poster Only',
-    price: 60,
-    description: 'Just the physical poster featuring an original photo from my collection. No custom shoot included.',
-    note: 'Photo choice, dimensions, availability, and shipping confirmed before payment.'
-  },
-  {
-    section: 'Physical',
-    name: 'Lipstick Kiss + Handwritten Sexy Letter',
-    price: 0,
-    priceDisplay: 'Price on request',
-    quoteOnly: true,
-    description: 'A personalized handwritten letter finished with a lipstick kiss. Sweet, teasing, or a little mean. You pick the mood.',
-    note: 'Request a quote. Price and mailing details are confirmed before payment.'
-  },
-  {
     "section": "More",
     "name": "Deluxe Dropbox, 800+ Items",
     "price": 75,
@@ -342,11 +255,6 @@ const notes={
     "Custom video base prices: 1 minute $45, 2 minutes $55, 3 minutes $65, 4 minutes $75.",
     "Optional add ons cost extra and all requests are subject to approval."
   ],
-  "Physical": [
-    "Evidence bags: $85 with panties, digital photos and a note; $105 with panties, printed photos, digital video and a note.",
-    "Evidence Mystery Box: $160. Optional panties are +$35, selected on the box itself.",
-    "Custom themes, availability, print sizes, and shipping are confirmed with me before payment. No boxes are exactly alike."
-  ],
   "More": [
     "Live Snaps and videos are scheduled with me. Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
     "Video calls are selective, scheduled with me, and confirmed before payment."
@@ -356,7 +264,7 @@ const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, customs & photo sets, panties & physical customs, and more. For premade content, pick your category first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, customs & photo sets, and more. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -395,7 +303,6 @@ function menuAction(p){
  if(p.name.includes('Sexting'))return {label:'Choose this session',variant:'btn-primary'};
  if(p.name.includes('Phone Call'))return {label:'Request a call',variant:'btn-secondary'};
  if(p.name.includes('Custom'))return {label:'Request this custom',variant:'btn-primary'};
- if(p.name.includes('Worn'))return {label:'Ask about this',variant:'btn-secondary'};
  if(p.section==='Mid')return {label:'Add this pick',variant:'btn-primary'};
  return {label:'Add to bag',variant:'btn-secondary'};
 }
