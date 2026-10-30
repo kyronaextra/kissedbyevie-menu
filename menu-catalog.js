@@ -17,8 +17,8 @@ const products=[
   {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
    description:'The whole month, plus live teasy Snaps while I’m in the mood to send them.',unit:'$1 per item'},
   {section:'Dropbox',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',
-   description:'Everything I’ve made since 2021. Lifetime access, plus one new drop a month. You really don’t need to ask me for the archive again.',
-   note:'Squirting, JOI, B/G, anal, teasers, pics, clips, BJ, BJ POV, solo, orgasms, cream, feet, fetish, collabs. If it’s not in there, I haven’t done it yet.',
+   description:'Everything I’ve ever made. All of it. Lifetime access, one new drop a month, and you never have to ask me for anything again. Unless you want something personal for you.',
+   note:'And yes, I’m a squirter. If that’s what you came for, it’s in here, repeatedly, from several angles, and I didn’t clean up after myself in any of it. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. If it’s not in there, I haven’t done it yet. Cheaper per piece than anything else on this page. I’m aware. Don’t get used to it.',
    badge:'800+ PIECES'},
   {section:'VIP',name:'GFE',price:70,group:'membership',
    description:'The starter version. Let’s see if you can keep up.',
@@ -66,7 +66,7 @@ const notes={
     "New set on the 1st. Last month’s gets pulled and buried in the Dropbox, so if you wanted it, you should’ve been faster. These packs are this month only."
   ],
   "Dropbox": [
-    "Already bought a pack and want VIP? Ask and I’ll send the difference. I’m generous, not stupid. Cheaper per piece than anything else on this page. I’m aware. Don’t get used to it."
+    "Already bought a pack and want VIP? Ask and I’ll send the difference. I’m generous, not stupid."
   ],
   "VIP": [
     "FaceTime comes with VIP. Extra time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
@@ -116,8 +116,9 @@ function menuAction(p){
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
  if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
- if(p.group==='vault')return {label:'Get the vault',variant:'btn-primary'};
+ if(p.group==='vault')return {label:'Give me the whole thing',variant:'btn-primary'};
   if(p.name==='Live Clips · Sent to Your Chat')return {label:'Add these clips',variant:'btn-primary'};
+  if(p.name.includes('Live Teasy Snaps'))return {label:'Pick this pack',variant:'btn-primary'};
   if(p.name.startsWith('Live Snap Show'))return {label:'Choose this live',variant:'btn-primary'};
  if(p.name.includes('Sexting'))return {label:'Choose this session',variant:'btn-primary'};
  if(p.name.includes('Phone Call'))return {label:'Request a call',variant:'btn-secondary'};
