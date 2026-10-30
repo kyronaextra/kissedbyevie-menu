@@ -77,6 +77,24 @@
 .menu-home-footer a{color:#f0d9b7}
 .terms-cart-note button{color:#e8d0b5}
 @media(max-width:680px){.menu-high-value-photo{width:100%;height:210px;max-height:none}.menu-high-value-photo img{height:100%;min-height:0;max-height:none}.menu-home-footer{flex-direction:column;align-items:flex-start}}
+
+/* USDC receive panel */
+.crypto-receive-card{max-width:1120px;margin:34px auto 0;padding:clamp(20px,4vw,42px);display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,340px);gap:clamp(24px,5vw,60px);align-items:center;border:1px solid rgba(240,217,183,.3);border-radius:10px;background:linear-gradient(145deg,#24111e,#120a10);box-shadow:0 18px 60px rgba(0,0,0,.28)}
+.crypto-receive-copy h3{margin:12px 0;font:normal clamp(36px,5vw,58px)/1.05 "Italiana",Georgia,serif;color:var(--ivory)}
+.crypto-receive-copy h3 em{color:var(--rose);font-weight:normal}
+.crypto-receive-copy>p:not(.eyebrow){max-width:560px;color:var(--muted);line-height:1.7}
+.crypto-address-label{display:block;margin:22px 0 8px;color:var(--rose-bright);font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+.crypto-address-row{display:flex;gap:8px;align-items:stretch;max-width:650px}
+.crypto-address-row input{min-width:0;flex:1;padding:13px 12px;border:1px solid rgba(249,234,240,.25);border-radius:5px;background:#0c070b;color:#fff;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}
+.crypto-address-row button{padding:12px 15px;border:0;border-radius:5px;background:var(--rose);color:#180710;font-size:12px;font-weight:700;white-space:nowrap}
+.crypto-address-row button:hover{background:#ffd3e1}
+.crypto-copy-status{min-height:16px;margin:7px 0;color:#e8d0b5;font-size:12px}
+.crypto-network-note{padding:12px 14px;border-left:2px solid var(--rose);background:rgba(233,164,190,.08);font-size:12px!important}
+.crypto-qr{margin:0;text-align:center}
+.crypto-qr img{display:block;width:min(100%,320px);aspect-ratio:1;object-fit:contain;margin:auto;border-radius:8px;background:#050407}
+.crypto-qr figcaption{margin:10px auto 0;max-width:320px;color:var(--muted);font-size:11px;line-height:1.5}
+@media(max-width:720px){.crypto-receive-card{grid-template-columns:1fr}.crypto-qr{grid-row:1}.crypto-qr img{width:min(100%,280px)}.crypto-address-row{flex-direction:column}.crypto-address-row button{min-height:46px}}
+
 </style>
 </head>
 <body id="top">
@@ -96,7 +114,7 @@
   <div class="menu-order-panel" id="work-order">
     <p class="eyebrow">SO. ARE YOU READY OR WHAT</p>
     <h3>Your picks, my inbox.</h3>
-    <p>You don't pay on this site — I'll send payment details once we confirm your order.</p>
+    <p>After I confirm your order and amount, you can send USDC using the wallet details below.</p>
     <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Review &amp; send my order</button>
     <a class="primary-btn offer-x-button" href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me your offer on X <span aria-hidden="true">↗</span></a>
     <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your favorites above, then tap here.</p>
@@ -106,16 +124,34 @@
 <!-- PAYMENT OPTIONS -->
 <section class="payments" aria-labelledby="payHeading">
   <h2 id="payHeading">How to pay</h2>
-  <p class="sub">No checkout here yet. Build your order, copy it, and send it in our chat. I'll confirm payment details before you pay.</p>
+  <p class="sub">Build your order, copy it, and send it in our chat. I’ll confirm your order and amount before you send payment.</p>
   <div class="pay-grid">
     <span class="pay-chip">CashApp</span>
     <span class="pay-chip">Venmo</span>
     <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
-    <span class="pay-chip">Coinbase / crypto (BTC · ETH · USDC)</span>
+    <span class="pay-chip">USDC crypto</span>
     <span class="pay-chip pay-chip-soon">Revolut — coming soon</span>
     <span class="pay-chip pay-chip-soon">Stripe — coming soon</span>
   </div>
-  <p class="sub" style="margin-top:1.25rem;">Order flow: add your picks to the bag, review your order, and send it in chat. I’ll confirm payment details before you pay, then deliver your content.</p>
+  <div class="crypto-receive-card" id="crypto-payment">
+    <div class="crypto-receive-copy">
+      <p class="eyebrow">USDC DIRECT TRANSFER</p>
+      <h3>Pay with <em>USDC</em></h3>
+      <p>After I confirm your order and amount, scan the Coinbase QR or copy the wallet address below.</p>
+      <label class="crypto-address-label" for="cryptoWalletAddress">Wallet address</label>
+      <div class="crypto-address-row">
+        <input id="cryptoWalletAddress" type="text" readonly value="0x849c8e267Be86d0901629dc026453d6662bB1B6c" aria-label="USDC wallet address">
+        <button type="button" id="copyCryptoWallet">Copy address</button>
+      </div>
+      <p id="cryptoCopyStatus" class="crypto-copy-status" role="status" aria-live="polite"></p>
+      <p class="crypto-network-note"><strong>Check before sending:</strong> The QR is for USDC. Confirm the network shown in Coinbase before you send. Do not send BTC or ETH to this address.</p>
+    </div>
+    <figure class="crypto-qr">
+      <img src="assets/crypto-receive.jpg?v=20261030-usdc" alt="Coinbase USDC receive QR code">
+      <figcaption>Scan in Coinbase, then verify the wallet address and network.</figcaption>
+    </figure>
+  </div>
+  <p class="sub" style="margin-top:1.25rem;">Add your picks to the bag, review your order, and send it in chat. I’ll confirm payment and delivery with you.</p>
   <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
 </section>
 
@@ -169,5 +205,29 @@
 </dialog>
 
 
+<script>
+(() => {
+  const address = document.getElementById('cryptoWalletAddress');
+  const button = document.getElementById('copyCryptoWallet');
+  const status = document.getElementById('cryptoCopyStatus');
+  if (!address || !button || !status) return;
+  button.addEventListener('click', async () => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(address.value);
+      } else {
+        address.focus(); address.select();
+        if (!document.execCommand('copy')) throw new Error('Copy unavailable');
+      }
+      button.textContent = 'Copied';
+      status.textContent = 'Wallet address copied.';
+      window.setTimeout(() => { button.textContent = 'Copy address'; }, 1800);
+    } catch (_) {
+      address.focus(); address.select();
+      status.textContent = 'Address selected. Copy it to your clipboard.';
+    }
+  });
+})();
+</script>
 </body>
 </html>
