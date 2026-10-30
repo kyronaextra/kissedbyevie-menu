@@ -416,10 +416,10 @@ categories.forEach(([key,label],i)=>{
 const onlyfans=el('a','onlyfans-category-link');
 onlyfans.href='https://onlyfans.com/kissedbyevie';
 onlyfans.target='_blank';onlyfans.rel='noopener noreferrer';
-onlyfans.setAttribute('aria-label','OnlyFans: first month free with any menu purchase through December 31, then $4 per month (opens a new tab)');
+onlyfans.setAttribute('aria-label','Open the OnlyFans free trial for Kissed by Evie in a new tab');
 const onlyfansIcon=el('img','onlyfans-brand-icon');
 onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.width=23;onlyfansIcon.height=23;
-onlyfans.append(onlyfansIcon,el('span','','FREE MONTH W/ PURCHASE · THEN $4/MO'));
+onlyfans.append(onlyfansIcon,el('span','','START MY FREE TRIAL'));
 controls.append(onlyfans);
 function menuAction(p){
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
