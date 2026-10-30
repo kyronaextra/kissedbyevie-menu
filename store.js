@@ -19,13 +19,13 @@ const products=[
   {section:'Dropbox',name:'The Dropbox · 800+ Items',price:75,group:'vault',
    description:'The whole archive with lifetime access and one new drop added monthly.',
    note:'Includes squirting, JOI, B/G, anal, teasers, pics, clips, BJ, BJ POV, solo content, orgasms, cream, feet, fetish content, and collabs.'},
-  {section:'VIP',name:'GFE',price:70,group:'membership',photo:'/assets/photos/evie-gallery-15.webp',
+  {section:'VIP',name:'GFE',price:70,group:'membership',
    description:'Your everyday girlfriend experience.',
    features:['Daily Snaps + Videos (LIVE)','Priority messaging','Casual conversations','Phone number','Free OnlyFans','50 curated videos + photos','Casual FaceTimes and calls only']},
-  {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',photo:'/assets/photos/evie-gallery-16.webp',badge:'BEST VALUE',
+  {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'BEST VALUE',
    description:'One month of GFE with my complete content vault and personal access.',
    features:['1 month GFE','1 minute free custom snap','Priority messaging','Casual conversations','Phone number','Free OnlyFans','My whole vault · 800+ pieces of content','Curated videos + photos sent in chat','Explicit and casual FaceTimes + calls']},
-  {section:'VIP',name:'VIP · 3 Months GFE',price:300,group:'membership',photo:'/assets/photos/evie-gallery-17.webp',
+  {section:'VIP',name:'VIP · 3 Months GFE',price:300,group:'membership',
    description:'Three months of GFE, with extra custom content and a more personalized experience.',
    features:['3 months GFE','Everything in 1 Month VIP','2 minute custom video','Discounted FaceTimes + calls','Free OnlyFans for 1 year','One request each week for an upcoming Stripchat Live; I’ll record it if you can’t attend','Daily snaps + videos made just for you','Personalized experience based on your kinks']},
   {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
@@ -209,7 +209,7 @@ categories.forEach(([section],i)=>{
    }
    refreshChoices();
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   if(p.price>=55){
+   if(p.price>=55&&section!=='VIP'){
      const photo=el('div','menu-high-value-photo');
      const image=document.createElement('img');
      const photoIndex=(Math.abs(p.name.split('').reduce((sum,ch)=>sum+ch.charCodeAt(0),0))%6)+1;
