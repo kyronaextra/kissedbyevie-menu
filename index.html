@@ -22,7 +22,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="store.js?v=20261030-menu-home-1"></script>
-<script defer src="app.js?v=20261029-quote-1"></script>
+<script defer src="app.js?v=20261029-quote-1"></script>\n<script defer src="vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
@@ -236,21 +236,22 @@
   </div>
 </section>
 
-</main>\n<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
+</main>\n<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
 <button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag"><span id="bagCount">0</span><span>Bag · <strong id="bagTotal">$0</strong></span></button>
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
 <dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">
-  <div class="terms-head"><span>KISSED BY EVIE · BEFORE YOU BUY</span><button type="button" class="terms-close" id="termsClose" aria-label="Close purchase terms">×</button></div>
+  <div class="terms-head"><span>KISSED BY EVIE · BEFORE YOU ORDER</span><button type="button" class="terms-close" id="termsClose" aria-label="Close fulfillment agreement">×</button></div>
   <div class="terms-content">
-    <h2 id="vipTermsTitle">PURCHASE RULES &amp; BOUNDARIES</h2>
-    <p class="terms-lead" id="vipTermsLead">Read before ordering. I confirm availability, final price, delivery, and payment details with you before you pay.</p>
-    <section class="terms-section"><h3>Scheduling and delivery</h3><p>Calls, live sessions, and customs depend on my availability. I confirm the plan and timing with you first.</p></section>
-    <section class="terms-section"><h3>Custom requests</h3><p>Custom ideas must be approved before payment. Listed prices are starting prices when marked “from”; add-ons and shipping are confirmed separately.</p></section>
-    <section class="terms-section"><h3>Your content</h3><p>Purchased content is for your personal use. Do not repost, share, re-upload, or sell it.</p></section>
-    <section class="terms-section"><h3>Payment and refunds</h3><p>Nothing charges automatically through this site. Digital content is generally non-refundable once delivered, except where applicable law requires otherwise. If something is clearly wrong, message me and we will sort it out.</p></section>
-    <p class="terms-lead">Adults only. By sending an order, you confirm that you are at least 18 and agree to these purchase rules.</p>
+    <h2 id="vipTermsTitle">FULFILLMENT AGREEMENT</h2>
+    <p class="terms-lead" id="vipTermsLead">Read before paying. I confirm the item, price, availability, and timing with you in writing.</p>
+    <section class="terms-section"><h3>Customs</h3><p>Approved customs are normally delivered within 1 to 3 days after payment and confirmation of your request. If I expect a longer delay, I will tell you and give an updated estimate. I may offer extra content, but any replacement is agreed with you first.</p></section>
+    <section class="terms-section"><h3>FaceTimes and live sessions</h3><p>If I miss a confirmed session, choose a reschedule, replacement live content when I am available, or a refund for the undelivered session. I may offer a Deluxe Dropbox or substantial bundle instead, but only with your agreement.</p></section>
+    <section class="terms-section"><h3>Refunds</h3><p>Completed services and content already delivered are not refundable, except where applicable law requires otherwise. VIP refunds cover the unused portion only. I calculate that from remaining time and benefits, less the listed value of what you have already received, and send the calculation before processing.</p></section>
+    <section class="terms-section"><h3>Protecting my content</h3><p>Personal viewing only. Do not sell, share, repost, upload, record, or publicly display my content. Do not use my photos, videos, voice, name, or likeness to make deepfakes, sexual AI images, voice clones, impersonations, or AI training data.</p></section>
+    <section class="terms-section"><h3>Boundaries</h3><p>Adults 18 and older only. No in person meetings. Do not send or request content involving minors or anyone who has not consented. Sessions and customs are subject to my approval and availability.</p></section>
+    <p class="terms-lead"><a href="fulfillment.html" target="_blank" rel="noopener noreferrer">Read the full Fulfillment Agreement</a></p>
   </div>
-  <div class="terms-footer"><label class="terms-check" for="termsAgreeCheck"><input type="checkbox" id="termsAgreeCheck"><span>I am at least 18 years old, I have read these rules, and I agree to the purchase terms.</span></label><button type="button" class="terms-accept" id="termsAgreeButton" disabled>I agree · continue</button><small>Orders, delivery, and payment are arranged directly.</small></div>
+  <div class="terms-footer"><label class="terms-check" for="termsAgreeCheck"><input type="checkbox" id="termsAgreeCheck"><span>I am 18 or older and have read and agree to the Fulfillment Agreement.</span></label><button type="button" class="terms-accept" id="termsAgreeButton" disabled>I agree · continue</button><small>Your order is not booked until I confirm it in writing.</small></div>
 </dialog>
 <!-- BAG DRAWER (unchanged) -->
 <dialog class="bag-drawer" id="bagDrawer" aria-labelledby="bagTitle">
