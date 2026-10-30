@@ -221,6 +221,9 @@ categories.forEach(([section],i)=>{
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
    card.append(info,buy);
    panel.append(card);
+   if(p.name==='Sexting · 30 Minutes'){
+     panel.append(el('div','menu-v2-notes',el('p','','Sexting & live shows are where the mess usually happens. Bring a towel, or don’t. I’m not your mother.')));
+   }
  });
  const list=notes[section]||[];
  if(list.length){
