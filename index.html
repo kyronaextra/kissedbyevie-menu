@@ -79,7 +79,8 @@
 @media(max-width:680px){.menu-high-value-photo{width:100%;height:210px;max-height:none}.menu-high-value-photo img{height:100%;min-height:0;max-height:none}.menu-home-footer{flex-direction:column;align-items:flex-start}}
 
 /* USDC receive panel */
-.crypto-receive-card{max-width:1120px;margin:34px auto 0;padding:clamp(20px,4vw,42px);display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,340px);gap:clamp(24px,5vw,60px);align-items:center;border:1px solid rgba(240,217,183,.3);border-radius:10px;background:linear-gradient(145deg,#24111e,#120a10);box-shadow:0 18px 60px rgba(0,0,0,.28)}
+.crypto-wallet-grid{max-width:1120px;margin:34px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:18px;align-items:stretch}
+.crypto-receive-card{padding:clamp(18px,3vw,28px);display:flex;flex-direction:column;justify-content:space-between;gap:20px;border:1px solid rgba(240,217,183,.3);border-radius:10px;background:linear-gradient(145deg,#24111e,#120a10);box-shadow:0 18px 60px rgba(0,0,0,.28)}
 .crypto-receive-copy h3{margin:12px 0;font:normal clamp(36px,5vw,58px)/1.05 "Italiana",Georgia,serif;color:var(--ivory)}
 .crypto-receive-copy h3 em{color:var(--rose);font-weight:normal}
 .crypto-receive-copy>p:not(.eyebrow){max-width:560px;color:var(--muted);line-height:1.7}
@@ -91,9 +92,9 @@
 .crypto-copy-status{min-height:16px;margin:7px 0;color:#e8d0b5;font-size:12px}
 .crypto-network-note{padding:12px 14px;border-left:2px solid var(--rose);background:rgba(233,164,190,.08);font-size:12px!important}
 .crypto-qr{margin:0;text-align:center}
-.crypto-qr img{display:block;width:min(100%,320px);aspect-ratio:1;object-fit:contain;margin:auto;border-radius:8px;background:#050407}
+.crypto-qr img{display:block;width:min(100%,260px);aspect-ratio:1;object-fit:contain;margin:auto;border-radius:8px;background:#050407}
 .crypto-qr figcaption{margin:10px auto 0;max-width:320px;color:var(--muted);font-size:11px;line-height:1.5}
-@media(max-width:720px){.crypto-receive-card{grid-template-columns:1fr}.crypto-qr{grid-row:1}.crypto-qr img{width:min(100%,280px)}.crypto-address-row{flex-direction:column}.crypto-address-row button{min-height:46px}}
+@media(max-width:720px){.crypto-wallet-grid{grid-template-columns:1fr}.crypto-receive-card{flex-direction:column}.crypto-qr{order:-1}.crypto-qr img{width:min(100%,280px)}.crypto-address-row{flex-direction:column}.crypto-address-row button{min-height:46px}}
 
 </style>
 </head>
@@ -133,23 +134,58 @@
     <span class="pay-chip pay-chip-soon">Revolut — coming soon</span>
     <span class="pay-chip pay-chip-soon">Stripe — coming soon</span>
   </div>
-  <div class="crypto-receive-card" id="crypto-payment">
-    <div class="crypto-receive-copy">
-      <p class="eyebrow">USDC DIRECT TRANSFER</p>
-      <h3>Pay with <em>USDC</em></h3>
-      <p>After I confirm your order and amount, scan the Coinbase QR or copy the wallet address below.</p>
-      <label class="crypto-address-label" for="cryptoWalletAddress">Wallet address</label>
-      <div class="crypto-address-row">
-        <input id="cryptoWalletAddress" type="text" readonly value="0x849c8e267Be86d0901629dc026453d6662bB1B6c" aria-label="USDC wallet address">
-        <button type="button" id="copyCryptoWallet">Copy address</button>
+  <div class="crypto-wallet-grid" id="crypto-payment">
+    <article class="crypto-receive-card">
+      <div class="crypto-receive-copy">
+        <p class="eyebrow">USDC</p>
+        <h3>Pay with <em>USDC</em></h3>
+        <label class="crypto-address-label" for="cryptoWalletUsdc">Wallet address</label>
+        <div class="crypto-address-row">
+          <input id="cryptoWalletUsdc" type="text" readonly value="0x849c8e267Be86d0901629dc026453d6662bB1B6c" aria-label="USDC wallet address">
+          <button type="button" data-copy-target="cryptoWalletUsdc">Copy address</button>
+        </div>
+        <p class="crypto-copy-status" role="status" aria-live="polite"></p>
+        <p class="crypto-network-note"><strong>Check first:</strong> Send USDC using the network selected for this Coinbase QR. Confirm the network before sending.</p>
       </div>
-      <p id="cryptoCopyStatus" class="crypto-copy-status" role="status" aria-live="polite"></p>
-      <p class="crypto-network-note"><strong>Check before sending:</strong> The QR is for USDC. Confirm the network shown in Coinbase before you send. Do not send BTC or ETH to this address.</p>
-    </div>
-    <figure class="crypto-qr">
-      <img src="assets/crypto-receive.jpg?v=20261030-usdc" alt="Coinbase USDC receive QR code">
-      <figcaption>Scan in Coinbase, then verify the wallet address and network.</figcaption>
-    </figure>
+      <figure class="crypto-qr">
+        <img src="assets/crypto-receive.jpg?v=20261030-usdc" alt="Coinbase USDC receive QR code">
+        <figcaption>Scan in Coinbase, then verify the network before sending.</figcaption>
+      </figure>
+    </article>
+    <article class="crypto-receive-card">
+      <div class="crypto-receive-copy">
+        <p class="eyebrow">USDC ON ETHEREUM</p>
+        <h3>Ethereum <em>USDC</em></h3>
+        <label class="crypto-address-label" for="cryptoWalletEthereum">Wallet address</label>
+        <div class="crypto-address-row">
+          <input id="cryptoWalletEthereum" type="text" readonly value="0xAE13969c71493D6c8859eD0264D775948fbC66a9" aria-label="Ethereum USDC wallet address">
+          <button type="button" data-copy-target="cryptoWalletEthereum">Copy address</button>
+        </div>
+        <p class="crypto-copy-status" role="status" aria-live="polite"></p>
+        <p class="crypto-network-note"><strong>Ethereum network only.</strong> Send USDC on Ethereum to this address. Do not send Bitcoin or use another network.</p>
+      </div>
+      <figure class="crypto-qr">
+        <img src="assets/crypto-usdc-ethereum.png?v=20261030-ethereum" alt="Coinbase receive QR for USDC on Ethereum">
+        <figcaption>Use this QR for USDC on Ethereum.</figcaption>
+      </figure>
+    </article>
+    <article class="crypto-receive-card">
+      <div class="crypto-receive-copy">
+        <p class="eyebrow">BITCOIN</p>
+        <h3>Pay with <em>Bitcoin</em></h3>
+        <label class="crypto-address-label" for="cryptoWalletBitcoin">Bitcoin wallet address</label>
+        <div class="crypto-address-row">
+          <input id="cryptoWalletBitcoin" type="text" readonly value="1KpWKGGjfxaDLtH5MwLBxme5r6hMEAY5gn" aria-label="Bitcoin wallet address">
+          <button type="button" data-copy-target="cryptoWalletBitcoin">Copy address</button>
+        </div>
+        <p class="crypto-copy-status" role="status" aria-live="polite"></p>
+        <p class="crypto-network-note"><strong>Bitcoin network only.</strong> Send BTC to this address. Do not send ETH, USDC, or tokens on another network.</p>
+      </div>
+      <figure class="crypto-qr">
+        <img src="assets/crypto-bitcoin.png?v=20261030-bitcoin" alt="Bitcoin wallet receive QR code">
+        <figcaption>Use this QR for Bitcoin (BTC).</figcaption>
+      </figure>
+    </article>
   </div>
   <p class="sub" style="margin-top:1.25rem;">Add your picks to the bag, review your order, and send it in chat. I’ll confirm payment and delivery with you.</p>
   <p class="sub">Payment availability and instructions are confirmed individually before you send funds.</p>
@@ -207,25 +243,25 @@
 
 <script>
 (() => {
-  const address = document.getElementById('cryptoWalletAddress');
-  const button = document.getElementById('copyCryptoWallet');
-  const status = document.getElementById('cryptoCopyStatus');
-  if (!address || !button || !status) return;
-  button.addEventListener('click', async () => {
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(address.value);
-      } else {
-        address.focus(); address.select();
-        if (!document.execCommand('copy')) throw new Error('Copy unavailable');
+  document.querySelectorAll('[data-copy-target]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const input = document.getElementById(button.dataset.copyTarget);
+      const status = button.closest('.crypto-receive-card').querySelector('.crypto-copy-status');
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(input.value);
+        } else {
+          input.focus(); input.select();
+          if (!document.execCommand('copy')) throw new Error('Copy unavailable');
+        }
+        button.textContent = 'Copied';
+        status.textContent = 'Wallet address copied.';
+        window.setTimeout(() => { button.textContent = 'Copy address'; }, 1800);
+      } catch (_) {
+        input.focus(); input.select();
+        status.textContent = 'Address selected. Copy it to your clipboard.';
       }
-      button.textContent = 'Copied';
-      status.textContent = 'Wallet address copied.';
-      window.setTimeout(() => { button.textContent = 'Copy address'; }, 1800);
-    } catch (_) {
-      address.focus(); address.select();
-      status.textContent = 'Address selected. Copy it to your clipboard.';
-    }
+    });
   });
 })();
 </script>
