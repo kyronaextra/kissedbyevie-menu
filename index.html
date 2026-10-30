@@ -18,18 +18,15 @@
 <link rel="stylesheet" href="evie-nav.css?v=20261028-nav-clean-3">
 <link rel="stylesheet" href="blog.css">
 <link rel="stylesheet" href="vip-terms.css">
-<link rel="stylesheet" href="vip-sale.css?v=20261028-merged-calls-1">
 <link rel="stylesheet" href="public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="store.js?v=20261030-of-trial-1"></script>
 <script defer src="app.js?v=20261029-quote-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
-<script defer src="vip-sale.js?v=20261028-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="public-gallery.js?v=20261027-gallery-1"></script>
-<script defer src="vip-terms.js"></script>
 <noscript><style>#accessGate{display:none!important}
 /* Stripchat live callout */
 .stripchat-live{padding:clamp(22px,4vw,38px) clamp(18px,6vw,90px);background:linear-gradient(110deg,#160b22 0%,#30123f 52%,#170b21 100%);border-top:1px solid rgba(227,178,255,.28);border-bottom:1px solid rgba(227,178,255,.28)}
@@ -61,185 +58,37 @@
 .of-month-promo-cta img{width:25px;height:25px;object-fit:contain}
 @media(max-width:700px){.of-month-promo-inner{flex-direction:column;align-items:stretch;gap:18px}.of-month-promo-cta{width:100%}.of-month-promo{padding:28px 20px 30px}}
 </style>
+<style>
+/* Menu first storefront */
+.menu-home-header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px clamp(18px,5vw,72px);background:rgba(16,7,12,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(240,217,183,.18)}
+.menu-home-header .wordmark{font:700 12px/1.2 "DM Sans",sans-serif;letter-spacing:.2em;color:#f8f1eb;text-decoration:none}
+.menu-home-header nav{display:flex;align-items:center;gap:10px}
+.menu-home-header nav a{padding:10px 14px;border:1px solid rgba(240,217,183,.3);border-radius:6px;color:#f8f1eb;text-decoration:none;font:700 11px/1.2 "DM Sans",sans-serif;letter-spacing:.07em}
+.menu-home-header nav a:first-child{background:#e8d0b5;color:#21121c;border-color:#e8d0b5}
+.menu-home-main{min-height:100vh}
+.menu-home-main .boutique-section{padding-top:clamp(34px,5vw,70px)}
+.menu-home-main .boutique-top{text-align:center}
+.menu-home-main .boutique-top .eyebrow{color:#edcfaa}
+.menu-home-main .boutique-top>p:last-child{margin:15px auto 0}
+.menu-home-main .payments{padding-top:45px}
+.menu-high-value-photo{width:clamp(116px,15vw,184px);align-self:stretch;flex:0 0 auto;overflow:hidden;border:1px solid rgba(240,217,183,.28);border-radius:8px;background:#180d14}
+.menu-high-value-photo img{display:block;width:100%;height:100%;min-height:190px;max-height:270px;object-fit:cover;object-position:center 25%}
+.menu-home-footer{padding:24px clamp(18px,5vw,72px);display:flex;justify-content:space-between;gap:14px;align-items:center;border-top:1px solid rgba(240,217,183,.18);color:#d0bcb6;font:11px/1.5 "DM Sans",sans-serif}
+.menu-home-footer a{color:#f0d9b7}
+.terms-cart-note button{color:#e8d0b5}
+@media(max-width:680px){.menu-high-value-photo{width:100%;height:210px;max-height:none}.menu-high-value-photo img{height:100%;min-height:0;max-height:none}.menu-home-footer{flex-direction:column;align-items:flex-start}}
+</style>
 </head>
 <body id="top">
-<aside id="vipSaleAnnouncement" class="vip-sale-announcement" role="status" aria-label="VIP sale announcement" hidden>
- <button type="button" id="vipSaleClose" class="vip-sale-close" aria-label="Close sale announcement">×</button>
- <span class="vip-sale-kicker">I’m short on bills. No, this isn’t gonna happen again</span>
- <strong class="vip-sale-headline">40% off <em>VIP PACKAGES</em></strong>
- <strong class="vip-sale-deadline">ENDING 10/31!</strong>
- <span class="vip-sale-aside">+ Experience a 30 min live sexting/Snap session/show</span>
- <span class="vip-sale-fine">One bonus session with a sale VIP package. Scheduled with me.</span>
- <a id="vipSaleShop" class="vip-sale-shop" href="#boutique">SHOP VIP DEALS</a>
-</aside>
-
-<!-- Free guest browsing or a permanent account. Guest does not create an auth identity. -->
-<section id="accessGate" class="evie-entry-gate" aria-labelledby="entryGateTitle" role="dialog" aria-modal="true">
-  <div class="evie-entry-panel">
-    <span class="evie-entry-kicker">WELCOME TO MY SIDE OF THE INTERNET</span>
-    <h2 id="entryGateTitle">KISSED <em>BY EVIE.</em></h2>
-    <p>Here to look around, or wanna stay in the loop?</p>
-    <button type="button" id="continueAsGuest" class="evie-entry-guest">Continue as Guest <span aria-hidden="true">↗</span></button>
-    <span class="evie-entry-description">Browse my menu and public previews. No account or email needed.</span>
-    <a class="evie-entry-account" href="account.html">Create Account / Sign In <span aria-hidden="true">↗</span></a>
-    <span class="evie-entry-description">Save your settings and choose updates. Free to join. VIP is separate.</span>
-    <p class="evie-entry-foot">Private content requires separate purchase and age verification.</p>
-  </div>
-</section>
-
-<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-<a class="skip-link" href="#boutique">Skip to menu</a>
-
-<header class="site-header">
-  <a class="wordmark" href="#top">KISSEDBYEVIE <span aria-hidden="true">✧</span></a>
-  <nav class="site-nav" aria-label="Main navigation">
-    <div class="evie-nav-quick">
-      <a href="#boutique">Menu</a>
-      <a href="#members">VIP Memberships</a>
-      <a href="#blog">Blog</a>
-       <a href="account.html">My Account</a>
-    </div>
-    <button class="evie-nav-toggle" type="button" id="evieNavToggle" aria-haspopup="dialog" aria-controls="evieNavDialog" aria-expanded="false">
-      <span>EXPLORE</span><span class="evie-nav-toggle-bars" aria-hidden="true"></span>
-    </button>
-  </nav>
-</header>
-<dialog id="evieNavDialog" class="evie-nav-dialog" aria-label="Explore the KissedByEvie website">
-  <div class="evie-nav-inner">
-    <div class="evie-nav-top">
-      <span class="evie-nav-overline">KISSEDBYEVIE / THE PRIVATE INDEX</span>
-      <button type="button" class="evie-nav-close" id="evieNavClose" aria-label="Close navigation">CLOSE <span aria-hidden="true">×</span></button>
-    </div>
-    <nav class="evie-nav-grid" aria-label="Explore this website">
-      <a class="evie-nav-card" href="#about">
-        <span class="evie-nav-card-index">ACCESS 001</span>
-        <span><span class="evie-nav-card-title">Just <em>lurking.</em></span><span class="evie-nav-card-caption">About me &amp; socials</span></span>
-      </a>
-      <a class="evie-nav-card evie-nav-card--featured" href="#boutique">
-        <span class="evie-nav-card-index">ACCESS 002</span>
-        <span><span class="evie-nav-card-title">Shop <em>my menu.</em></span><span class="evie-nav-card-caption">The good stuff</span></span>
-      </a>
-      <a class="evie-nav-card" href="#vip">
-        <span class="evie-nav-card-index">ACCESS 003</span>
-        <span><span class="evie-nav-card-title">The <em>VIP club.</em></span><span class="evie-nav-card-caption">Memberships &amp; perks</span></span>
-      </a>
-      <button type="button" class="evie-nav-card" data-open-vip-terms aria-haspopup="dialog">
-        <span class="evie-nav-card-index">ACCESS 004</span>
-        <span><span class="evie-nav-card-title">House <em>rules.</em></span><span class="evie-nav-card-caption">Read before buying</span></span>
-      </button>
-    </nav>
-    <div class="evie-nav-footer"><a href="#blog">READ THE BLOG</a><a href="#members">VIP MEMBERSHIPS</a><a href="account.html">FREE ACCOUNT + ALERTS</a></div>
-  </div>
-</dialog>
-
-<main>
-
-<!-- HERO: one primary action and one quiet text link -->
-<section class="hero" aria-label="Featured photo collection">
-  <div class="hero-rail" id="heroRail" tabindex="0" aria-label="Swipeable featured photographs">
-    <article class="hero-slide" data-set="hero" data-photo="0" aria-label="Photo 1 of 4">
-      <img src="/assets/photos/evie-hero-new.jpg" alt="Evie in burgundy lingerie with whipped cream" fetchpriority="high" style="object-position:center 28%">
-      <div class="hero-wash"></div>
-      <div class="hero-copy">
-        <div class="eyebrow">WELCOME TO MY SIDE OF THE INTERNET</div>
-        <h1 class="hero-brand-title">KISSED<br><em>BYEVIE</em></h1>
-        <p>Everything you'd normally have to DM me six times to figure out: menu, gallery, VIP, the whole thing. All in one place. You're welcome.</p>
-        <div class="hero-cta-links evie-hero-actions" aria-label="Explore the site">
-          <a class="evie-hero-vip" href="#members"><span class="evie-hero-vip-arrows" aria-hidden="true">&gt;&gt;</span> VIP ACCESS <span class="evie-hero-soon">(coming soon)</span></a>
-          <a class="evie-hero-about" href="#about">About me</a>
-        </div>
-      </div>
-    </article>
-    <article class="hero-slide" data-set="hero" data-photo="1" aria-label="Photo 2 of 4">
-      <img src="/assets/photos/evie-hero-02.jpg" alt="Evie in a beaded top and jeans against a deep red curtain" loading="lazy" style="object-position:center 42%">
-      <div class="hero-wash"></div>
-      <div class="hero-copy compact"><span class="eyebrow">02 / THE EVIE EDIT</span><h2>A little closer.</h2></div>
-    </article>
-    <article class="hero-slide" data-set="hero" data-photo="2" aria-label="Photo 3 of 4">
-      <img src="/assets/photos/evie-featured-01.jpg" alt="Evie seated in a red outfit for an editorial portrait" loading="lazy" style="object-position:center 18%">
-      <div class="hero-wash"></div>
-      <div class="hero-copy compact"><span class="eyebrow">03 / THE EVIE EDIT</span><h2>YEAH, KEEP LOOKING</h2></div>
-    </article>
-    <article class="hero-slide" data-set="hero" data-photo="3" aria-label="Photo 4 of 4">
-      <img src="/assets/photos/evie-featured-02.jpg" alt="Evie posing for a mirror selfie in a black lace outfit" loading="lazy" style="object-position:center 55%">
-      <div class="hero-wash"></div>
-      <div class="hero-copy compact"><span class="eyebrow">04 / THE EVIE EDIT</span><h2>THERE'S ALWAYS MORE. OBVIOUSLY.</h2></div>
-    </article>
-  </div>
-  <div class="hero-controls" aria-label="Hero gallery controls">
-    <button id="heroPrev" class="round-control" type="button" aria-label="Previous photograph">←</button>
-    <span class="hero-position"><span id="heroCurrent">01</span><span aria-hidden="true">/</span> 04</span>
-    <button id="heroNext" class="round-control" type="button" aria-label="Next photograph">→</button>
-  </div>
-  <div class="hero-scroll-hint" aria-hidden="true">SCROLL TO DISCOVER <span>↓</span></div>
-</section>
-
-
-<!-- ONLYFANS FREE TRIAL -->
-<section class="of-month-promo" id="onlyFansMonthPromo" aria-labelledby="onlyFansMonthPromoTitle">
-  <div class="of-month-promo-inner">
-    <div class="of-month-promo-copy">
-      <p class="of-month-promo-label">ONLYFANS · FREE TRIAL</p>
-      <h2 id="onlyFansMonthPromoTitle">COME SEE ME <em>ON ONLYFANS.</em></h2>
-      <p class="of-month-promo-description">Tap through to my OnlyFans profile and claim the free trial while it’s available.</p>
-      <p class="of-month-promo-terms">Trial availability and access are managed by OnlyFans.</p>
-    </div>
-    <a class="of-month-promo-cta" href="https://onlyfans.com/kissedbyevie" target="_blank" rel="noopener noreferrer" aria-label="Open Kissed by Evie's OnlyFans profile to claim the free trial">
-      CLAIM YOUR FREE TRIAL
-    </a>
-  </div>
-</section>
-
-
-<!-- STRIPCHAT LIVE -->
-<section class="stripchat-live" id="stripchatLive" aria-labelledby="stripchatLiveTitle">
-  <div class="stripchat-live-inner">
-    <div>
-      <p class="stripchat-live-label"><span class="stripchat-live-dot" aria-hidden="true"></span> LIVE ON STRIPCHAT</p>
-      <h2 id="stripchatLiveTitle">I’M <em>LIVE!</em></h2>
-      <p class="stripchat-live-description">Come watch me on Stripchat.</p>
-    </div>
-    <a class="stripchat-live-cta" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer">WATCH ME LIVE</a>
-  </div>
-</section>
-
-<!-- THE LATEST PHOTOS -->
-<section class="latest-feature" aria-labelledby="latestPhotosTitle">
-  <div class="latest-feature-inner">
-    <div class="latest-feature-heading">
-      <p class="eyebrow">JUST ADDED TO THE CAMERA ROLL</p>
-      <h2 id="latestPhotosTitle">The latest <em>♡</em></h2>
-      <p>Go ahead. Have a closer look.</p>
-    </div>
-    <div class="latest-feature-photos">
-      <button class="latest-feature-photo image-button" type="button" data-set="latest" data-photo="0" aria-label="Open first new photo of Evie">
-        <img src="/assets/photos/evie-oct27-portrait.webp" alt="Evie leaning toward the camera wearing black lace" width="850" height="1308" loading="eager" decoding="async">
-        <span>01 / OPEN PHOTO</span>
-      </button>
-      <button class="latest-feature-photo image-button" type="button" data-set="latest" data-photo="1" aria-label="Open second new photo of Evie">
-        <img src="/assets/photos/evie-oct27-black-lace.webp" alt="Evie in black lace looking back over her shoulder" width="850" height="1308" loading="eager" decoding="async">
-        <span>02 / OPEN PHOTO</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- BOUTIQUE (unchanged, now also the #custom target) -->
+<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="account.html">MY ACCOUNT</a></nav></header>
+<main class="menu-home-main">
+<!-- CONTENT MENU -->
 <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
   <span id="custom" aria-hidden="true"></span>
   <div class="boutique-top reveal">
     <p class="eyebrow">KISSEDBYEVIE CONTENT MENU</p>
     <h2 id="boutiqueHeading">My Menu <em>Is Here</em></h2>
-    <p>Start with $20 to $50, then under $20, VIP, custom videos, panties &amp; physical customs, and extras.</p>
-  </div>
-
-  <div class="menu-photo-preview" aria-label="A preview of Evie's photo collection">
-    <button class="menu-photo-tile" type="button" data-set="diary" data-photo="18" aria-label="Open Close-up portrait of Evie with soft makeup"><img src="/assets/photos/evie-menu-01.jpg" alt="Close-up portrait of Evie with soft makeup" loading="lazy" decoding="async"></button>
-    <button class="menu-photo-tile" type="button" data-set="diary" data-photo="19" aria-label="Open Evie in a pale blue outfit in front of a plain wall"><img src="/assets/photos/evie-menu-02.jpg" alt="Evie in a pale blue outfit in front of a plain wall" loading="lazy" decoding="async"></button>
-    <button class="menu-photo-tile" type="button" data-set="diary" data-photo="20" aria-label="Open Evie standing in a pale green matching set"><img src="/assets/photos/evie-menu-03.jpg" alt="Evie standing in a pale green matching set" loading="lazy" decoding="async"></button>
-    <button class="menu-photo-tile" type="button" data-set="diary" data-photo="21" aria-label="Open Evie seated in a violet lingerie set"><img src="/assets/photos/evie-menu-04.jpg" alt="Evie seated in a violet lingerie set" loading="lazy" decoding="async"></button>
-    <button class="menu-photo-tile" type="button" data-set="diary" data-photo="22" aria-label="Open Evie standing in a burgundy lace set"><img src="/assets/photos/evie-menu-05.jpg" alt="Evie standing in a burgundy lace set" loading="lazy" decoding="async"></button>
-    <button class="menu-photo-tile" type="button" data-set="diary" data-photo="23" aria-label="Open Evie on a couch in a dark matching outfit"><img src="/assets/photos/evie-menu-06.jpg" alt="Evie on a couch in a dark matching outfit" loading="lazy" decoding="async"></button>
+    <p>Browse the full menu, choose your picks, then send your order for confirmation.</p>
   </div>
 
   <div id="boutiqueCatalog"></div>
@@ -254,7 +103,7 @@
   </div>
 </section>
 
-<!-- PAYMENT OPTIONS: directly after the menu -->
+<!-- PAYMENT OPTIONS -->
 <section class="payments" aria-labelledby="payHeading">
   <h2 id="payHeading">How to pay</h2>
   <p class="sub">No checkout here yet. Build your order, copy it, and send it in our chat. I'll confirm payment details before you pay.</p>
@@ -271,299 +120,24 @@
 </section>
 
 
-<!-- INTRO / ABOUT (now the #about target) -->
-<section class="intro-section" id="about">
-  <div class="intro-number reveal">001 — PHOTO DIARY</div>
-  <div class="intro-grid">
-    <div class="intro-copy reveal">
-      <p class="eyebrow">SCOOT CLOSER</p>
-      <h2>About <em>me.</em></h2>
-      <p>I'm Evie. I study, I work a real job, I build weird tools for this industry, and somewhere in between all that I take my clothes off for money.</p>
-      <p>Everything relevant lives here: my life, my interests, what I'm studying, what I'm building, and the occasional completely unfiltered rant. If you want the polished version, you're on the wrong site.</p>
-      <a class="evie-about-link" href="blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots &amp; fake personalities</a>
-      <span class="handwritten">Take your time. ♡</span>
-    </div>
-    <button class="editorial-image image-button reveal" type="button" data-set="diary" data-photo="0" aria-label="View first photo diary image">
-      <img src="/assets/photos/evie-about-01.jpg" alt="Evie sitting comfortably on a couch in warm natural light" loading="lazy" style="object-position:center 18%">
-      <span class="image-index">01 / OPEN PHOTO</span>
-    </button>
-  </div>
-</section>
-
-<!-- GALLERY (unchanged) -->
-<section class="gallery-section" aria-labelledby="galleryHeading">
-  <div class="gallery-heading reveal">
-    <div>
-      <p class="eyebrow">HERE'S SOME PREVIEWS</p>
-      <h2 id="galleryHeading">Proof I don't just <em>own one outfit.</em></h2>
-      <p class="gallery-intro">Yes, the gallery is bigger.</p>
-    </div>
-    <div class="gallery-arrows">
-      <button class="round-control" id="galleryPrev" type="button" aria-label="Scroll gallery left">←</button>
-      <button class="round-control" id="galleryNext" type="button" aria-label="Scroll gallery right">→</button>
-    </div>
-  </div>
-  <div class="gallery-rail" id="galleryRail" tabindex="0" aria-label="Scrollable photo diary gallery">
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="1" aria-label="Open Evie seated in a red outfit for an editorial portrait"><img src="/assets/photos/evie-featured-01.jpg" alt="Evie seated in a red outfit for an editorial portrait" loading="lazy" decoding="async"><span>01 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="2" aria-label="Open Evie posing for a mirror selfie in a black lace outfit"><img src="/assets/photos/evie-featured-02.jpg" alt="Evie posing for a mirror selfie in a black lace outfit" loading="lazy" decoding="async"><span>02 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="3" aria-label="Open Evie reclining on a couch in a black outfit"><img src="/assets/photos/evie-featured-03.jpg" alt="Evie reclining on a couch in a black outfit" loading="lazy" decoding="async"><span>03 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="4" aria-label="Open Evie in a burgundy outfit indoors"><img src="/assets/photos/evie-gallery-01.jpg" alt="Evie in a burgundy outfit indoors" loading="lazy" decoding="async"><span>04 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="5" aria-label="Open Evie in a purple set posing beside a window"><img src="/assets/photos/evie-gallery-02.jpg" alt="Evie in a purple set posing beside a window" loading="lazy" decoding="async"><span>05 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="6" aria-label="Open Evie posing in a burgundy set from behind"><img src="/assets/photos/evie-gallery-03.jpg" alt="Evie posing in a burgundy set from behind" loading="lazy" decoding="async"><span>06 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="7" aria-label="Open Evie posing with a pink ribbon indoors"><img src="/assets/photos/evie-gallery-04.jpg" alt="Evie posing with a pink ribbon indoors" loading="lazy" decoding="async"><span>07 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="8" aria-label="Open Evie taking a mirror selfie wearing a cap and brown top"><img src="/assets/photos/evie-gallery-05.jpg" alt="Evie taking a mirror selfie wearing a cap and brown top" loading="lazy" decoding="async"><span>08 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="9" aria-label="Open Evie lounging on a couch in a light green outfit"><img src="/assets/photos/evie-gallery-06.jpg" alt="Evie lounging on a couch in a light green outfit" loading="lazy" decoding="async"><span>09 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="10" aria-label="Open Evie at a warmly lit bar in a patterned top"><img src="/assets/photos/evie-gallery-07.jpg" alt="Evie at a warmly lit bar in a patterned top" loading="lazy" decoding="async"><span>10 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="11" aria-label="Open Evie sharing a moment with a friend at a restaurant"><img src="/assets/photos/evie-gallery-08.jpg" alt="Evie sharing a moment with a friend at a restaurant" loading="lazy" decoding="async"><span>11 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="12" aria-label="Open Evie posing in a burgundy lingerie set at home"><img src="/assets/photos/evie-gallery-09.jpg" alt="Evie posing in a burgundy lingerie set at home" loading="lazy" decoding="async"><span>12 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="13" aria-label="Open Evie posing in a coordinated burgundy outfit"><img src="/assets/photos/evie-gallery-10.jpg" alt="Evie posing in a coordinated burgundy outfit" loading="lazy" decoding="async"><span>13 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="14" aria-label="Open Evie seated in a casual green outfit"><img src="/assets/photos/evie-gallery-11.jpg" alt="Evie seated in a casual green outfit" loading="lazy" decoding="async"><span>14 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="15" aria-label="Open Evie posing indoors in warm light"><img src="/assets/photos/evie-gallery-12.jpg" alt="Evie posing indoors in warm light" loading="lazy" decoding="async"><span>15 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="16" aria-label="Open Evie posing in a bright room"><img src="/assets/photos/evie-gallery-13.jpg" alt="Evie posing in a bright room" loading="lazy" decoding="async"><span>16 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="17" aria-label="Open Evie taking a mirror selfie in a brown top and denim shorts"><img src="/assets/photos/evie-gallery-14.jpg" alt="Evie taking a mirror selfie in a brown top and denim shorts" loading="lazy" decoding="async"><span>17 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="18" aria-label="Open Close-up portrait of Evie with soft makeup"><img src="/assets/photos/evie-menu-01.jpg" alt="Close-up portrait of Evie with soft makeup" loading="lazy" decoding="async"><span>18 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="19" aria-label="Open Evie in a pale blue outfit in front of a plain wall"><img src="/assets/photos/evie-menu-02.jpg" alt="Evie in a pale blue outfit in front of a plain wall" loading="lazy" decoding="async"><span>19 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="20" aria-label="Open Evie standing in a pale green matching set"><img src="/assets/photos/evie-menu-03.jpg" alt="Evie standing in a pale green matching set" loading="lazy" decoding="async"><span>20 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="21" aria-label="Open Evie seated in a violet lingerie set"><img src="/assets/photos/evie-menu-04.jpg" alt="Evie seated in a violet lingerie set" loading="lazy" decoding="async"><span>21 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="22" aria-label="Open Evie standing in a burgundy lace set"><img src="/assets/photos/evie-menu-05.jpg" alt="Evie standing in a burgundy lace set" loading="lazy" decoding="async"><span>22 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="23" aria-label="Open Evie on a couch in a dark matching outfit"><img src="/assets/photos/evie-menu-06.jpg" alt="Evie on a couch in a dark matching outfit" loading="lazy" decoding="async"><span>23 <i> / Open photo</i></span></button>
-    <button class="photo-card image-button" type="button" data-set="diary" data-photo="24" aria-label="Open Evie smiling for a casual mirror selfie"><img src="/assets/photos/evie-about-02.jpg" alt="Evie smiling for a casual mirror selfie" loading="lazy" decoding="async"><span>24 <i> / Open photo</i></span></button>
-  </div>
-  <p class="gallery-hint">Tap a photograph to view it full-screen. Swipe to keep exploring.</p>
-</section>
-
-<section class="note-section reveal">
-  <div class="note-copy">
-    <p class="eyebrow">HI, IT'S EVIE</p>
-    <h2>More to explore.<br>Only from me.</h2>
-    <p>The full collection, customs, and VIP are right here. Take your pick.</p>
-  </div>
-  <div class="note-mark" aria-hidden="true">✧</div>
-</section>
-
-<!-- MEMBERS (now the #vip target) -->
-<section class="members-section" id="members" aria-labelledby="membersHeading">
-  <span id="vip" aria-hidden="true"></span>
-  <div class="members-copy reveal">
-    <p class="eyebrow">FREE ACCOUNTS ARE OPEN · VIP IS SEPARATE</p>
-    <h2 id="membersHeading">Private <em>Members.</em></h2>
-    <p>Look around without an account, or create a free one to save your details and choose email updates. VIP access and purchases are separate.</p>
-    <a href="#boutique" class="text-link">See VIP packages</a>
-  </div>
-  <div class="members-card reveal">
-    <div class="members-card-top">
-      <span>YOUR FREE ACCOUNT</span>
-      <strong>GET NOTIFIED</strong>
-    </div>
-    <p>Sign up for free, pick your email alerts, and change them whenever you want. I’m setting up delivery now; the preferences save today. Text alerts and automatic sending aren’t active yet.</p>
-    <a href="account.html" class="text-link">Create account &amp; set alerts</a>
-  </div>
-</section>
-
-
-<section class="faq" id="faq" aria-labelledby="faqHeading">
-  <h2 id="faqHeading">Questions</h2>
-  <p class="sub">The stuff people ask before ordering.</p>
-  <details>
-    <summary>How do I pay?</summary>
-    <p>CashApp, Venmo, Amazon e-gift, or Coinbase / crypto (BTC, ETH, USDC). Revolut and Stripe are coming soon. Add to bag, tap "Review &amp; send my order", and I'll confirm the details in chat. Nothing charges automatically.</p>
-  </details>
-  <details>
-    <summary>How fast is delivery?</summary>
-    <p>As much as I wish I could be home all day looking sexy & making people’s day.. Due to school, work, projects..Standard delivery is within 24 hours for a custom and within six hours for quick interactions if i’m not home or busy on assignments. Quick delivery flr customs are available if I can genuinely just do them because I’m relaxed & not occupied. 
-      Priority options (+$20 six-hour, +$80 thirty-minute) are available when confirmed. Ten-minute immediate delivery is never guaranteed.</p>
-  </details>
-  <details>
-    <summary>What does "priority" mean?</summary>
-    <p>It moves your order to the front of the queue. It only applies when I've confirmed I'm home and available. If you request it and I can't meet the window, you'll know before paying.</p>
-  </details>
-  <details>
-    <summary>How do custom requests work?</summary>
-    <p>Tell me the idea when you order. Customs start at $55 for a 10-photo set and $60 for a 1-minute video. If requested lingerie isn't available, you can buy it through Amazon and delivery starts 1–2 days after it arrives.</p>
-  </details>
-  <details>
-    <summary>What if I don't like what I get?</summary>
-    <p>Digital content, so no refunds once delivered..but if something's clearly off, message me and we'll sort it. I do refunds if I can’t hold up my end. I'd rather fix it than lose you.</p>
-  </details>
-  <details>
-    <summary>What's the difference between VIP Daddy and Ultimate VIP Daddy?</summary>
-    <p>Length (3 vs 6 months), price ($150 vs $350), and extras. Ultimate includes priority replies, voice notes, a custom video with optional JOI theme, and two complimentary custom requests per Stripchat live instead of one.</p>
-  </details>
-  <details>
-    <summary>Do memberships renew automatically?</summary>
-    <p>No. Nothing renews or charges automatically. Renewal is $60 for any package & you can confirm the next term with me before it starts.</p>
-  </details>
-  <details>
-    <summary>Where can I follow you?</summary>
-    <p>Telegram, Instagram, and X — all linked in the footer. I also go live on Stripchat; VIP members get complimentary custom requests each time, subject to my approval and announcement.</p>
-  </details>
-  <details>
-    <summary>Is this 18+?</summary>
-    <p>Yes. Adults only.</p>
-  </details>
-</section>
-
-<!-- THE EVIE EDIT — BLOG / OPINIONS, AT THE BOTTOM OF THE PAGE -->
-<section class="evie-blog-section" id="blog" aria-labelledby="evieBlogHeading">
-  <div class="evie-blog-shell">
-    <p class="evie-blog-kicker">002 — PERSONAL NOTES / THE EVIE EDIT</p>
-    <h2 id="evieBlogHeading">Unfiltered <em>thoughts.</em></h2>
-    <p class="evie-blog-lede">This is where I say whatever's relevant. Being a creator, learning to engineer my own tools for niche industrys, privacy, tech ethics, and everything in between. No personality pack is required for me.</p>
-    <article class="evie-blog-feature" aria-labelledby="evieBlogFirstTitle">
-      <div class="evie-blog-card-copy">
-        <p class="evie-blog-date"><time datetime="2026-10-27">OCTOBER 27, 2026</time> &nbsp;·&nbsp; FIRST POST / OPINION</p>
-        <h3 id="evieBlogFirstTitle">Agencies are shit, Bots suck, can people stop downloading personalities??</h3>
-        <p>Fake agencies, AI personalities, questionable data practices, and the reason I'm building a creator tool that lets me spend less time sorting through spam and more time being an actual person.</p>
-        <a class="evie-blog-read" href="blog/agencies-are-shit-bots-suck.html" aria-label="Read Agencies are shit, Bots suck, can people stop downloading personalities?">Read the full post</a>
-      </div>
-      <div class="evie-blog-card-art" aria-hidden="true"><span>✧</span></div>
-    </article>
-  </div>
-</section>
 
 </main>
-
-<footer class="site-footer">
-  <div class="footer-brand">KISSED BY EVIE</div>
-  <div class="footer-links">
-    <a href="#about">About Me</a>
-    <a href="#blog">Blog</a>
-    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener">Telegram</a>
-    <a href="https://www.instagram.com/kissedbyevie/" target="_blank" rel="noopener">Instagram</a>
-    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener">X</a>
-  </div>
-  <p class="footer-note">ALL SALES AND ACCESS CONFIRMED DIRECTLY</p>
-</footer>
-
-<button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag">
-  <span id="bagCount">0</span>
-  <span>Bag · <strong id="bagTotal">$0</strong></span>
-</button>
-
+<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="account.html">My account</a></footer>
+<button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag"><span id="bagCount">0</span><span>Bag · <strong id="bagTotal">$0</strong></span></button>
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
-
-<!-- Free member registration and preferences now live on account.html. -->
-
-<!-- VIP purchase rules: always available from the top of the page and the bag -->
 <dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">
-  <div class="terms-head">
-    <span>KISSED BY EVIE · BEFORE YOU BUY · 18+</span>
-    <button type="button" class="terms-close" id="termsClose" aria-label="Close purchase terms">×</button>
-  </div>
+  <div class="terms-head"><span>KISSED BY EVIE · BEFORE YOU BUY</span><button type="button" class="terms-close" id="termsClose" aria-label="Close purchase terms">×</button></div>
   <div class="terms-content">
-    <h2 id="vipTermsTitle">✧ VIP PACKAGE RULES &amp; BOUNDARIES ✧</h2>
-    <p class="terms-lead" id="vipTermsLead">Read this before you buy. By ordering, you agree to everything below.</p>
-    <p>Hey babe, before you send anything, I need you to actually read this. Not skim. Read. Because VIP comes with a lot of assumptions that people get wrong, and I'd rather set it straight now than have an awkward conversation later.</p>
-    <p>Here's exactly how this works.</p>
-
-    <section class="terms-section" aria-labelledby="terms-rule-1">
-      <h3 id="terms-rule-1">1. VIP Does NOT Mean Free FaceTimes</h3>
-      <p>Buying VIP makes you <strong>eligible</strong> for NSFW FaceTimes. That's it. It does not make them free, and it does not mean you get them whenever you want. GFE gets casual conversational FT’S/calls only</p>
-      <ul>
-        <li>Video calls are paid at the posted flat rates, even for VIP. The limited-time 30-minute live sexting/Snap session/show bonus is separate from paid video calls.</li>
-        <li>VIP gets a lower flat rate and scheduling priority. Calls are arranged with me directly.</li>
-        <li>The perk is access and price. Not unlimited calls.</li>
-      </ul>
-      <p>If you bought VIP thinking FREE FaceTimes were included, this is your warning.</p>
-    </section>
-
-    <section class="terms-section" aria-labelledby="terms-rule-2">
-      <h3 id="terms-rule-2">2. VIP Does NOT Mean Unlimited Customs</h3>
-      <p>Your package covers what's listed on it. Anything past that is <strong>extra.</strong></p>
-      <ul>
-        <li>Customs outside your package get <strong>quoted and paid separately.</strong></li>
-        <li>“But I'm VIP” is not a free pass for endless requests.</li>
-        <li>Want more? Buy more. That's the whole model, and it keeps me making content instead of chasing payments.</li>
-      </ul>
-    </section>
-
-    <section class="terms-section" aria-labelledby="terms-rule-3">
-      <h3 id="terms-rule-3">3. VIP Does NOT Mean Unlimited Access to My Time</h3>
-      <p>VIP buys you <strong>priority and attention</strong> — not ownership of my schedule.</p>
-      <ul>
-        <li><strong>I have another job and a life outside of this.</strong> Sometimes I'm genuinely not available for hours. That's normal — that's not me ignoring you.</li>
-        <li>I reply when I can, not on demand.</li>
-        <li>Calls are scheduled around my availability and confirmed <strong>before</strong> you pay.</li>
-        <li>Don't expect me on standby just because you're VIP. I have a life, content to make, and other people buying too.</li>
-        <li><strong>A tip gets you bumped up the queue.</strong> It doesn't buy you a 24/7 hotline — but it does get you noticed first when I'm back.</li>
-      </ul>
-    </section>
-
-    <section class="terms-section" aria-labelledby="terms-rule-4">
-      <h3 id="terms-rule-4">4. TIP. TIP. TIP.</h3>
-      <p><strong>Tips are how this actually works. Tips get remembered.</strong></p>
-      <ul>
-        <li>Tipping gets you <strong>faster replies, priority scheduling, and goodwill</strong> on customs and extras, subject to my availability.</li>
-        <li>Want my time outside your package? <strong>Tip.</strong></li>
-        <li>Want a video call? <strong>Request the posted flat rate.</strong> Tips are appreciated, not required.</li>
-        <li>Want a custom that wasn't included? <strong>Tip.</strong></li>
-        <li>Want to be a favorite? <strong>Tip.</strong></li>
-      </ul>
-      <p>No tip, no complaints. Tipping is the difference between a customer and a priority. Simple as that.</p>
-    </section>
-
-    <section class="terms-section" aria-labelledby="terms-rule-5">
-      <h3 id="terms-rule-5">5. FaceTime Eligibility — The Real Rule</h3>
-      <p>To even be <strong>eligible</strong> for FaceTimes, you need ONE of these:</p>
-      <ul>
-        <li><strong>An active VIP package</strong> (VIP Daddy or Ultimate VIP Daddy), <strong>OR</strong></li>
-        <li><strong>Consistent purchases</strong> of pre-made content and/or lives.</li>
-      </ul>
-      <p>Eligibility ≠ guarantee. Eligibility ≠ free. Eligibility means you <em>can</em> request, I confirm a time, you pay, we talk.</p>
-    </section>
-
-    <section class="terms-section" aria-labelledby="terms-rule-6">
-      <h3 id="terms-rule-6">6. 🚨 DO NOT SHARE MY CONTENT. ANYWHERE. EVER. 🚨</h3>
-      <div class="terms-warning">
-        <p><strong>My content is MINE. You're buying access — not the right to redistribute it.</strong></p>
-        <ul>
-          <li><strong>Do NOT repost it online.</strong> Not on Reddit, Twitter/X, Telegram groups, Discord, TikTok, or anywhere else.</li>
-          <li><strong>Do NOT re-upload it to other sites.</strong> Not to other OnlyFans pages, tube sites, or file-sharing sites.</li>
-          <li><strong>Keep it on your own device, or view it through OnlyFans or our chats.</strong> Personal use only.</li>
-          <li><strong>NOBODY ELSE gets it.</strong> If you bought it, it's for <em>you</em> — not you and your group chat.</li>
-          <li><strong>Do NOT SELL my content.</strong> You cannot charge people to access my stuff.</li>
-        </ul>
-        <p><strong>If you share it, repost it, or sell it — I will pursue legal action, including suing where appropriate.</strong> Don't test me. It's my livelihood.</p>
-        <p>Want to introduce a friend? <strong>Share my public menu link, not purchased content.</strong> They can place their own order. ♡</p>
-      </div>
-    </section>
-
-    <section class="terms-section" aria-labelledby="terms-rule-7">
-      <h3 id="terms-rule-7">7. The Trade-Off You're Agreeing To</h3>
-      <ul>
-        <li>VIP-based FaceTime eligibility is <strong>tied to your active membership.</strong> If it lapses, that VIP-based eligibility lapses too. The consistent-purchaser route is evaluated separately.</li>
-        <li>Renewals are <strong>$60</strong> and confirmed with me directly before the next term starts. <strong>Nothing auto-charges.</strong></li>
-        <li>All prices are upfront. VIP video call rates require active VIP membership, which I verify before payment. Customs marked “from” are quoted before payment.</li>
-        <li>Delivery windows, priority add-ons, and scheduling are all confirmed before you send funds.</li>
-        <li><strong>Response times vary.</strong> I have another job — some days I'm quick, some days I'm gone for hours. Patience is part of the deal.</li>
-        <li>Digital content is generally non-refundable once delivered, except where applicable law requires otherwise. If something's clearly off, message me and we'll sort it.</li>
-        <li><strong>18+ only.</strong></li>
-      </ul>
-    </section>
-
-    <section class="terms-section" aria-labelledby="terms-rule-8">
-      <h3 id="terms-rule-8">8. The Short Version</h3>
-      <div class="terms-recap">
-        <p><strong>VIP = priority + discount.</strong></p>
-        <p><strong>VIP ≠ free video calls, ≠ unlimited customs, ≠ unlimited access to my time.</strong> The October sale includes one scheduled 30-minute live sexting, Snap session, or show, separate from paid video calls.</p>
-        <p>I have another job and a life — sometimes I'm not available for hours.</p>
-        <p><strong>DO NOT SHARE, REPOST, OR SELL MY CONTENT. Personal use only. I will pursue legal action.</strong></p>
-        <p><strong>Tips get you further. TIP. TIP. TIP. ♡</strong></p>
-      </div>
-    </section>
-    <p class="terms-lead">By completing your order, you confirm you've read and agree to these VIP rules and boundaries.</p>
-    <p>Now send me your order and let's get you sorted. ♡</p>
+    <h2 id="vipTermsTitle">PURCHASE RULES &amp; BOUNDARIES</h2>
+    <p class="terms-lead" id="vipTermsLead">Read before ordering. I confirm availability, final price, delivery, and payment details with you before you pay.</p>
+    <section class="terms-section"><h3>Scheduling and delivery</h3><p>Calls, live sessions, customs, and physical items depend on my availability. I confirm the plan and timing with you first.</p></section>
+    <section class="terms-section"><h3>Custom requests</h3><p>Custom ideas must be approved before payment. Listed prices are starting prices when marked “from”; add-ons and shipping are confirmed separately.</p></section>
+    <section class="terms-section"><h3>Your content</h3><p>Purchased content is for your personal use. Do not repost, share, re-upload, or sell it.</p></section>
+    <section class="terms-section"><h3>Payment and refunds</h3><p>Nothing charges automatically through this site. Digital content is generally non-refundable once delivered, except where applicable law requires otherwise. If something is clearly wrong, message me and we will sort it out.</p></section>
+    <p class="terms-lead">Adults only. By sending an order, you confirm that you are at least 18 and agree to these purchase rules.</p>
   </div>
-  <div class="terms-footer">
-    <label class="terms-check" for="termsAgreeCheck">
-      <input type="checkbox" id="termsAgreeCheck">
-      <span>I am at least 18 years old, I've read these rules, and I agree to the purchase terms and boundaries.</span>
-    </label>
-    <button type="button" class="terms-accept" id="termsAgreeButton" disabled>I agree · continue ♡</button>
-    <small>Terms updated October 26, 2026. Purchase discussions, delivery, and payment are arranged outside this website.</small>
-  </div>
+  <div class="terms-footer"><label class="terms-check" for="termsAgreeCheck"><input type="checkbox" id="termsAgreeCheck"><span>I am at least 18 years old, I have read these rules, and I agree to the purchase terms.</span></label><button type="button" class="terms-accept" id="termsAgreeButton" disabled>I agree · continue</button><small>Orders, delivery, and payment are arranged directly.</small></div>
 </dialog>
-
 <!-- BAG DRAWER (unchanged) -->
 <dialog class="bag-drawer" id="bagDrawer" aria-labelledby="bagTitle">
   <div class="drawer-heading">
@@ -577,8 +151,8 @@
       <p>Make it personal ♡ <strong>Voice note · $12</strong></p>
       <button type="button" id="addVoiceNote">Add +$12</button>
     </div>
-    <p id="monthlyNote" class="fine-print" hidden>Membership and OnlyFans terms are confirmed with me directly. Nothing renews or charges automatically on this site.</p>
-    <p class="terms-cart-note">Before sending, please read the <button type="button" data-open-vip-terms aria-haspopup="dialog">terms and conditions when you buy</button>.</p>
+    <p id="monthlyNote" class="fine-print" hidden>OnlyFans access is arranged directly with me. Nothing charges automatically on this site.</p>
+    <p class="terms-cart-note">Before sending, please read the <button type="button" data-open-vip-terms aria-haspopup="dialog">purchase rules</button>.</p>
     <button type="button" id="copyOrder" class="secondary-btn">Copy order only</button>
     <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order &amp; open Telegram</button>
     <p id="cartFeedback" class="cart-feedback"></p>
@@ -594,42 +168,6 @@
   <span id="lightboxCount" class="lightbox-count"></span>
 </dialog>
 
-<!-- A guest can browse without an email address or Supabase account. -->
-<script>
-(function(){
-  const gate = document.getElementById('accessGate');
-  const button = document.getElementById('continueAsGuest');
-  if (!gate || !button) return;
-  const key = 'evie-browse-mode';
-  const params = new URLSearchParams(window.location.search);
-  const linkFromAccount = params.get('browse') === 'guest';
-  function dismiss(){
-    gate.remove();
-    window.dispatchEvent(new Event('evie:access-granted'));
-  }
-  function guest(){
-    try {
-      window.localStorage.setItem(key, 'guest');
-      window.localStorage.removeItem('evie-access-username');
-    } catch (_) {}
-    dismiss();
-  }
-  if (linkFromAccount) {
-    try {
-      window.history.replaceState(null, '', window.location.pathname + window.location.hash);
-    } catch (_) {}
-    guest();
-    return;
-  }
-  try {
-    if (window.localStorage.getItem(key) === 'guest') {
-      dismiss();
-      return;
-    }
-  } catch (_) {}
-  button.addEventListener('click', guest);
-})();
-</script>
 
 </body>
 </html>
