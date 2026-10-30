@@ -72,7 +72,8 @@ const notes={
     "FaceTime comes with VIP. Extra time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
   ],
   "Customs": [
-    "Custom photo sets start at 5 for $45, plus $7 a photo. Videos start at 3 minutes for $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve quoted you and you’ve agreed. No surprise invoices, no surprise requests."
+    "Custom photo sets start at 5 for $45, plus $7 a photo. Videos start at 3 minutes for $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve quoted you and you’ve agreed. No surprise invoices, no surprise requests.",
+    "Give me a real idea and I’ll get into it. Tell me what to do or where to aim. I’ll make a real mess and send you the evidence. :)"
   ],
   "More": [
     "Live things get scheduled with me. I confirm the time before you pay. Don’t send money for a live without a confirmed time."
@@ -133,6 +134,11 @@ categories.forEach(([section],i)=>{
  panel.setAttribute('aria-labelledby','tab-'+section);
  panel.hidden=i!==0;
  const categoryProducts=products.filter(p=>p.section===section);
+ if(section==='Customs'){
+   const customsIntro=el('div','customs-intro');
+   customsIntro.append(el('h3','','Custom Content'),el('p','','This is the part I actually like. Genuinely. Ask anyone who’s ordered. Give me a real idea and I’ll get into it. You’ll be able to tell.'),el('p','','Squirting customs are my favorite to make. Tell me where to aim. I’ll make a real mess of it and send you the evidence.'));
+   panel.append(customsIntro);
+ }
  // More stays last, with calls, live Snaps and videos, and video call options at the end.
  if(section==='More')categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
  let videoHeadingAdded=false;
