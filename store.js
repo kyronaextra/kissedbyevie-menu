@@ -4,6 +4,10 @@
 // Prices marked "from" are minimums; all orders are reviewed before payment.
 const categories=[
   [
+    "BestSellers",
+    "Best sellers"
+  ],
+  [
     "Mid",
     "$20 to $50 · Lives"
   ],
@@ -21,6 +25,72 @@ const categories=[
   ]
 ];
 const products=[
+  {
+    section: 'BestSellers',
+    name: '10 Pics / Videos',
+    price: 10,
+    description: 'A mix of 10 photos and videos.'
+  },
+  {
+    section: 'BestSellers',
+    name: '20 Pics + Videos',
+    price: 20,
+    description: 'A mix of 20 photos and videos.'
+  },
+  {
+    section: 'BestSellers',
+    name: '50 Pics / Videos',
+    price: 50,
+    description: 'A mix of 50 photos and videos.'
+  },
+  {
+    section: 'BestSellers',
+    name: 'Whole Vault · 800+ Content',
+    price: 65,
+    group: 'vault',
+    description: 'Full access to 800+ photos and videos.'
+  },
+  {
+    section: 'BestSellers',
+    name: 'Live Video / Snap Show, 2 Minutes',
+    price: 45,
+    description: 'A Snapchat live video show, saved to chat. Teaser pics and videos included. Choose riding dildo, squirting, BJ POV, or your favorite position. Tell me if you want more tits, pussy, or ass.',
+    note: 'Add $10 for extra teasing, wet creamy vibes, and moaning your name. Schedule first.'
+  },
+  {
+    section: 'BestSellers',
+    name: 'Live Video / Snap Show, 4 Minutes',
+    price: 60,
+    description: 'A Snapchat live video show, saved to chat. Teaser pics and videos included. Choose riding dildo, squirting, BJ POV, or your favorite position. Tell me if you want more tits, pussy, or ass.',
+    note: 'Add $10 for extra teasing, wet creamy vibes, and moaning your name. Schedule first.'
+  },
+  {
+    section: 'BestSellers',
+    name: 'Dick Rate · Detailed Live Video',
+    price: 35,
+    description: 'Detailed live video rating, semi nude or nude.',
+    note: 'Add this to a live Snap show or sexting session for $15.'
+  },
+  {
+    section: 'BestSellers',
+    name: 'Dick Rate Add On · With Live or Sexting',
+    price: 15,
+    description: 'Add a detailed live video rating to a live Snap show or sexting session.'
+  },
+  {
+    section: 'BestSellers',
+    name: 'FaceTime, 5 Minutes',
+    price: 55,
+    description: 'A 5 minute FaceTime.',
+    note: 'Reserved for VIP members. Non VIP calls are Friday and Saturday only. Ask about availability before you buy.'
+  },
+  {
+    section: 'BestSellers',
+    name: 'FaceTime, 8 Minutes',
+    price: 85,
+    description: 'An 8 minute FaceTime.',
+    note: 'Reserved for VIP members. Non VIP calls are Friday and Saturday only. Ask about availability before you buy.'
+  },
 {
     "section": "More",
     "name": "Live Snaps, 15 Minutes",
@@ -264,7 +334,7 @@ const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, customs & photo sets, and more. For premade content, pick your category first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the best sellers, then browse the rest of the menu. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
