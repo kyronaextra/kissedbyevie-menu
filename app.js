@@ -419,7 +419,7 @@
     }
   });
   var voiceButton=document.getElementById('addVoiceNote');
-  if(voiceButton)voiceButton.addEventListener('click',function(){addItem('Voice Note',12,null)});
+  if(voiceButton)voiceButton.addEventListener('click',function(){addItem('Voice Note',10,null)});
   loadCart();
   renderCart();
   window.EvieCart = {
