@@ -296,7 +296,7 @@ const products=[
     "name": "Deluxe Dropbox, 800+ Items",
     "price": 75,
     "group": "vault",
-    "description": "800+ photos and videos, with new uploads added regularly."
+    "description": "800+ items with lifetime access and one monthly drop. Includes squirting, JOI, B/G, anal, teasers, pics, clips, BJ and BJ POV, solo content, orgasms, cream, feet, fetish, and collabs."
   },
   {
     "section": "More",
@@ -360,6 +360,11 @@ const products=[
 ];
 
 const notes={
+  "BestSellers": [
+    "A new monthly set drops on the 1st. The 10, 20, and 50 item offers are from this month’s set.",
+    "When the next set drops, last month’s set moves to the Dropbox and becomes archive only.",
+    "The Dropbox includes 800+ items with lifetime access and one new drop added monthly. Confirm availability before ordering."
+  ],
   "Mid": [
     "Live sessions are scheduled with me. Please confirm availability before paying.",
     "All times and quantities refer to the item you select. There are no automatic bookings."
