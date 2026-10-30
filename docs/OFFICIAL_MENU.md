@@ -1,6 +1,6 @@
 # KissedByEvie — Current Content Menu
 
-Updated October 25, 2026. `store.js` defines the currently displayed names, prices and categories on the public website. This document is a written backup of the owner-provided replacement menu; older prices and Lifetime Daddy offers are superseded.
+Updated October 25, 2026. `menu-catalog.js` defines the currently displayed names, prices and categories on the public website. This document is a written backup of the owner-provided replacement menu; older prices and Lifetime Daddy offers are superseded.
 
 All items for adults 18+ only. Payment is arranged directly after an order is reviewed; the website only prepares a message to send on Telegram.
 
