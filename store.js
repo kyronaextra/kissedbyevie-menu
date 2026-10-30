@@ -3,387 +3,75 @@
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
 // Prices marked "from" are minimums; all orders are reviewed before payment.
 const categories=[
-  [
-    "BestSellers",
-    "Best sellers"
-  ],
-  [
-    "Mid",
-    "$20 to $50 · Lives"
-  ],
-  [
-    "VIP",
-    "VIP Access"
-  ],
-  [
-    "Budget",
-    "Under $20"
-  ],
-  [
-    "Customs",
-    "Customs & Photo Sets"
-  ],
-  [
-    "More",
-    "Calls, Live Snaps & Extras"
-  ]
+  ["BestSellers","Best sellers"],
+  ["Dropbox","The Dropbox"],
+  ["VIP","VIP Access"],
+  ["Customs","Customs"],
+  ["More","Quick interactions"]
 ];
 const products=[
-  {
-    section: 'BestSellers',
-    name: '10 Pics / Videos',
-    price: 10,
-    description: 'A mix of 10 photos and videos.'
-  },
-  {
-    section: 'BestSellers',
-    name: '20 Pics + Videos',
-    price: 20,
-    description: '20 items plus one free voice note.'
-  },
-  {
-    section: 'BestSellers',
-    name: '50 Pics / Videos',
-    price: 50,
-    description: '50 items plus live, teasing Snaps.'
-  },
-  {
-    section: 'BestSellers',
-    name: 'Whole Vault · 800+ Content',
-    price: 75,
-    group: 'vault',
-    description: '800+ items, lifetime access, and one new drop added monthly.'
-  },
-  {
-    section: 'BestSellers',
-    name: 'Live Video / Snap Show, 2 Minutes',
-    price: 45,
-    description: 'A Snapchat live video show, saved to chat. Teaser pics and videos included. Choose riding dildo, squirting, BJ POV, or your favorite position. Tell me if you want more tits, pussy, or ass.',
-    note: 'Add $10 for extra teasing, wet creamy vibes, and moaning your name. Schedule first.'
-  },
-  {
-    section: 'BestSellers',
-    name: 'Live Video / Snap Show, 5 Minutes',
-    price: 65,
-    description: 'A Snapchat live video show, saved to chat. Teaser pics and videos included. Choose riding dildo, squirting, BJ POV, or your favorite position. Tell me if you want more tits, pussy, or ass.',
-    note: 'Add $10 for extra teasing, wet creamy vibes, and moaning your name. Schedule first.'
-  },
-  {
-    section: 'BestSellers',
-    name: 'Dick Rate · Detailed Live Video',
-    price: 35,
-    description: 'Detailed live video rating, semi nude or nude.',
-    note: 'Add this to a live Snap show or sexting session for $15.'
-  },
-  {
-    section: 'BestSellers',
-    name: 'Dick Rate Add On · With Live or Sexting',
-    price: 15,
-    description: 'Add a detailed live video rating to a live Snap show or sexting session.'
-  },
-  {
-    section: 'BestSellers',
-    name: 'FaceTime, 5 Minutes',
-    price: 55,
-    description: 'A 5 minute FaceTime.',
-    note: 'Reserved for VIP members. Non VIP calls are Friday and Saturday only. Ask about availability before you buy.'
-  },
-  {
-    section: 'BestSellers',
-    name: 'FaceTime, 8 Minutes',
-    price: 85,
-    description: 'An 8 minute FaceTime.',
-    note: 'Reserved for VIP members. Non VIP calls are Friday and Saturday only. Ask about availability before you buy.'
-  },
-{
-    "section": "More",
-    "name": "Live Snaps, 15 Minutes",
-    "price": 45,
-    "badge": "LIVE FAVORITE",
-    "description": "15 minutes of live Snapchat content, scheduled when I'm available.",
-    "note": "Live availability confirmed before payment."
-  },
-  {
-    "section": "More",
-    "name": "10 Live Pics & Videos",
-    "price": 20,
-    "description": "Ten pics and videos made live for you. We confirm the timing first."
-  },
-  {
-    "section": "More",
-    "name": "20 Live Pics & Videos",
-    "price": 40,
-    "description": "Double the live snaps. Twenty real time pics and videos."
-  },
-  {
-    "section": "More",
-    "name": "Live Bubble, 2+ Minutes",
-    "price": 35,
-    "description": "A personal live Snapchat bubble plus pics. Available when I'm online."
-  },
-  {
-    "section": "Mid",
-    "name": "1 Minute Live Interaction",
-    "price": 45,
-    "description": "A quick live request, subject to my approval and availability."
-  },
-  {
-    "section": "Mid",
-    "name": "Sexting, 10 Minutes",
-    "price": 20,
-    "unit": "text only",
-    "description": "Ten minutes of private one on one texting. Let's schedule it."
-  },
-  {
-    "section": "Mid",
-    "name": "Sexting, 15 Minutes",
-    "price": 35,
-    "unit": "text only",
-    "description": "Fifteen minutes of private one on one texting, scheduled with me."
-  },
-  {
-    "section": "Mid",
-    "name": "Casual Phone Call, 20 Minutes",
-    "price": 30,
-    "description": "A normal voice call and some one on one time. Casual conversation only."
-  },
-  {
-    "section": "Mid",
-    "name": "Video Dick Rate",
-    "price": 30,
-    "from": true,
-    "description": "A personalized video rating, priced from $30 up to $55 depending on the request.",
-    "note": "Final quote confirmed before payment."
-  },
-  {
-    "section": "Customs",
-    "name": "Big Photo Set With Videos",
-    "price": 30,
-    "pickCategory": true,
-    "description": "A bigger premade set with photos and videos. You pick the category."
-  },
-  {
-    "section": "Customs",
-    "name": "Custom Video, 1 Minute",
-    "price": 45,
-    "description": "One minute made for you, based on an approved request.",
-    "note": "Base price $45. Optional add ons may cost extra."
-  },
-  {
-    "section": "Mid",
-    "name": "20 Surprise Pics & Videos",
-    "price": 20,
-    "description": "Twenty surprises. Let me choose for you."
-  },
-  {
-    "section": "Mid",
-    "name": "50 Surprise Pics & Videos",
-    "price": 40,
-    "badge": "BEST CONTENT",
-    "description": "50 of my best pics and videos, with long videos included."
-  },
-  {
-    "section": "More",
-    "name": "Flash & 5 Live Teasers",
-    "price": 25,
-    "description": "A quick flash and five live teaser videos, when available."
-  },
-  {
-    "section": "Mid",
-    "name": "Five Feet Photos",
-    "price": 20,
-    "description": "Five feet photos, picked for you."
-  },
-{
-    "section": "Budget",
-    "name": "Premade Video, 1 Minute",
-    "price": 5,
-    "unit": "$5 per minute",
-    "pickCategory": true,
-    "description": "Pick a category. Add a quantity for more minutes. Subject to available videos."
-  },
-  {
-    "section": "Budget",
-    "name": "Single Photo",
-    "price": 2,
-    "from": true,
-    "pickCategory": true,
-    "priceDisplay": "$2 to $3",
-    "description": "Pick a category and choose your photo. Each photo is $2 or $3.",
-    "note": "The final price is confirmed for your selection."
-  },
-  {
-    "section": "Customs",
-    "name": "Premade Photo Set",
-    "price": 15,
-    "pickCategory": true,
-    "description": "A ready made photo set in the category you choose."
-  },
-  {
-    "section": "Budget",
-    "name": "Sexting, 5 Minutes",
-    "price": 15,
-    "unit": "text only",
-    "description": "Five minutes of private one on one texting. Scheduled with me."
-  },
-  {
-    "section": "Budget",
-    "name": "Text Dick Rate",
-    "price": 15,
-    "description": "A personalized written rating. No video included."
-  },
-  {
-    "section": "Budget",
-    "name": "Voice Note",
-    "price": 12,
-    "description": "A personal voice note from me."
-  },
-  {
-    "section": "Budget",
-    "name": "10 Surprise Pics & Videos",
-    "price": 10,
-    "description": "Ten surprise photos and videos. I choose the mix."
-  },
-    {section:'VideoCalls',name:'Non-VIP Video Call, 5 Minutes',price:80,unit:'5 minutes · standard flat rate',
-    description:'A 5-minute video call at my standard non-VIP rate.',
-    note:'Non-VIP calls are selective and subject to my approval before payment.'},
-  {section:'VideoCalls',name:'Non-VIP Video Call, 8 Minutes',price:105,unit:'8 minutes · standard flat rate',
-    description:'An 8-minute video call. Flat rate. No VIP discount.',
-    note:'Non-VIP calls are selective and subject to my approval before payment.'},
-        {
-    "section": "More",
-    "name": "OnlyFans, One Year",
-    "price": 45,
-    "unit": "1 year",
-    "group": "of",
-    "description": "A whole year of OnlyFans, arranged directly with me."
-  },
-{
-    "section": "Customs",
-    "name": "Custom Video, 2 Minutes",
-    "price": 55,
-    "description": "Two minutes made to order after I approve the idea.",
-    "note": "Base price $55. Optional add ons may cost extra."
-  },
-  {
-    "section": "Customs",
-    "name": "Custom Video, 3 Minutes",
-    "price": 65,
-    "description": "Three minutes made to order after I approve the idea.",
-    "note": "Base price $65. Optional add ons may cost extra."
-  },
-  {
-    "section": "Customs",
-    "name": "Custom Video, 4 Minutes",
-    "price": 75,
-    "description": "Four minutes made to order after I approve the idea.",
-    "note": "Base price $75. Optional add ons may cost extra."
-  },
-{
-    "section": "More",
-    "name": "Casual Phone Call, 40 Minutes",
-    "price": 60,
-    "description": "A longer casual voice call, scheduled with me."
-  },
-  {
-    "section": "More",
-    "name": "Casual Phone Call, 1 Hour",
-    "price": 70,
-    "description": "A full hour to talk. Casual conversation only."
-  },
-  {
-    "section": "More",
-    "name": "Deluxe Dropbox, 800+ Items",
-    "price": 75,
-    "group": "vault",
-    "description": "800+ items with lifetime access and one monthly drop. Includes squirting, JOI, B/G, anal, teasers, pics, clips, BJ and BJ POV, solo content, orgasms, cream, feet, fetish, and collabs."
-  },
-  {
-    "section": "More",
-    "name": "Custom Request Add On",
-    "price": 20,
-    "from": true,
-    "extra": true,
-    "description": "Want a little something extra on an approved custom? Ask first.",
-    "note": "Price varies by request and is always confirmed before payment."
-  },
-  {
-    "section": "More",
-    "name": "Quick Delivery Priority",
-    "price": 10,
-    "extra": true,
-    "description": "Priority delivery within 30 minutes when I am home and available.",
-    "note": "Ask before buying. This is not guaranteed."
-  },
-{
-    section: 'VIP', name: 'VIP', price: 70, group: 'membership',
-    description: 'The Dropbox, one 5 minute FaceTime each month, 30 minutes of sexting, custom content, and priority booking.',
-    note: '10 seats. FaceTime and sexting time are monthly. Custom requests are approved and scheduled with me.'
-  },
-  {
-    section: 'VIP', name: 'VIP Elite', price: 150, group: 'membership',
-    description: 'The Dropbox, one 15 minute FaceTime each month, 60 minutes of sexting, custom content, and first access to new drops and live sessions.',
-    note: '5 seats. Includes one 2 minute video custom. Booking is priority and expedited when available.'
-  },
-  {
-    section: 'BestSellers', name: 'Live Snap Show, 5 Minutes', price: 65,
-    description: 'A Snapchat live show. Sit back and watch, like a FaceTime, without me needing to see you. Schedule first.'
-  },
-  {
-    section: 'BestSellers', name: 'Live Content Add On', price: 10,
-    description: 'Live content sent in chat and made for you.'
-  },
-  {
-    section: 'Customs', name: 'Custom Photo Set, 5 Photos', price: 45,
-    description: 'Five custom photos. Add $7 per additional photo. Requests are approved before booking.'
-  },
-  {
-    section: 'Customs', name: 'Custom Video, 3 Minutes', price: 60,
-    description: 'Three minute custom video. Add $15 per minute after the first three. Optional add ons quoted first.'
-  },
-  {
-    section: 'Customs', name: 'Same Day Turnaround', price: 15,
-    extra: true, description: 'Priority custom delivery when my schedule allows. Ask before adding.'
-  },
-  {
-    section: 'More', name: 'Moan Your Name', price: 10,
-    description: 'Add your name to an approved custom. This request keeps the content exclusive to your order.'
-  },
-  {
-    section: 'More', name: 'JOI Add On', price: 20,
-    description: 'Dirty talk and JOI added to an approved session.'
-  },
-  {
-    section: 'More', name: 'Sexting, 30 Minutes', price: 75,
-    unit: 'text only', description: 'Thirty minutes of private sexting, scheduled with me.'
-  }
+  {section:'BestSellers',name:'10 Items · This Month’s Set',price:10,
+   description:'10 items from this month’s set.',unit:'$1 per item'},
+  {section:'BestSellers',name:'20 Items + Free Voice Note',price:20,
+   description:'20 items from this month’s set plus one free voice note.',unit:'$1 per item'},
+  {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
+   description:'50 items from this month’s set with live, teasing Snaps.',unit:'$1 per item'},
+  {section:'Dropbox',name:'The Dropbox · 800+ Items',price:75,group:'vault',
+   description:'The whole archive with lifetime access and one new drop added monthly.',
+   note:'Includes squirting, JOI, B/G, anal, teasers, pics, clips, BJ, BJ POV, solo content, orgasms, cream, feet, fetish content, and collabs.'},
+  {section:'VIP',name:'VIP',price:70,group:'membership',
+   description:'Dropbox access, one 5 minute FaceTime per month, 30 minutes of sexting per month, custom content, and priority booking.',
+   note:'10 seats. New drops have standard access. Additional FaceTime is $60 per 8 minutes and is available only to VIP members.'},
+  {section:'VIP',name:'VIP Elite',price:150,group:'membership',
+   description:'Dropbox access, one 15 minute FaceTime per month, 60 minutes of sexting per month, custom content, first access to new drops and live content, and priority expedited booking.',
+   note:'5 seats. Includes one 2 minute video custom.'},
+  {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
+   description:'Five custom photos. Add $7 per additional photo.'},
+  {section:'Customs',name:'Custom Video · 3 Minutes',price:60,
+   description:'Three minute custom video. Add $15 per minute after the first three. Potential add on fees are quoted first.'},
+  {section:'Customs',name:'Same Day Turnaround',price:15,extra:true,
+   description:'Priority delivery when my schedule allows. Ask first.'},
+  {section:'More',name:'Live Content Add On',price:10,
+   description:'Live content made for you and sent in chat.'},
+  {section:'More',name:'Moan Your Name',price:10,
+   description:'Add your name to an approved custom. This keeps the content exclusive to your order.'},
+  {section:'More',name:'JOI Add On',price:20,
+   description:'Dirty talk and JOI added to an approved session.'},
+  {section:'More',name:'Voice Note',price:10,
+   description:'A personal voice note from me.'},
+  {section:'More',name:'Dick Rate · Text',price:20,
+   description:'A personalized written rating.'},
+  {section:'More',name:'Dick Rate · Video',price:35,
+   description:'A personalized video rating.'},
+  {section:'More',name:'Sexting · 10 Minutes',price:30,unit:'text only',
+   description:'Ten minutes of private sexting, scheduled with me.'},
+  {section:'More',name:'Sexting · 15 Minutes',price:40,unit:'text only',
+   description:'Fifteen minutes of private sexting, scheduled with me.'},
+  {section:'More',name:'Sexting · 30 Minutes',price:75,unit:'text only',
+   description:'Thirty minutes of private sexting, scheduled with me.'},
+  {section:'More',name:'Live Snap Show · 2 Minutes',price:45,
+   description:'A 2 minute live Snap show.'},
+  {section:'More',name:'Live Snap Show · 5 Minutes',price:65,
+   description:'A 5 minute live Snap show. Sit back and relax, like a FaceTime, without me needing to see you.'}
 ];
-
 const notes={
   "BestSellers": [
-    "A new monthly set drops on the 1st. The 10, 20, and 50 item offers are from this month’s set.",
-    "When the next set drops, last month’s set moves to the Dropbox and becomes archive only.",
-    "The Dropbox includes 800+ items with lifetime access and one new drop added monthly. Confirm availability before ordering."
+    "A new set drops on the 1st. Last month’s set is pulled and moved to the Dropbox, so it becomes archive only.",
+    "The 10, 20, and 50 item offers are from this month’s set."
   ],
-  "Mid": [
-    "Live sessions are scheduled with me. Please confirm availability before paying.",
-    "All times and quantities refer to the item you select. There are no automatic bookings."
-  ],
-  "Budget": [
-    "For premade photos and videos, choose your content category before adding to the bag.",
-    "Premade video pricing is $5 per minute. Single photos are $2 to $3 each. Quotes are confirmed before payment."
-  ],
-  "Customs": [
-    "Custom video base prices: 1 minute $45, 2 minutes $55, 3 minutes $65, 4 minutes $75.",
-    "Optional add ons cost extra and all requests are subject to approval."
+  "Dropbox": [
+    "The Dropbox is the whole archive with lifetime access and one new drop added monthly."
   ],
   "VIP": [
-    "VIP includes the monthly time listed in each tier. Additional FaceTime for VIP members is $60 per 8 minutes.",
-    "VIP access is limited to 10 standard seats and 5 Elite seats. Confirm availability before ordering."
+    "VIP has 10 seats. VIP Elite has 5 seats. FaceTime and sexting minutes reset monthly.",
+    "Additional FaceTime is $60 per 8 minutes and is only available to VIP members."
+  ],
+  "Customs": [
+    "Custom photo sets start at 5 for $45, plus $7 per additional photo.",
+    "Custom videos start at 3 minutes for $60, plus $15 per minute after the first three. Same day priority is $15 when my schedule allows."
   ],
   "More": [
-    "Live Snaps and videos are scheduled with me. Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
-    "Video calls are selective, scheduled with me, and confirmed before payment."
+    "Live content and add ons are scheduled with me. Please confirm availability before paying."
   ]
 };
 const root=document.getElementById('boutiqueCatalog');
