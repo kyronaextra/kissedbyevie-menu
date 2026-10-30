@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "Kissed by Evie",
+  "short_name": "Evie",
+  "description": "Evie's menu, content, and order links.",
+  "start_url": "/index.html?source=home-screen",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#10070c",
+  "theme_color": "#10070c",
+  "icons": [
+    { "src": "/assets/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Open the menu", "url": "/index.html#boutique", "icons": [{ "src": "/assets/app-icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "My account", "url": "/account.html", "icons": [{ "src": "/assets/app-icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}

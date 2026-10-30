@@ -4,12 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10070c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kissed by Evie">
 <meta name="description" content="Kissed by Evie. A private menu and member experience.">
 <meta property="og:title" content="Everything I Sell | Kissed by Evie">
 <meta property="og:description" content="The full menu, the vault, VIP, and my order rules. Pick fast.">
 <meta property="og:image" content="https://kissedbyevie-menu.onrender.com/assets/photos/evie-hero-new.jpg">
 <meta property="og:url" content="https://kissedbyevie-menu.onrender.com/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/app-icon-192.png">
+<link rel="manifest" href="site.webmanifest">
 <title>Everything I Sell | Kissed by Evie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +30,7 @@
 <script defer src="app.js?v=20261030-bratty-copy-1"></script>
 <script defer src="vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
+<script defer src="install-app.js?v=20261030-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
 <script defer src="public-gallery.js?v=20261027-gallery-1"></script>
@@ -66,6 +72,11 @@
 .menu-home-header nav{display:flex;align-items:center;gap:10px}
 .menu-home-header nav a{padding:10px 14px;border:1px solid rgba(240,217,183,.3);border-radius:6px;color:#f8f1eb;text-decoration:none;font:700 11px/1.2 "DM Sans",sans-serif;letter-spacing:.07em}
 .menu-home-header nav a:first-child{background:#e8d0b5;color:#21121c;border-color:#e8d0b5}
+.install-app-button{min-height:38px;padding:9px 12px;border:1px solid rgba(240,217,183,.55);border-radius:6px;background:transparent;color:#f0d9b7;font:700 10px/1 "DM Sans",sans-serif;letter-spacing:.08em;white-space:nowrap;cursor:pointer}
+.install-app-button:hover{background:#f0d9b7;color:#20111a}
+.install-app-dialog{width:min(420px,calc(100vw - 32px));margin:auto;padding:0;border:1px solid rgba(240,217,183,.5);border-radius:14px;background:linear-gradient(145deg,#2d1825,#110b11);color:#f8f1eb;box-shadow:0 24px 90px #000b}
+.install-app-dialog::backdrop{background:rgba(5,2,5,.78);backdrop-filter:blur(8px)}
+.install-app-content{padding:25px}.install-app-content h2{margin:8px 0 10px;font:normal 38px/1 "Italiana",Georgia,serif}.install-app-content p{color:#d0bcb6;line-height:1.6}.install-app-close{width:100%;min-height:48px;margin-top:8px;border:0;border-radius:7px;background:#f0d9b7;color:#20111a;font-weight:700}
 .menu-home-main{min-height:100vh}
 .menu-home-main .boutique-section{padding-top:clamp(34px,5vw,70px)}
 .menu-home-main .boutique-top{text-align:center}
@@ -76,7 +87,7 @@
 .menu-home-footer a{color:#f0d9b7}
 .terms-cart-note button{color:#e8d0b5}
 @media(max-width:680px){.menu-home-footer{flex-direction:column;align-items:flex-start}}
-@media(max-width:600px){.menu-home-main .boutique-section{padding-top:22px}.menu-home-main .boutique-top h2{font-size:clamp(35px,10vw,52px);line-height:.98;letter-spacing:-.03em;margin:8px 0 12px}.menu-home-main .boutique-top>p:last-child{margin-top:10px;line-height:1.5}}
+@media(max-width:600px){.menu-home-header{padding:calc(10px + env(safe-area-inset-top)) 14px 10px;gap:8px}.menu-home-header nav{gap:6px}.menu-home-header nav a[href="#boutique"],.menu-home-header nav a[href="#about"]{display:none}.menu-home-header nav a{padding:9px 10px;font-size:10px}.install-app-button{min-height:36px;padding:8px 9px;font-size:9px}.menu-home-main .boutique-section{padding-top:22px}.menu-home-main .boutique-top h2{font-size:clamp(35px,10vw,52px);line-height:.98;letter-spacing:-.03em;margin:8px 0 12px}.menu-home-main .boutique-top>p:last-child{margin-top:10px;line-height:1.5}.install-app-content{padding:22px}}
 
 /* USDC receive panel */
 .crypto-wallet-grid{max-width:1120px;margin:34px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:18px;align-items:stretch}
@@ -125,7 +136,8 @@
     <p class="age-gate-note">Self-confirmation only. Don’t lie to me. I’ll find out.</p>
   </div>
 </div>
-<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a></nav></header>
+<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a><button class="install-app-button" id="installAppButton" type="button">SAVE APP</button></nav></header>
+<dialog class="install-app-dialog" id="installAppDialog" aria-labelledby="installAppTitle"><div class="install-app-content"><p class="eyebrow">KEEP ME CLOSE</p><h2 id="installAppTitle">Save my menu</h2><p id="installAppInstructions">Add Kissed by Evie to your home screen for quick access.</p><button class="install-app-close" id="installAppClose" type="button">Got it</button></div></dialog>
 <main class="menu-home-main">
 <!-- CONTENT MENU -->
 <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
