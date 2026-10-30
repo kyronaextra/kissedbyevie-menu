@@ -39,7 +39,16 @@
     "/assets/photos/evie-menu-04.jpg",
     "/assets/photos/evie-menu-05.jpg",
     "/assets/photos/evie-menu-06.jpg",
-    "/assets/photos/evie-about-02.jpg"
+    "/assets/photos/evie-about-02.jpg" ,
+    "/assets/photos/evie-gallery-15.webp",
+    "/assets/photos/evie-gallery-16.webp",
+    "/assets/photos/evie-gallery-17.webp",
+    "/assets/photos/evie-gallery-18.webp",
+    "/assets/photos/evie-gallery-19.webp",
+    "/assets/photos/evie-gallery-20.webp",
+    "/assets/photos/evie-gallery-21.webp",
+    "/assets/photos/evie-gallery-22.webp",
+    "/assets/photos/evie-gallery-23.webp"
   ]
 };
   var photoAlts={
@@ -75,7 +84,16 @@
     "Evie seated in a violet lingerie set",
     "Evie standing in a burgundy lace set",
     "Evie on a couch in a dark matching outfit",
-    "Evie smiling for a casual mirror selfie"
+    "Evie smiling for a casual mirror selfie" ,
+    "Evie in a black lace dress in her kitchen",
+    "Evie posing in black lace",
+    "Evie posing in burgundy lingerie with whipped cream",
+    "Evie reclining in black lace on white bedding",
+    "Evie seated in burgundy lingerie",
+    "Evie posing in black lingerie on a couch",
+    "Evie posing in a black lace dress",
+    "Evie taking a mirror selfie in a brown top",
+    "Close up selfie of Evie"
   ]
 };
   var activeSet='diary';

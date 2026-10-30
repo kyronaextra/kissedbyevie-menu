@@ -12,6 +12,10 @@ const categories=[
     "$20 to $50 · Lives"
   ],
   [
+    "VIP",
+    "VIP Access"
+  ],
+  [
     "Budget",
     "Under $20"
   ],
@@ -35,20 +39,20 @@ const products=[
     section: 'BestSellers',
     name: '20 Pics + Videos',
     price: 20,
-    description: 'A mix of 20 photos and videos.'
+    description: '20 items plus one free voice note.'
   },
   {
     section: 'BestSellers',
     name: '50 Pics / Videos',
     price: 50,
-    description: 'A mix of 50 photos and videos.'
+    description: '50 items plus live, teasing Snaps.'
   },
   {
     section: 'BestSellers',
     name: 'Whole Vault · 800+ Content',
-    price: 65,
+    price: 75,
     group: 'vault',
-    description: 'Full access to 800+ photos and videos.'
+    description: '800+ items, lifetime access, and one new drop added monthly.'
   },
   {
     section: 'BestSellers',
@@ -59,8 +63,8 @@ const products=[
   },
   {
     section: 'BestSellers',
-    name: 'Live Video / Snap Show, 4 Minutes',
-    price: 60,
+    name: 'Live Video / Snap Show, 5 Minutes',
+    price: 65,
     description: 'A Snapchat live video show, saved to chat. Teaser pics and videos included. Choose riding dildo, squirting, BJ POV, or your favorite position. Tell me if you want more tits, pussy, or ass.',
     note: 'Add $10 for extra teasing, wet creamy vibes, and moaning your name. Schedule first.'
   },
@@ -310,8 +314,51 @@ const products=[
     "extra": true,
     "description": "Priority delivery within 30 minutes when I am home and available.",
     "note": "Ask before buying. This is not guaranteed."
+  },
+{
+    section: 'VIP', name: 'VIP', price: 70, group: 'membership',
+    description: 'The Dropbox, one 5 minute FaceTime each month, 30 minutes of sexting, custom content, and priority booking.',
+    note: '10 seats. FaceTime and sexting time are monthly. Custom requests are approved and scheduled with me.'
+  },
+  {
+    section: 'VIP', name: 'VIP Elite', price: 150, group: 'membership',
+    description: 'The Dropbox, one 15 minute FaceTime each month, 60 minutes of sexting, custom content, and first access to new drops and live sessions.',
+    note: '5 seats. Includes one 2 minute video custom. Booking is priority and expedited when available.'
+  },
+  {
+    section: 'BestSellers', name: 'Live Snap Show, 5 Minutes', price: 65,
+    description: 'A Snapchat live show. Sit back and watch, like a FaceTime, without me needing to see you. Schedule first.'
+  },
+  {
+    section: 'BestSellers', name: 'Live Content Add On', price: 10,
+    description: 'Live content sent in chat and made for you.'
+  },
+  {
+    section: 'Customs', name: 'Custom Photo Set, 5 Photos', price: 45,
+    description: 'Five custom photos. Add $7 per additional photo. Requests are approved before booking.'
+  },
+  {
+    section: 'Customs', name: 'Custom Video, 3 Minutes', price: 60,
+    description: 'Three minute custom video. Add $15 per minute after the first three. Optional add ons quoted first.'
+  },
+  {
+    section: 'Customs', name: 'Same Day Turnaround', price: 15,
+    extra: true, description: 'Priority custom delivery when my schedule allows. Ask before adding.'
+  },
+  {
+    section: 'More', name: 'Moan Your Name', price: 10,
+    description: 'Add your name to an approved custom. This request keeps the content exclusive to your order.'
+  },
+  {
+    section: 'More', name: 'JOI Add On', price: 20,
+    description: 'Dirty talk and JOI added to an approved session.'
+  },
+  {
+    section: 'More', name: 'Sexting, 30 Minutes', price: 75,
+    unit: 'text only', description: 'Thirty minutes of private sexting, scheduled with me.'
   }
 ];
+
 const notes={
   "Mid": [
     "Live sessions are scheduled with me. Please confirm availability before paying.",
@@ -324,6 +371,10 @@ const notes={
   "Customs": [
     "Custom video base prices: 1 minute $45, 2 minutes $55, 3 minutes $65, 4 minutes $75.",
     "Optional add ons cost extra and all requests are subject to approval."
+  ],
+  "VIP": [
+    "VIP includes the monthly time listed in each tier. Additional FaceTime for VIP members is $60 per 8 minutes.",
+    "VIP access is limited to 10 standard seats and 5 Elite seats. Confirm availability before ordering."
   ],
   "More": [
     "Live Snaps and videos are scheduled with me. Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
