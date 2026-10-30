@@ -389,11 +389,7 @@ function menuAction(p){
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
-  if(p.section==='VideoCalls')return {label:'Request this video call',variant:p.name.startsWith('VIP')?'btn-spotlight':'btn-primary'};
- if(p.name==='VIP Daddy Package')return {label:'Choose VIP Daddy',variant:'btn-spotlight'};
- if(p.name==='Ultimate VIP Daddy Package')return {label:'Go Ultimate VIP',variant:'btn-ultimate'};
- if(p.name==='Basic GFE')return {label:'Start with GFE',variant:'btn-primary'};
- if(p.name.includes('Membership Renewal'))return {label:'Renew my VIP',variant:'btn-secondary'};
+  if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
  if(p.group==='vault')return {label:'Get the vault',variant:'btn-primary'};
  if(p.name.includes('Live'))return {label:'Choose this live',variant:'btn-primary'};
  if(p.name.includes('Sexting'))return {label:'Choose this session',variant:'btn-primary'};
@@ -416,13 +412,11 @@ categories.forEach(([section],i)=>{
  categoryProducts.forEach(p=>{
    if(p.section==='VideoCalls'&&!videoHeadingAdded){
      const videoHeading=el('div','video-call-intro');
-     videoHeading.append(el('h3','','VIDEO CALLS. MY RATES, MY RULES.'),el('p','','VIP saves you money. No VIP? You pay the standard flat rate. Calls are scheduled and approved by me before payment.'));
+     videoHeading.append(el('h3','','VIDEO CALLS. MY RATES, MY RULES.'),el('p','','Calls are scheduled and approved by me before payment.'));
      panel.append(videoHeading);
      videoHeadingAdded=true;
    }
-   const spotlight=p.name==='VIP Daddy Package';
-   const ultimate=p.name==='Ultimate VIP Daddy Package';
-   const card=el('article','product-card menu-v2-card'+(p.badge?' featured':'')+(spotlight?' is-spotlight':'')+(ultimate?' is-ultimate':''));
+   const card=el('article','product-card menu-v2-card'+(p.badge?' featured':''));
    const info=el('div','menu-v2-info');
    if(p.badge)info.append(el('span','menu-v2-badge',p.badge));
    info.append(el('h3','card-label',p.name));
@@ -491,7 +485,17 @@ categories.forEach(([section],i)=>{
    }
    refreshChoices();
    const buy=el('div','menu-v2-buy');buy.append(amount,action);
-   card.append(info,buy);panel.append(card);
+   if(p.price>=55){
+     const photo=el('div','menu-high-value-photo');
+     const image=document.createElement('img');
+     const photoIndex=(Math.abs(p.name.split('').reduce((sum,ch)=>sum+ch.charCodeAt(0),0))%6)+1;
+     image.src='/assets/photos/evie-menu-0'+photoIndex+'.jpg';
+     image.alt='Evie photo preview for '+p.name;
+     image.loading='lazy';image.decoding='async';
+     photo.append(image);
+     card.append(info,photo,buy);
+   }else card.append(info,buy);
+   panel.append(card);
  });
  const list=notes[section]||[];
  if(list.length){
