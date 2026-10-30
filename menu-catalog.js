@@ -20,17 +20,17 @@ const products=[
    description:'Everything I’ve ever made. All of it. Lifetime access, one new drop a month, and you never have to ask me for anything again. Unless you want something personal for you.',
    note:'And yes, I’m a squirter. If that’s what you came for, it’s in here, repeatedly, from several angles, and I didn’t clean up after myself in any of it. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. If it’s not in there, I haven’t done it yet. Cheaper per piece than anything else on this page. I’m aware. Don’t get used to it.',
    badge:'800+ PIECES'},
-  {section:'VIP',name:'GFE',price:70,group:'membership',
-   description:'The starter version. Let’s see if you can keep up.',
+  {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
+   description:'The starter version. For people who aren’t sure they can keep up with me yet.',
    features:['A Snap every morning. A clip most nights.','I answer you first. Not always fast. First.','Actual conversation about your day, not just my content.','My real number, not a burner.','OnlyFans on me.','Fifty things I picked for you. No folder dump.','Casual FaceTime or call when I’m free. Free means free. Don’t push it.'],
-   note:'No vault and no explicit calls. If that’s what you came for, keep scrolling.'},
+   note:'I’m good at this part. I’ll remember what you told me, ask about it, and make your day more than once a month. Don’t make it weird. No vault. No explicit calls. If that’s what you came for, keep scrolling. You know where it is.'},
   {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'MOST AFFORDABLE VIP',
    description:'The real version. Everything in GFE, plus the things I don’t hand out.',
    features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me'],
    note:'10 seats. That’s the whole thing. I can’t look after more than ten at once.'},
-  {section:'VIP',name:'VIP · 3 Months GFE',price:300,group:'membership',badge:'BEST VALUE',
-   description:'Three months. One month is a trial run and we both know it.',
-   features:['Three months of GFE','Everything in 1 Month VIP','A two-minute custom video','Discounted FaceTimes and calls','OnlyFans on me for a year','One request a week for my Stripchat live. Can’t make it? I’ll record it.','Daily Snaps and videos made just for you','Built around your kinks. Tell me what they are.'],
+  {section:'VIP',name:'VIP · 3 Months GFE',price:300,priceDisplay:'$300 / 3 months',group:'membership',badge:'BEST VALUE',
+   description:'This is where the “I like custom content” guys go. A three-month buyer is paying for effort.',
+   features:['Three months of GFE','Everything in 1 Month VIP','A two-minute custom video, actually made, not a Snap. I’ll get into it. You’ll be able to tell.','Discounted FaceTimes and calls','OnlyFans on me for a year','One “request” a week for my Stripchat live. Can’t make it? I’ll record it.','Daily Snaps and videos made just for you','Built around your kinks. Tell me what they are.'],
    note:'$3.30 a day. Less than the coffee you’re drinking while you decide.'},
   {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
    description:'Five photos, exactly what you ask for. Add $7 for each one after that.'},
@@ -113,6 +113,7 @@ onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.wid
 onlyfans.append(onlyfansIcon,el('span','','START MY FREE TRIAL'));
 controls.append(onlyfans);
 function menuAction(p){
+  if(p.name==='GFE')return {label:'Try me',variant:'btn-primary'};
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
