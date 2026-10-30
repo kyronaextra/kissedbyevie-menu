@@ -331,7 +331,14 @@
   document.addEventListener('keydown',function(event){
     if(gate.hidden)return;
     if(event.key==='Escape'){event.preventDefault();event.stopPropagation()}
-    if(event.key==='Tab'){event.preventDefault();confirm.focus()}
+    if(event.key==='Tab'){
+      event.preventDefault();
+      var leave=gate.querySelector('a');
+      if(event.shiftKey&&document.activeElement===confirm)leave.focus();
+      else if(!event.shiftKey&&document.activeElement===leave)confirm.focus();
+      else if(event.shiftKey)confirm.focus();
+      else leave.focus();
+    }
   },true);
 })();
 </script></body>
