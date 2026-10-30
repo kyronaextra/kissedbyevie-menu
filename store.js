@@ -2,8 +2,6 @@
 'use strict';
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
 // Prices marked "from" are minimums; all orders are reviewed before payment.
-const vipSaleActive=Date.now()<Date.parse('2026-11-01T00:00:00-07:00');
-const vipSaleNames=new Set(['VIP Daddy Package','Ultimate VIP Daddy Package']);
 const categories=[
   [
     "Mid",
@@ -12,10 +10,6 @@ const categories=[
   [
     "Budget",
     "Under $20"
-  ],
-  [
-    "Memberships",
-    "VIP & GFE"
   ],
   [
     "Customs",
@@ -180,33 +174,14 @@ const products=[
     "price": 10,
     "description": "Ten surprise photos and videos. I choose the mix."
   },
-{section:'VideoCalls',name:'VIP Video Call, 5 Minutes',price:50,unit:'5 minutes · VIP flat rate',
-    description:'A 5-minute video call at my VIP-only price.',
-    note:'Active VIP membership required. I confirm your membership and availability before payment.'},
-  {section:'VideoCalls',name:'VIP Video Call, 8 Minutes',price:70,unit:'8 minutes · VIP flat rate',
-    badge:'VIP RATE',description:'An 8-minute video call at the flat VIP rate of $70.',
-    note:'Active VIP membership required. I confirm your membership and availability before payment.'},
-  {section:'VideoCalls',name:'Non-VIP Video Call, 5 Minutes',price:80,unit:'5 minutes · standard flat rate',
+    {section:'VideoCalls',name:'Non-VIP Video Call, 5 Minutes',price:80,unit:'5 minutes · standard flat rate',
     description:'A 5-minute video call at my standard non-VIP rate.',
     note:'Non-VIP calls are selective and subject to my approval before payment.'},
   {section:'VideoCalls',name:'Non-VIP Video Call, 8 Minutes',price:105,unit:'8 minutes · standard flat rate',
     description:'An 8-minute video call. Flat rate. No VIP discount.',
     note:'Non-VIP calls are selective and subject to my approval before payment.'},
-  {section:'Memberships',name:'Basic GFE',price:70,unit:'1 month',group:'membership',
-   description:'Daily content, priority replies, and a little more of my time. For a month.',
-   features:['1 month of OnlyFans access','Priority replies','Daily selfies and nudes','20 random photos','Casual calls only — no sexual FaceTimes']},
-  {section:'Memberships',name:'VIP Daddy Package',price:150,unit:'3 months',group:'membership',badge:'Most Popular',
-   description:'Three months, the vault, VIP rates, and FaceTime eligibility. You\'re in.',
-   features:['3 months OnlyFans + full Dropbox (800+ and growing)','Daily nudes, videos and selfies','50 photos/videos total','10 live photos + a 2-minute custom video','Discounted FaceTimes or live shows','FaceTime eligible','1 free custom request each time I go live on Stripchat — I’ll notify you when I’m on'],
-   note:'Specialty/taboo custom requests may cost extra; details confirmed first.'},
-  {section:'Memberships',name:'Ultimate VIP Daddy Package',price:350,unit:'6 months',group:'membership',badge:'Best Value',
-   description:'Six months of extra perks and priority replies. You went all in.',
-   features:['6 months OnlyFans + full Dropbox (800+ items, updated regularly)','Priority replies and voice notes','One custom video (JOI option available)','10 photos + a 2-minute video','Daily content','Discounted FaceTimes or live shows','FaceTime eligible','2 free custom requests each time I go live on Stripchat — I’ll notify you when I’m on']},
-  {section:'Memberships',name:'VIP / Daddy Membership Renewal',price:60,unit:'per renewal',group:'membership',
-   description:'Already one of my favorites? Keep it going when your term ends.',
-   note:'Renewal and next membership term are confirmed directly before payment.'},
-{
-    "section": "Memberships",
+        {
+    "section": "More",
     "name": "OnlyFans, One Year",
     "price": 45,
     "unit": "1 year",
@@ -354,11 +329,6 @@ const products=[
     "note": "Ask before buying. This is not guaranteed."
   }
 ];
-if(vipSaleActive){
-  products.filter(p=>vipSaleNames.has(p.name)).forEach(p=>{
-    p.features.push('October sale bonus: one 30-minute live sexting, Snap session, or show. Format and scheduling confirmed with me.');
-  });
-}
 const notes={
   "Mid": [
     "Live sessions are scheduled with me. Please confirm availability before paying.",
@@ -367,10 +337,6 @@ const notes={
   "Budget": [
     "For premade photos and videos, choose your content category before adding to the bag.",
     "Premade video pricing is $5 per minute. Single photos are $2 to $3 each. Quotes are confirmed before payment."
-  ],
-  "Memberships": [
-    "Membership perks are arranged directly with me; private lounge access is still being built.",
-    "Video calls are paid separately at the listed flat rates. Eligibility and scheduling are confirmed directly."
   ],
   "Customs": [
     "Custom video base prices: 1 minute $45, 2 minutes $55, 3 minutes $65, 4 minutes $75.",
@@ -383,16 +349,14 @@ const notes={
   ],
   "More": [
     "Live Snaps and videos are scheduled with me. Calls are casual voice calls. Custom add ons and priority delivery must be approved before payment.",
-    "VIDEO CALLS · WITH VIP: 5 minutes $50 or 8 minutes $70. Active VIP membership required.",
-    "WITHOUT VIP: 5 minutes $80 or 8 minutes $105. Calls are selective and approved before payment.",
-    "No, I’m not lowering it if you don’t have VIP and especially if you have no interest in anything else."
+    "Video calls are selective, scheduled with me, and confirmed before payment."
   ]
 };
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, VIP, customs & photo sets, panties & physical customs, and more. Video calls are last. For premade content, pick your category first.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Start with the $20 to $50 picks, then under $20, customs & photo sets, panties & physical customs, and more. For premade content, pick your category first.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -470,10 +434,10 @@ categories.forEach(([section],i)=>{
      info.append(list);
    }
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
-    const onSale=vipSaleActive&&vipSaleNames.has(p.name);
+    const onSale=false;
     const effectivePrice=onSale?Math.round(p.price*0.60*100)/100:p.price;
     const amount=el('strong','offer-price'+(onSale?' vip-sale-price':''),onSale?null:(p.priceDisplay||((p.extra?'+':'')+'$'+p.price+(p.from?'+':''))));
-    if(onSale)amount.append(el('s','vip-sale-was','$'+p.price),el('span','vip-sale-now','$'+effectivePrice),el('span','vip-sale-flag','40% OFF · ENDS 10/31'));
+
    const cta=menuAction(p);
    const action=el('button','offer-btn add-product btn '+cta.variant);
    action.type='button';
