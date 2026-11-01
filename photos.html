@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10070c">
+<meta name="description" content="A hand-picked photo collection from Evie.">
+<meta property="og:title" content="Some Photos of Me | Kissed by Evie">
+<meta property="og:description" content="A little collection, picked by me.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="curated-gallery.css">
+<title>Some Photos of Me | Kissed by Evie</title>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script defer src="member-config.js"></script>
+<script defer src="curated-gallery.js"></script>
+</head>
+<body>
+<header class="gallery-header">
+  <a class="wordmark" href="/">KISSEDBYEVIE</a>
+  <a class="back-link" href="/">BACK TO MY MENU <span aria-hidden="true">↗</span></a>
+</header>
+<main class="gallery-main">
+  <p class="eyebrow">A LITTLE LOOK AROUND</p>
+  <h1>Some photos <em>of me.</em></h1>
+  <p class="intro">A few favorites, picked by me. Take a look around.</p>
+  <div class="gallery-rule" aria-hidden="true"><span></span></div>
+  <section class="photo-grid" id="curatedPhotoGrid" aria-label="Photo collection" aria-live="polite">
+    <p class="gallery-status" id="galleryStatus">Opening the photo collection…</p>
+  </section>
+  <p class="gallery-note">Want more? <a href="/#boutique">My menu is right here.</a></p>
+</main>
+<dialog class="photo-viewer" id="photoViewer" aria-label="Photo viewer">
+  <button class="viewer-close" id="viewerClose" type="button" aria-label="Close photo">×</button>
+  <button class="viewer-arrow viewer-prev" id="viewerPrev" type="button" aria-label="Previous photo">←</button>
+  <img id="viewerImage" alt="">
+  <button class="viewer-arrow viewer-next" id="viewerNext" type="button" aria-label="Next photo">→</button>
+  <span class="viewer-count" id="viewerCount"></span>
+</dialog>
+</body>
+</html>
