@@ -111,6 +111,7 @@
 <style>
 #ageGate{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:22px;background:rgba(12,5,12,.98);color:#fff}
 #ageGate[hidden]{display:none}
+.age-gate-step[hidden]{display:none!important}
 .age-gate-panel{width:min(560px,100%);padding:clamp(25px,6vw,48px);border:1px solid rgba(240,91,181,.8);border-radius:16px;background:linear-gradient(145deg,#241026,#10070c);box-shadow:0 25px 90px #0009;text-align:center}
 .age-gate-kicker{color:#f5a9d8;font-size:11px;font-weight:800;letter-spacing:.18em}
 .age-gate-panel h1{margin:14px 0;font:normal clamp(40px,9vw,68px)/1.05 "Italiana",Georgia,serif}
@@ -139,16 +140,28 @@
 </style>
 </head>
 <body id="top">
-<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
+<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
   <div class="age-gate-panel">
-    <span class="age-gate-kicker">ADULTS ONLY · 18+</span>
-    <h1 id="ageGateTitle">You’re not supposed to <em>be here.</em></h1>
-    <p id="ageGateDescription">Unless you’re 18. Then you are.</p>
-    <div class="age-gate-actions">
-      <button type="button" id="ageGateConfirm">I’m 18+ · Let me in</button>
-      <a href="https://www.google.com/" rel="nofollow">I’m not · Leave</a>
-    </div>
-    <p class="age-gate-note">Self-confirmation only. Don’t lie to me. I’ll find out.</p>
+    <section id="botGateStep" class="age-gate-step">
+      <span class="age-gate-kicker">QUICK CHECK · STEP 1 OF 2</span>
+      <h1 id="botGateTitle">Verify you’re <em>not a bot.</em></h1>
+      <p id="botGateDescription">Choose the answer that applies, then confirm you’re over 18.</p>
+      <div class="age-gate-actions">
+        <button type="button" id="notBotConfirm">I’m not a bot · Continue</button>
+        <a href="https://www.google.com/" rel="nofollow">I am a bot · Leave</a>
+      </div>
+      <p class="age-gate-note">Quick self-check. This does not use automated bot detection.</p>
+    </section>
+    <section id="ageGateStep" class="age-gate-step" hidden>
+      <span class="age-gate-kicker">ADULTS ONLY · STEP 2 OF 2</span>
+      <h1 id="ageGateTitle">Confirm you’re <em>over 18.</em></h1>
+      <p id="ageGateDescription">This site is for adults only.</p>
+      <div class="age-gate-actions">
+        <button type="button" id="ageGateConfirm">I’m 18+ · Enter site</button>
+        <a href="https://www.google.com/" rel="nofollow">I’m under 18 · Leave</a>
+      </div>
+      <p class="age-gate-note">Age confirmation is self-reported.</p>
+    </section>
   </div>
 </div>
 <header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a><button class="install-app-button" id="installAppButton" type="button">SAVE APP</button></nav></header>
@@ -370,9 +383,12 @@
 <script>
 (function(){
   var gate=document.getElementById('ageGate');
+  var botStep=document.getElementById('botGateStep');
+  var ageStep=document.getElementById('ageGateStep');
+  var notBot=document.getElementById('notBotConfirm');
   var confirm=document.getElementById('ageGateConfirm');
-  if(!gate||!confirm)return;
-  var key='evie-age-confirmed-v1';
+  if(!gate||!botStep||!ageStep||!notBot||!confirm)return;
+  var key='evie-age-confirmed-v2';
   var pageParts=Array.from(document.body.children).filter(function(node){return node!==gate});
   function setPageBlocked(blocked){
     document.body.style.overflow=blocked?'hidden':'';
@@ -382,7 +398,14 @@
   try{alreadyConfirmed=localStorage.getItem(key)==='yes'}catch(_){}
   if(alreadyConfirmed){gate.hidden=true;setPageBlocked(false);return}
   setPageBlocked(true);
-  confirm.focus();
+  notBot.focus();
+  notBot.addEventListener('click',function(){
+    botStep.hidden=true;
+    ageStep.hidden=false;
+    gate.setAttribute('aria-labelledby','ageGateTitle');
+    gate.setAttribute('aria-describedby','ageGateDescription');
+    confirm.focus();
+  });
   confirm.addEventListener('click',function(){
     try{localStorage.setItem(key,'yes')}catch(_){}
     gate.hidden=true;
@@ -392,12 +415,11 @@
     if(gate.hidden)return;
     if(event.key==='Escape'){event.preventDefault();event.stopPropagation()}
     if(event.key==='Tab'){
+      var focusable=Array.from(gate.querySelectorAll('button,a[href]')).filter(function(el){return !el.closest('[hidden]')});
+      var currentIndex=focusable.indexOf(document.activeElement);
+      var nextIndex=event.shiftKey?(currentIndex<=0?focusable.length-1:currentIndex-1):(currentIndex===focusable.length-1?0:currentIndex+1);
       event.preventDefault();
-      var leave=gate.querySelector('a');
-      if(event.shiftKey&&document.activeElement===confirm)leave.focus();
-      else if(!event.shiftKey&&document.activeElement===leave)confirm.focus();
-      else if(event.shiftKey)confirm.focus();
-      else leave.focus();
+      focusable[nextIndex].focus();
     }
   },true);
 })();
