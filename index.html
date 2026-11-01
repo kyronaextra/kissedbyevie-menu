@@ -122,7 +122,22 @@
 .age-gate-actions a{color:#ffe6f5}
 .age-gate-note{font-size:12px!important;color:#c9b5c4!important}
 #boutique .menu-picker-title::after{content:none!important}
-</style></head>
+</style>
+<style>
+/* Stripchat live announcement */
+.stripchat-live{padding:clamp(24px,4vw,42px) clamp(20px,6vw,88px);background:radial-gradient(ellipse at 78% 50%,rgba(179,55,210,.25),transparent 42%),linear-gradient(112deg,#160b13 0%,#35102c 53%,#1b0a18 100%);border-top:1px solid rgba(246,179,203,.32);border-bottom:1px solid rgba(246,179,203,.32)}
+.stripchat-live-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.stripchat-live-copy{min-width:0}.stripchat-live-label{display:flex;align-items:center;gap:10px;margin:0 0 10px;color:#ffc1d9;font:800 11px/1.4 "DM Sans",sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.stripchat-live-dot{width:10px;height:10px;flex:0 0 10px;border-radius:50%;background:#ff426e;box-shadow:0 0 0 5px rgba(255,66,110,.14),0 0 20px rgba(255,66,110,.7);animation:stripchat-pulse 1.5s ease-in-out infinite}
+@keyframes stripchat-pulse{50%{box-shadow:0 0 0 9px rgba(255,66,110,0),0 0 24px rgba(255,66,110,.9)}}
+.stripchat-live h2{margin:0;color:#fff;font:normal clamp(36px,5.6vw,70px)/.98 "Italiana",Georgia,serif;letter-spacing:-.025em}
+.stripchat-live h2 em{color:#f5a9c9;font-weight:normal}.stripchat-live-description{max-width:650px;margin:13px 0 0;color:#f6e5ed;font:500 clamp(15px,1.6vw,18px)/1.55 "DM Sans",sans-serif}
+.stripchat-live-cta{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:68px;padding:19px 30px;border:1px solid rgba(255,255,255,.22);border-radius:8px;color:#210d18;background:linear-gradient(135deg,#ffd1e2,#f18bb5);box-shadow:0 10px 34px rgba(0,0,0,.28);font:800 14px/1.3 "DM Sans",sans-serif;text-decoration:none;letter-spacing:.06em;text-align:center;transition:transform .2s,box-shadow .2s,filter .2s}
+.stripchat-live-cta:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 15px 40px rgba(0,0,0,.38)}.stripchat-live-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(max-width:700px){.stripchat-live{padding:27px 20px 30px}.stripchat-live-inner{flex-direction:column;align-items:stretch;gap:20px}.stripchat-live-cta{width:100%;min-height:64px}}
+@media(prefers-reduced-motion:reduce){.stripchat-live-dot{animation:none}.stripchat-live-cta{transition:none}}
+</style>
+</head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
   <div class="age-gate-panel">
@@ -137,6 +152,17 @@
   </div>
 </div>
 <header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a><button class="install-app-button" id="installAppButton" type="button">SAVE APP</button></nav></header>
+<section class="stripchat-live" aria-labelledby="stripchatLiveHeading">
+  <div class="stripchat-live-inner">
+    <div class="stripchat-live-copy">
+      <p class="stripchat-live-label"><span class="stripchat-live-dot" aria-hidden="true"></span>LIVE ON STRIPCHAT</p>
+      <h2 id="stripchatLiveHeading">I’m live. <em>Come say hi.</em></h2>
+      <p class="stripchat-live-description">Tell me what you want to see in chat, then tip to make it happen. I’m taking requests while I’m live.</p>
+    </div>
+    <a class="stripchat-live-cta" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer" aria-label="Join Evie live on Stripchat">JOIN MY LIVE ROOM <span aria-hidden="true">&nbsp;↗</span></a>
+  </div>
+</section>
+
 <dialog class="install-app-dialog" id="installAppDialog" aria-labelledby="installAppTitle"><div class="install-app-content"><p class="eyebrow">KEEP ME CLOSE</p><h2 id="installAppTitle">Save my menu</h2><p id="installAppInstructions">Add Kissed by Evie to your home screen for quick access.</p><button class="install-app-close" id="installAppClose" type="button">Got it</button></div></dialog>
 <main class="menu-home-main">
 <!-- CONTENT MENU -->
