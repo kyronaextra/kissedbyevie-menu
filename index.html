@@ -145,6 +145,25 @@
 .stripchat-photo-frame img{display:block;width:100%;height:auto;border-radius:7px}
 @media(max-width:600px){.stripchat-photo-section{padding:18px 14px 56px}.stripchat-photo-frame{padding:5px;border-radius:9px}}
 </style>
+
+<style>
+/* My Club membership offer */
+.my-club-promo{padding:clamp(25px,4.5vw,48px) clamp(20px,6vw,88px);background:radial-gradient(ellipse at 78% 50%,rgba(202,92,151,.22),transparent 42%),linear-gradient(112deg,#1c0a15 0%,#3b152b 54%,#1b0a16 100%);border-top:1px solid rgba(246,179,203,.32);border-bottom:1px solid rgba(246,179,203,.32)}
+.my-club-promo-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.my-club-promo-copy{min-width:0}.my-club-promo-label{margin:0 0 10px;color:#ffc1d9;font:800 11px/1.4 "DM Sans",sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.my-club-promo h2{margin:0;color:#fff;font:normal clamp(36px,5.6vw,70px)/.98 "Italiana",Georgia,serif;letter-spacing:-.025em}
+.my-club-promo h2 em{color:#f5a9c9;font-weight:normal}
+.my-club-promo-description{max-width:690px;margin:13px 0 0;color:#f6e5ed;font:500 clamp(15px,1.6vw,18px)/1.55 "DM Sans",sans-serif}
+.my-club-promo-prices{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+.my-club-price{padding:9px 13px;border:1px solid rgba(255,211,228,.3);border-radius:6px;background:rgba(255,255,255,.06);color:#ffe6ef;font:700 13px/1.3 "DM Sans",sans-serif}
+.my-club-price strong{color:#ffd3e4}
+.my-club-promo-cta{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:64px;padding:18px 29px;border:1px solid rgba(255,255,255,.24);border-radius:8px;color:#210d18;background:linear-gradient(135deg,#ffd1e2,#f18bb5);box-shadow:0 10px 34px rgba(0,0,0,.28);font:800 14px/1.3 "DM Sans",sans-serif;text-decoration:none;letter-spacing:.06em;text-align:center;transition:transform .2s,box-shadow .2s}
+.my-club-promo-cta:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,.38)}
+.my-club-promo-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(max-width:700px){.my-club-promo{padding:28px 20px 30px}.my-club-promo-inner{flex-direction:column;align-items:stretch;gap:20px}.my-club-promo-cta{width:100%;min-height:62px}}
+@media(prefers-reduced-motion:reduce){.my-club-promo-cta{transition:none}}
+</style>
+
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -186,6 +205,20 @@
   <figure class="stripchat-photo-frame">
     <img src="/assets/photos/stripchat-live-pink.jpg" alt="Evie wearing pink lingerie in her kitchen, facing away" width="1320" height="2230" fetchpriority="high">
   </figure>
+</section>
+<section class="my-club-promo" aria-labelledby="myClubHeading">
+  <div class="my-club-promo-inner">
+    <div class="my-club-promo-copy">
+      <p class="my-club-promo-label">MY CLUB · NEW POSTS DAILY</p>
+      <h2 id="myClubHeading">Join My <em>Club</em></h2>
+      <p class="my-club-promo-description">UNCENSORED full length videos + pics posted daily.</p>
+      <div class="my-club-promo-prices" aria-label="Membership options">
+        <span class="my-club-price"><strong>$54 for one year</strong> · 50% off</span>
+        <span class="my-club-price">😋 <strong>$9 a month</strong></span>
+      </div>
+    </div>
+    <a class="my-club-promo-cta" href="https://my.club/eviesquirts/photos" target="_blank" rel="noopener noreferrer">JOIN MY CLUB <span aria-hidden="true">&nbsp;↗</span></a>
+  </div>
 </section>
 
 <dialog class="install-app-dialog" id="installAppDialog" aria-labelledby="installAppTitle"><div class="install-app-content"><p class="eyebrow">KEEP ME CLOSE</p><h2 id="installAppTitle">Save my menu</h2><p id="installAppInstructions">Add Kissed by Evie to your home screen for quick access.</p><button class="install-app-close" id="installAppClose" type="button">Got it</button></div></dialog>
