@@ -17,7 +17,7 @@ const products=[
   {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
    description:'The whole month, plus live teasy Snaps while I’m in the mood to send them.',unit:'$1 per item'},
   {section:'Dropbox',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',
-   description:'Everything I’ve ever made. All of it. Lifetime access, one new drop a month, and you never have to ask me for anything again. Unless you want something personal for you.',
+   description:'Everything I’ve ever made. All of it. Lifetime access, multiple drops a week, and you never have to ask me for anything again. Unless you want something personal for you.',
    note:'And yes, I’m a squirter. If that’s what you came for, it’s in here, repeatedly, from several angles, and I didn’t clean up after myself in any of it. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. If it’s not in there, I haven’t done it yet. Cheaper per piece than anything else on this page. I’m aware. Don’t get used to it.',
    badge:'800+ PIECES'},
   {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
