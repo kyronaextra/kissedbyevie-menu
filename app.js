@@ -394,8 +394,19 @@
       if(!ok)throw new Error('Copy not supported');
     }
   }
+  function showPaymentLinks(){
+    var amount=cartTotal().toFixed(2);
+    var links=document.getElementById('paymentLinks');
+    var note=document.getElementById('paymentLinksNote');
+    document.getElementById('venmoPaymentLink').href='https://venmo.com/u/barfiesfunds?txn=pay&amount='+encodeURIComponent(amount);
+    document.getElementById('cashAppPaymentLink').href='https://cash.app/$TaylorGann90/'+encodeURIComponent(amount);
+    note.textContent=cart.some(function(item){return item.exclusive==='quote'})
+      ? 'Prefilled with the priced items so far. Wait for Evie to confirm any custom quote and your final total before sending; you can edit the amount in the app.'
+      : 'Your order total is prefilled. You can edit the amount in the app.';
+    links.hidden=false;
+  }
   document.getElementById('copyOrder').addEventListener('click',async function(){
-    try{await copyOrderText();document.getElementById('cartFeedback').textContent='Copied! Paste into your preferred chat with Evie.'}
+    try{await copyOrderText();document.getElementById('cartFeedback').textContent='Copied! Paste into your preferred chat with Evie.';showPaymentLinks()}
     catch(e){document.getElementById('cartFeedback').textContent='Copy unavailable. Please copy your item list manually.'}
   });
   const reviewOrder=document.getElementById('reviewOrder');
