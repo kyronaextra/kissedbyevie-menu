@@ -400,6 +400,12 @@
     <p id="monthlyNote" class="fine-print" hidden>OnlyFans access is arranged directly with me. Nothing charges automatically on this site.</p>
     <p class="terms-cart-note">Before sending, please read the <button type="button" data-open-vip-terms aria-haspopup="dialog">purchase rules</button>.</p>
     <button type="button" id="copyOrder" class="secondary-btn">Copy order only</button>
+    <div class="payment-links" id="paymentLinks" hidden aria-live="polite">
+      <p class="payment-links-title">Order copied. Choose where to send your amount:</p>
+      <p class="payment-links-note" id="paymentLinksNote"></p>
+      <a id="venmoPaymentLink" class="secondary-btn payment-link" href="https://venmo.com/u/barfiesfunds" target="_blank" rel="noopener noreferrer">Send on Venmo</a>
+      <a id="cashAppPaymentLink" class="secondary-btn payment-link" href="https://cash.app/$TaylorGann90" target="_blank" rel="noopener noreferrer">Send on Cash App</a>
+    </div>
     <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order &amp; open Telegram</button>
     <p id="cartFeedback" class="cart-feedback"></p>
   </div>
