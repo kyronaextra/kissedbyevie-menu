@@ -424,7 +424,7 @@
     try{
       await copyOrderText();
       feedback.textContent='Copied! Paste your picks into our Telegram chat and hit send.';
-      window.location.assign('https://t.me/kissedbyevie');
+      window.location.assign('https://t.me/m/M0AMf5LDMGFh');
     }catch(e){
       feedback.textContent='Copy failed. Tap Copy order only, then paste your picks into our chat.';
     }
