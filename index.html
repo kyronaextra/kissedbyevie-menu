@@ -173,6 +173,25 @@
 @media(prefers-reduced-motion:reduce){.see-menu-art-link{transition:none}}
 </style>
 
+<style>
+/* Playboy Playmate Search '26 promo */
+.playmate-promo{position:relative;isolation:isolate;overflow:hidden;padding:clamp(28px,5vw,58px) clamp(20px,6vw,88px);background:radial-gradient(ellipse at 82% 50%,rgba(240,91,181,.18),transparent 38%),linear-gradient(112deg,#11090d 0%,#28101d 50%,#12090e 100%);border-top:1px solid rgba(255,230,239,.24);border-bottom:1px solid rgba(255,230,239,.24)}
+.playmate-promo::before,.playmate-promo::after{position:absolute;z-index:-1;content:"✦";color:rgba(255,222,235,.3);font-size:clamp(54px,9vw,108px);line-height:1}
+.playmate-promo::before{top:15%;right:12%}.playmate-promo::after{bottom:12%;right:24%;font-size:clamp(22px,4vw,42px);color:rgba(240,91,181,.65)}
+.playmate-promo-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.playmate-promo-copy{min-width:0}
+.playmate-promo-label{margin:0 0 10px;color:#f5a9d8;font:800 11px/1.4 "DM Sans",sans-serif;letter-spacing:.22em;text-transform:uppercase}
+.playmate-promo h2{max-width:850px;margin:0;color:#fff8f5;font:normal clamp(38px,6.4vw,78px)/.96 "Italiana",Georgia,serif;letter-spacing:-.025em}
+.playmate-promo h2 em{color:#f5a9d8;font-weight:normal}
+.playmate-promo-description{margin:14px 0 0;color:#f4e6ed;font:500 clamp(15px,1.7vw,19px)/1.55 "DM Sans",sans-serif}
+.playmate-promo-description strong{color:#fff;font-weight:800}
+.playmate-promo-cta{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:62px;padding:18px 25px;border:1px solid rgba(255,255,255,.28);border-radius:8px;color:#210d18;background:linear-gradient(135deg,#ffe2ee,#f5a9d8);box-shadow:0 10px 34px rgba(0,0,0,.3);font:800 13px/1.3 "DM Sans",sans-serif;text-decoration:none;letter-spacing:.07em;text-align:center;transition:transform .2s,box-shadow .2s}
+.playmate-promo-cta:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,.42)}
+.playmate-promo-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.playmate-promo-note{margin:9px 0 0;color:#d8bfca;font:400 11px/1.5 "DM Sans",sans-serif;text-align:center}
+@media(max-width:700px){.playmate-promo{padding:29px 20px 32px}.playmate-promo-inner{flex-direction:column;align-items:stretch;gap:20px}.playmate-promo-cta{width:100%;min-height:60px}.playmate-promo-note{text-align:center}.playmate-promo::before{top:8%;right:8%}}
+@media(prefers-reduced-motion:reduce){.playmate-promo-cta{transition:none}}
+</style>
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -199,7 +218,22 @@
     </section>
   </div>
 </div>
-<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a><button class="install-app-button" id="installAppButton" type="button">SAVE APP</button></nav></header>
+<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a><button class="install-app-button" id="installAppButton" type="button">SAVE APP</button></nav>
+</header>
+<section class="playmate-promo" aria-labelledby="playmatePromoHeading">
+  <div class="playmate-promo-inner">
+    <div class="playmate-promo-copy">
+      <p class="playmate-promo-label">Playboy Playmate Search ’26</p>
+      <h2 id="playmatePromoHeading">Nominate me for <em>Playboy.</em></h2>
+      <p class="playmate-promo-description">I’m in the running. <strong>Voting opens soon, and it’s free.</strong> Come find my page and help me make this happen.</p>
+    </div>
+    <div>
+      <a class="playmate-promo-cta" href="https://contest.playboy.com/m/wzp6pw?t=b5tbd3vdft" target="_blank" rel="noopener noreferrer" aria-label="Open Evie's Playboy Playmate Search page">NOMINATE ME <span aria-hidden="true">↗</span></a>
+      <p class="playmate-promo-note">Free voting · opens soon</p>
+    </div>
+  </div>
+</section>
+
 <section class="stripchat-live" aria-labelledby="stripchatLiveHeading">
   <div class="stripchat-live-inner">
     <div class="stripchat-live-copy">
