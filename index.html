@@ -125,21 +125,6 @@
 #boutique .menu-picker-title::after{content:none!important}
 </style>
 <style>
-/* Stripchat live announcement */
-.stripchat-live{padding:clamp(24px,4vw,42px) clamp(20px,6vw,88px);background:radial-gradient(ellipse at 78% 50%,rgba(179,55,210,.25),transparent 42%),linear-gradient(112deg,#160b13 0%,#35102c 53%,#1b0a18 100%);border-top:1px solid rgba(246,179,203,.32);border-bottom:1px solid rgba(246,179,203,.32)}
-.stripchat-live-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:28px}
-.stripchat-live-copy{min-width:0}.stripchat-live-label{display:flex;align-items:center;gap:10px;margin:0 0 10px;color:#ffc1d9;font:800 11px/1.4 "DM Sans",sans-serif;letter-spacing:.2em;text-transform:uppercase}
-.stripchat-live-dot{width:10px;height:10px;flex:0 0 10px;border-radius:50%;background:#ff426e;box-shadow:0 0 0 5px rgba(255,66,110,.14),0 0 20px rgba(255,66,110,.7);animation:stripchat-pulse 1.5s ease-in-out infinite}
-@keyframes stripchat-pulse{50%{box-shadow:0 0 0 9px rgba(255,66,110,0),0 0 24px rgba(255,66,110,.9)}}
-.stripchat-live h2{margin:0;color:#fff;font:normal clamp(36px,5.6vw,70px)/.98 "Italiana",Georgia,serif;letter-spacing:-.025em}
-.stripchat-live h2 em{color:#f5a9c9;font-weight:normal}.stripchat-live-description{max-width:650px;margin:13px 0 0;color:#f6e5ed;font:500 clamp(15px,1.6vw,18px)/1.55 "DM Sans",sans-serif}
-.stripchat-live-cta{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:68px;padding:19px 30px;border:1px solid rgba(255,255,255,.22);border-radius:8px;color:#210d18;background:linear-gradient(135deg,#ffd1e2,#f18bb5);box-shadow:0 10px 34px rgba(0,0,0,.28);font:800 14px/1.3 "DM Sans",sans-serif;text-decoration:none;letter-spacing:.06em;text-align:center;transition:transform .2s,box-shadow .2s,filter .2s}
-.stripchat-live-cta:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 15px 40px rgba(0,0,0,.38)}.stripchat-live-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
-@media(max-width:700px){.stripchat-live{padding:27px 20px 30px}.stripchat-live-inner{flex-direction:column;align-items:stretch;gap:20px}.stripchat-live-cta{width:100%;min-height:64px}}
-@media(prefers-reduced-motion:reduce){.stripchat-live-dot{animation:none}.stripchat-live-cta{transition:none}}
-</style>
-
-<style>
 .stripchat-photo-section{padding:clamp(24px,4vw,48px) 20px clamp(54px,8vw,96px);background:linear-gradient(180deg,#170b13 0%,#10070c 100%)}
 .stripchat-photo-frame{width:min(100%,760px);margin:0 auto;padding:8px;border:1px solid rgba(246,179,203,.52);border-radius:12px;background:linear-gradient(145deg,rgba(246,179,203,.16),rgba(77,24,54,.2));box-shadow:0 18px 60px rgba(0,0,0,.42),0 0 32px rgba(224,91,150,.12)}
 .stripchat-photo-frame img{display:block;width:100%;height:auto;border-radius:7px}
@@ -173,26 +158,51 @@
 @media(prefers-reduced-motion:reduce){.see-menu-art-link{transition:none}}
 </style>
 
-<style>
-/* Playboy Playmate Search '26 promo */
-.playmate-promo{position:relative;isolation:isolate;overflow:hidden;padding:clamp(28px,5vw,58px) clamp(20px,6vw,88px);background:radial-gradient(ellipse at 82% 50%,rgba(240,91,181,.18),transparent 38%),linear-gradient(112deg,#11090d 0%,#28101d 50%,#12090e 100%);border-top:1px solid rgba(255,230,239,.24);border-bottom:1px solid rgba(255,230,239,.24)}
-.playmate-promo::before,.playmate-promo::after{position:absolute;z-index:-1;content:"✦";color:rgba(255,222,235,.3);font-size:clamp(54px,9vw,108px);line-height:1}
-.playmate-promo::before{top:15%;right:12%}.playmate-promo::after{bottom:12%;right:24%;font-size:clamp(22px,4vw,42px);color:rgba(240,91,181,.65)}
-.playmate-promo-inner{max-width:1280px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:30px}
-.playmate-promo-copy{min-width:0}
-.playmate-promo-label{margin:0 0 10px;color:#f5a9d8;font:800 11px/1.4 "DM Sans",sans-serif;letter-spacing:.22em;text-transform:uppercase}
-.playmate-promo h2{max-width:850px;margin:0;color:#fff8f5;font:normal clamp(38px,6.4vw,78px)/.96 "Italiana",Georgia,serif;letter-spacing:-.025em}
-.playmate-promo h2 em{color:#f5a9d8;font-weight:normal}
-.playmate-promo-description{margin:14px 0 0;color:#f4e6ed;font:500 clamp(15px,1.7vw,19px)/1.55 "DM Sans",sans-serif}
-.playmate-promo-description strong{color:#fff;font-weight:800}
-.playmate-promo-cta{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:62px;padding:18px 25px;border:1px solid rgba(255,255,255,.28);border-radius:8px;color:#210d18;background:linear-gradient(135deg,#ffe2ee,#f5a9d8);box-shadow:0 10px 34px rgba(0,0,0,.3);font:800 13px/1.3 "DM Sans",sans-serif;text-decoration:none;letter-spacing:.07em;text-align:center;transition:transform .2s,box-shadow .2s}
-.playmate-promo-cta:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,.42)}
-.playmate-promo-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
-.playmate-promo-note{margin:9px 0 0;color:#d8bfca;font:400 11px/1.5 "DM Sans",sans-serif;text-align:center}
-@media(max-width:700px){.playmate-promo{padding:29px 20px 32px}.playmate-promo-inner{flex-direction:column;align-items:stretch;gap:20px}.playmate-promo-cta{width:100%;min-height:60px}.playmate-promo-note{text-align:center}.playmate-promo::before{top:8%;right:8%}}
-@media(prefers-reduced-motion:reduce){.playmate-promo-cta{transition:none}}
-</style>
 <style>.menu-hero-cta{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding-bottom:8px;border-bottom:1px solid #edcfaa;color:#f8f1eb;text-decoration:none;text-transform:uppercase;letter-spacing:.13em;font:700 11px/1.4 "DM Sans",sans-serif}.menu-hero-cta span{color:#edcfaa;font-size:16px}</style>
+
+<style id="cyber-jelly-chrome-skin">
+:root{--ink:#09050d;--plum:#160b1d;--wine:#28112d;--rose:#f08bd8;--rose-bright:#fff0ff;--ivory:#fff7ff;--muted:#dbc8df;--line:rgba(255,226,255,.28);--display:"Instrument Serif",Georgia,serif;--body:"DM Sans",Arial,sans-serif}
+html{background:#09050d;scroll-padding-top:86px}
+body{position:relative;background-color:#09050d;background-image:radial-gradient(ellipse at 94% 2%,rgba(255,180,126,.16),transparent 23rem),radial-gradient(ellipse at 12% 17%,rgba(229,58,190,.17),transparent 28rem),radial-gradient(ellipse at 85% 55%,rgba(108,80,255,.12),transparent 32rem),repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px);color:var(--ivory)}
+.menu-home-header{isolation:isolate;overflow:visible;background:linear-gradient(115deg,rgba(14,7,18,.98),rgba(37,15,42,.96) 52%,rgba(13,7,17,.97));border-bottom:1px solid rgba(255,222,255,.42);box-shadow:0 8px 28px rgba(0,0,0,.36),inset 0 1px rgba(255,255,255,.2)}
+.menu-home-header::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:5px;background:linear-gradient(90deg,#bbaac7,#fff,#f1a6e8,#fff,#aea3c1);box-shadow:0 3px 15px rgba(242,111,220,.55);clip-path:polygon(0 0,100% 0,100% 55%,92% 55%,91% 100%,89% 55%,73% 55%,72% 80%,70% 55%,51% 55%,50% 100%,48% 55%,27% 55%,26% 85%,24% 55%,10% 55%,9% 100%,7% 55%,0 55%)}
+.menu-home-header .wordmark{font-family:Georgia,"Times New Roman",serif;font-size:clamp(14px,1.8vw,20px);font-weight:900;letter-spacing:.08em;color:#fff;text-shadow:0 1px #fff,0 3px #df95dc,0 6px 14px rgba(237,86,211,.75)}
+.menu-home-header nav a,.install-app-button{border:1px solid rgba(255,232,255,.55)!important;border-radius:999px!important;color:#fff!important;background:linear-gradient(120deg,rgba(255,255,255,.12),rgba(183,147,206,.08),rgba(255,255,255,.14))!important;box-shadow:inset 0 1px rgba(255,255,255,.28),0 0 14px rgba(229,127,226,.12);text-shadow:0 1px 8px rgba(255,255,255,.3)}
+.menu-home-header nav a:first-child{color:#220d25!important;background:linear-gradient(105deg,#fff,#ffc4f1 38%,#f4e7ff 66%,#fff)!important;border-color:#fff!important;box-shadow:0 0 20px rgba(245,121,226,.45),inset 0 1px 3px #fff}
+.eyebrow{color:#ffd7f6!important;text-shadow:0 0 10px rgba(255,116,223,.5);letter-spacing:.2em!important}
+.boutique-section{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,rgba(211,79,204,.18),transparent 34rem),linear-gradient(155deg,#160a19,#09050d 57%,#170918)!important}
+.boutique-section::before{content:"01";position:absolute;top:40px;right:clamp(18px,5vw,68px);z-index:-1;color:rgba(255,230,255,.14);font:900 clamp(64px,12vw,150px)/1 Georgia,serif;text-shadow:0 0 25px rgba(228,95,218,.25)}
+.boutique-top h2{color:#fff!important;text-shadow:0 2px #fff,0 5px #c87ec8,0 9px #59325f,0 15px 30px rgba(232,80,208,.55);letter-spacing:-.045em!important}
+.boutique-top h2 em{color:#ffe5fa!important;text-shadow:0 1px #fff,0 4px #d594de,0 9px 23px rgba(255,104,221,.65)}
+.boutique-top>p:not(.eyebrow){color:#f1dff4!important}
+.see-menu-art-link{border:2px solid rgba(255,236,255,.86)!important;border-radius:22px!important;box-shadow:0 0 0 4px rgba(209,161,229,.16),0 12px 42px rgba(0,0,0,.55),0 0 28px rgba(238,91,221,.38)!important}
+.menu-hero-cta,.primary-btn,.product-card .offer-btn,.menu-v2-buy .offer-btn,.bag-pill,.cart-upsell button,.install-app-close,.terms-accept{border:1px solid rgba(255,255,255,.88)!important;border-radius:999px!important;color:#210b24!important;background:linear-gradient(110deg,#fff 0%,#f4d8ff 19%,#ff9de7 37%,#f8eeff 51%,#c9b6ed 68%,#fff 86%,#f4b6e8 100%)!important;box-shadow:0 0 20px rgba(246,101,218,.42),inset 0 1px 5px #fff!important;text-shadow:0 1px rgba(255,255,255,.55)}
+.category-tabs{gap:9px!important}.category-tab{border:1px solid rgba(255,227,255,.38)!important;border-radius:999px!important;background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.025))!important;color:#f6e6fa!important;box-shadow:inset 0 1px rgba(255,255,255,.12)}
+.category-tab.active,.category-tab[aria-selected=true]{border-color:#fff!important;background:linear-gradient(110deg,#fff,#ffc2ef 45%,#e8deff)!important;color:#220d25!important;box-shadow:0 0 18px rgba(242,103,220,.38),inset 0 1px 4px #fff!important}
+.product-card,.menu-v2-card{position:relative!important;overflow:hidden!important;border:1px solid rgba(255,228,255,.38)!important;border-radius:18px!important;background:radial-gradient(ellipse at 88% 0%,rgba(242,123,224,.16),transparent 46%),linear-gradient(145deg,rgba(53,28,58,.94),rgba(13,7,17,.98))!important;box-shadow:inset 0 1px rgba(255,255,255,.23),0 16px 38px rgba(0,0,0,.42),0 0 20px rgba(223,105,221,.09)!important}
+.product-card::before,.menu-v2-card::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,#fff,#f7a5ec,#d6c0ff,#fff,transparent);opacity:.9}
+.product-card.featured,.menu-v2-card.featured,.product-card.is-spotlight,.menu-v2-card.is-spotlight{border-color:rgba(255,204,246,.78)!important;box-shadow:inset 0 1px rgba(255,255,255,.3),0 18px 46px rgba(0,0,0,.48),0 0 28px rgba(238,100,220,.2)!important}
+.product-card h3,.menu-v2-card h3{color:#fff!important;text-shadow:0 0 12px rgba(241,125,228,.28)}.product-card p,.menu-v2-desc,.menu-v2-features{color:#dfcde5!important}.card-label,.menu-v2-badge{color:#ffe0fa!important}
+.menu-order-panel,.payments,.curated-gallery-section{background:linear-gradient(150deg,rgba(35,15,41,.94),rgba(9,5,13,.98))!important}
+.menu-order-panel{border:1px solid rgba(255,225,255,.36)!important;border-radius:20px!important;box-shadow:inset 0 1px rgba(255,255,255,.15),0 20px 55px rgba(0,0,0,.34)!important}
+.menu-order-panel h3,.payments h2,.curated-gallery-heading h2{color:#fff!important;text-shadow:0 0 16px rgba(236,106,218,.27)}
+.my-club-promo{position:relative;overflow:hidden;background:radial-gradient(ellipse at 88% 5%,rgba(255,195,140,.16),transparent 30%),linear-gradient(110deg,#100813,#301434 54%,#100813)!important;border-top:1px solid rgba(255,228,255,.45)!important;border-bottom:1px solid rgba(255,228,255,.45)!important}
+.my-club-promo h2{text-shadow:0 2px #fff,0 6px #b96ebf,0 11px 22px rgba(240,96,217,.5)}.my-club-promo h2 em{color:#ffe2fa!important}
+.my-club-price{border:1px solid rgba(255,228,255,.34)!important;border-radius:999px!important;background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(196,160,218,.06))!important}
+.curated-gallery-grid a{border:1px solid rgba(255,225,255,.42)!important;border-radius:13px!important;box-shadow:0 12px 34px rgba(0,0,0,.48),0 0 18px rgba(226,104,218,.12)!important}
+.pay-chip{border:1px solid rgba(255,229,255,.38)!important;border-radius:999px!important;background:linear-gradient(120deg,rgba(255,255,255,.12),rgba(208,178,227,.07))!important;color:#fff!important}
+.crypto-receive-card{border:1px solid rgba(255,227,255,.4)!important;border-radius:18px!important;background:linear-gradient(145deg,rgba(50,25,56,.93),rgba(12,7,16,.98))!important;box-shadow:inset 0 1px rgba(255,255,255,.18),0 15px 42px rgba(0,0,0,.38)!important}
+.bag-pill{border-radius:999px!important}.bag-drawer{border:1px solid rgba(255,227,255,.55)!important;border-radius:22px 0 0 22px!important;background:radial-gradient(ellipse at 100% 0%,rgba(227,96,211,.16),transparent 42%),linear-gradient(145deg,#24102a,#0c0710)!important}.bag-drawer::backdrop{background:rgba(5,2,8,.76)!important;backdrop-filter:blur(8px)}
+.cart-item{border-bottom:1px solid rgba(255,228,255,.2)!important}.cart-upsell{border:1px solid rgba(255,224,255,.38)!important;border-radius:14px!important;background:rgba(255,255,255,.05)!important}
+#ageGate{background:radial-gradient(ellipse at 85% 0%,rgba(255,188,145,.18),transparent 27rem),radial-gradient(ellipse at 10% 20%,rgba(237,81,216,.2),transparent 30rem),rgba(8,4,12,.98)!important}
+.age-gate-panel{border:1px solid rgba(255,227,255,.65)!important;border-radius:22px!important;background:linear-gradient(145deg,#321638,#100813)!important;box-shadow:0 0 0 5px rgba(244,156,234,.08),0 25px 90px #000b,0 0 42px rgba(233,89,216,.2)!important}
+.age-gate-actions button{border-color:#fff!important;border-radius:999px!important;background:linear-gradient(110deg,#fff,#ffbce9,#eee3ff)!important;box-shadow:0 0 20px rgba(241,102,219,.38)}.age-gate-actions a{border-radius:999px!important}
+.menu-home-footer{background:rgba(10,5,14,.95);border-top:1px solid rgba(255,227,255,.32)!important;color:#dcc9e4!important}.menu-home-footer a{color:#ffd9f5!important}
+.install-app-dialog{border:1px solid rgba(255,228,255,.54)!important;background:linear-gradient(145deg,#34183b,#100813)!important;box-shadow:0 0 40px rgba(240,104,221,.2),0 24px 90px #000b!important}
+.fine-print,.sub,.cart-feedback{color:#d5bfdc!important}
+@media(max-width:600px){.menu-home-header nav a{padding:8px 10px!important}.boutique-section::before{top:18px}.product-card,.menu-v2-card{border-radius:15px!important}.menu-home-header::after{height:4px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -221,35 +231,6 @@
 </div>
 <header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a><button class="install-app-button" id="installAppButton" type="button">SAVE APP</button></nav>
 </header>
-<section class="playmate-promo" aria-labelledby="playmatePromoHeading">
-  <div class="playmate-promo-inner">
-    <div class="playmate-promo-copy">
-      <p class="playmate-promo-label">Playboy Playmate Search ’26</p>
-      <h2 id="playmatePromoHeading">Nominate me for <em>Playboy.</em></h2>
-      <p class="playmate-promo-description">I’m in the running. <strong>Voting opens soon, and it’s free.</strong> Come find my page and help me make this happen.</p>
-    </div>
-    <div>
-      <a class="playmate-promo-cta" href="https://contest.playboy.com/m/wzp6pw?t=b5tbd3vdft" target="_blank" rel="noopener noreferrer" aria-label="Open Evie's Playboy Playmate Search page">NOMINATE ME <span aria-hidden="true">↗</span></a>
-      <p class="playmate-promo-note">Free voting · opens soon</p>
-    </div>
-  </div>
-</section>
-
-<section class="stripchat-live" aria-labelledby="stripchatLiveHeading">
-  <div class="stripchat-live-inner">
-    <div class="stripchat-live-copy">
-      <p class="stripchat-live-label"><span class="stripchat-live-dot" aria-hidden="true"></span>LIVE SOON. BE EARLY.</p>
-      <h2 id="stripchatLiveHeading">GOING LIVE ON <em>STRIPCHAT</em></h2>
-      <p class="stripchat-live-description">Come see me! Tip $10+ and I’ll send free nudes in DM.</p>
-    </div>
-    <a class="stripchat-live-cta" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer" aria-label="Join Evie live on Stripchat">COME SEE ME <span aria-hidden="true">&nbsp;↗</span></a>
-  </div>
-</section>
-<section class="stripchat-photo-section" aria-label="Evie’s live look">
-  <figure class="stripchat-photo-frame">
-    <img src="/assets/photos/stripchat-live-pink.jpg" alt="Evie wearing pink lingerie in her kitchen, facing away" width="1320" height="2230" fetchpriority="high">
-  </figure>
-</section>
 <section class="my-club-promo" aria-labelledby="myClubHeading">
   <div class="my-club-promo-inner">
     <div class="my-club-promo-copy">
