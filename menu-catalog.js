@@ -17,8 +17,8 @@ const products=[
    note:'One payment. Lifetime access. Add a dick rate at checkout for $25 ($10 off!).'},
   {section:'BestSellers',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'VIP · ONE MONTH',
    description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
-   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me','After your first month, renew for just $60 each month.'],
-   note:'First month is $150. After that, VIP renews for $60 each month.'},
+   features:['One month of GFE + my full 800+ piece vault','One custom Snap made for you','Priority messages, my real number, and OnlyFans on me','Casual and explicit FaceTimes and calls'],
+   note:'Renews for $60/month after month one.'},
   {section:'BestSellers',name:'10 Items · This Month’s Set',price:10,
    description:'Ten things from this month. That’s it. Don’t expect me to be grateful.',unit:'$1 per item'},
   {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
@@ -29,15 +29,15 @@ const products=[
    badge:'800+ PIECES'},
   {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
    description:'The starter version. For people who aren’t sure they can keep up with me yet.',
-   features:['A Snap every morning. A clip most nights.','I answer you first. Not always fast. First.','Actual conversation about your day, not just my content.','My real number, not a burner.','OnlyFans on me.','Fifty things I picked for you. No folder dump.','Casual FaceTime or call when I’m free. Free means free. Don’t push it.'],
+   features:['Daily Snaps and frequent clips','Priority replies and actual conversation','My real number and OnlyFans on me','50 curated photos and videos','Casual FaceTime or call when I’m free'],
    note:'I’m good at this part. I’ll remember what you told me, ask about it, and make your day more than once a month. Don’t make it weird. No vault. No explicit calls. If that’s what you came for, keep scrolling. You know where it is.'},
   {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'MOST AFFORDABLE VIP',
    description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
-   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me','After your first month, renew for just $60 each month.'],
+   features:['One month of GFE + my full 800+ piece vault','One custom Snap made for you','Priority messages, my real number, and OnlyFans on me','Casual and explicit FaceTimes and calls'],
    note:'10 seats. That’s the whole thing. I can’t look after more than ten at once.'},
   {section:'VIP',name:'VIP · 3 Months GFE',price:300,priceDisplay:'$300 / 3 months',group:'membership',badge:'BEST VALUE',
    description:'This is where the “I like custom content” guys go. A three-month buyer is paying for effort.',
-   features:['Three months of GFE','Everything in 1 Month VIP','A two-minute custom video, actually made, not a Snap. I’ll get into it. You’ll be able to tell.','Discounted FaceTimes and calls','OnlyFans on me for a year','One “request” a week for my Stripchat live. Can’t make it? I’ll record it.','Daily Snaps and videos made just for you','Built around your kinks. Tell me what they are.'],
+   features:['Three months of GFE + full 800+ piece vault','One custom two-minute video','Discounted FaceTimes and calls','OnlyFans on me for a year','Daily Snaps and clips made for you'],
    note:'$3.30 a day. Less than the coffee you’re drinking while you decide.'},
   {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
    description:'Five photos, exactly what you ask for. Add $7 for each one after that.'},
@@ -76,7 +76,7 @@ const notes={
     "Already bought a pack and want VIP? Ask and I’ll send the difference. I’m generous, not stupid."
   ],
   "VIP": [
-    "First month is $150. Renew VIP for just $60 each month. Extra FaceTime time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
+    "VIP renews for $60/month after the first month. Extra VIP FaceTime: $60 for 8 minutes."
   ],
   "Customs": [
     "Custom photo sets start at 5 for $45, plus $7 a photo. Videos start at 3 minutes for $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve quoted you and you’ve agreed. No surprise invoices, no surprise requests.",
@@ -89,8 +89,8 @@ const notes={
 const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
-const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Know what you want?';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Three ways in. Pick one and DM me. Don’t overthink it. You’ve already decided.';
+const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Pick a category.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Choose what you want. I’ll confirm the total before you pay.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
