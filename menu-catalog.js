@@ -10,23 +10,30 @@ const categories=[
   ["More","Quick interactions"]
 ];
 const products=[
+  {section:'BestSellers',name:'20 Pics + Videos',price:20,badge:'JUST A TASTE',
+   description:'Pick 20. Yes, it’s hard. That’s the point.'},
+  {section:'BestSellers',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',badge:'BEST VALUE',
+   description:'The whole thing. Every last pic and video. Multiple drops a week. More than $75 worth, easily.',
+   note:'One payment. Lifetime access. Add a dick rate at checkout for $25 ($10 off!).'},
+  {section:'BestSellers',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'VIP · ONE MONTH',
+   description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
+   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me','After your first month, renew for just $60 each month.'],
+   note:'First month is $150. After that, VIP renews for $60 each month.'},
   {section:'BestSellers',name:'10 Items · This Month’s Set',price:10,
    description:'Ten things from this month. That’s it. Don’t expect me to be grateful.',unit:'$1 per item'},
-  {section:'BestSellers',name:'20 Items + Free Voice Note',price:20,
-   description:'Twenty, plus a voice note saying your name like I mean it. I won’t.',unit:'$1 per item'},
   {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
    description:'The whole month, plus live teasy Snaps while I’m in the mood to send them.',unit:'$1 per item'},
   {section:'Dropbox',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',
-   description:'Everything I’ve ever made. All of it. Lifetime access, multiple drops a week, and you never have to ask me for anything again. Unless you want something personal for you.',
-   note:'And yes, I’m a squirter. If that’s what you came for, it’s in here, repeatedly, from several angles, and I didn’t clean up after myself in any of it. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. If it’s not in there, I haven’t done it yet. Cheaper per piece than anything else on this page. I’m aware. Don’t get used to it.',
+   description:'The whole thing. Every last pic and video. 800+ pieces. Lifetime access. More than $75 worth, easily.',
+   note:'Multiple drops a week. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. Add the dick rate at checkout for $25 ($10 off!).',
    badge:'800+ PIECES'},
   {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
    description:'The starter version. For people who aren’t sure they can keep up with me yet.',
    features:['A Snap every morning. A clip most nights.','I answer you first. Not always fast. First.','Actual conversation about your day, not just my content.','My real number, not a burner.','OnlyFans on me.','Fifty things I picked for you. No folder dump.','Casual FaceTime or call when I’m free. Free means free. Don’t push it.'],
    note:'I’m good at this part. I’ll remember what you told me, ask about it, and make your day more than once a month. Don’t make it weird. No vault. No explicit calls. If that’s what you came for, keep scrolling. You know where it is.'},
   {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'MOST AFFORDABLE VIP',
-   description:'The real version. Everything in GFE, plus the things I don’t hand out.',
-   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me'],
+   description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
+   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me','After your first month, renew for just $60 each month.'],
    note:'10 seats. That’s the whole thing. I can’t look after more than ten at once.'},
   {section:'VIP',name:'VIP · 3 Months GFE',price:300,priceDisplay:'$300 / 3 months',group:'membership',badge:'BEST VALUE',
    description:'This is where the “I like custom content” guys go. A three-month buyer is paying for effort.',
@@ -69,7 +76,7 @@ const notes={
     "Already bought a pack and want VIP? Ask and I’ll send the difference. I’m generous, not stupid."
   ],
   "VIP": [
-    "FaceTime comes with VIP. Extra time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
+    "First month is $150. Renew VIP for just $60 each month. Extra FaceTime time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
   ],
   "Customs": [
     "Custom photo sets start at 5 for $45, plus $7 a photo. Videos start at 3 minutes for $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve quoted you and you’ve agreed. No surprise invoices, no surprise requests.",
