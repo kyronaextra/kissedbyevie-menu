@@ -304,6 +304,47 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
  .chrome-section-divider{height:clamp(76px,21vw,110px);background-size:auto 240%}
 }
 </style>
+<style id="mobile-readability-pass">
+/* Keep the chrome-pink identity, but let the content do the talking. */
+.menu-home-header .wordmark{filter:none!important;text-shadow:0 0 8px rgba(255,79,216,.34)!important}
+.menu-home-header .wordmark::after{filter:none!important}
+.menu-home-header nav a[href="#boutique"],.menu-home-header nav a[href="#about"]{display:inline-flex!important}
+.menu-home-header nav a[href="account.html"],.menu-home-header .install-app-button{display:none!important}
+.chrome-butterfly-layer{display:none!important}
+.chrome-hero-banner{height:clamp(190px,34vw,420px)!important;min-height:0!important;background-size:cover!important;background-position:center!important}
+.my-club-promo{padding:clamp(24px,4vw,42px) clamp(18px,5vw,72px)!important}
+.my-club-promo-inner{max-width:820px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:18px!important}
+.my-club-promo h2,.boutique-top h2,.payments h2,.curated-gallery-heading h2,.intro-copy h2,.drawer-heading h2{
+ background:none!important;-webkit-text-fill-color:#FF6BC9!important;color:#FF6BC9!important;
+ filter:none!important;text-shadow:0 0 10px rgba(255,79,216,.24)!important
+}
+.my-club-promo h2{font-size:clamp(38px,8vw,62px)!important;line-height:1.05!important;letter-spacing:-.02em!important}
+.my-club-promo-description{margin-top:8px!important;max-width:42rem!important}
+.my-club-promo-prices{display:block!important;margin-top:18px!important}
+.my-club-price{display:flex!important;flex-direction:column!important;gap:4px!important;width:fit-content!important;max-width:100%!important;padding:14px 17px!important;border:1px solid rgba(255,107,201,.52)!important;border-radius:14px!important;background:rgba(13,6,20,.75)!important;color:#F5F0F8!important;font-size:15px!important;line-height:1.4!important}
+.my-club-price strong,.my-club-price strong:first-child{font-size:clamp(22px,5vw,30px)!important;color:#FF6BC9!important;text-shadow:none!important}
+.my-club-price span{font-size:14px!important;font-weight:600!important;color:#F5F0F8!important}
+.my-club-monthly{margin:11px 0 0!important;color:#E8A0C8!important;font-size:15px!important}
+.my-club-monthly strong{color:#F5F0F8!important}
+.my-club-promo-cta{width:100%!important;min-height:54px!important;padding:14px 20px!important}
+.boutique-top h2{font-size:clamp(42px,10vw,58px)!important;line-height:1.02!important}
+.boutique-top>p:not(.eyebrow){max-width:35rem!important;color:#F5F0F8!important;font-size:16px!important;line-height:1.5!important}
+.offer-x-button{display:block!important;margin:7px auto 0!important;padding:8px!important;border:0!important;background:none!important;box-shadow:none!important;color:#E8A0C8!important;text-decoration:underline!important;text-shadow:none!important}
+.crypto-details{max-width:900px;margin:24px auto 0;border:1px solid rgba(255,46,154,.46);border-radius:14px;background:rgba(13,6,20,.76);color:#F5F0F8}
+.crypto-details summary{padding:16px 18px;cursor:pointer;color:#FF6BC9;font-weight:800;letter-spacing:.03em}
+.crypto-details[open] summary{border-bottom:1px solid rgba(255,46,154,.3)}
+.crypto-details .crypto-wallet-grid{margin:0;padding:18px}
+.payment-confirmation{max-width:820px;margin:16px auto 0!important;line-height:1.55!important}
+.chrome-section-divider{max-height:110px!important;margin:10px auto!important}
+@media(max-width:600px){
+ .menu-home-header{padding:calc(10px + env(safe-area-inset-top)) 14px 10px!important}
+ .menu-home-header nav{gap:6px!important}
+ .menu-home-header nav a{padding:8px 10px!important;font-size:10px!important}
+ .chrome-hero-banner{height:clamp(170px,48vw,250px)!important}
+ .my-club-promo-prices{margin-top:14px!important}
+ .crypto-details .crypto-wallet-grid{padding:12px}
+}
+</style>
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -330,7 +371,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
     </section>
   </div>
 </div>
-<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="account.html">MY ACCOUNT</a><button class="install-app-button" id="installAppButton" type="button">SAVE APP</button></nav>
+<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a></nav>
 </header>
 
 
@@ -346,9 +387,8 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
       <h2 id="myClubHeading">Join My <em>Club</em></h2>
       <p class="my-club-promo-description">UNCENSORED full length videos + pics posted daily.</p>
       <div class="my-club-promo-prices" aria-label="Membership options">
-        <span class="my-club-price"><strong>$54 for one year</strong> · 50% off</span>
-        <span class="my-club-price">Annual bonus: <strong>free exclusive Dropbox</strong> with 20 pics/videos</span>
-        <span class="my-club-price">😋 <strong>$9 a month</strong></span>
+        <div class="my-club-price my-club-annual"><strong>$54 / year</strong><span>Includes a free 20-item Dropbox</span></div>
+        <p class="my-club-monthly">Or join monthly for <strong>$9</strong>.</p>
       </div>
     </div>
     <a class="my-club-promo-cta" href="https://my.club/eviesquirts/photos" target="_blank" rel="noopener noreferrer">JOIN MY CLUB <span aria-hidden="true">&nbsp;↗</span></a>
@@ -362,11 +402,9 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 <section class="boutique-section" id="boutique" aria-labelledby="boutiqueHeading">
   <span id="custom" aria-hidden="true"></span>
   <div class="boutique-top reveal">
-    <p class="eyebrow">You’ve been looking. Now pick.</p>
-    <a class="see-menu-art-link" href="#boutiqueCatalog" aria-label="See menu"><img src="/assets/photos/see-menu.jpeg" alt="Pink chrome glamour artwork with the words See Menu" width="1300" height="1300" loading="lazy"></a>
+    <p class="eyebrow">THE MENU</p>
     <h2 id="boutiqueHeading">Pick your<br><em>kind of trouble.</em></h2>
-    <p>Start small. Go all in. Or get VIP and act like you’re special. (You might be.)</p>
-   <a class="menu-hero-cta" href="#boutiqueCatalog">See what you’re getting into <span aria-hidden="true">↓</span></a>
+    <p>Pick a category below. I’ll confirm your total before you pay.</p>
   </div>
 
   <div id="boutiqueCatalog"></div>
@@ -399,7 +437,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
   </div>
 </section>
 
-<div class="chrome-section-divider" aria-hidden="true"></div>
+
 <!-- PAYMENT OPTIONS -->
 <section class="payments" aria-labelledby="payHeading">
   <h2 id="payHeading">How to pay</h2>
@@ -414,7 +452,9 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
     <span class="pay-chip">Bitcoin</span>
     <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
   </div>
-  <div class="crypto-wallet-grid" id="crypto-payment">
+  <details class="crypto-details">
+    <summary>Crypto addresses and QR codes</summary>
+    <div class="crypto-wallet-grid" id="crypto-payment">
     <article class="crypto-receive-card">
       <div class="crypto-receive-copy">
         <p class="eyebrow">USDC</p>
@@ -467,14 +507,13 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
       </figure>
     </article>
   </div>
-  <p class="sub" style="margin-top:1.25rem;">Build the order, send it, I confirm the amount, then you pay. In that order.</p>
-  <p class="sub">Anyone who sends crypto before I confirm gets to wait while I sort it out.</p>
-  <p class="sub">Stripe and Revolut aren’t coming. I keep being told they are. They’re not.</p>
+  </details>
+  <p class="sub payment-confirmation">I confirm every total before you pay. For crypto, wait for my confirmation and match the wallet network exactly.</p>
 </section>
 
 
 
-<div class="chrome-section-divider" aria-hidden="true"></div>
+
 <!-- ABOUT -->
 <section class="intro-section" id="about">
   <div class="intro-number reveal">001 — PHOTO DIARY</div>
