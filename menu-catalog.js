@@ -7,7 +7,7 @@ const categories=[
   ["Dropbox","The Dropbox"],
   ["VIP","VIP Access"],
   ["Customs","Customs"],
-  ["More","Quick interactions"]
+  ["More","More"]
 ];
 const products=[
   {section:'BestSellers',name:'20 Pics + Videos',price:20,badge:'JUST A TASTE',
@@ -90,7 +90,7 @@ const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Know what you want?';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Most of you don’t. Start with the Dropbox. It’s the only thing here that’s actually a bargain, and I don’t say that often.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Three ways in. Pick one and DM me. Don’t overthink it. You’ve already decided.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -121,11 +121,13 @@ onlyfans.append(onlyfansIcon,el('span','','START MY FREE TRIAL'));
 controls.append(onlyfans);
 function menuAction(p){
   if(p.name==='GFE')return {label:'Try me',variant:'btn-primary'};
+  if(p.name==='20 Pics + Videos')return {label:'Fine. $20',variant:'btn-primary'};
+  if(p.name==='VIP · 1 Month GFE')return {label:'Go VIP · $150',variant:'btn-primary'};
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
  if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
- if(p.group==='vault')return {label:'Give me the whole thing',variant:'btn-primary'};
+ if(p.group==='vault')return {label:'Just get the vault · $75',variant:'btn-primary'};
   if(p.name==='Live Clips · Sent to Your Chat')return {label:'Add these clips',variant:'btn-primary'};
   if(p.name.includes('Live Teasy Snaps'))return {label:'Pick this pack',variant:'btn-primary'};
   if(p.name.startsWith('Live Snap Show'))return {label:'Choose this live',variant:'btn-primary'};
@@ -147,8 +149,11 @@ categories.forEach(([section],i)=>{
    customsIntro.append(el('h3','','Custom Content'),el('p','','This is the part I actually like. Genuinely. Ask anyone who’s ordered. Give me a real idea and I’ll get into it. You’ll be able to tell.'),el('p','','Squirting customs are my favorite to make. Tell me where to aim. I’ll make a real mess of it and send you the evidence.'));
    panel.append(customsIntro);
  }
- // More stays last, with calls, live Snaps and videos, and video call options at the end.
- if(section==='More')categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
+ // Keep the three best-selling offers at the top of More, then show quick interactions.
+ if(section==='More'){
+   categoryProducts.unshift(...products.filter(p=>p.section==='BestSellers').slice(0,3));
+   categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
+ }
  let videoHeadingAdded=false;
  categoryProducts.forEach(p=>{
    if(p.section==='VideoCalls'&&!videoHeadingAdded){
