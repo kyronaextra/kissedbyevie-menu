@@ -265,7 +265,7 @@
       openBag();return false;
     }
     if(exclusive==='membership'){
-      const isVip=/VIP Daddy|Ultimate VIP|Membership Renewal/i.test(name);
+      const isVip=/VIP|Membership Renewal/i.test(name);
       cart=cart.filter(function(i){
         if(i.exclusive==='membership'||i.exclusive==='of')return false;
         if(isVip&&i.exclusive==='vault')return false;
@@ -277,7 +277,7 @@
       openBag();return false;
     }
     if(exclusive==='of')cart=cart.filter(function(i){return i.exclusive!=='of'});
-    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP Daddy|Ultimate VIP/i.test(i.name)})){
+    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP/i.test(i.name)})){
       document.getElementById('cartFeedback').textContent='Dropbox access is already included in your selected VIP Daddy package.';
       openBag();return false;
     }
@@ -363,8 +363,8 @@
     if(!cart.length){
       var empty=document.createElement('p');empty.className='empty-cart';empty.textContent='Nothing in here yet. Bold of you to scroll this far empty-handed.';lines.append(empty);
     }
-    var voiceUpsell=document.getElementById('voiceNoteUpsell');
-    if(voiceUpsell)voiceUpsell.hidden=cart.some(function(item){return item.name==='Voice Note'});
+    var dickRateUpsell=document.getElementById('dickRateUpsell');
+    if(dickRateUpsell)dickRateUpsell.hidden=cart.some(function(item){return /dick rate/i.test(item.name)});
     document.getElementById('drawerTotal').textContent=money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + quote':'');
     document.getElementById('bagTotal').textContent=money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + quote':'');
     document.getElementById('bagCount').textContent=String(cart.reduce(function(sum,item){return sum+item.qty},0));
@@ -429,8 +429,8 @@
       feedback.textContent='Copy failed. Tap Copy order only, then paste your picks into our chat.';
     }
   });
-  var voiceButton=document.getElementById('addVoiceNote');
-  if(voiceButton)voiceButton.addEventListener('click',function(){addItem('Voice Note',10,null)});
+  var dickRateButton=document.getElementById('addDickRateUpsell');
+  if(dickRateButton)dickRateButton.addEventListener('click',function(){addItem('Dick rate add-on',25,null)});
   loadCart();
   renderCart();
   window.EvieCart = {

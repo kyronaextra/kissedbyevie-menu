@@ -7,26 +7,33 @@ const categories=[
   ["Dropbox","The Dropbox"],
   ["VIP","VIP Access"],
   ["Customs","Customs"],
-  ["More","Quick interactions"]
+  ["More","More"]
 ];
 const products=[
+  {section:'BestSellers',name:'20 Pics + Videos',price:20,badge:'JUST A TASTE',
+   description:'Pick 20. Yes, it’s hard. That’s the point.'},
+  {section:'BestSellers',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',badge:'BEST VALUE',
+   description:'The whole thing. Every last pic and video. Multiple drops a week. More than $75 worth, easily.',
+   note:'One payment. Lifetime access. Add a dick rate at checkout for $25 ($10 off!).'},
+  {section:'BestSellers',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'VIP · ONE MONTH',
+   description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
+   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me','After your first month, renew for just $60 each month.'],
+   note:'First month is $150. After that, VIP renews for $60 each month.'},
   {section:'BestSellers',name:'10 Items · This Month’s Set',price:10,
    description:'Ten things from this month. That’s it. Don’t expect me to be grateful.',unit:'$1 per item'},
-  {section:'BestSellers',name:'20 Items + Free Voice Note',price:20,
-   description:'Twenty, plus a voice note saying your name like I mean it. I won’t.',unit:'$1 per item'},
   {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
    description:'The whole month, plus live teasy Snaps while I’m in the mood to send them.',unit:'$1 per item'},
   {section:'Dropbox',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',
-   description:'Everything I’ve ever made. All of it. Lifetime access, multiple drops a week, and you never have to ask me for anything again. Unless you want something personal for you.',
-   note:'And yes, I’m a squirter. If that’s what you came for, it’s in here, repeatedly, from several angles, and I didn’t clean up after myself in any of it. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. If it’s not in there, I haven’t done it yet. Cheaper per piece than anything else on this page. I’m aware. Don’t get used to it.',
+   description:'The whole thing. Every last pic and video. 800+ pieces. Lifetime access. More than $75 worth, easily.',
+   note:'Multiple drops a week. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. Add the dick rate at checkout for $25 ($10 off!).',
    badge:'800+ PIECES'},
   {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
    description:'The starter version. For people who aren’t sure they can keep up with me yet.',
    features:['A Snap every morning. A clip most nights.','I answer you first. Not always fast. First.','Actual conversation about your day, not just my content.','My real number, not a burner.','OnlyFans on me.','Fifty things I picked for you. No folder dump.','Casual FaceTime or call when I’m free. Free means free. Don’t push it.'],
    note:'I’m good at this part. I’ll remember what you told me, ask about it, and make your day more than once a month. Don’t make it weird. No vault. No explicit calls. If that’s what you came for, keep scrolling. You know where it is.'},
   {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'MOST AFFORDABLE VIP',
-   description:'The real version. Everything in GFE, plus the things I don’t hand out.',
-   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me'],
+   description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
+   features:['One month of GFE','My entire vault · 800+ pieces','One custom Snap, made for you','Explicit and casual FaceTimes and calls','Curated clips sent straight to your chat','Priority messages, my real number, and OnlyFans on me','After your first month, renew for just $60 each month.'],
    note:'10 seats. That’s the whole thing. I can’t look after more than ten at once.'},
   {section:'VIP',name:'VIP · 3 Months GFE',price:300,priceDisplay:'$300 / 3 months',group:'membership',badge:'BEST VALUE',
    description:'This is where the “I like custom content” guys go. A three-month buyer is paying for effort.',
@@ -69,7 +76,7 @@ const notes={
     "Already bought a pack and want VIP? Ask and I’ll send the difference. I’m generous, not stupid."
   ],
   "VIP": [
-    "FaceTime comes with VIP. Extra time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
+    "First month is $150. Renew VIP for just $60 each month. Extra FaceTime time is $60 for 8 minutes, for current VIP members only. Minutes reset monthly. Use them or lose them."
   ],
   "Customs": [
     "Custom photo sets start at 5 for $45, plus $7 a photo. Videos start at 3 minutes for $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve quoted you and you’ve agreed. No surprise invoices, no surprise requests.",
@@ -83,7 +90,7 @@ const root=document.getElementById('boutiqueCatalog');
 if(!root)return;
 const intro=document.createElement('div');intro.className='menu-picker-intro';
 const introHeading=document.createElement('h3');introHeading.className='menu-picker-title';introHeading.textContent='Know what you want?';
-const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Most of you don’t. Start with the Dropbox. It’s the only thing here that’s actually a bargain, and I don’t say that often.';
+const introHint=document.createElement('p');introHint.className='menu-helper';introHint.textContent='Three ways in. Pick one and DM me. Don’t overthink it. You’ve already decided.';
 intro.append(introHeading,introHint);root.append(intro);
 const controls=document.createElement('div');controls.className='menu-category-controls';
 const tabs=document.createElement('div');tabs.className='category-tabs';
@@ -114,11 +121,13 @@ onlyfans.append(onlyfansIcon,el('span','','START MY FREE TRIAL'));
 controls.append(onlyfans);
 function menuAction(p){
   if(p.name==='GFE')return {label:'Try me',variant:'btn-primary'};
+  if(p.name==='20 Pics + Videos')return {label:'Fine. $20',variant:'btn-primary'};
+  if(p.name==='VIP · 1 Month GFE')return {label:'Go VIP · $150',variant:'btn-primary'};
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
  if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
- if(p.group==='vault')return {label:'Give me the whole thing',variant:'btn-primary'};
+ if(p.group==='vault')return {label:'Just get the vault · $75',variant:'btn-primary'};
   if(p.name==='Live Clips · Sent to Your Chat')return {label:'Add these clips',variant:'btn-primary'};
   if(p.name.includes('Live Teasy Snaps'))return {label:'Pick this pack',variant:'btn-primary'};
   if(p.name.startsWith('Live Snap Show'))return {label:'Choose this live',variant:'btn-primary'};
@@ -140,8 +149,11 @@ categories.forEach(([section],i)=>{
    customsIntro.append(el('h3','','Custom Content'),el('p','','This is the part I actually like. Genuinely. Ask anyone who’s ordered. Give me a real idea and I’ll get into it. You’ll be able to tell.'),el('p','','Squirting customs are my favorite to make. Tell me where to aim. I’ll make a real mess of it and send you the evidence.'));
    panel.append(customsIntro);
  }
- // More stays last, with calls, live Snaps and videos, and video call options at the end.
- if(section==='More')categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
+ // Keep the three best-selling offers at the top of More, then show quick interactions.
+ if(section==='More'){
+   categoryProducts.unshift(...products.filter(p=>p.section==='BestSellers').slice(0,3));
+   categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
+ }
  let videoHeadingAdded=false;
  categoryProducts.forEach(p=>{
    if(p.section==='VideoCalls'&&!videoHeadingAdded){
