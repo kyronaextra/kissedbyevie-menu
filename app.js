@@ -265,7 +265,7 @@
       openBag();return false;
     }
     if(exclusive==='membership'){
-      const isVip=/VIP Daddy|Ultimate VIP|Membership Renewal/i.test(name);
+      const isVip=/VIP|Membership Renewal/i.test(name);
       cart=cart.filter(function(i){
         if(i.exclusive==='membership'||i.exclusive==='of')return false;
         if(isVip&&i.exclusive==='vault')return false;
@@ -277,7 +277,7 @@
       openBag();return false;
     }
     if(exclusive==='of')cart=cart.filter(function(i){return i.exclusive!=='of'});
-    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP Daddy|Ultimate VIP/i.test(i.name)})){
+    if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP/i.test(i.name)})){
       document.getElementById('cartFeedback').textContent='Dropbox access is already included in your selected VIP Daddy package.';
       openBag();return false;
     }
