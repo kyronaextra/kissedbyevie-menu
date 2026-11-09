@@ -386,6 +386,18 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 .stripchat-photo-frame:focus-visible{outline:3px solid #ff6bc9!important;outline-offset:4px!important}
 @media(max-width:700px){.chrome-hero-banner{width:calc(100% - 28px)!important;aspect-ratio:1.82/1!important;min-height:180px!important;max-height:245px!important;margin:12px auto 12px!important;padding:16px!important;border-radius:17px!important}.chrome-hero-banner::before{inset:5px!important;border-radius:12px!important}.vault-banner-content h1{font-size:clamp(26px,7.2vw,44px)}.vault-banner-content>p{margin:6px 0 9px;font-size:clamp(15px,3.8vw,19px)}.vault-banner-cta{min-height:34px;padding:9px 17px;font-size:9px}.vault-butterfly{font-size:20px}.vault-butterfly-left{left:5%}.vault-butterfly-right{right:5%}.stripchat-photo-section{padding:18px 14px 24px!important}.stripchat-photo-frame{width:min(100%,390px)!important}}
 </style>
+<style id="stream-wheel-hero-styles">
+.stream-wheel-hero{position:relative;isolation:isolate;overflow:hidden;padding:clamp(20px,3.5vw,46px) clamp(14px,4vw,64px) clamp(34px,5vw,62px);background:radial-gradient(ellipse at 12% 0%,rgba(255,46,154,.14),transparent 35%),radial-gradient(ellipse at 92% 30%,rgba(255,79,216,.11),transparent 32%),#000;text-align:center}
+.stream-wheel-frame{position:relative;width:min(100%,1280px);aspect-ratio:16/9;margin:0 auto;overflow:hidden;border:1px solid rgba(255,190,236,.72);border-radius:12px;background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 18px 58px rgba(0,0,0,.55),0 0 42px rgba(255,46,154,.2)}
+.stream-wheel-video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
+.stream-wheel-copy{position:relative;z-index:1;display:grid;justify-items:center;gap:17px;padding:24px 12px 0}
+.stream-wheel-copy p{margin:0;color:#fff1fa;font:normal clamp(21px,3.2vw,34px)/1.2 "Instrument Serif",Georgia,serif;text-shadow:0 0 22px rgba(255,79,216,.2)}
+.stream-wheel-cta{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:54px;padding:15px 25px;border:1px solid rgba(255,255,255,.92);border-radius:999px;color:#240b26!important;background:linear-gradient(110deg,#fff 0%,#ffd2f4 18%,#f08bda 38%,#fff0ff 52%,#c7b3ef 70%,#fff 88%,#ed95d9 100%);box-shadow:0 0 22px rgba(244,100,220,.48),inset 0 1px 5px #fff;font:800 12px/1.2 "DM Sans",sans-serif;letter-spacing:.09em;text-decoration:none;transition:transform .2s,filter .2s}
+.stream-wheel-cta:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.stream-wheel-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(max-width:600px){.stream-wheel-hero{padding:15px 12px 32px}.stream-wheel-frame{border-radius:8px}.stream-wheel-copy{gap:15px;padding-top:19px}.stream-wheel-copy p{max-width:370px;font-size:clamp(20px,6vw,27px)}.stream-wheel-cta{width:min(100%,360px);min-height:52px}}
+@media(prefers-reduced-motion:reduce){.stream-wheel-cta{transition:none}}
+</style>
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -416,23 +428,15 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 </header>
 
 
-<section class="chrome-hero-banner" aria-labelledby="vaultBannerTitle">
-  <span class="vault-butterfly vault-butterfly-left" aria-hidden="true">🦋</span>
-  <div class="vault-banner-content">
-    <h1 id="vaultBannerTitle"><span>THE ULTIMATE</span><span>VAULT</span></h1>
-    <p>800+ pics/videos</p>
-    <a class="vault-banner-cta" href="#boutiqueCatalog">UNLOCK THE VAULT <span aria-hidden="true">✦</span></a>
+<section class="stream-wheel-hero" aria-labelledby="streamWheelCopy">
+  <div class="stream-wheel-frame">
+    <video class="stream-wheel-video" autoplay loop muted playsinline preload="metadata" poster="assets/videos/stripchat-wheel-poster.jpg" aria-label="Evie beside her pink streaming wheel">
+      <source src="assets/videos/stripchat-wheel-hero.mp4" type="video/mp4">
+    </video>
   </div>
-  <span class="vault-butterfly vault-butterfly-right" aria-hidden="true">🦋</span>
-</section>
-<section class="stripchat-live-announcement" aria-labelledby="stripchatLiveHeading">
-  <div class="stripchat-live-announcement-inner">
-    <div class="stripchat-live-announcement-copy">
-      <p class="stripchat-live-announcement-label"><span class="stripchat-live-announcement-dot" aria-hidden="true"></span> LIVE RIGHT NOW ON STRIPCHAT</p>
-      <h2 id="stripchatLiveHeading">I’m live &amp; taking <em>custom requests.</em></h2>
-      <p class="stripchat-live-announcement-description">Come say hi and tell me what you want to see.</p>
-    </div>
-    <a class="stripchat-live-announcement-cta" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer">JOIN ME LIVE <span aria-hidden="true">&nbsp;↗</span></a>
+  <div class="stream-wheel-copy">
+    <p id="streamWheelCopy">Join me while I’m streaming. The wheel isn’t going to spin itself.</p>
+    <a class="stream-wheel-cta" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer">Lurk me on Stripchat <span aria-hidden="true">↗</span></a>
   </div>
 </section>
 <section class="stripchat-photo-section" aria-label="Photo preview">
