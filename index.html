@@ -348,6 +348,24 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 <style id="gallery-nav-button">
 .menu-home-header nav a[href="gallery.html"]{border-color:#C0C0C0!important;background:linear-gradient(115deg,#FF2E9A,#FF6BC9 48%,#FF2E9A)!important;color:#fff!important;box-shadow:0 0 14px rgba(255,79,216,.3),inset 0 1px rgba(255,255,255,.45)!important}
 </style>
+
+<style id="stripchat-live-announcement">
+.stripchat-live-announcement{position:relative;overflow:hidden;padding:clamp(22px,4vw,38px) clamp(18px,6vw,90px);background:radial-gradient(ellipse at 10% 50%,rgba(255,46,154,.2),transparent 38%),linear-gradient(110deg,#080609,#1c0a17 52%,#080609);border-top:1px solid rgba(255,107,201,.65);border-bottom:1px solid rgba(192,192,192,.65);box-shadow:inset 0 1px rgba(255,255,255,.12),0 12px 32px rgba(0,0,0,.24)}
+.stripchat-live-announcement:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,.035) 48%,transparent 62%)}
+.stripchat-live-announcement-inner{position:relative;max-width:1250px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.stripchat-live-announcement-copy{min-width:0}
+.stripchat-live-announcement-label{display:flex;align-items:center;gap:10px;margin:0 0 9px;color:#ff9cda;font:800 11px/1.4 "DM Sans",sans-serif;letter-spacing:.2em}
+.stripchat-live-announcement-dot{width:9px;height:9px;flex:0 0 auto;border-radius:50%;background:#ff2e9a;box-shadow:0 0 0 5px rgba(255,46,154,.16),0 0 18px rgba(255,46,154,.82);animation:stripchatAnnouncementPulse 1.4s ease-in-out infinite}
+@keyframes stripchatAnnouncementPulse{50%{box-shadow:0 0 0 8px rgba(255,46,154,0),0 0 22px rgba(255,46,154,.95)}}
+.stripchat-live-announcement h2{margin:0;color:#fff;font:normal clamp(32px,4.8vw,56px)/1.04 "Italiana",Georgia,serif}
+.stripchat-live-announcement h2 em{color:#ff6bc9;font-weight:normal}
+.stripchat-live-announcement-description{margin:10px 0 0;color:#f5eaf2;font:500 clamp(15px,1.6vw,18px)/1.5 "DM Sans",sans-serif}
+.stripchat-live-announcement-cta{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:15px 24px;border:1px solid #c0c0c0;border-radius:999px;color:#fff;background:linear-gradient(115deg,#ff2e9a,#ff6bc9 38%,#ff9be0 50%,#ff6bc9 64%,#ff2e9a);box-shadow:0 0 18px rgba(255,79,216,.38),inset 0 2px 4px rgba(255,255,255,.7);font:900 12px/1.3 "DM Sans",sans-serif;text-decoration:none;letter-spacing:.08em;text-align:center;transition:transform .2s,filter .2s}
+.stripchat-live-announcement-cta:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.stripchat-live-announcement-cta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(max-width:700px){.stripchat-live-announcement{padding:26px 20px}.stripchat-live-announcement-inner{flex-direction:column;align-items:stretch;gap:18px}.stripchat-live-announcement-cta{width:100%}}
+@media(prefers-reduced-motion:reduce){.stripchat-live-announcement-dot{animation:none}.stripchat-live-announcement-cta{transition:none}}
+</style>
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -381,6 +399,16 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 <section class="chrome-hero-banner" role="img" aria-label="The Ultimate Vault, 800 plus pics and videos">
   <div class="chrome-hero-copy">
     <a class="chrome-hero-cta" href="#boutiqueCatalog">UNLOCK THE VAULT <span aria-hidden="true">✦</span></a>
+  </div>
+</section>
+<section class="stripchat-live-announcement" aria-labelledby="stripchatLiveHeading">
+  <div class="stripchat-live-announcement-inner">
+    <div class="stripchat-live-announcement-copy">
+      <p class="stripchat-live-announcement-label"><span class="stripchat-live-announcement-dot" aria-hidden="true"></span> LIVE RIGHT NOW ON STRIPCHAT</p>
+      <h2 id="stripchatLiveHeading">I’m live &amp; taking <em>custom requests.</em></h2>
+      <p class="stripchat-live-announcement-description">Come say hi and tell me what you want to see.</p>
+    </div>
+    <a class="stripchat-live-announcement-cta" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer">JOIN ME LIVE <span aria-hidden="true">&nbsp;↗</span></a>
   </div>
 </section>
 <section class="my-club-promo" aria-labelledby="myClubHeading">
