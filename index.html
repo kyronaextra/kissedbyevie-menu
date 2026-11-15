@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#10070c">
+<meta name="theme-color" content="#09070b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Kissed by Evie">
@@ -18,7 +18,7 @@
 <title>Everything I Sell | Kissed by Evie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Italiana&family=Lilita+One&family=Outfit:wght@500;700;800&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20261029-evidence-box-1">
 <link rel="stylesheet" href="evie-nav.css?v=20261028-nav-clean-3">
 <link rel="stylesheet" href="blog.css">
@@ -28,6 +28,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="menu-catalog.js?v=20261108-featured-menu"></script>
 <script defer src="app.js?v=20261030-bratty-copy-1"></script>
+<script defer src="spin-wheel.js?v=20261115-y3k"></script>
 <script defer src="vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
 <script defer src="install-app.js?v=20261030-1"></script>
@@ -398,8 +399,9 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 @media(max-width:600px){.stream-wheel-hero{padding:15px 12px 32px}.stream-wheel-frame{border-radius:8px}.stream-wheel-copy{gap:15px;padding-top:19px}.stream-wheel-copy p{max-width:370px;font-size:clamp(20px,6vw,27px)}.stream-wheel-cta{width:min(100%,360px);min-height:52px}}
 @media(prefers-reduced-motion:reduce){.stream-wheel-cta{transition:none}}
 </style>
+<link rel="stylesheet" href="y3k.css?v=20261115-y3k">
 </head>
-<body id="top">
+<body id="top" class="y3k">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
   <div class="age-gate-panel">
     <section id="botGateStep" class="age-gate-step">
@@ -424,9 +426,103 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
     </section>
   </div>
 </div>
-<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="gallery.html">GALLERY</a></nav>
+<header class="menu-home-header"><a class="wordmark" href="#top">KissedByEvie</a><nav aria-label="Main navigation"><a href="#boutique">SEE MENU</a><a href="#spin-wheel">WHEEL</a><a href="#facetime">FACETIME</a><a href="account.html">LOUNGE</a><a href="gallery.html">GALLERY</a><a href="#about">ABOUT</a></nav>
 </header>
 
+<div class="y3k-hero-bleed">
+  <div class="y3k-decor" aria-hidden="true">
+    <svg class="y3k-bf y3k-bf-a" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="y3kBfA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#7ef0ff"/><stop offset="1" stop-color="#ff4d8d"/></linearGradient></defs><path fill="url(#y3kBfA)" d="M32 30c-2-8-12-16-20-12 1 8 8 13 16 14-8 2-16 9-16 17 8-1 15-8 20-15 5 7 12 14 20 15 0-8-8-15-16-17 8-1 15-6 16-14-8-4-18 4-20 12z"/><path d="M32 16v32" stroke="#fff" stroke-width="1.4" fill="none"/></svg>
+    <svg class="y3k-bf y3k-bf-b" viewBox="0 0 64 64" aria-hidden="true"><path fill="#f2fbff" fill-opacity=".82" d="M32 30c-2-8-12-16-20-12 1 8 8 13 16 14-8 2-16 9-16 17 8-1 15-8 20-15 5 7 12 14 20 15 0-8-8-15-16-17 8-1 15-6 16-14-8-4-18 4-20 12z"/><path d="M32 16v32" stroke="#ff4d8d" stroke-width="1.4" fill="none"/></svg>
+    <svg class="y3k-bf y3k-bf-c" viewBox="0 0 64 64" aria-hidden="true"><path fill="#ffd0ea" d="M32 30c-2-8-12-16-20-12 1 8 8 13 16 14-8 2-16 9-16 17 8-1 15-8 20-15 5 7 12 14 20 15 0-8-8-15-16-17 8-1 15-6 16-14-8-4-18 4-20 12z"/><path d="M32 16v32" stroke="#7ef0ff" stroke-width="1.4" fill="none"/></svg>
+    <span class="y3k-star y3k-star-a">✦</span>
+    <span class="y3k-star y3k-star-b">✦</span>
+    <span class="y3k-star y3k-star-c">✦</span>
+    <span class="y3k-bubble y3k-bubble-a"></span>
+    <span class="y3k-bubble y3k-bubble-b"></span>
+    <span class="y3k-bubble y3k-bubble-c"></span>
+    <span class="y3k-bubble y3k-bubble-d"></span>
+  </div>
+  <section class="y3k-hero" aria-label="Kissed by Evie">
+    <div class="y3k-logo-lockup">
+      <svg class="y3k-orbit" viewBox="0 0 640 180" aria-hidden="true">
+        <defs>
+          <linearGradient id="y3kOrbit" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7ef0ff"/>
+            <stop offset=".45" stop-color="#ff4d8d"/>
+            <stop offset="1" stop-color="#ffffff"/>
+          </linearGradient>
+        </defs>
+        <path d="M40 110 C 80 20, 560 20, 600 110" fill="none" stroke="url(#y3kOrbit)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M70 128 C 160 168, 480 168, 570 128" fill="none" stroke="url(#y3kOrbit)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="48" cy="118" r="8" fill="#ff4d8d"/>
+        <path d="M150 132 q6 16 0 22" fill="none" stroke="#ff4d8d" stroke-width="4" stroke-linecap="round"/>
+        <path d="M250 138 q7 20 0 28" fill="none" stroke="#7ef0ff" stroke-width="4" stroke-linecap="round"/>
+        <path d="M390 136 q6 18 0 24" fill="none" stroke="#ff8ec4" stroke-width="4" stroke-linecap="round"/>
+        <path d="M500 128 q5 14 0 18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <p class="y3k-logo-word">KissedByEvie</p>
+      <span class="y3k-spark y3k-spark-l" aria-hidden="true">✦</span>
+      <span class="y3k-spark y3k-spark-r" aria-hidden="true">✦</span>
+    </div>
+    <nav class="y3k-pills" aria-label="Featured">
+      <a href="#boutique">SEE MENU</a>
+      <a href="#spin-wheel">SPIN THE WHEEL</a>
+      <a href="#facetime">FACETIME</a>
+      <a href="account.html">JOIN LOUNGE</a>
+    </nav>
+    <a class="y3k-online" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer"><span class="y3k-online-dot" aria-hidden="true"></span> ONLINE</a>
+    <div class="y3k-prices">
+      <a class="y3k-price" href="#boutique"><strong>$10</strong><small>10 items this month</small></a>
+      <a class="y3k-price" href="#boutique"><strong>$20</strong><small>20 pics + videos</small></a>
+      <a class="y3k-price" href="#facetime"><strong>$55</strong><small>FaceTime · 8 min</small></a>
+    </div>
+    <a class="y3k-strip-badge" href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">♥</span>ONLY ON<br>STRIPCHAT</a>
+    <p class="y3k-ribbon"><span>STAY GLOSSY</span> <i aria-hidden="true">•</i> <span>STAY ONLINE</span> <i aria-hidden="true">♥</i></p>
+  </section>
+</div>
+
+<section class="y3k-wheel" id="spin-wheel" aria-labelledby="wheelTitle">
+  <div class="y3k-wheel-layout">
+    <div class="y3k-wheel-copy">
+      <p class="y3k-kicker">STRIPCHAT · @KISSEDBYEVIE</p>
+      <h2 id="wheelTitle">Spin the Wheel <span>• 200 tokens</span></h2>
+      <p>Tip <strong>200 tokens</strong> on Stripchat (@kissedbyevie) and I’ll spin the real wheel on stream. The wheel here is a free preview. It does not charge you, and it does not book anything until I confirm it.</p>
+      <p class="y3k-note">Claim copies your pick and opens the same Telegram chat as checkout. Paste it in. I confirm before anything starts.</p>
+    </div>
+    <div class="y3k-wheel-stage">
+      <div class="y3k-glitter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="y3k-wheel-tilt">
+        <div class="y3k-pointer" id="wheelPointer" aria-hidden="true"></div>
+        <button type="button" class="y3k-wheel-btn" id="wheelSpin" aria-label="Spin the wheel">
+          <canvas id="wheelCanvas" width="640" height="640"></canvas>
+          <span class="y3k-wheel-readout" id="wheelReadout" hidden>
+            <span class="y3k-pick-kicker">YOUR PICK</span>
+            <span class="y3k-pick-prize" id="wheelPrize"></span>
+          </span>
+        </button>
+      </div>
+      <div class="y3k-wheel-actions" id="wheelActions" hidden>
+        <button type="button" class="y3k-pill" id="wheelAgain">Spin again</button>
+        <a class="y3k-pill" id="wheelClaim" href="https://t.me/m/M0AMf5LDMGFh">Claim</a>
+      </div>
+      <p id="wheelHelp" class="y3k-wheel-help">Tap the wheel. It spins fast, then eases onto a random slice.</p>
+      <p id="wheelStatus" class="y3k-wheel-status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<section class="y3k-face" id="facetime" aria-labelledby="facetimeTitle">
+  <div>
+    <p class="y3k-kicker">FACETIME DEALS</p>
+    <h2 id="facetimeTitle">FaceTime</h2>
+    <p>Book at least an hour ahead. 8 minutes, flat. The glass above shows the featured <strong>$55</strong> look. The menu still lists extra VIP FaceTime at <strong>$60 for 8 minutes</strong>. I confirm which rate, the time, and the total before you pay.</p>
+    <div class="y3k-face-actions">
+      <a class="y3k-pill" href="https://t.me/m/M0AMf5LDMGFh" target="_blank" rel="noopener noreferrer">Message me on Telegram</a>
+      <a class="y3k-pill" href="#boutique">See the menu</a>
+    </div>
+  </div>
+  <p class="y3k-face-price" aria-hidden="true">$55</p>
+</section>
 
 <section class="stream-wheel-hero" aria-labelledby="streamWheelCopy">
   <div class="stream-wheel-frame">
@@ -592,6 +688,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 </section>
 
 </main>
+<p class="y3k-ribbon"><span>STAY GLOSSY</span> <i aria-hidden="true">•</i> <span>STAY ONLINE</span> <i aria-hidden="true">♥</i></p>
 <footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="https://www.snapchat.com/add/eviesquirts?share_id=LpEkwpIpTQOkzDiRbo5bVg&amp;locale=en_US" target="_blank" rel="noopener noreferrer">Add me on Snapchat</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
 <button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag"><span id="bagCount">0</span><span>Bag · <strong id="bagTotal">$0</strong></span></button>
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
