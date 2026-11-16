@@ -6,14 +6,12 @@
   <meta name="theme-color" content="#0a0f10">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://cmjhecwwjoeqpcownkol.supabase.co; frame-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'none'; upgrade-insecure-requests">
   <title>Evie Admin — Private Control Room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="admin.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
-  <script defer src="member-config.js"></script>
   <script defer src="admin-inbox.js"></script>
   <script defer src="admin.js"></script>
 </head>
@@ -33,24 +31,22 @@
         <p>One private place to organize your members, bots, agents, automations, and Docker services.</p>
       </div>
       <div class="gate-card">
-        <div class="gate-card-top"><span>ADMIN AUTHENTICATION</span><span class="lock-symbol" aria-hidden="true">♙</span></div>
+        <div class="gate-card-top"><span>RENDER PASSCODE ACCESS</span><span class="lock-symbol" aria-hidden="true">♙</span></div>
         <form id="adminLoginForm" class="stack-form">
-          <label for="adminEmail">Administrator email</label>
-          <input id="adminEmail" type="email" autocomplete="username" spellcheck="false" autocapitalize="none" maxlength="254" placeholder="you@example.com" required>
-          <label for="adminPassword">Admin password</label>
-          <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Your dedicated admin password" required>
-          <button type="submit" class="primary">Sign in securely <span aria-hidden="true">→</span></button>
-          <p>Access is restricted to approved administrators. Sign in with your account password; Daddy Member PINs cannot unlock the control room.</p>
+          <label for="adminPassword">Six-digit access code</label>
+          <input id="adminPassword" type="password" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="off" placeholder="••••••" required>
+          <button type="submit" class="primary">Unlock control room <span aria-hidden="true">→</span></button>
+          <p>Private temporary Render access. Your session expires after four hours. Member accounts remain separate.</p>
         </form>
         <div id="adminDenied" hidden>
           <p class="overline">ACCESS NOT GRANTED</p>
           <h2>No admin permission.</h2>
-          <p>Your account is signed in, but it hasn't been approved as an Evie administrator. The site owner needs to assign the administrator role in Supabase.</p>
+          <p>Access is not available. Enter the owner passcode to continue.</p>
         </div>
         <p id="adminGateStatus" role="status" aria-live="polite"></p>
         <button id="adminGateSignOut" type="button" class="plain-link" hidden>Sign out and use another account</button>
       </div>
-      <p class="gate-foot">No hardcoded admin key. No passwords or bot tokens saved in your public site.</p>
+      <p class="gate-foot">The passcode is checked server-side. No admin credentials are stored in this public page.</p>
     </section>
 
     <section id="adminWorkspace" class="workspace" aria-label="Evie Admin workspace" hidden>
@@ -61,7 +57,6 @@
           <button class="sidebar-link" type="button" data-admin-view="overview"><span class="nav-icon">◈</span> Overview</button>
           <button class="sidebar-link" type="button" data-admin-view="connections"><span class="nav-icon">⌘</span> Bots &amp; Connections</button>
           <button class="sidebar-link" type="button" data-admin-view="automations"><span class="nav-icon">⧖</span> Automations</button>
-          <a class="sidebar-link" href="bot-studio.html"><span class="nav-icon">✦</span> Bot Studio / Tampermonkey ↗</a>
           <button class="sidebar-link" type="button" data-admin-view="docker"><span class="nav-icon">⬡</span> Docker &amp; Render</button>
           <button class="sidebar-link" type="button" data-admin-view="members"><span class="nav-icon">♡</span> Members</button>
           <button class="sidebar-link" type="button" data-admin-view="activity"><span class="nav-icon">⌁</span> Activity Log</button>
@@ -69,7 +64,6 @@
         <div class="sidebar-bottom">
           <span class="secure-dot" aria-hidden="true"></span><small>APPROVED ADMIN ACCOUNT</small>
           <a href="https://dashboard.render.com/" target="_blank" rel="noopener noreferrer">Render Dashboard ↗</a>
-          <a href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol" target="_blank" rel="noopener noreferrer">Supabase Project ↗</a>
           <button id="adminLogout" type="button">Sign out ↗</button>
         </div>
       </aside>
@@ -86,8 +80,8 @@
             <div class="hero-glyph" aria-hidden="true">✦</div>
           </div>
           <div class="stat-grid">
-            <div class="stat"><span>REGISTERED MEMBERS</span><strong id="statMembers">—</strong><small>Accounts with membership records</small></div>
-            <div class="stat"><span>PENDING APPROVAL</span><strong id="statPending">—</strong><small>Awaiting review</small></div>
+            <div class="stat"><span>REGISTERED MEMBERS</span><strong id="statMembers">—</strong><small>Member accounts stay on Supabase</small></div>
+            <div class="stat"><span>PENDING APPROVAL</span><strong id="statPending">—</strong><small>No membership sync in temporary mode</small></div>
             <div class="stat"><span>BOT / SERVICE REFERENCES</span><strong id="statConnections">—</strong><small>Registry entries</small></div>
             <div class="stat"><span>AUTOMATION DRAFTS</span><strong id="statAutomations">—</strong><small>Not scheduled or running</small></div>
           </div>
