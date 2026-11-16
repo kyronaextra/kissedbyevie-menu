@@ -174,7 +174,7 @@ function updateCounters(payload){
  $('inboxNavBadge').textContent=st.waiting_for_me??0;
  $('inboxNavBadge').hidden=!st.waiting_for_me;
  $('inboxLastCheck').textContent=nowText();
- $('inboxSyncNote').textContent='Live signals + 20-second backup refresh';
+ $('inboxSyncNote').textContent='Render manual reminders · 20-second refresh';
  document.title=st.waiting_for_me? '('+st.waiting_for_me+') Evie Admin · messages':defaultTitle;
 }
 async function refresh(silent=false){
@@ -197,9 +197,7 @@ async function refresh(silent=false){
   });
   updateCounters(payload);
   render();
-  $('inboxTelegramStatus').textContent=payload.coverage?.telegram?.status==='connected'?
-    'Personal account listener online':payload.coverage?.telegram?.status==='waiting_for_listener'?
-    'Paired; start the listener on your device':'Not connected — pair your personal account below';
+  $('inboxTelegramStatus').textContent='Not connected in temporary Render mode';
   $('inboxXStatus').textContent='Connect approved X DM API integration';
   $('inboxSnapStatus').textContent='Manual reminders available';
   if(clientState.initialLoaded&&document.visibilityState==='visible'){
@@ -223,22 +221,8 @@ async function refresh(silent=false){
  }finally{clientState.refreshing=false}
 }
 async function subscribe(){
- try{
-  const {data,error}=await clientState.sb.auth.getSession();
-  if(error||!data?.session?.access_token)return;
-  await clientState.sb.realtime.setAuth(data.session.access_token);
-  if(clientState.stopped)return;
-  const channel=clientState.sb.channel('evie-admin-inbox',{config:{private:true}});
-  channel.on('broadcast',{event:'inbox_changed'},()=>refresh(true));
-  channel.subscribe(status=>{
-   if(clientState.stopped)return;
-   clientState.online=status==='SUBSCRIBED';
-   $('inboxRealtimeStatus').textContent=clientState.online?'Live signals on':'Checking every 20 seconds';
-  });
-  clientState.channel=channel;
- }catch(_){
-  $('inboxRealtimeStatus').textContent='Checking every 20 seconds';
- }
+ // Render-only temporary backend: manual reminders refresh on a timer.
+ $('inboxRealtimeStatus').textContent='Checking every 20 seconds';
 }
 function start({request,client}){
  stop();
