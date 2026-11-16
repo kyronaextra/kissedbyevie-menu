@@ -1,7 +1,7 @@
 (function(){
 'use strict';
-// The browser only receives a publishable key; all privileged operations
-// require a verified administrator account in the separate Supabase Edge API.
+// The browser receives no secret. The Render server verifies the passcode,
+// issues a short-lived session cookie, and protects every admin API action.
 const $=id=>document.getElementById(id);
 const ready=true;
 // Evie Render Admin uses a short-lived, server-verified, HttpOnly cookie.
