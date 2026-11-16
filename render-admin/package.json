@@ -1,0 +1,15 @@
+{
+  "name": "evie-render-admin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Temporary, independent Evie Admin backend for Render",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "8.13.1"
+  }
+}
