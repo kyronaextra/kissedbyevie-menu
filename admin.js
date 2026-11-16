@@ -3,9 +3,10 @@
 // The browser only receives a publishable key; all privileged operations
 // require a verified administrator account in the separate Supabase Edge API.
 const $=id=>document.getElementById(id);
-const sdk=window.supabase,url=window.EVIE_SUPABASE_URL,key=window.EVIE_SUPABASE_PUBLISHABLE_KEY;
-const ready=Boolean(sdk&&url&&key&&typeof sdk.createClient==='function');
-const sb=ready?sdk.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'evie-admin-ephemeral'}}):null;
+const ready=true;
+// Evie Render Admin uses a short-lived, server-verified, HttpOnly cookie.
+// No Supabase client or privileged key is sent to the browser.
+const sb=null;
 const sections=['inbox','overview','connections','automations','docker','members','activity'];
 let current='inbox',data=null,page=1,hasMore=false,opening=false;
 const presets={
@@ -40,21 +41,19 @@ function showDashboard(){
  section(current);
 }
 async function request(action,content=null,query=null){
- if(!sb)throw Error('Supabase Auth is unavailable. Reload this page.');
- const {data:auth,error}=await sb.auth.getSession();
- if(error||!auth?.session?.access_token)throw Error('Admin session expired. Please sign in again.');
- const endpoint=new URL(url+'/functions/v1/evie-admin-api');
+ const endpoint=new URL('/api/admin',location.origin);
  const method=content===null?'GET':'POST';
  if(method==='GET'){
   endpoint.searchParams.set('action',action);
   if(query)Object.entries(query).forEach(([k,v])=>endpoint.searchParams.set(k,String(v)));
  }
- const response=await fetch(endpoint,{method,cache:'no-store',
-  headers:{apikey:key,Authorization:'Bearer '+auth.session.access_token,'Content-Type':'application/json'},
+ const response=await fetch(endpoint,{
+  method,credentials:'same-origin',cache:'no-store',
+  headers:{'Content-Type':'application/json','X-Evie-Request':'1'},
   body:content===null?undefined:JSON.stringify({action,...content})
  });
  const payload=await response.json().catch(()=>null);
- if(!response.ok){const err=new Error(payload?.error||'The protected service could not complete this request.');err.status=response.status;throw err}
+ if(!response.ok){const err=new Error(payload?.error||'Admin API unavailable.');err.status=response.status;throw err}
  return payload;
 }
 async function authorize(){
@@ -72,7 +71,7 @@ async function authorize(){
 }
 async function signOut(){
  window.EvieAdminInbox?.stop?.();
- try{await sb?.auth.signOut()}catch(_){}
+ try{await fetch('/api/logout',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-Evie-Request':'1'},body:'{}'})}catch(_){}
  data=null;page=1;$('adminLoginForm').reset();gate('login');gateStatus('Signed out of Evie Admin.');
 }
 function choice(id,text,value){const option=node('option','',text);option.value=value;return option}
@@ -90,7 +89,7 @@ function renderConnections(items){
   if(item.render_service_id){
    const check=node('button','','Check Render');
    check.type='button';check.disabled=!data?.capabilities?.render_status;
-   check.title=check.disabled?'Set RENDER_API_KEY as a Supabase Edge secret first':'Read service status from Render';
+   check.title=check.disabled?'Render status integration not configured in temporary admin':'Read service status from Render';
    check.addEventListener('click',async()=>{
     check.disabled=true;state.textContent='Checking Render service…';
     try{
@@ -148,10 +147,10 @@ async function overview(){
   data=await request('overview');
   const counts=data.counts||{};
   [['statMembers','members'],['statPending','pending'],['statConnections','connections'],['statAutomations','automation_drafts']].forEach(([id,key])=>{
-   $(id).textContent=counts[key]??0;
+   $(id).textContent=counts[key]??'—';
   });
   $('renderCapability').textContent=data.capabilities?.render_status?'Server-side Render status checks are available.':
-   'Render API status checks are not configured. Add RENDER_API_KEY as a Supabase Edge Function secret first.';
+   'Render status integration is not configured in this temporary admin.';
   renderConnections(data.connections||[]);renderDrafts(data.automations||[]);renderActivity(data.events||[]);
   const select=$('autoConnection'),previous=select.value;select.replaceChildren(choice('','Not selected',''));
   (data.connections||[]).forEach(entry=>select.append(choice('',entry.name+' / '+entry.kind,entry.id)));
@@ -166,7 +165,7 @@ async function loadMembers(nextPage){
  try{
   const response=await request('members',null,{page});hasMore=Boolean(response.has_more);
   host.replaceChildren();
-  if(!(response.members||[]).length)host.append(node('p','empty','No accounts on this page.'));
+  if(!(response.members||[]).length)host.append(node('p','empty',response.notice||'No accounts on this page.'));
   else{
    const table=node('table','member-table'),thead=node('thead'),heading=node('tr');
    ['Username','Email','Social reference','Plan','Status','Adult verified'].forEach(h=>heading.append(node('th','',h)));
@@ -211,13 +210,18 @@ function preset(key){
 }
 $('adminLoginForm').addEventListener('submit',async event=>{
  event.preventDefault();const form=event.currentTarget;
- if(!ready){gateStatus('Secure Auth could not initialize. Refresh this page.');return}
  if(!form.reportValidity())return;
- processing(form,true);gateStatus('Checking your admin credentials…');
+ processing(form,true);gateStatus('Checking your passcode…');
  try{
-  const {error}=await sb.auth.signInWithPassword({email:$('adminEmail').value.trim().toLowerCase(),password:$('adminPassword').value});
-  if(error)throw Error('Admin sign-in failed. Check your email and password.');
-  $('adminPassword').value='';await authorize();
+  const response=await fetch('/api/login',{
+   method:'POST',credentials:'same-origin',cache:'no-store',
+   headers:{'Content-Type':'application/json','X-Evie-Request':'1'},
+   body:JSON.stringify({passcode:$('adminPassword').value})
+  });
+  const result=await response.json().catch(()=>null);
+  if(!response.ok)throw Error(result?.error||'Passcode was not accepted.');
+  $('adminPassword').value='';
+  await authorize();
  }catch(error){gateStatus(msg(error))}finally{processing(form,false)}
 });
 $('adminGateSignOut').addEventListener('click',signOut);
@@ -231,5 +235,6 @@ $('memberNext').addEventListener('click',()=>{if(hasMore)loadMembers(page+1)});
 document.querySelectorAll('[data-admin-view]').forEach(b=>b.addEventListener('click',()=>section(b.dataset.adminView)));
 document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>section(b.dataset.jump)));
 document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>preset(b.dataset.preset)));
-if(!ready)gateStatus('Secure login could not initialize. Please refresh or check Supabase settings.');
+// Restore a still-valid session; otherwise present the passcode gate.
+authorize();
 })();
