@@ -155,10 +155,10 @@ async function login(req, res) {
     await c.query('BEGIN');
     await c.query('SELECT pg_advisory_xact_lock(85201115)');
     const q = await c.query(
-      "SELECT count(*)::int AS global, count(*) FILTER (WHERE client_hash=$1)::int AS client FROM evie_render_login_attempts WHERE attempted_at > now() - interval '15 minutes'",
+      "SELECT count(*)::int AS total_count, count(*) FILTER (WHERE client_hash=$1)::int AS client_count FROM evie_render_login_attempts WHERE attempted_at > now() - interval '15 minutes'",
       [clientHash]);
     const total = q.rows[0];
-    if (total.global < 20 && total.client < 5) {
+    if (total.total_count < 20 && total.client_count < 5) {
       await c.query('INSERT INTO evie_render_login_attempts(client_hash) VALUES($1)', [clientHash]);
       allowed = true;
     }
