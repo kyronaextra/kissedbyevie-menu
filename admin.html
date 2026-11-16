@@ -267,7 +267,7 @@
             <p>Keep the website fast and public-facing. Run bots, agents and scheduled jobs as separate protected services.</p></div>
           <div class="stack-grid">
             <div class="surface architecture-card"><h2>Recommended setup</h2>
-              <div class="architecture"><div>PRIVATE ADMIN UI<small>Owner sign-in + MFA</small></div><span>→</span><div>SUPABASE CONTROL PLANE<small>Records + authorization</small></div><span>→</span><div>DOCKER WORKER<small>Render or your server</small></div></div>
+              <div class="architecture"><div>PRIVATE ADMIN UI<small>Six-digit access code</small></div><span>→</span><div>RENDER BACKEND<small>Private database + sessions</small></div><span>→</span><div>DOCKER WORKER<small>Optional future service</small></div></div>
               <p>This is the intended architecture. A bot worker needs its own deployment and server-held credentials before it can perform actions.</p>
             </div>
             <div class="surface">
@@ -276,26 +276,26 @@
                 <div class="preset"><div><strong>nightshift-telegram-bot</strong><small>Existing Render Node web service — not yet linked</small></div><button type="button" class="secondary small" data-preset="telegram">Register ↗</button></div>
                 <div class="preset"><div><strong>evieadmin-control</strong><small>Existing Render Python web service — not yet linked</small></div><button type="button" class="secondary small" data-preset="evieadmin">Register ↗</button></div>
               </div>
-              <p class="hint">Those services were found in your Render workspace. Their current deployment or bot readiness isn't implied here.</p>
+              <p class="hint">These are previously configured service references. Registration does not confirm deployment health or authorize bot commands.</p>
               <a href="https://dashboard.render.com/" class="primary inline-link" target="_blank" rel="noopener noreferrer">Open Render dashboard ↗</a>
             </div>
             <div class="surface"><div class="surface-title"><h2>Security &amp; credentials</h2><span>SERVER SIDE</span></div>
-              <p>To enable future live Render checks, configure the <code>RENDER_API_KEY</code> as a Supabase Edge Function secret, never in the public GitHub repo.</p>
+              <p>Live Render checks are not part of this temporary backend. Any future <code>RENDER_API_KEY</code> belongs in Render's server-side environment, never in GitHub.</p>
               <p id="renderCapability" class="hint">Checking Render integration availability…</p>
-              <a class="text-link" href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol/functions" target="_blank" rel="noopener noreferrer">Supabase Edge Functions ↗</a>
-              <p class="hint">Deploy Docker workers separately through Render. This static website cannot host or execute containers.</p>
+              <a class="text-link" href="https://dashboard.render.com/" target="_blank" rel="noopener noreferrer">Render dashboard ↗</a>
+              <p class="hint">Deploy Docker workers separately through Render. Keep workers separate from the passcode-protected admin API.</p>
             </div>
           </div>
         </section>
 
         <section id="panel-members" class="panel" aria-labelledby="membersTitle" hidden>
           <div class="section-heading"><p class="overline">PRIVATE MEMBER ROSTER</p><h1 id="membersTitle">Member <em>overview.</em></h1>
-            <p>Use your members' chosen usernames and optional Snapchat/X references to recognize them. Payment approval and independent age verification remain manual.</p></div>
+            <p>Existing memberships and private media stay in Supabase during the temporary migration. The Render-only admin cannot display or change member accounts yet.</p></div>
           <div class="surface">
             <div class="surface-title"><h2>Accounts</h2><span>READ ONLY</span></div>
             <div id="adminMemberList" class="table-scroll"><p class="empty">Open this section to load members.</p></div>
             <div class="pagination"><button id="memberPrev" type="button" class="secondary small" disabled>← Previous</button><span id="memberPage">Page 1</span><button id="memberNext" type="button" class="secondary small" disabled>Next →</button></div>
-            <p class="hint">Changes to paid access and verified adult status should be performed in the dedicated approval workflow, not by editing usernames or PINs.</p>
+            <p class="hint">Member imports are intentionally disabled. Never assume an empty list means existing members were deleted.</p>
             <a href="https://supabase.com/dashboard/project/cmjhecwwjoeqpcownkol/auth/users" class="text-link" target="_blank" rel="noopener noreferrer">Open Supabase Auth users ↗</a>
           </div>
         </section>
@@ -307,7 +307,7 @@
         </section>
 
         <p id="adminGlobalStatus" role="status" aria-live="polite" class="global-status"></p>
-        <footer class="admin-foot"><span>EVIE ADMIN / PRIVATE CONTROL ROOM</span><span>Render • Supabase • Docker-ready registry</span></footer>
+        <footer class="admin-foot"><span>EVIE ADMIN / PRIVATE CONTROL ROOM</span><span>Render admin • Supabase member accounts kept separate</span></footer>
       </div>
     </section>
   </main>
