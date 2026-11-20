@@ -6,7 +6,7 @@ const $=id=>document.getElementById(id);
 const sdk=window.supabase,url=window.EVIE_SUPABASE_URL,key=window.EVIE_SUPABASE_PUBLISHABLE_KEY;
 const ready=Boolean(sdk&&url&&key&&typeof sdk.createClient==='function');
 const sb=ready?sdk.createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'evie-admin-ephemeral'}}):null;
-const sections=['inbox','overview','connections','automations','docker','members','activity'];
+const sections=['inbox','orders','overview','connections','automations','docker','members','activity'];
 let current='inbox',data=null,page=1,hasMore=false,opening=false;
 const presets={
  telegram:{name:'NightShift Telegram Bot',kind:'bot',platform:'render',render_service_id:'srv-db78airbc2fs73e6eakg',endpoint_url:'https://nightshift-telegram-bot.onrender.com',notes:'Existing Render Node service; reference only, no bot access granted.'},
@@ -31,6 +31,7 @@ function section(view){
   if(isCurrent)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current')
  });
  if(view==='members')loadMembers(1);
+ if(view==='orders')loadOrders();
  if(view==='inbox')window.EvieAdminInbox?.refresh?.();
  window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -184,6 +185,99 @@ async function loadMembers(nextPage){
   $('memberPrev').disabled=page<=1;$('memberNext').disabled=!hasMore;
  }catch(error){host.replaceChildren(node('p','empty',msg(error)));status(msg(error),true)}
 }
+function moneyCents(cents){
+ const amount=(Number(cents)||0)/100;
+ return '$'+amount.toFixed(2);
+}
+function orderWhen(value){
+ const d=new Date(value);
+ return value&&!Number.isNaN(d.getTime())?d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'—';
+}
+function handleLine(label,value){
+ if(!value)return null;
+ const row=node('span','order-handle',label+': '+value);
+ return row;
+}
+async function loadOrders(){
+ const host=$('ordersList');
+ const error=$('ordersError');
+ error.hidden=true;
+ host.replaceChildren(node('p','empty','Loading orders…'));
+ try{
+  const payload=await request('orders');
+  host.replaceChildren();
+  if(payload?.unavailable){
+   host.append(node('p','empty',payload.message||'Orders aren’t available yet.'));
+   return;
+  }
+  const orders=Array.isArray(payload?.orders)?payload.orders:[];
+  if(!orders.length){
+   host.append(node('p','empty','No checkouts yet. They show up here after someone submits the payment page.'));
+   return;
+  }
+  orders.forEach(order=>{
+   const card=node('article','order-card');
+   const top=node('div','order-top');
+   top.append(node('strong','',moneyCents(order.initial_total_cents)));
+   const pill=node('span','order-status',String(order.status||'pending').toUpperCase());
+   pill.dataset.status=order.status||'pending';
+   top.append(pill);
+   card.append(top);
+   card.append(node('p','order-meta',orderWhen(order.created_at)+' · '+String(order.payment_method||'payment').replace(/_/g,' ')+(order.source==='checkout'?' · checkout':' · earlier order')));
+   const who=node('p','order-handles');
+   [handleLine('Snapchat',order.snapchat_handle),handleLine('Telegram',order.telegram_handle),handleLine('X',order.x_handle)]
+    .filter(Boolean).forEach(part=>who.append(part));
+   if(!who.childNodes.length)who.append(node('span','order-handle',(order.contact_platform||'Contact')+': '+(order.contact_handle||'—')));
+   card.append(who);
+   const items=Array.isArray(order.items)?order.items:[];
+   if(items.length){
+    const list=node('ul','order-items');
+    items.forEach(item=>{
+     const qty=Number(item?.qty)||1;
+     const name=String(item?.name||'Item');
+     const each=Number.isFinite(Number(item?.unit_cents))? ' · '+moneyCents(item.unit_cents):'';
+     list.append(node('li','',qty+' × '+name+each));
+    });
+    card.append(list);
+   }
+   if(Number(order.tip_cents)>0)card.append(node('p','order-meta','Custom amount / tip '+moneyCents(order.tip_cents)));
+   if(order.notes)card.append(node('p','order-meta',order.notes));
+   if(order.proof_url){
+    const shot=node('img','order-proof');
+    shot.src=order.proof_url;
+    shot.alt='Payment screenshot';
+    const link=node('a','order-proof-link','Open screenshot');
+    link.href=order.proof_url;
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    card.append(shot,link);
+   }else if(order.has_proof){
+    card.append(node('p','order-meta',order.proof_note||'Screenshot stored. Refresh to preview it.'));
+   }else card.append(node('p','order-meta','No payment screenshot attached.'));
+   const actions=node('div','order-actions');
+   [['confirmed','Mark as paid'],['fulfilled','Mark fulfilled'],['cancelled','Cancel'],['pending','Mark pending']].forEach(([status,label])=>{
+    if(order.status===status)return;
+    const button=node('button','secondary small',label);
+    button.type='button';
+    button.addEventListener('click',async()=>{
+     button.disabled=true;
+     try{
+      await request('order_status',{id:order.id,status});
+      status(label==='Mark as paid'?'Marked as paid. This is your note — the bank was not checked.':'Order updated.');
+      await loadOrders();
+     }catch(err){status(msg(err),true);button.disabled=false}
+    });
+    actions.append(button);
+   });
+   card.append(actions);
+   host.append(card);
+  });
+ }catch(err){
+  host.replaceChildren(node('p','empty','Orders could not be loaded.'));
+  error.hidden=false;
+  error.textContent=msg(err);
+ }
+}
 async function saveConnection(event){
  event.preventDefault();const form=$('adminConnectionForm');if(!form.reportValidity())return;
  const connection={name:$('connName').value.trim(),kind:$('connKind').value,platform:$('connPlatform').value.trim(),
@@ -223,7 +317,12 @@ $('adminLoginForm').addEventListener('submit',async event=>{
 $('adminGateSignOut').addEventListener('click',signOut);
 $('adminLogout').addEventListener('click',signOut);
 $('adminMobileLogout').addEventListener('click',signOut);
-$('adminRefresh').addEventListener('click',overview);
+$('adminRefresh').addEventListener('click',async()=>{
+ await overview();
+ if(current==='orders')await loadOrders();
+ if(current==='inbox')window.EvieAdminInbox?.refresh?.();
+});
+$('ordersRefresh').addEventListener('click',loadOrders);
 $('adminConnectionForm').addEventListener('submit',saveConnection);
 $('adminAutomationForm').addEventListener('submit',saveAutomation);
 $('memberPrev').addEventListener('click',()=>loadMembers(page-1));

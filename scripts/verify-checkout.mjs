@@ -1,0 +1,90 @@
+import fs from 'node:fs';
+import vm from 'node:vm';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+const failures = [];
+function check(name, ok, detail = '') {
+  if (!ok) failures.push(name + (detail ? ': ' + detail : ''));
+  else console.log('ok', name);
+}
+
+const catalogContext = {window: {}};
+vm.createContext(catalogContext);
+vm.runInContext(read('checkout-catalog.js'), catalogContext);
+const catalog = catalogContext.window.EVIE_CHECKOUT_CATALOG;
+check('catalog loads', catalog && catalog.items.length === 10);
+
+const fn = read('supabase/functions/evie-order-request/index.ts');
+const serverItems = [...fn.matchAll(/\{id: "([^"]+)", name: "(.*)", cents: (\d+)\}/g)].map((match) => ({
+  id: match[1],
+  name: JSON.parse('"' + match[2] + '"'),
+  cents: Number(match[3])
+}));
+const serverExtras = [...fn.matchAll(/\{name: "(.*)", cents: (\d+)/g)]
+  .filter((match) => !match[1].startsWith('id:'))
+  .map((match) => ({name: JSON.parse('"' + match[1] + '"'), cents: Number(match[2])}));
+check('server item count', serverItems.length === catalog.items.length, String(serverItems.length));
+catalog.items.forEach((item) => {
+  const server = serverItems.find((row) => row.id === item.id);
+  check('price ' + item.id, server && server.cents === item.price * 100 && server.name === item.name, JSON.stringify(server));
+});
+catalog.extras.forEach((extra) => {
+  const server = serverExtras.find((row) => row.name === extra.name);
+  check('extra ' + extra.name, server && server.cents === extra.price * 100, JSON.stringify(server));
+});
+
+const menu = read('menu-catalog.js');
+const menuNames = [...menu.matchAll(/name:'([^']*)'/g)].map((match) => match[1]);
+menuNames.forEach((name) => {
+  const known = catalog.aliases[name] || catalog.extras.some((extra) => extra.name === name);
+  check('menu maps ' + name, !!known);
+});
+check('menu still shows VIP 3 at 300', menu.includes("name:'VIP · 3 Months GFE',price:300"));
+check('menu still shows VIP 1 at 150', menu.includes("name:'VIP · 1 Month GFE',price:150"));
+check('checkout VIP 3 is 350', catalog.items.find((item) => item.id === 'vip3').price === 350);
+check('checkout VIP 3 notes the menu price', catalog.items.find((item) => item.id === 'vip3').storefrontPrice === 300);
+
+const page = read('checkout.html');
+const script = read('checkout.js');
+[
+  'Item(s):',
+  'Recommended items:',
+  'Amount:',
+  'Payment method:',
+  '@Barfiesfunds',
+  '$taylorgann90',
+  'for barfie’s vet bill, cat food or care',
+  'Copy Memo',
+  'Snapchat username',
+  'Telegram username',
+  'X username',
+  'accept="image/*"',
+  'So I can keep track of who’s paid',
+  'Return to chat',
+  'https://x.com/kissedbyevie?s=11',
+  'https://t.me/eviesquirts',
+  'checkout.js',
+  'order-config.js'
+].forEach((needle) => check('page has ' + needle, page.includes(needle)));
+['venmo://paycharge?txn=pay&recipients=', 'twitter://user?screen_name=', 'tg://resolve?domain=', 'cash.app/$'].forEach((needle) => {
+  check('script has ' + needle, script.includes(needle));
+});
+check('no service role in checkout client', !/service_role|SUPABASE_SERVICE_ROLE/.test(page + script + read('order-config.js') + read('checkout-catalog.js')));
+check('order api url set', read('order-config.js').includes('functions/v1/evie-order-request'));
+check('storefront continues to checkout', read('index.html').includes('Continue to checkout') && read('app.js').includes("location.assign('checkout.html')"));
+check('admin orders view', read('admin.html').includes('panel-orders') && read('admin.js').includes("request('orders')"));
+check('private bucket migration', read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql').includes("'evie-payment-proofs', false") || read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql').includes("false"));
+
+const migration = read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql');
+check('bucket is private', /values \('evie-payment-proofs', 'evie-payment-proofs', false\)/.test(migration));
+check('admin signs proofs', read('supabase/functions/evie-admin-api/index.ts').includes('createSignedUrl'));
+
+if (failures.length) {
+  console.error('\nFAILED');
+  failures.forEach((failure) => console.error(' - ' + failure));
+  process.exit(1);
+}
+console.log('\nstatic checks passed');

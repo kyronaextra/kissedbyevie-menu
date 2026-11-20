@@ -398,8 +398,8 @@
     var amount=cartTotal().toFixed(2);
     var links=document.getElementById('paymentLinks');
     var note=document.getElementById('paymentLinksNote');
-    document.getElementById('venmoPaymentLink').href='https://venmo.com/u/barfiesfunds?txn=pay&amount='+encodeURIComponent(amount);
-    document.getElementById('cashAppPaymentLink').href='https://cash.app/$TaylorGann90/'+encodeURIComponent(amount);
+    document.getElementById('venmoPaymentLink').href='https://venmo.com/Barfiesfunds';
+    document.getElementById('cashAppPaymentLink').href='https://cash.app/$taylorgann90/'+encodeURIComponent(amount);
     note.textContent=cart.some(function(item){return item.exclusive==='quote'})
       ? 'Prefilled with the priced items so far. Wait for Evie to confirm any custom quote and your final total before sending; you can edit the amount in the app.'
       : 'Your order total is prefilled. You can edit the amount in the app.';
@@ -419,15 +419,10 @@
     }
     openBag();
   });
-  document.getElementById('confirmOrder').addEventListener('click',async function(){
-    var feedback=document.getElementById('cartFeedback');
-    try{
-      await copyOrderText();
-      feedback.textContent='Copied! Paste your picks into our Telegram chat and hit send.';
-      window.location.assign('https://t.me/m/M0AMf5LDMGFh');
-    }catch(e){
-      feedback.textContent='Copy failed. Tap Copy order only, then paste your picks into our chat.';
-    }
+  document.getElementById('confirmOrder').addEventListener('click',function(){
+    if(!cart.length)return;
+    saveCart();
+    window.location.assign('checkout.html');
   });
   var dickRateButton=document.getElementById('addDickRateUpsell');
   if(dickRateButton)dickRateButton.addEventListener('click',function(){addItem('Dick rate add-on',25,null)});

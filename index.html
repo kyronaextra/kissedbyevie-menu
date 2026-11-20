@@ -27,7 +27,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script defer src="menu-catalog.js?v=20261108-featured-menu"></script>
-<script defer src="app.js?v=20261030-bratty-copy-1"></script>
+<script defer src="app.js?v=20261120-checkout-1"></script>
 <script defer src="vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
 <script defer src="install-app.js?v=20261030-1"></script>
@@ -424,7 +424,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
     </section>
   </div>
 </div>
-<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="#about">ABOUT</a><a href="gallery.html">GALLERY</a></nav>
+<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="checkout.html">PAY</a><a href="#about">ABOUT</a><a href="gallery.html">GALLERY</a></nav>
 </header>
 
 
@@ -491,6 +491,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
     <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Send me your order</button>
     <a class="primary-btn offer-x-button" href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me your offer on X <span aria-hidden="true">↗</span></a>
     <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your picks above first. I can’t read your mind.</p>
+    <p class="fine-print"><a href="checkout.html">Open the payment page</a> if you already know the total.</p>
   </div>
 </section>
 
@@ -498,6 +499,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 <section class="payments" aria-labelledby="payHeading">
   <h2 id="payHeading">How to pay</h2>
   <p class="sub">I offer Apple Pay, CashApp, Venmo and Zelle. Just DM me first for info.</p>
+  <p class="sub"><a href="checkout.html">Open checkout</a> for a Venmo or Cash App total and a payment screenshot.</p>
   <p class="sub">For orders over $120, I may limit which payment methods are available because of dispute fraud.</p>
   <div class="pay-grid">
     <span class="pay-chip">Apple Pay</span>
@@ -591,7 +593,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 </section>
 
 </main>
-<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="https://www.snapchat.com/add/eviesquirts?share_id=LpEkwpIpTQOkzDiRbo5bVg&amp;locale=en_US" target="_blank" rel="noopener noreferrer">Add me on Snapchat</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
+<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="checkout.html">Checkout</a><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="https://www.snapchat.com/add/eviesquirts?share_id=LpEkwpIpTQOkzDiRbo5bVg&amp;locale=en_US" target="_blank" rel="noopener noreferrer">Add me on Snapchat</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
 <button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag"><span id="bagCount">0</span><span>Bag · <strong id="bagTotal">$0</strong></span></button>
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
 <dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">
@@ -628,10 +630,10 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
       <p class="payment-links-title">Order copied. Choose where to send your amount:</p>
       <p class="payment-links-note" id="paymentLinksNote"></p>
       <p class="payment-links-privacy">For privacy, keep the payment note minimal: <strong>@yourusername</strong>. Do not include explicit details.</p>
-      <a id="venmoPaymentLink" class="secondary-btn payment-link" href="https://venmo.com/u/barfiesfunds" target="_blank" rel="noopener noreferrer">Send on Venmo</a>
-      <a id="cashAppPaymentLink" class="secondary-btn payment-link" href="https://cash.app/$TaylorGann90" target="_blank" rel="noopener noreferrer">Send on Cash App</a>
+      <a id="venmoPaymentLink" class="secondary-btn payment-link" href="https://venmo.com/Barfiesfunds" target="_blank" rel="noopener noreferrer">Send on Venmo</a>
+      <a id="cashAppPaymentLink" class="secondary-btn payment-link" href="https://cash.app/$taylorgann90" target="_blank" rel="noopener noreferrer">Send on Cash App</a>
     </div>
-    <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Copy order &amp; open Telegram</button>
+    <button type="button" id="confirmOrder" class="primary-btn checkout-btn">Continue to checkout</button>
     <p id="cartFeedback" class="cart-feedback"></p>
   </div>
 </dialog>
