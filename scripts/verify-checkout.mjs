@@ -42,10 +42,13 @@ menuNames.forEach((name) => {
   const known = catalog.aliases[name] || catalog.extras.some((extra) => extra.name === name);
   check('menu maps ' + name, !!known);
 });
-check('menu still shows VIP 3 at 300', menu.includes("name:'VIP · 3 Months GFE',price:300"));
-check('menu still shows VIP 1 at 150', menu.includes("name:'VIP · 1 Month GFE',price:150"));
+check('menu VIP 3 is 350', menu.includes("name:'VIP 3 Months',price:350"));
+check('menu VIP 1 is 150', menu.includes("name:'VIP 1 Month',price:150"));
+check('menu has no old $300 VIP', !menu.includes('price:300') && !menu.includes('$300'));
+check('menu dropbox is 900+', menu.includes('Deluxe Dropbox (900+ vault)') && !menu.includes('800+'));
 check('checkout VIP 3 is 350', catalog.items.find((item) => item.id === 'vip3').price === 350);
-check('checkout VIP 3 notes the menu price', catalog.items.find((item) => item.id === 'vip3').storefrontPrice === 300);
+check('checkout VIP 3 matches the menu price', catalog.items.find((item) => item.id === 'vip3').storefrontPrice === 350);
+check('no copy-order button', !read('index.html').includes('id="copyOrder"') && !read('index.html').includes('Dick rate add-on'));
 
 const page = read('checkout.html');
 const script = read('checkout.js');

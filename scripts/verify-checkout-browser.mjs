@@ -183,20 +183,38 @@ await store.evaluateOnNewDocument(() => {
 await store.goto('http://127.0.0.1:4173/index.html', {waitUntil: 'domcontentloaded'});
 await store.waitForSelector('.add-product');
 const menuOk = await store.evaluate(() => {
-  const vip3 = [...document.querySelectorAll('.product-card')].find((card) => card.textContent.includes('VIP · 3 Months GFE'));
-  const vip1 = [...document.querySelectorAll('.product-card')].find((card) => card.textContent.includes('VIP · 1 Month GFE'));
-  const pack = [...document.querySelectorAll('.product-card')].find((card) => card.textContent.includes('20 Pics + Videos'));
+  const text = (name) => {
+    const card = [...document.querySelectorAll('.product-card')].find((el) => el.querySelector('h3') && el.querySelector('h3').textContent === name);
+    return card ? card.textContent : '';
+  };
   return {
-    vip3: vip3 ? vip3.textContent.includes('$300') && !vip3.textContent.includes('$350') : false,
-    vip1: vip1 ? vip1.textContent.includes('$150') : false,
-    pack: pack ? pack.textContent.includes('$20') : false
+    vip3: text('VIP 3 Months').includes('$350') && !text('VIP 3 Months').includes('$300'),
+    vip1: text('VIP 1 Month').includes('$150'),
+    pack: text('20 pics/vids').includes('$20'),
+    ten: text('10 pics/vids').includes('$10'),
+    fifty: text('50 pics/vids').includes('$50'),
+    vault: text('Deluxe Dropbox (900+ vault)').includes('$75'),
+    promo: text('Deluxe Dropbox Today Promo').includes('$55'),
+    bg: text('B/G Folder (3 vids)').includes('$35'),
+    rating: text('Dick Rating').includes('$35'),
+    custom: text('Custom 1-min Video').includes('$50'),
+    oldCopy: !!document.getElementById('copyOrder'),
+    oldUpsell: !!document.getElementById('dickRateUpsell')
   };
 });
-check('storefront VIP 3 card stays $300', menuOk.vip3, JSON.stringify(menuOk));
-check('storefront VIP 1 card stays $150', menuOk.vip1);
-check('storefront 20 pack stays $20', menuOk.pack);
+check('storefront VIP 3 card is $350', menuOk.vip3, JSON.stringify(menuOk));
+check('storefront VIP 1 card is $150', menuOk.vip1);
+check('storefront 20 pack is $20', menuOk.pack);
+check('storefront 10 pack is $10', menuOk.ten);
+check('storefront 50 pack is $50', menuOk.fifty);
+check('storefront vault is $75', menuOk.vault);
+check('storefront promo is $55', menuOk.promo);
+check('storefront B/G folder is $35', menuOk.bg);
+check('storefront dick rating is $35', menuOk.rating);
+check('storefront custom 1-min is $50', menuOk.custom);
+check('old copy-order control is gone', menuOk.oldCopy === false && menuOk.oldUpsell === false);
 await store.evaluate(() => {
-  [...document.querySelectorAll('.add-product')].find((el) => el.dataset.name === '20 Pics + Videos').click();
+  [...document.querySelectorAll('.add-product')].find((el) => el.dataset.name === '20 pics/vids').click();
 });
 await store.waitForSelector('#bagPill.visible');
 await store.evaluate(() => document.getElementById('reviewOrder').click());

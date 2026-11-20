@@ -278,7 +278,7 @@
     }
     if(exclusive==='of')cart=cart.filter(function(i){return i.exclusive!=='of'});
     if(exclusive==='vault'&&cart.some(function(i){return i.exclusive==='membership'&&/VIP/i.test(i.name)})){
-      document.getElementById('cartFeedback').textContent='Dropbox access is already included in your selected VIP Daddy package.';
+      document.getElementById('cartFeedback').textContent='Dropbox access is already included in the VIP you selected.';
       openBag();return false;
     }
     var item=cart.find(function(existing){return existing.name===name});
@@ -363,52 +363,16 @@
     if(!cart.length){
       var empty=document.createElement('p');empty.className='empty-cart';empty.textContent='Nothing in here yet. Bold of you to scroll this far empty-handed.';lines.append(empty);
     }
-    var dickRateUpsell=document.getElementById('dickRateUpsell');
-    if(dickRateUpsell)dickRateUpsell.hidden=cart.some(function(item){return /dick rate/i.test(item.name)});
     document.getElementById('drawerTotal').textContent=money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + quote':'');
     document.getElementById('bagTotal').textContent=money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + quote':'');
     document.getElementById('bagCount').textContent=String(cart.reduce(function(sum,item){return sum+item.qty},0));
     document.getElementById('monthlyNote').hidden=!cart.some(function(item){return item.exclusive==='membership'||item.exclusive==='of'});
-    document.getElementById('copyOrder').disabled=cart.length===0;
     document.getElementById('confirmOrder').disabled=cart.length===0;
     bagPill.classList.toggle('visible',cart.length>0);
     bagPill.setAttribute('aria-label','Open your bag, '+cart.reduce(function(sum,item){return sum+item.qty},0)+' items, '+money(cartTotal()));
     syncProductButtons();
     saveCart();
   }
-  function orderMessage(){
-    return 'Hey Evie, here are my picks:\n\n'+cart.map(function(item){
-      return '• '+item.qty+' × '+item.name+' — '+(item.exclusive==='quote'?'PRICE TO CONFIRM':money(item.price*item.qty));
-    }).join('\n')+'\n\nEstimated total for priced items: '+money(cartTotal())+(cart.some(function(i){return i.exclusive==='quote'})?' + custom quote(s) pending':'')+
-    '\n\nMy Snap/Telegram: [your username]'+
-    '\nExtras or requests: [optional]'+
-    '\n\nPlease confirm the amount, delivery timing, any final custom quotes, and payment details before I pay.'+
-    '\n\nI confirm I am 18+ and agree to the Fulfillment Agreement.';
-  }
-  async function copyOrderText(){
-    var message=orderMessage();
-    if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(message);
-    else{
-      var area=document.createElement('textarea');area.value=message;area.style.position='fixed';area.style.opacity='0';
-      document.body.appendChild(area);area.select();var ok=document.execCommand('copy');area.remove();
-      if(!ok)throw new Error('Copy not supported');
-    }
-  }
-  function showPaymentLinks(){
-    var amount=cartTotal().toFixed(2);
-    var links=document.getElementById('paymentLinks');
-    var note=document.getElementById('paymentLinksNote');
-    document.getElementById('venmoPaymentLink').href='https://venmo.com/Barfiesfunds';
-    document.getElementById('cashAppPaymentLink').href='https://cash.app/$taylorgann90/'+encodeURIComponent(amount);
-    note.textContent=cart.some(function(item){return item.exclusive==='quote'})
-      ? 'Prefilled with the priced items so far. Wait for Evie to confirm any custom quote and your final total before sending; you can edit the amount in the app.'
-      : 'Your order total is prefilled. You can edit the amount in the app.';
-    links.hidden=false;
-  }
-  document.getElementById('copyOrder').addEventListener('click',async function(){
-    try{await copyOrderText();document.getElementById('cartFeedback').textContent='Copied! Paste into your preferred chat with Evie.';showPaymentLinks()}
-    catch(e){document.getElementById('cartFeedback').textContent='Copy unavailable. Please copy your item list manually.'}
-  });
   const reviewOrder=document.getElementById('reviewOrder');
   if(reviewOrder)reviewOrder.addEventListener('click',function(){
     if(!cart.length){
@@ -424,8 +388,6 @@
     saveCart();
     window.location.assign('checkout.html');
   });
-  var dickRateButton=document.getElementById('addDickRateUpsell');
-  if(dickRateButton)dickRateButton.addEventListener('click',function(){addItem('Dick rate add-on',25,null)});
   loadCart();
   renderCart();
   window.EvieCart = {

@@ -17,16 +17,16 @@
     maxQty: 20,
     maxTip: 500,
     items: [
-      {id: 'bundle10', name: '10 pics/vids', price: 10, storefrontName: '10 Items \u00b7 This Month\u2019s Set', storefrontPrice: 10},
-      {id: 'bundle20', name: '20 pics/vids', price: 20, storefrontName: '20 Pics + Videos', storefrontPrice: 20},
-      {id: 'bundle50', name: '50 pics/vids', price: 50, storefrontName: '50 Items + Live Teasy Snaps', storefrontPrice: 50},
-      {id: 'deluxe', name: 'Deluxe Dropbox (900+ vault)', price: 75, storefrontName: 'The Dropbox \u00b7 800+ Pieces', storefrontPrice: 75, exclusive: 'vault'},
-      {id: 'deluxe55', name: 'Deluxe Dropbox Today Promo', price: 55, exclusive: 'vault'},
-      {id: 'bg', name: 'B/G Folder (3 vids)', price: 35},
-      {id: 'dickrate', name: 'Dick Rating', price: 35, storefrontName: 'Dick Rate \u00b7 Video', storefrontPrice: 35},
-      {id: 'custom1', name: 'Custom 1-min Video', price: 50},
-      {id: 'vip1', name: 'VIP 1 Month', price: 150, storefrontName: 'VIP \u00b7 1 Month GFE', storefrontPrice: 150, exclusive: 'membership'},
-      {id: 'vip3', name: 'VIP 3 Months', price: 350, storefrontName: 'VIP \u00b7 3 Months GFE', storefrontPrice: 300, exclusive: 'membership'}
+      {id: 'bundle10', name: '10 pics/vids', price: 10, storefrontName: '10 pics/vids', storefrontPrice: 10},
+      {id: 'bundle20', name: '20 pics/vids', price: 20, storefrontName: '20 pics/vids', storefrontPrice: 20},
+      {id: 'bundle50', name: '50 pics/vids', price: 50, storefrontName: '50 pics/vids', storefrontPrice: 50},
+      {id: 'deluxe', name: 'Deluxe Dropbox (900+ vault)', price: 75, storefrontName: 'Deluxe Dropbox (900+ vault)', storefrontPrice: 75, exclusive: 'vault'},
+      {id: 'deluxe55', name: 'Deluxe Dropbox Today Promo', price: 55, storefrontName: 'Deluxe Dropbox Today Promo', storefrontPrice: 55, exclusive: 'vault'},
+      {id: 'bg', name: 'B/G Folder (3 vids)', price: 35, storefrontName: 'B/G Folder (3 vids)', storefrontPrice: 35},
+      {id: 'dickrate', name: 'Dick Rating', price: 35, storefrontName: 'Dick Rating', storefrontPrice: 35},
+      {id: 'custom1', name: 'Custom 1-min Video', price: 50, storefrontName: 'Custom 1-min Video', storefrontPrice: 50},
+      {id: 'vip1', name: 'VIP 1 Month', price: 150, storefrontName: 'VIP 1 Month', storefrontPrice: 150, exclusive: 'membership'},
+      {id: 'vip3', name: 'VIP 3 Months', price: 350, storefrontName: 'VIP 3 Months', storefrontPrice: 350, exclusive: 'membership'}
     ],
     aliases: {
       '10 pics/vids': 'bundle10',
@@ -68,13 +68,11 @@
       {name: 'Moan Your Name', price: 10},
       {name: 'JOI Add-On', price: 20},
       {name: 'Voice Note', price: 10},
-      {name: 'Dick Rate \u00b7 Text', price: 20},
       {name: 'Sexting \u00b7 10 Minutes', price: 30},
       {name: 'Sexting \u00b7 15 Minutes', price: 40},
       {name: 'Sexting \u00b7 30 Minutes', price: 75},
       {name: 'Live Snap Show \u00b7 2 Minutes', price: 35},
-      {name: 'Live Snap Show \u00b7 4 Minutes', price: 60},
-      {name: 'Dick rate add-on', price: 25}
+      {name: 'Live Snap Show \u00b7 4 Minutes', price: 60}
     ]
   };
 })(typeof window !== 'undefined' ? window : globalThis);

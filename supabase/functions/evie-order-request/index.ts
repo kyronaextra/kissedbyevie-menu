@@ -55,13 +55,11 @@ const CHECKOUT_EXTRAS: {name: string; cents: number; single?: boolean}[] = [
   {name: "Moan Your Name", cents: 1000},
   {name: "JOI Add-On", cents: 2000},
   {name: "Voice Note", cents: 1000},
-  {name: "Dick Rate \u00b7 Text", cents: 2000},
   {name: "Sexting \u00b7 10 Minutes", cents: 3000},
   {name: "Sexting \u00b7 15 Minutes", cents: 4000},
   {name: "Sexting \u00b7 30 Minutes", cents: 7500},
   {name: "Live Snap Show \u00b7 2 Minutes", cents: 3500},
   {name: "Live Snap Show \u00b7 4 Minutes", cents: 6000},
-  {name: "Dick rate add-on", cents: 2500},
 ];
 const PROOF_BUCKET = "evie-payment-proofs";
 const MAX_PROOF_BYTES = 5 * 1024 * 1024;

@@ -84,7 +84,7 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 
 Public page: https://kissedbyevie-menu.onrender.com/checkout.html
 
-The storefront bag’s **Continue to checkout** button opens the same page and carries the bag in `sessionStorage`. Menu cards keep their own prices. VIP 3 Months is **$350** on the payment page and **$300** on the menu card; the checkout line says so.
+The storefront bag’s **Continue to checkout** button opens the same page and carries the bag in `sessionStorage`. Menu cards use the checkout names and prices, including VIP 3 Months at **$350** and the 900+ Dropbox at **$75** (today’s promo is **$55**).
 
 The browser only calls `evie-order-request` with the publishable key. The service-role key stays in Supabase Edge Function secrets. Proof images go to the private `evie-payment-proofs` bucket. Evie reviews them in Admin → Orders. A saved order is not a payment confirmation.
 
