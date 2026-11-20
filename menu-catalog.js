@@ -18,8 +18,8 @@ const products=[
    description:'Fifty pics and vids.'},
   {section:'BestSellers',name:'Deluxe Dropbox (900+ vault)',price:75,group:'vault',badge:'BEST VALUE',
    description:'The whole vault. 900+ pics and videos. One payment, lifetime access.',
-   note:'Today’s promo is $55 for the same vault. Pick one Dropbox price, not both.'},
-  {section:'BestSellers',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',
+   note:'One Dropbox per order. Checkout charges $75.'},
+  {section:'BestSellers',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
    description:'Same 900+ vault, today’s price. This is not an add-on to the $75 Dropbox.'},
   {section:'BestSellers',name:'B/G Folder (3 vids)',price:35,
    description:'Three B/G videos. That’s the folder.'},
@@ -37,9 +37,9 @@ const products=[
    note:'Checkout charges $350 for the three months.'},
   {section:'Dropbox',name:'Deluxe Dropbox (900+ vault)',price:75,group:'vault',
    description:'The whole thing. 900+ pics and videos. Lifetime access.',
-   note:'JOI, B/G, solo, clips, and the rest of the vault. The $55 card is today’s price for this same vault.',
+   note:'JOI, B/G, solo, clips, and the rest of the vault.',
    badge:'900+ ITEMS'},
-  {section:'Dropbox',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',
+  {section:'Dropbox',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
    description:'Same 900+ vault for $55 today.'},
   {section:'Dropbox',name:'B/G Folder (3 vids)',price:35,
    description:'Three B/G videos.'},
@@ -83,10 +83,10 @@ const products=[
 ];
 const notes={
   "BestSellers": [
-    "These card prices are the checkout prices. 10 is $10, 20 is $20, 50 is $50, the vault is $75 or $55 today, B/G is $35, a dick rating is $35, a 1-minute custom is $50, VIP is $150 or $350."
+    "These card prices are the checkout prices. 10 is $10, 20 is $20, 50 is $50, the vault is $75, B/G is $35, a dick rating is $35, a 1-minute custom is $50, VIP is $150 or $350."
   ],
   "Dropbox": [
-    "The $55 promo is today’s price for the 900+ vault. It does not stack on the $75 Dropbox."
+    "The 900+ vault is $75. One Dropbox per order."
   ],
   "VIP": [
     "VIP 1 Month is $150. VIP 3 Months is $350. GFE is the separate $70 starter and does not include the vault."
@@ -160,10 +160,10 @@ categories.forEach(([section],i)=>{
  panel.setAttribute('role','tabpanel');
  panel.setAttribute('aria-labelledby','tab-'+section);
  panel.hidden=i!==0;
- const categoryProducts=products.filter(p=>p.section===section);
+ const categoryProducts=products.filter(p=>p.section===section && !p.promoOnly);
  if(section==='Customs'){
    const customsIntro=el('div','customs-intro');
-   customsIntro.append(el('h3','','Custom Content'),el('p','','This is the part I actually like. Genuinely. Ask anyone who’s ordered. Give me a real idea and I’ll get into it. You’ll be able to tell.'),el('p','','Squirting customs are my favorite to make. Tell me where to aim. I’ll make a real mess of it and send you the evidence.'));
+   customsIntro.append(el('p','','Tell me the idea. Nothing starts until I agree.'));
    panel.append(customsIntro);
  }
  if(section==='More'){
@@ -244,8 +244,35 @@ categories.forEach(([section],i)=>{
      });
      info.append(addonSet);
    }
+   const checkoutItemIds={
+    '10 pics/vids':'bundle10','20 pics/vids':'bundle20','50 pics/vids':'bundle50',
+    'Deluxe Dropbox (900+ vault)':'deluxe','B/G Folder (3 vids)':'bg','Dick Rating':'dickrate',
+    'Custom 1-min Video':'custom1','VIP 1 Month':'vip1','VIP 3 Months':'vip3'
+   };
+   const sku=checkoutItemIds[p.name];
+   let payLink=null;
+   if(sku){
+    payLink=el('a','menu-pay-link','Checkout');
+    payLink.href='checkout.html?item='+sku;
+   }else{
+    payLink=el('button','menu-pay-link checkout-now','Checkout');
+    payLink.type='button';
+   }
    refreshChoices();
-   const buy=el('div','menu-v2-buy');buy.append(amount,action);
+   function syncPayLink(){
+    if(payLink.tagName!=='BUTTON')return;
+    payLink.dataset.name=action.dataset.name;
+    payLink.dataset.price=action.dataset.price;
+    if(action.dataset.exclusive)payLink.dataset.exclusive=action.dataset.exclusive;
+    else delete payLink.dataset.exclusive;
+    payLink.disabled=action.disabled;
+   }
+   const originalRefresh=refreshChoices;
+   refreshChoices=function(){originalRefresh();syncPayLink();};
+   refreshChoices();
+   const actions=el('div','menu-actions');
+   actions.append(action,payLink);
+   const buy=el('div','menu-v2-buy');buy.append(amount,actions);
    card.append(info,buy);
    panel.append(card);
    if(p.name==='Sexting · 30 Minutes'){

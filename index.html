@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script defer src="menu-catalog.js?v=20261120-menu-1"></script>
+<script defer src="menu-catalog.js?v=20261120-menu-3"></script>
 <script defer src="app.js?v=20261120-menu-1"></script>
 <script defer src="vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="evie-nav.js?v=20261028-explore-1"></script>
@@ -398,6 +398,59 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 @media(max-width:600px){.stream-wheel-hero{padding:15px 12px 32px}.stream-wheel-frame{border-radius:8px}.stream-wheel-copy{gap:15px;padding-top:19px}.stream-wheel-copy h2{font-size:clamp(32px,9vw,44px)}.stream-wheel-copy p.stream-wheel-subtitle{max-width:370px;font-size:clamp(15px,4vw,18px)}.stream-wheel-cta{width:min(100%,360px);min-height:52px}}
 @media(prefers-reduced-motion:reduce){.stream-wheel-cta{transition:none}}
 </style>
+<style id="compact-menu">
+html,body{overflow-x:hidden}
+.menu-home-header{flex-wrap:nowrap!important;gap:8px;width:100%;max-width:100%;padding:8px 12px!important;overflow:hidden;box-sizing:border-box}
+.menu-home-header .wordmark{flex:0 0 auto}
+.jump-nav{display:flex!important;flex:1;gap:6px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.jump-nav a{display:inline-flex!important;align-items:center;min-height:32px;padding:6px 9px!important;border-radius:999px!important;font-size:11px!important;letter-spacing:.02em!important;white-space:nowrap}
+@media(max-width:430px){.menu-home-header .wordmark{letter-spacing:.08em!important;font-size:10px!important}.jump-nav a{padding:6px 7px!important;font-size:10px!important}}
+html{scroll-padding-top:56px!important}
+#boutique,#pay,#about,.stream-wheel-hero{scroll-margin-top:8px!important}
+.stream-wheel-hero{padding:8px 12px 8px!important}
+.stream-wheel-frame{width:min(100%,360px)!important;max-height:96px!important}
+.stream-wheel-image{max-height:96px!important;object-fit:cover;object-position:center 30%}
+.stream-wheel-copy{gap:4px!important;padding-top:6px!important}
+.stream-wheel-copy h2{font-size:clamp(24px,4vw,34px)!important}
+.stream-wheel-copy p.stream-wheel-subtitle{display:none!important}
+.stream-wheel-cta{min-height:36px!important;padding:8px 14px!important}
+.stripchat-photo-section{padding:6px 12px!important}
+.stripchat-photo-frame{width:min(100%,720px)!important}
+.stripchat-photo-frame img{aspect-ratio:16/4!important;max-height:84px!important;object-fit:cover!important;object-position:center 30%!important}
+.of-month-promo,.my-club-promo{padding:10px 14px!important}
+.of-month-promo-inner,.my-club-promo-inner{flex-direction:row!important;align-items:center!important;gap:10px!important}
+.of-month-promo h2,.my-club-promo h2{font-size:clamp(22px,4vw,34px)!important;line-height:1!important}
+.of-month-promo-description,.my-club-promo-description{margin-top:2px!important;font-size:13px!important;line-height:1.3!important}
+.of-month-promo-cta,.my-club-promo-cta{width:auto!important;min-height:36px!important;padding:8px 12px!important}
+.my-club-promo-prices{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:4px!important}
+.my-club-promo-prices strong,.my-club-monthly,.my-club-price span{font-size:12px!important;line-height:1.3!important}
+.my-club-price span,.my-club-promo-description,.of-month-promo-description{display:none!important}
+.my-club-monthly{margin:0!important}
+.of-month-promo-label,.my-club-promo-label{margin:0 0 2px!important}
+.menu-home-main .boutique-section{padding:18px 14px 28px!important}
+.menu-home-main .boutique-top h2,.boutique-top h2{font-size:clamp(36px,6vw,64px)!important;margin:4px 0 8px!important;line-height:.95!important}
+.menu-home-main .boutique-top>p:last-child{margin-top:6px!important}
+#boutique .menu-picker-intro{margin-bottom:6px}
+#boutique,#boutiqueCatalog{max-width:100%;overflow-x:clip}
+#boutique .menu-category-controls,#boutique .category-tabs{max-width:100%;min-width:0}
+#boutique .category-tabs{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:6px!important;padding:4px 0 8px!important;grid-template-columns:none!important}
+#boutique .category-tab{flex:0 0 auto;min-height:34px!important;padding:6px 12px!important;white-space:nowrap!important;font-size:12px!important}
+#boutique .product-panel[hidden],#boutique .menu-v2-panel[hidden]{display:none!important}
+#boutique .product-panel:not([hidden]),#boutique .menu-v2-panel:not([hidden]){display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+#boutique .product-card,#boutique .menu-v2-card{min-height:0!important;min-width:0;padding:10px!important;gap:8px!important;grid-column:auto!important;overflow:hidden}
+#boutique .product-card h3,#boutique .card-label{font-size:15px!important;line-height:1.2!important;margin:0 0 4px!important}
+#boutique .menu-v2-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0!important;font-size:12px!important;line-height:1.35!important}
+#boutique .menu-v2-features,#boutique .menu-v2-fine,#boutique .menu-v2-notes,#boutique .customs-intro h3{display:none!important}
+#boutique .customs-intro{grid-column:1/-1;margin:0}
+#boutique .customs-intro p{margin:0;font-size:13px}
+#boutique .menu-v2-buy{padding-top:6px;gap:6px}
+#boutique .menu-v2-buy .offer-price{font-size:18px!important}
+#boutique .menu-actions{display:flex;gap:6px;min-width:0;max-width:100%}
+#boutique .menu-actions .offer-btn{width:auto!important;flex:1;min-height:36px!important;min-width:0!important;padding:6px 8px!important;font-size:12px!important}
+#boutique .menu-actions .menu-v2-add-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#boutique .menu-pay-link{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:6px 10px;border-radius:999px;border:1px solid #ff6bc9;background:transparent;color:#ffd2ea;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
+@media(min-width:900px){#boutique .product-panel:not([hidden]),#boutique .menu-v2-panel:not([hidden]){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+</style>
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -424,7 +477,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
     </section>
   </div>
 </div>
-<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav aria-label="Main navigation"><a href="#boutique">MENU</a><a href="checkout.html">PAY</a><a href="#about">ABOUT</a><a href="gallery.html">GALLERY</a></nav>
+<header class="menu-home-header"><a class="wordmark" href="#boutique">KISSEDBYEVIE</a><nav class="jump-nav" aria-label="Jump to"><a href="#boutique">Menu</a><a href="#pay">Pay</a><a href="checkout.html">Checkout</a><a href="gallery.html">Gallery</a><a href="#about">About</a></nav>
 </header>
 
 
@@ -487,18 +540,17 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
   <div class="menu-order-panel" id="work-order">
     <p class="eyebrow">SO. ARE YOU READY, OR WHAT?</p>
     <h3>Your picks. Then checkout.</h3>
-    <p>Add what you want. Checkout totals it, then you pay on Venmo or Cash App and send a screenshot.</p>
-    <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Review bag</button>
+    <p>Add what you want. Venmo and Cash App go through checkout, with a screenshot. Apple Pay, Zelle, Amazon e-gift, and crypto stay on this page.</p>
+    <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Checkout</button>
     <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your picks above first. I can’t read your mind.</p>
     <p class="fine-print"><a href="checkout.html">Open the payment page</a> if you already know the total.</p>
   </div>
 </section>
 
 <!-- PAYMENT OPTIONS -->
-<section class="payments" aria-labelledby="payHeading">
+<section class="payments" id="pay" aria-labelledby="payHeading">
   <h2 id="payHeading">How to pay</h2>
-  <p class="sub">Venmo and Cash App are on the checkout page, with the memo and a payment screenshot.</p>
-  <p class="sub"><a href="checkout.html">Open checkout</a></p>
+  <p class="sub">Venmo and Cash App go through <a href="checkout.html">checkout</a>, with the memo and a payment screenshot. Apple Pay, Zelle, Amazon e-gift, and crypto stay on this page.</p>
   <p class="sub">For orders over $120, I may limit which payment methods are available because of dispute fraud.</p>
   <div class="pay-grid">
     <span class="pay-chip">Apple Pay</span>
@@ -592,7 +644,7 @@ body{background-image:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),var(--evi
 </section>
 
 </main>
-<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="checkout.html">Checkout</a><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="https://www.snapchat.com/add/eviesquirts?share_id=LpEkwpIpTQOkzDiRbo5bVg&amp;locale=en_US" target="_blank" rel="noopener noreferrer">Add me on Snapchat</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
+<footer class="menu-home-footer"><span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span><a href="checkout.html">Checkout</a><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a><a href="fulfillment.html">Fulfillment Agreement</a><a href="privacy.html">Privacy Policy</a><a href="disclosure.html">Disclosure</a><a href="#about">About</a><a href="account.html">My account</a></footer>
 <button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag"><span id="bagCount">0</span><span>Bag · <strong id="bagTotal">$0</strong></span></button>
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
 <dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">

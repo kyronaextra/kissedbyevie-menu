@@ -12,8 +12,10 @@
     cashAppSlug: 'taylorgann90',
     xUser: 'kissedbyevie',
     xWeb: 'https://x.com/kissedbyevie?s=11',
-    telegramUser: 'eviesquirts',
-    telegramWeb: 'https://t.me/eviesquirts',
+    telegramUser: 'kissedbyevie',
+    telegramWeb: 'https://t.me/kissedbyevie',
+    telegramChannelUser: 'eviesquirts',
+    telegramChannelWeb: 'https://t.me/eviesquirts',
     maxQty: 20,
     maxTip: 500,
     items: [

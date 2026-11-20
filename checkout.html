@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="checkout.css?v=20261120-checkout-1">
+  <link rel="stylesheet" href="checkout.css?v=20261120-checkout-4">
 </head>
 <body>
   <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -36,18 +36,35 @@
     </div>
   </div>
 
+  <header class="checkout-bar">
+    <a class="bar-brand" href="index.html#boutique">Menu</a>
+    <nav class="step-nav" aria-label="Checkout steps">
+      <a href="#itemsCard">Items</a>
+      <a href="#payCard">Pay</a>
+      <a href="#shotCard">Screenshot</a>
+    </nav>
+  </header>
   <main class="wrap" id="checkoutApp">
-    <div class="top">
-      <a class="wordmark" href="index.html">Kissed by Evie</a>
-      <p class="handle">@kissedbyevie</p>
-      <p class="page-kicker">Checkout</p>
-      <a class="back-link" href="index.html#boutique">Back to menu</a>
-    </div>
-
-    <form id="checkoutForm">
-      <section class="card" aria-labelledby="itemsTitle">
-        <h2 class="section-title" id="itemsTitle">Item(s):</h2>
+    <form id="checkoutForm" class="checkout-layout">
+      <div class="checkout-order">
+      <section class="card" id="itemsCard" aria-labelledby="itemsTitle">
+        <div class="order-top">
+          <h2 class="section-title" id="itemsTitle">Your order</h2>
+          <p class="amount-value" id="amountValue">$0.00</p>
+        </div>
+        <p class="amount-note" id="amountNote">Add an item to see your total</p>
         <p class="sync-note" id="syncNote" hidden></p>
+        <div id="selectedSummary" hidden></div>
+        <div class="promo-row">
+          <label for="promoCode">Promo code</label>
+          <div class="promo-field">
+            <input id="promoCode" type="text" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Optional">
+            <button type="button" class="ghost" id="applyPromo">Apply</button>
+          </div>
+          <p class="promo-status" id="promoStatus" hidden></p>
+        </div>
+        <button type="button" class="catalog-toggle" id="toggleCatalog" aria-expanded="true" aria-controls="catalogPanel">Browse / add more items</button>
+        <div id="catalogPanel">
         <div id="itemList"></div>
         <div class="tip-row">
           <label for="tipInput">Custom amount / tip</label>
@@ -56,20 +73,16 @@
             <input id="tipInput" type="number" min="0" max="500" step="0.01" inputmode="decimal" placeholder="0" value="">
           </div>
         </div>
+        </div>
       </section>
 
-      <section class="card" aria-labelledby="recsTitle">
-        <h2 class="section-title" id="recsTitle">Recommended items:</h2>
+      <section class="card recs-card" aria-labelledby="recsTitle">
+        <h2 class="section-title" id="recsTitle">Add one</h2>
         <div class="recs" id="recs"></div>
       </section>
-
-      <section class="card amount-card" aria-labelledby="amountTitle">
-        <h2 class="section-title" id="amountTitle">Amount:</h2>
-        <p class="amount-value" id="amountValue">$0.00</p>
-        <p class="amount-note" id="amountNote">Add an item to see your total</p>
-      </section>
-
-      <section class="card" aria-labelledby="payTitle">
+      </div>
+      <div class="checkout-pay">
+      <section class="card" id="payCard" aria-labelledby="payTitle">
         <h2 class="section-title" id="payTitle">Payment method:</h2>
         <div class="pay-choice">
           <div class="pay-card is-on" data-method="venmo">
@@ -82,7 +95,7 @@
                 <code>@Barfiesfunds</code>
                 <button type="button" class="ghost" data-copy="@Barfiesfunds">Copy</button>
               </div>
-              <div class="memo">please write <strong>“for barfie’s vet bill, cat food or care”</strong> in memo</div>
+              <div class="memo">please write <strong class="memo-text">Food</strong> in the memo</div>
               <button type="button" class="ghost" data-copy-memo style="margin-bottom:10px">Copy Memo</button>
               <button type="button" class="app-btn" id="openVenmo">Open Venmo App</button>
             </div>
@@ -98,7 +111,7 @@
                 <code>$taylorgann90</code>
                 <button type="button" class="ghost" data-copy="$taylorgann90">Copy</button>
               </div>
-              <div class="memo">please write <strong>“for barfie’s vet bill, cat food or care”</strong> in memo</div>
+              <div class="memo">please write <strong class="memo-text">Food</strong> in the memo</div>
               <button type="button" class="ghost" data-copy-memo style="margin-bottom:10px">Copy Memo</button>
               <button type="button" class="app-btn" id="openCash">Open Cash App</button>
             </div>
@@ -118,17 +131,21 @@
           <label>X username
             <input id="xUser" type="text" name="x" autocomplete="username" maxlength="80" placeholder="@username">
           </label>
+          <label>Notes / custom request details
+            <textarea id="orderNotes" name="notes" maxlength="500" rows="3" placeholder="Customs, ratings, add-ons, or anything I should know. Optional."></textarea>
+          </label>
+          <p class="notes-count" id="notesCount">0 / 500</p>
         </div>
         <p class="thanks">So I can keep track of who’s paid,<br>Thank you!</p>
       </section>
 
-      <section class="card" aria-labelledby="uploadTitle">
-        <h2 class="section-title" id="uploadTitle">(Upload proof of payment here)</h2>
+      <section class="card" id="shotCard" aria-labelledby="uploadTitle">
+        <h2 class="section-title" id="uploadTitle">Payment screenshot (required)</h2>
         <label class="upload" id="uploadBox">
-          <input id="proofInput" type="file" accept="image/*">
+          <input id="proofInput" type="file" accept="image/*" aria-required="true">
           <span class="upload-copy">
             <strong>Tap to upload a screenshot</strong>
-            Payment screenshot, image files only
+            Payment screenshot, image files only. Required before you submit.
           </span>
           <img class="preview-shot" id="proofPreview" alt="Uploaded payment screenshot preview">
         </label>
@@ -144,6 +161,7 @@
         <p class="err" id="formErr" role="alert" hidden></p>
         <button type="button" class="ghost" id="copySummary" hidden>Copy summary</button>
       </section>
+      </div>
     </form>
 
     <section class="card" id="returnChat" aria-labelledby="chatTitle">
@@ -151,7 +169,8 @@
       <p class="chat-note">Opens the app version on your phone.</p>
       <div class="chat-links">
         <a class="chat-btn" id="openX" href="https://x.com/kissedbyevie?s=11">X  &gt;&gt;  @kissedbyevie</a>
-        <a class="chat-btn" id="openTg" href="https://t.me/eviesquirts">Telegram  &gt;&gt;  eviesquirts</a>
+        <a class="chat-btn" id="openTg" href="https://t.me/kissedbyevie">Telegram DM  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn chat-btn-secondary" id="openTgChannel" href="https://t.me/eviesquirts">NSFW Channel  &gt;&gt;  @eviesquirts</a>
       </div>
     </section>
 
@@ -162,21 +181,24 @@
       <ul class="confirm-list" id="confirmItems"></ul>
       <div class="confirm-total"><span>Amount</span><strong id="confirmTotal">$0.00</strong></div>
       <p class="confirm-meta" id="confirmPay"></p>
+      <p class="confirm-meta" id="confirmMemo" hidden></p>
       <p class="confirm-meta" id="confirmUsers"></p>
+      <p class="confirm-meta" id="confirmNotes" hidden></p>
       <img class="confirm-shot" id="confirmShot" alt="Payment screenshot" hidden>
       <p class="confirm-meta" id="confirmProof"></p>
       <h3 class="section-title" style="margin-top:16px">Return to chat …</h3>
       <p class="chat-note">Opens the app version on your phone.</p>
       <div class="chat-links">
         <a class="chat-btn" id="openX2" href="https://x.com/kissedbyevie?s=11">X  &gt;&gt;  @kissedbyevie</a>
-        <a class="chat-btn" id="openTg2" href="https://t.me/eviesquirts">Telegram  &gt;&gt;  eviesquirts</a>
+        <a class="chat-btn" id="openTg2" href="https://t.me/kissedbyevie">Telegram DM  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn chat-btn-secondary" id="openTgChannel2" href="https://t.me/eviesquirts">NSFW Channel  &gt;&gt;  @eviesquirts</a>
       </div>
       <button type="button" class="edit-btn" id="editOrder">Edit order</button>
     </section>
 
     <div class="sticky-amount" aria-live="polite">
-      <span>Amount</span>
-      <strong id="stickyAmount">$0.00</strong>
+      <div class="sticky-total"><span>Amount</span><strong id="stickyAmount">$0.00</strong></div>
+      <a class="sticky-jump" id="stickyJump" href="#payCard">Pay</a>
     </div>
   </main>
 
@@ -215,9 +237,10 @@
     });
   })();
   </script>
-  <script src="checkout-catalog.js?v=20261120-checkout-1"></script>
+  <script type="module" src="supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
+  <script src="checkout-catalog.js?v=20261120-checkout-4"></script>
   <script src="member-config.js"></script>
   <script src="order-config.js"></script>
-  <script src="checkout.js?v=20261120-checkout-1"></script>
+  <script src="checkout.js?v=20261120-checkout-4"></script>
 </body>
 </html>

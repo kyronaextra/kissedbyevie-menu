@@ -8,6 +8,7 @@
   const TIP_KEY = 'evie-checkout-tip';
   const METHOD_KEY = 'evie-checkout-method';
   const HANDLES_KEY = 'evie-checkout-handles';
+  const NOTES_KEY = 'evie-checkout-notes';
   const REQUEST_KEY = 'evie-checkout-request';
   const TERMS_KEY = 'evie-fulfillment-agreement-accepted-2026-10-30';
   const HANDLE_RE = /^[A-Za-z0-9_.@-]{2,80}$/;
@@ -27,7 +28,11 @@
     proofFile: null,
     requestId: '',
     submitted: false,
-    syncNotes: []
+    syncNotes: [],
+    promoUnlocked: false,
+    promoCode: '',
+    promoNotice: '',
+    memo: ''
   };
 
   function escapeHtml(value) {
@@ -70,6 +75,53 @@
     if (listed === item.price) return '';
     return 'Menu lists ' + money(listed) + '. This payment link uses ' + money(item.price) + '.';
   }
+  function itemIdsFromParams(params) {
+    const ids = [];
+    params.getAll('item').forEach((raw) => {
+      String(raw || '').split(',').forEach((part) => {
+        const id = part.trim();
+        if (id) ids.push(id);
+      });
+    });
+    return ids;
+  }
+  function acceptedPromoCode(value) {
+    const token = String(value || '').trim().toLowerCase();
+    if (token === 'today55' || token === 'evie55') return token;
+    return '';
+  }
+  function urlRequestsPromo(params, itemIds) {
+    return String(params.get('promo') || '').trim() === '55' || itemIds.indexOf('deluxe55') !== -1;
+  }
+  function methodFromParam(value) {
+    const method = String(value || '').trim().toLowerCase();
+    if (method === 'venmo') return 'venmo';
+    if (method === 'cashapp') return 'cashapp';
+    return '';
+  }
+  function notesText() {
+    const field = $('orderNotes');
+    return field ? String(field.value || '').slice(0, 500) : '';
+  }
+  function promoCodeForOrder() {
+    const field = $('promoCode');
+    const typed = acceptedPromoCode(field && field.value);
+    if (typed) return typed;
+    if (state.promoCode) return state.promoCode;
+    if (state.promoUnlocked && state.qty.deluxe55) return '55';
+    return '';
+  }
+  function showPromoStatus() {
+    const status = $('promoStatus');
+    if (!status) return;
+    if (!state.promoNotice) {
+      status.hidden = true;
+      status.textContent = '';
+      return;
+    }
+    status.hidden = false;
+    status.textContent = state.promoNotice;
+  }
 
   function readBag() {
     const parsed = readJson(BAG_KEY, []);
@@ -79,10 +131,21 @@
 
   function hydrate() {
     state.syncNotes = [];
+    const params = new URLSearchParams(window.location.search);
+    const urlItems = itemIdsFromParams(params);
+    state.promoUnlocked = urlRequestsPromo(params, urlItems);
+    state.promoCode = '';
+    state.promoNotice = '';
     let vaultId = '';
     readBag().forEach((line) => {
       const qty = Math.max(0, Math.min(catalog.maxQty, Math.round(Number(line.qty))));
       const sku = catalog.aliases[line.name] || '';
+      if (sku === 'deluxe55' && !state.promoUnlocked) {
+        if (!state.syncNotes.some((note) => note.indexOf('$55') !== -1)) {
+          state.syncNotes.push('The $55 Dropbox promo isn’t on this page. Use today’s link or code, or choose the $75 vault.');
+        }
+        return;
+      }
       if (sku && itemById(sku)) {
         if ((sku === 'deluxe' || sku === 'deluxe55') && vaultId && vaultId !== sku) {
           state.syncNotes.push('Deluxe Dropbox and today’s promo are one choice. I kept a single Dropbox on this page.');
@@ -125,21 +188,52 @@
         unrecognized: true
       });
     });
-    const params = new URLSearchParams(window.location.search);
-    params.getAll('item').forEach((id) => {
-      if (!itemById(id) || state.qty[id] > 0) return;
-      if ((id === 'deluxe' || id === 'deluxe55') && state.qty.deluxe + state.qty.deluxe55 > 0) return;
-      state.qty[id] = 1;
-    });
     if (state.extras.some((extra) => extra.unrecognized)) {
       state.syncNotes.push('Something in your bag is not on this payment link. Remove it here, or message Evie to price it.');
     }
+    const vaultAsks = urlItems.filter((id) => id === 'deluxe' || id === 'deluxe55');
+    if (vaultAsks.indexOf('deluxe') !== -1 && vaultAsks.indexOf('deluxe55') !== -1) {
+      state.syncNotes.push('Deluxe Dropbox and today’s promo are one choice. I kept a single Dropbox on this page.');
+    }
+    let urlVault = '';
+    urlItems.forEach((id) => {
+      if (!itemById(id)) return;
+      if (id === 'deluxe55' && !state.promoUnlocked) return;
+      if (id === 'deluxe' || id === 'deluxe55') {
+        urlVault = id;
+        return;
+      }
+      if (state.qty[id] > 0) return;
+      state.qty[id] = 1;
+    });
+    if (urlVault) {
+      const already = state.qty[urlVault];
+      if ((state.qty.deluxe || state.qty.deluxe55) && !already) {
+        state.syncNotes.push('This link picks one Dropbox. I used the Dropbox from the link.');
+      }
+      state.qty.deluxe = 0;
+      state.qty.deluxe55 = 0;
+      delete state.origin.deluxe;
+      delete state.origin.deluxe55;
+      state.qty[urlVault] = Math.max(1, already);
+    } else if (String(params.get('promo') || '').trim() === '55' && !state.qty.deluxe && !state.qty.deluxe55) {
+      state.qty.deluxe55 = 1;
+    }
+    const urlMethod = methodFromParam(params.get('method'));
+    if (urlMethod) state.method = urlMethod;
+    else {
+      const savedMethod = sessionStorage.getItem(METHOD_KEY);
+      if (savedMethod === 'venmo' || savedMethod === 'cashapp') state.method = savedMethod;
+    }
     const savedTip = Number(sessionStorage.getItem(TIP_KEY));
     if (Number.isFinite(savedTip) && savedTip > 0) state.tip = Math.min(catalog.maxTip, savedTip);
-    const savedMethod = sessionStorage.getItem(METHOD_KEY);
-    if (savedMethod === 'venmo' || savedMethod === 'cashapp') state.method = savedMethod;
     state.requestId = sessionStorage.getItem(REQUEST_KEY) || uuid();
     sessionStorage.setItem(REQUEST_KEY, state.requestId);
+    if (state.promoUnlocked) {
+      state.promoNotice = state.qty.deluxe55
+        ? 'Today’s Dropbox promo is unlocked at $55.'
+        : 'Today’s Dropbox promo is unlocked. Add it if you want the $55 vault.';
+    }
   }
 
   function bagLineForSku(item) {
@@ -205,6 +299,7 @@
   function setQty(id, next) {
     const item = itemById(id);
     if (!item) return;
+    if (id === 'deluxe55' && !state.promoUnlocked) return;
     const value = Math.max(0, Math.min(catalog.maxQty, next));
     if ((id === 'deluxe' || id === 'deluxe55') && value > 0) {
       state.qty.deluxe = 0;
@@ -235,7 +330,7 @@
   }
 
   function renderItems() {
-    const rows = items.map((item) => {
+    const rows = items.filter((item) => item.id !== 'deluxe55' || state.promoUnlocked).map((item) => {
       const note = priceNote(item);
       return '<div class="item-row' + (state.qty[item.id] ? ' is-on' : '') + '">' +
         '<div><div class="item-name">' + escapeHtml(item.name) + '</div>' +
@@ -272,12 +367,12 @@
 
   function recommendations() {
     const recs = [];
-    if (!state.qty.deluxe && !state.qty.deluxe55) {
+    if (state.promoUnlocked && !state.qty.deluxe && !state.qty.deluxe55) {
       recs.push({
         id: 'deluxe55',
         name: 'Deluxe Dropbox Today Promo',
         price: 55,
-        blurb: '900+ vault, today only',
+        blurb: '900+ vault, today’s price',
         action: () => { setQty('deluxe55', 1); toast('Added Deluxe Dropbox'); }
       });
     }
@@ -309,7 +404,7 @@
     return recs;
   }
   function renderRecs() {
-    const recs = recommendations();
+    const recs = recommendations().slice(0, 2);
     const box = $('recs');
     if (!recs.length) {
       box.innerHTML = '<p class="recs-empty">You’re all set — nothing else to add right now.</p>';
@@ -336,10 +431,51 @@
       $('amountNote').textContent = count + (count === 1 ? ' item' : ' items') + ' in your order';
     }
   }
+  let catalogReady = false;
+  let catalogOpen = true;
+  function hasPricedSelection() {
+    return payableLines().length > 0 || state.extras.some((extra) => extra.qty > 0);
+  }
+  function renderSelected() {
+    const box = $('selectedSummary');
+    if (!box) return;
+    const rows = payableLines().map((line) => (
+      '<div class="picked"><span>' + escapeHtml(line.qty > 1 ? line.qty + ' × ' + line.name : line.name) + '</span><strong>' + money(line.total) + '</strong></div>'
+    ));
+    state.extras.forEach((extra) => {
+      if (!extra.unrecognized || extra.qty <= 0) return;
+      rows.push('<div class="picked"><span>' + escapeHtml(extra.name) + '</span><strong>Ask Evie</strong></div>');
+    });
+    if (state.tip) rows.push('<div class="picked"><span>Custom amount / tip</span><strong>' + money(state.tip) + '</strong></div>');
+    box.hidden = rows.length === 0;
+    box.innerHTML = rows.join('');
+  }
+  function applyCatalog() {
+    if (!catalogReady) {
+      catalogOpen = !hasPricedSelection();
+      catalogReady = true;
+    }
+    const panel = $('catalogPanel');
+    const button = $('toggleCatalog');
+    if (!panel || !button) return;
+    panel.hidden = !catalogOpen;
+    button.setAttribute('aria-expanded', catalogOpen ? 'true' : 'false');
+    button.textContent = catalogOpen ? 'Hide item list' : 'Browse / add more items';
+  }
+  function syncStickyJump() {
+    const jump = $('stickyJump');
+    if (!jump) return;
+    const ready = payableLines().length > 0 || state.tip > 0;
+    jump.textContent = ready ? 'Pay' : 'Items';
+    jump.setAttribute('href', ready ? '#payCard' : '#itemsCard');
+  }
   function render() {
     renderItems();
     renderRecs();
     renderAmount();
+    renderSelected();
+    applyCatalog();
+    syncStickyJump();
   }
 
   function toast(message) {
@@ -392,7 +528,7 @@
     const amount = total();
     let pay = 'venmo://paycharge?txn=pay&recipients=' + encodeURIComponent(catalog.venmoRecipient);
     if (amount > 0) pay += '&amount=' + encodeURIComponent(amountParam(amount));
-    pay += '&note=' + encodeURIComponent(catalog.memo);
+    pay += '&note=' + encodeURIComponent(state.memo || 'Food');
     return {app: pay, web: catalog.venmoWeb};
   }
   function cashUrls() {
@@ -426,15 +562,40 @@
     if (users.snap) who.push('Snapchat: ' + users.snap);
     if (users.telegram) who.push('Telegram: ' + users.telegram);
     if (users.x) who.push('X: ' + users.x);
+    const note = notesText().trim();
     return [
       'Kissed by Evie checkout',
       lines.join('\n') || 'No priced items',
       'Amount: ' + money(total()),
       'Payment: ' + (state.method === 'cashapp' ? 'Cash App ' + catalog.cashAppHandle : 'Venmo ' + catalog.venmoHandle),
-      'Memo: ' + catalog.memo,
+      'Memo: ' + (state.memo || 'Food'),
       who.join('\n'),
+      note ? 'Notes: ' + note : '',
       'This note is not a payment confirmation.'
     ].filter(Boolean).join('\n');
+  }
+  function applyPromo(raw) {
+    const code = acceptedPromoCode(raw);
+    if (!code) {
+      const status = $('promoStatus');
+      status.hidden = false;
+      status.textContent = 'That code doesn’t unlock a promo.';
+      return false;
+    }
+    state.promoUnlocked = true;
+    state.promoCode = code;
+    if (!state.qty.deluxe && !state.qty.deluxe55) {
+      state.qty.deluxe55 = 1;
+      state.promoNotice = 'Code applied. Deluxe Dropbox Today Promo is added at $55.';
+    } else if (state.qty.deluxe && !state.qty.deluxe55) {
+      state.promoNotice = 'Code applied. The $55 vault is unlocked. Adding it replaces the $75 Dropbox.';
+    } else {
+      state.promoNotice = 'Code applied. Deluxe Dropbox Today Promo stays at $55.';
+    }
+    persistBag();
+    render();
+    showPromoStatus();
+    return true;
   }
   function rotateRequest() {
     state.requestId = uuid();
@@ -486,11 +647,18 @@
     $('confirmPay').textContent = state.method === 'cashapp'
       ? 'Payment method: Cash App  ' + catalog.cashAppHandle
       : 'Payment method: Venmo  ' + catalog.venmoHandle;
+    const memoEl = $('confirmMemo');
+    memoEl.hidden = !state.memo;
+    memoEl.textContent = state.memo ? 'Memo: ' + state.memo : '';
     const bits = [];
     if (users.snap) bits.push('Snapchat: ' + users.snap);
     if (users.telegram) bits.push('Telegram: ' + users.telegram);
     if (users.x) bits.push('X: ' + users.x);
     $('confirmUsers').textContent = bits.join(' · ');
+    const note = notesText().trim();
+    const noteEl = $('confirmNotes');
+    noteEl.hidden = !note;
+    noteEl.textContent = note ? 'Notes: ' + note : '';
     const shot = $('confirmShot');
     if (state.proofUrl) {
       shot.src = state.proofUrl;
@@ -550,6 +718,15 @@
       showError('Confirm you are 18 or older and agree to the Fulfillment Agreement.');
       return;
     }
+    const note = notesText().trim();
+    if (note.length > 500) {
+      showError('Notes need to be 500 characters or fewer.');
+      return;
+    }
+    if (!state.proofFile) {
+      showError('Upload a payment screenshot before submitting.');
+      return;
+    }
     const api = String(window.EVIE_ORDER_API_URL || '').trim();
     if (!api) {
       showError('Checkout saving isn’t connected yet, so this order was not saved. Copy the summary and send it to Evie. Nothing was marked as paid.');
@@ -563,12 +740,15 @@
       snapchat_handle: users.snap,
       telegram_handle: users.telegram,
       x_handle: users.x,
+      notes: note,
+      payment_memo: state.memo,
+      promo_code: promoCodeForOrder(),
       adult_confirmed: true,
       website: ''
     };
     const body = new FormData();
     body.append('order', JSON.stringify(payload));
-    if (state.proofFile) body.append('proof', state.proofFile, state.proofFile.name || 'payment-proof');
+    body.append('proof', state.proofFile, state.proofFile.name || 'payment-proof');
     const button = $('submitCheckout');
     button.disabled = true;
     button.textContent = 'Sending…';
@@ -579,6 +759,11 @@
     try {
       const response = await fetch(api, {method: 'POST', headers: headers, body: body, signal: controller.signal});
       const data = await response.json().catch(() => null);
+      if (response.status === 409 && data && data.memo) {
+        applyMemo(data.memo, true);
+        showError(data.error || 'That memo was just used. Copy the new one into Venmo or Cash App.');
+        return;
+      }
       if (!response.ok || !data || data.ok !== true || !data.order_id) {
         const reason = data && data.error ? data.error : (response.status === 404
           ? 'The payment server isn’t deployed yet.'
@@ -626,9 +811,13 @@
     btn.addEventListener('click', () => copyText(btn.getAttribute('data-copy')));
   });
   document.querySelectorAll('[data-copy-memo]').forEach((btn) => {
-    btn.addEventListener('click', () => copyText(catalog.memo));
+    btn.addEventListener('click', () => {
+      state.memoLocked = true;
+      copyText(state.memo || 'Food');
+    });
   });
   $('openVenmo').addEventListener('click', () => {
+    state.memoLocked = true;
     const urls = venmoUrls();
     openApp(urls.app, urls.web);
   });
@@ -636,19 +825,41 @@
     const urls = cashUrls();
     openApp(urls.app, urls.web);
   });
-  function bindChat(id) {
-    $(id).addEventListener('click', (event) => {
-      if (id === 'openX' || id === 'openX2') {
-        event.preventDefault();
-        openApp('twitter://user?screen_name=' + catalog.xUser, catalog.xWeb);
-      }
-      if (id === 'openTg' || id === 'openTg2') {
-        event.preventDefault();
-        openApp('tg://resolve?domain=' + catalog.telegramUser, catalog.telegramWeb);
-      }
+  function bindChat(id, kind) {
+    const el = $(id);
+    if (!el) return;
+    el.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (kind === 'x') openApp('twitter://user?screen_name=' + catalog.xUser, catalog.xWeb);
+      if (kind === 'tg') openApp('tg://resolve?domain=' + catalog.telegramUser, catalog.telegramWeb);
+      if (kind === 'channel') openApp('tg://resolve?domain=' + catalog.telegramChannelUser, catalog.telegramChannelWeb);
     });
   }
-  ['openX', 'openX2', 'openTg', 'openTg2'].forEach(bindChat);
+  bindChat('openX', 'x');
+  bindChat('openX2', 'x');
+  bindChat('openTg', 'tg');
+  bindChat('openTg2', 'tg');
+  bindChat('openTgChannel', 'channel');
+  bindChat('openTgChannel2', 'channel');
+  function renderNotesCount() {
+    $('notesCount').textContent = notesText().length + ' / 500';
+  }
+  $('orderNotes').addEventListener('input', () => {
+    if ($('orderNotes').value.length > 500) $('orderNotes').value = $('orderNotes').value.slice(0, 500);
+    try { sessionStorage.setItem(NOTES_KEY, notesText()); } catch (err) { /* private mode */ }
+    renderNotesCount();
+  });
+  $('toggleCatalog').addEventListener('click', () => {
+    catalogReady = true;
+    catalogOpen = !catalogOpen;
+    applyCatalog();
+  });
+  $('applyPromo').addEventListener('click', () => applyPromo($('promoCode').value));
+  $('promoCode').addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    applyPromo($('promoCode').value);
+  });
   $('proofInput').addEventListener('change', async (event) => {
     const file = event.target.files && event.target.files[0];
     if (state.proofUrl) URL.revokeObjectURL(state.proofUrl);
@@ -706,6 +917,12 @@
     if (savedHandles.x) $('xUser').value = String(savedHandles.x);
   }
   try {
+    const savedNotes = sessionStorage.getItem(NOTES_KEY);
+    if (savedNotes) $('orderNotes').value = String(savedNotes).slice(0, 500);
+  } catch (err) { /* private mode */ }
+  renderNotesCount();
+  showPromoStatus();
+  try {
     if (sessionStorage.getItem(TERMS_KEY) === 'yes') $('checkoutAdult').checked = true;
   } catch (err) { /* private mode */ }
   if (state.tip) $('tipInput').value = String(state.tip);
@@ -724,7 +941,61 @@
       qty: Object.assign({}, state.qty),
       tip: state.tip,
       method: state.method,
+      promoUnlocked: state.promoUnlocked,
+      promoCode: promoCodeForOrder(),
+      notes: notesText().trim(),
+      memo: state.memo,
       extras: state.extras.map((extra) => Object.assign({}, extra))
     })
   };
+
+  const SHOWN_KEY = 'evie-shown-memos';
+  function readShown() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(SHOWN_KEY) || '[]');
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string').slice(-120) : [];
+    } catch (err) {
+      return [];
+    }
+  }
+  function rememberMemo(memo) {
+    const shown = readShown().filter((item) => item !== memo);
+    shown.push(memo);
+    try { localStorage.setItem(SHOWN_KEY, JSON.stringify(shown.slice(-120))); } catch (err) { /* private mode */ }
+  }
+  function applyMemo(memo, lock) {
+    const text = String(memo || '').trim();
+    if (!text) return;
+    state.memo = text;
+    if (lock) state.memoLocked = true;
+    document.querySelectorAll('.memo-text').forEach((node) => { node.textContent = text; });
+    rememberMemo(text);
+  }
+  function localMemo(exclude) {
+    if (window.EVIE_MEMOS && window.EVIE_MEMOS.pickMemo) return window.EVIE_MEMOS.pickMemo([], exclude);
+    return 'Food';
+  }
+  async function loadMemo() {
+    const first = localMemo(readShown());
+    applyMemo(first, false);
+    const api = String(window.EVIE_ORDER_API_URL || '').trim();
+    if (!api || !window.EVIE_MEMOS) return;
+    const url = new URL(api);
+    url.searchParams.set('action', 'memo');
+    readShown().forEach((memo) => url.searchParams.append('exclude', memo));
+    const headers = {};
+    if (window.EVIE_SUPABASE_PUBLISHABLE_KEY) headers.apikey = window.EVIE_SUPABASE_PUBLISHABLE_KEY;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 4000);
+    try {
+      const response = await fetch(url, {method: 'GET', headers: headers, signal: controller.signal});
+      const data = await response.json().catch(() => null);
+      if (response.ok && data && window.EVIE_MEMOS.isKnownMemo(data.memo) && !state.memoLocked && data.memo !== state.memo) {
+        applyMemo(data.memo, false);
+      }
+    } catch (err) { /* keep the memo already on the page */ }
+    finally { clearTimeout(timer); }
+  }
+  if (window.EVIE_MEMOS) loadMemo();
+  else window.addEventListener('evie-memos-ready', function () { loadMemo(); }, {once: true});
 })();
