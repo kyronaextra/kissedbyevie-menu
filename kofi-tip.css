@@ -1,0 +1,83 @@
+/* Ko-fi tip panel on the menu. Uses the same type, pills, and rose chrome as the route nav. */
+#tip{scroll-margin-top:calc(var(--route-nav-height, 54px) + 16px)}
+
+.route-nav nav a[data-route="tip"]{
+  border-color:#ff6bc9;
+  background:linear-gradient(110deg,#ff2e9a,#ff6bc9 55%,#ff2e9a);
+  color:#fff;
+  box-shadow:0 0 14px rgba(255,79,216,.35),inset 0 1px rgba(255,255,255,.4);
+}
+.route-nav nav a[data-route="tip"]:hover{border-color:#fff;color:#fff}
+.route-nav nav a[data-route="tip"]:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:3px;
+}
+
+.kofi-tip{
+  padding-top:1.25rem;
+  border-top:1px solid rgba(255,228,255,.28);
+}
+.kofi-tip h2 em{color:#ffd7f6;font-style:italic;font-weight:normal}
+.kofi-tip .sub{
+  max-width:34rem;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.55;
+  color:var(--muted,#dbc8df);
+  opacity:1;
+}
+
+.kofi-frame{
+  width:min(100%,400px);
+  margin:0 auto 1.15rem;
+  border:1px solid rgba(255,228,255,.4);
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:inset 0 1px rgba(255,255,255,.2),0 16px 40px rgba(0,0,0,.35);
+}
+.kofi-frame-status{
+  margin:0;
+  padding:22px 16px;
+  color:#3a2433;
+  background:#fff;
+  font:600 14px/1.5 "DM Sans",Arial,sans-serif;
+}
+.kofi-frame.is-ready .kofi-frame-status{display:none}
+.kofi-frame iframe{
+  display:none;
+  width:100%;
+  height:680px;
+  border:0;
+  background:#fff;
+}
+.kofi-frame.is-ready iframe{display:block}
+.kofi-frame iframe:focus-visible{outline:3px solid #ff2e9a;outline-offset:-3px}
+
+.kofi-fallback{margin:0}
+.kofi-fallback-link{
+  min-height:48px;
+  text-decoration:none;
+}
+.kofi-fallback-link:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:4px;
+}
+
+/* Ko-fi’s floating button sits bottom-left. Hide it over How to pay and the tip panel so it does not cover a payment chip, the form, or the fallback link. */
+body.kofi-float-hidden .floatingchat-container-wrap,
+body.kofi-float-hidden .floatingchat-container-wrap-mobi{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+@media(max-width:600px){
+  .kofi-frame{width:100%}
+  .kofi-frame iframe{height:640px}
+  .kofi-fallback-link{width:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .kofi-fallback-link{transition:none}
+}
