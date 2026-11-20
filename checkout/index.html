@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0d060b">
-  <meta name="description" content="Kissed by Evie checkout. Choose items, pay with Venmo, Cash App, or PayPal, and send a payment screenshot.">
+  <meta name="description" content="Kissed by Evie checkout. Choose items, pay with Venmo, Cash App, PayPal, or an Amazon e-gift, and send a payment screenshot.">
   <title>Kissed by Evie — Checkout</title>
   <link rel="canonical" href="https://kissedbyevie-menu.onrender.com/checkout">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
-  <link rel="stylesheet" href="/checkout.css?v=20261120-paypal-1">
+  <link rel="stylesheet" href="/checkout.css?v=20261120-amazon-1">
 </head>
 <body>
 <header class="route-nav">
@@ -153,6 +153,32 @@
               <p class="hint">This opens Evie’s PayPal page. It does not fill in the amount or the memo, so type the total and paste the memo there.</p>
             </div>
           </div>
+
+          <div class="pay-card" data-method="amazon_egift">
+            <button type="button" class="pay-head" data-select="amazon_egift" aria-pressed="false">
+              <span class="radio" aria-hidden="true"></span>
+              <span><b>Pay By Amazon E-gift</b><span>elviramack7@gmail.com</span></span>
+            </button>
+            <div class="pay-body">
+              <div class="handle-row">
+                <div>
+                  <span class="paypal-kicker">Recipient email</span>
+                  <code id="amazonEmail">elviramack7@gmail.com</code>
+                </div>
+                <button type="button" class="ghost" id="copyAmazonEmail">Copy email</button>
+              </div>
+              <p class="amazon-fee" id="amazonFeeLine" hidden>Amazon gift card fee +$10</p>
+              <div class="handle-row">
+                <div>
+                  <span class="paypal-kicker">Gift amount</span>
+                  <code id="amazonAmount">$0.00</code>
+                </div>
+                <button type="button" class="ghost" id="copyAmazonAmount">Copy amount</button>
+              </div>
+              <a class="app-btn" id="openAmazon" href="https://www.amazon.com/dp/B07PCMWTSG" target="_blank" rel="noopener noreferrer">Open Amazon</a>
+              <p class="hint">Choose the amount shown, paste the email in the recipient field, then send the confirmation or order number back.</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -291,10 +317,10 @@
   })();
   </script>
   <script type="module" src="/supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
-  <script src="/checkout-catalog.js?v=20261120-paypal-1"></script>
+  <script src="/checkout-catalog.js?v=20261120-amazon-1"></script>
   <script src="/member-config.js"></script>
   <script src="/order-config.js"></script>
-  <script src="/checkout.js?v=20261120-paypal-1"></script>
+  <script src="/checkout.js?v=20261120-amazon-1"></script>
   <script src="/site-nav.js?v=20261120-routes-1"></script>
 </body>
 </html>

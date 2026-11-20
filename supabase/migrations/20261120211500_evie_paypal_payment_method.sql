@@ -1,5 +1,6 @@
--- Checkout can save PayPal alongside Venmo and Cash App.
--- The previous check rejected payment_method = 'paypal'.
+-- Checkout can save PayPal and Amazon e-gift alongside Venmo and Cash App.
+-- amazon_gift_card stays allowed so older rows still satisfy the check.
+-- The previous check rejected payment_method = 'paypal' and 'amazon_egift'.
 
 do $$
 declare r record;
@@ -23,4 +24,4 @@ alter table public.evie_order_requests
 
 alter table public.evie_order_requests
   add constraint evie_order_requests_payment_method_check
-  check (payment_method in ('cash_app', 'venmo', 'paypal', 'amazon_gift_card', 'apple_pay'));
+  check (payment_method in ('cash_app', 'venmo', 'paypal', 'amazon_egift', 'amazon_gift_card', 'apple_pay'));

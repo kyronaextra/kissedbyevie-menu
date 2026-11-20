@@ -11,6 +11,16 @@
     cashAppHandle: '$taylorgann90',
     cashAppSlug: 'taylorgann90',
     paypalUrl: 'https://www.paypal.com/qrcodes/p2pqrc/DTBWZFQXN6494',
+    amazonUrl: 'https://www.amazon.com/dp/B07PCMWTSG',
+    amazonEmail: 'elviramack7@gmail.com',
+    // Under $35, Amazon e-gift adds $10. $35 and up has no fee. Other methods never use this.
+    // evie-order-request repeats the same thresholds and ignores any fee sent by the browser.
+    amazonFeeCents: function (subtotalCents, method) {
+      if (method !== 'amazon_egift') return 0;
+      var cents = Math.round(Number(subtotalCents) || 0);
+      if (cents > 0 && cents < 3500) return 1000;
+      return 0;
+    },
     xUser: 'kissedbyevie',
     xWeb: 'https://x.com/kissedbyevie?s=11',
     telegramUser: 'kissedbyevie',

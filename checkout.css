@@ -355,10 +355,12 @@ a.wordmark {
   margin-bottom: 10px;
 }
 .handle-row code {
+  display: block;
   font-family: var(--body);
   font-size: 16px;
   font-weight: 700;
   color: var(--ivory);
+  overflow-wrap: anywhere;
 }
 .ghost {
   min-height: 32px;
@@ -418,6 +420,16 @@ a.wordmark {
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
+}
+.amazon-fee {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--rose);
+  background: rgba(233, 164, 190, .12);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
 }
 .memo-with-copy {
   display: flex;

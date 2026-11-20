@@ -187,7 +187,7 @@ async function loadMembers(nextPage){
 }
 function paymentLabel(method){
  const key=String(method||'').toLowerCase();
- const labels={cash_app:'Cash App',venmo:'Venmo',paypal:'PayPal',amazon_gift_card:'Amazon e-gift',apple_pay:'Apple Pay'};
+ const labels={cash_app:'Cash App',venmo:'Venmo',paypal:'PayPal',amazon_egift:'Amazon e-gift',amazon_gift_card:'Amazon e-gift',apple_pay:'Apple Pay'};
  return labels[key]||key.replace(/_/g,' ')||'payment';
 }
 function moneyCents(cents){
