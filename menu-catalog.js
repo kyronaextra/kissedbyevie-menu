@@ -10,35 +10,52 @@ const categories=[
   ["More","More"]
 ];
 const products=[
-  {section:'BestSellers',name:'20 Pics + Videos',price:20,badge:'JUST A TASTE',
-   description:'Pick 20. Yes, it’s hard. That’s the point.'},
-  {section:'BestSellers',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',badge:'BEST VALUE',
-   description:'The whole thing. Every last pic and video. Multiple drops a week. More than $75 worth, easily.',
-   note:'One payment. Lifetime access. Add a dick rate at checkout for $25 ($10 off!).'},
-  {section:'BestSellers',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'VIP · ONE MONTH',
-   description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
-   features:['One month of GFE + my full 800+ piece vault','One custom Snap made for you','Priority messages, my real number, and OnlyFans on me','Casual and explicit FaceTimes and calls'],
-   note:'Renews for $60/month after month one.'},
-  {section:'BestSellers',name:'10 Items · This Month’s Set',price:10,
-   description:'Ten things from this month. That’s it. Don’t expect me to be grateful.',unit:'$1 per item'},
-  {section:'BestSellers',name:'50 Items + Live Teasy Snaps',price:50,
-   description:'The whole month, plus live teasy Snaps while I’m in the mood to send them.',unit:'$1 per item'},
-  {section:'Dropbox',name:'The Dropbox · 800+ Pieces',price:75,group:'vault',
-   description:'The whole thing. Every last pic and video. 800+ pieces. Lifetime access. More than $75 worth, easily.',
-   note:'Multiple drops a week. Making a real mess is the one thing I’m reliably good at. The rest: JOI, B/G, anal, teasers, pics, clips, BJ POV, solo, orgasms, cream, feet, fetish, collabs. Add the dick rate at checkout for $25 ($10 off!).',
-   badge:'800+ PIECES'},
+  {section:'BestSellers',name:'10 pics/vids',price:10,
+   description:'Ten pics and vids. That’s the taste.'},
+  {section:'BestSellers',name:'20 pics/vids',price:20,badge:'JUST A TASTE',
+   description:'Twenty. Yes, it’s hard. That’s the point.'},
+  {section:'BestSellers',name:'50 pics/vids',price:50,
+   description:'Fifty pics and vids.'},
+  {section:'BestSellers',name:'Deluxe Dropbox (900+ vault)',price:75,group:'vault',badge:'BEST VALUE',
+   description:'The whole vault. 900+ pics and videos. One payment, lifetime access.',
+   note:'Today’s promo is $55 for the same vault. Pick one Dropbox price, not both.'},
+  {section:'BestSellers',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',
+   description:'Same 900+ vault, today’s price. This is not an add-on to the $75 Dropbox.'},
+  {section:'BestSellers',name:'B/G Folder (3 vids)',price:35,
+   description:'Three B/G videos. That’s the folder.'},
+  {section:'BestSellers',name:'Dick Rating',price:35,
+   description:'On camera, out loud. $35.'},
+  {section:'BestSellers',name:'Custom 1-min Video',price:50,
+   description:'One minute, your idea. $50.'},
+  {section:'BestSellers',name:'VIP 1 Month',price:150,group:'membership',badge:'VIP · ONE MONTH',
+   description:'One month. Priority messages, casual FaceTimes, and me actually replying.',
+   features:['One month of VIP','The 900+ vault','Priority messages and calls'],
+   note:'FaceTime eligibility comes with VIP. Checkout charges $150.'},
+  {section:'BestSellers',name:'VIP 3 Months',price:350,group:'membership',badge:'BEST VALUE',
+   description:'Three months. This is the one people actually finish.',
+   features:['Three months of VIP','The 900+ vault','Priority messages and calls'],
+   note:'Checkout charges $350 for the three months.'},
+  {section:'Dropbox',name:'Deluxe Dropbox (900+ vault)',price:75,group:'vault',
+   description:'The whole thing. 900+ pics and videos. Lifetime access.',
+   note:'JOI, B/G, solo, clips, and the rest of the vault. The $55 card is today’s price for this same vault.',
+   badge:'900+ ITEMS'},
+  {section:'Dropbox',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',
+   description:'Same 900+ vault for $55 today.'},
+  {section:'Dropbox',name:'B/G Folder (3 vids)',price:35,
+   description:'Three B/G videos.'},
+  {section:'VIP',name:'VIP 1 Month',price:150,group:'membership',badge:'$150',
+   description:'One month of VIP. Priority messages and FaceTime eligibility.',
+   features:['One month','900+ vault','Priority messages and calls']},
+  {section:'VIP',name:'VIP 3 Months',price:350,group:'membership',badge:'$350',
+   description:'Three months of VIP.',
+   features:['Three months','900+ vault','Priority messages and calls'],
+   note:'$350 for the three months.'},
   {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
-   description:'The starter version. For people who aren’t sure they can keep up with me yet.',
-   features:['Daily Snaps and frequent clips','Priority replies and actual conversation','My real number and OnlyFans on me','50 curated photos and videos','Casual FaceTime or call when I’m free'],
-   note:'I’m good at this part. I’ll remember what you told me, ask about it, and make your day more than once a month. Don’t make it weird. No vault. No explicit calls. If that’s what you came for, keep scrolling. You know where it is.'},
-  {section:'VIP',name:'VIP · 1 Month GFE',price:150,group:'membership',badge:'MOST AFFORDABLE VIP',
-   description:'Priority messages, casual FaceTimes, and me actually replying. Don’t waste it.',
-   features:['One month of GFE + my full 800+ piece vault','One custom Snap made for you','Priority messages, my real number, and OnlyFans on me','Casual and explicit FaceTimes and calls'],
-   note:'10 seats. That’s the whole thing. I can’t look after more than ten at once.'},
-  {section:'VIP',name:'VIP · 3 Months GFE',price:300,priceDisplay:'$300 / 3 months',group:'membership',badge:'BEST VALUE',
-   description:'This is where the “I like custom content” guys go. A three-month buyer is paying for effort.',
-   features:['Three months of GFE + full 800+ piece vault','One custom two-minute video','Discounted FaceTimes and calls','OnlyFans on me for a year','Daily Snaps and clips made for you'],
-   note:'$3.30 a day. Less than the coffee you’re drinking while you decide.'},
+   description:'The starter month. No vault and no explicit calls.',
+   features:['Daily Snaps and clips','Priority replies','Casual calls only'],
+   note:'This is not VIP. VIP is $150 for one month or $350 for three.'},
+  {section:'Customs',name:'Custom 1-min Video',price:50,
+   description:'One minute, your idea. $50 on the card and at checkout.'},
   {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
    description:'Five photos, exactly what you ask for. Add $7 for each one after that.'},
   {section:'Customs',name:'Custom Video · 3 Minutes',price:60,
@@ -53,10 +70,6 @@ const products=[
    description:'Dirty talk and JOI on top of a session you already booked.'},
   {section:'More',name:'Voice Note',price:10,
    description:'Me, saying something to you specifically. I’ll be nice. Probably.'},
-  {section:'More',name:'Dick Rate · Text',price:20,
-   description:'Written. Blunt. You asked.'},
-  {section:'More',name:'Dick Rate · Video',price:35,
-   description:'On camera, out loud, to your face.'},
   {section:'More',name:'Sexting · 10 Minutes',price:30,unit:'text only',
    description:'Text only. Ten minutes.'},
   {section:'More',name:'Sexting · 15 Minutes',price:40,unit:'text only',
@@ -70,16 +83,16 @@ const products=[
 ];
 const notes={
   "BestSellers": [
-    "New set on the 1st. Last month’s gets pulled and buried in the Dropbox, so if you wanted it, you should’ve been faster. These packs are this month only."
+    "These card prices are the checkout prices. 10 is $10, 20 is $20, 50 is $50, the vault is $75 or $55 today, B/G is $35, a dick rating is $35, a 1-minute custom is $50, VIP is $150 or $350."
   ],
   "Dropbox": [
-    "Already bought a pack and want VIP? Ask and I’ll send the difference. I’m generous, not stupid."
+    "The $55 promo is today’s price for the 900+ vault. It does not stack on the $75 Dropbox."
   ],
   "VIP": [
-    "VIP renews for $60/month after the first month. Extra VIP FaceTime: $60 for 8 minutes."
+    "VIP 1 Month is $150. VIP 3 Months is $350. GFE is the separate $70 starter and does not include the vault."
   ],
   "Customs": [
-    "Custom photo sets start at 5 for $45, plus $7 a photo. Videos start at 3 minutes for $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve quoted you and you’ve agreed. No surprise invoices, no surprise requests.",
+    "A custom 1-minute video is $50. A 5-photo set is $45, plus $7 a photo after that. A 3-minute video is $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve agreed.",
     "Give me a real idea and I’ll get into it. Tell me what to do or where to aim. I’ll make a real mess and send you the evidence. :)"
   ],
   "More": [
@@ -120,9 +133,13 @@ onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.wid
 onlyfans.append(onlyfansIcon,el('span','','START MY FREE TRIAL'));
 controls.append(onlyfans);
 function menuAction(p){
-  if(p.name==='GFE')return {label:'Try me',variant:'btn-primary'};
-  if(p.name==='20 Pics + Videos')return {label:'Fine. $20',variant:'btn-primary'};
-  if(p.name==='VIP · 1 Month GFE')return {label:'Go VIP · $150',variant:'btn-primary'};
+  if(p.name==='GFE')return {label:'Try me · $70',variant:'btn-primary'};
+  if(p.name==='20 pics/vids')return {label:'Fine. $20',variant:'btn-primary'};
+  if(p.name==='VIP 1 Month')return {label:'Go VIP · $150',variant:'btn-primary'};
+  if(p.name==='VIP 3 Months')return {label:'Go VIP · $350',variant:'btn-primary'};
+  if(p.name==='Deluxe Dropbox Today Promo')return {label:'Today’s vault · $55',variant:'btn-primary'};
+  if(p.name==='Dick Rating')return {label:'Add · $35',variant:'btn-primary'};
+  if(p.name==='Custom 1-min Video')return {label:'Request this custom',variant:'btn-primary'};
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
@@ -149,9 +166,7 @@ categories.forEach(([section],i)=>{
    customsIntro.append(el('h3','','Custom Content'),el('p','','This is the part I actually like. Genuinely. Ask anyone who’s ordered. Give me a real idea and I’ll get into it. You’ll be able to tell.'),el('p','','Squirting customs are my favorite to make. Tell me where to aim. I’ll make a real mess of it and send you the evidence.'));
    panel.append(customsIntro);
  }
- // Keep the three best-selling offers at the top of More, then show quick interactions.
  if(section==='More'){
-   categoryProducts.unshift(...products.filter(p=>p.section==='BestSellers').slice(0,3));
    categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
  }
  let videoHeadingAdded=false;

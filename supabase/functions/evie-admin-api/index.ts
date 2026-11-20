@@ -242,6 +242,26 @@ async function memberPage(page:number){
    expires_at:membershipMap.get(u.id)?.expires_at||null
   }))};
 }
+async function listOrders(){
+ const {data,error}=await privileged.from("evie_order_requests")
+  .select("id,created_at,status,source,contact_platform,contact_handle,snapchat_handle,telegram_handle,x_handle,payment_method,items,initial_total_cents,tip_cents,notes,proof_path,proof_mime")
+  .order("created_at",{ascending:false}).limit(40);
+ if(error)return {orders:[],unavailable:true,message:"Orders aren’t available yet. Apply the checkout migration, then refresh."};
+ const orders=[];
+ for(const row of data||[]){
+  let proof_url:string|null=null;
+  let proof_note="";
+  if(row.proof_path){
+   const signed=await privileged.storage.from("evie-payment-proofs").createSignedUrl(row.proof_path,600);
+   if(signed.error||!signed.data?.signedUrl)proof_note="Screenshot is stored, but the preview link could not be created. Refresh to try again.";
+   else proof_url=signed.data.signedUrl;
+  }
+  const {proof_path,...safe}=row;
+  orders.push({...safe,has_proof:Boolean(proof_path),proof_url,proof_note});
+ }
+ return {orders,unavailable:false,preview_seconds:600};
+}
+
 async function renderStatus(serviceId:string){
  if(!renderID.test(serviceId))throw new Error("Invalid Render service ID");
  if(!RENDER_KEY)return {configured:false,message:"Render API key is not configured server-side. Use the Render dashboard link."};
@@ -267,15 +287,17 @@ Deno.serve(async(req:Request)=>{
   const bearer=/^Bearer ([A-Za-z0-9._-]{30,4000})$/.exec(authorization);
   if(!bearer)return json(origin,401,{error:"Authentication required"});
   const role=await getRole(bearer[1]);
-  if(role.status!==200)return json(origin,role.status,{error:role.reason});
+  if(role.status!==200||!role.user)return json(origin,role.status===200?401:role.status,{error:role.reason||"Sign in to continue"});
+  const adminUser=role.user;
   const url=new URL(req.url);
   const action=req.method==="GET"?(url.searchParams.get("action")||"session"):null;
   if(req.method==="GET"&&action==="session"){
-   return json(origin,200,{admin:true,email:role.user.email||""});
+   return json(origin,200,{admin:true,email:adminUser.email||""});
   }
   if(req.method==="GET"){
    if(action==="overview")return json(origin,200,await overview());
    if(action==="inbox")return json(origin,200,await inboxQueue());
+   if(action==="orders")return json(origin,200,await listOrders());
    if(action==="telegram_workers")return json(origin,200,await listPersonalTelegramWorkers());
    if(action==="members"){
     const page=Math.max(1,Math.min(20,Number(url.searchParams.get("page"))||1));
@@ -294,7 +316,7 @@ Deno.serve(async(req:Request)=>{
   const raw=await req.text();
   if(raw.length>6000)return json(origin,413,{error:"Request too large"});
   const payload=JSON.parse(raw);
-  const actor=role.user.id;
+  const actor=adminUser.id;
   if(payload?.action==="telegram_worker_issue"){
    return json(origin,201,await issuePersonalTelegramKey(actor,payload));
   }
@@ -306,6 +328,19 @@ Deno.serve(async(req:Request)=>{
   }
   if(payload?.action==="inbox_add_manual"){
    return json(origin,201,await manualFollowup(actor,payload));
+  }
+  if(payload?.action==="order_status"){
+   const id=String(payload.id||"");
+   const status=String(payload.status||"");
+   if(!uuid.test(id)||!["pending","confirmed","fulfilled","cancelled"].includes(status)){
+    return json(origin,400,{error:"Invalid order status"});
+   }
+   const {data:order,error:orderError}=await privileged.from("evie_order_requests")
+    .update({status}).eq("id",id).select("id,status").maybeSingle();
+   if(orderError)return json(origin,503,{error:"Orders aren’t available yet. Apply the checkout migration, then refresh."});
+   if(!order)return json(origin,404,{error:"Order not found"});
+   await audit(actor,"order."+status,"admin",id,"Updated checkout order to "+status);
+   return json(origin,200,{ok:true,id:order.id,status:order.status});
   }
   if(payload?.action==="add_connection"){
    const info=validateConnection(payload.connection);

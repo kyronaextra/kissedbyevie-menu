@@ -24,22 +24,23 @@
     take:"evie_takeover_v1", sel:"evie_selector_v1", log:"evie_log_v1", hash:"evie_hash_v1", streak:"evie_streak_v1" };
 
   const MENU = {
-    bundle_10:{label:"10 random photos/videos",amount:10}, bundle_20:{label:"20 surprise photos/videos",amount:20},
-    bundle_50:{label:"50 surprise photos/videos",amount:40}, dropbox:{label:"Deluxe Dropbox · 800+ items",amount:75},
+    bundle_10:{label:"10 pics/vids",amount:10}, bundle_20:{label:"20 pics/vids",amount:20},
+    bundle_50:{label:"50 pics/vids",amount:50}, dropbox:{label:"Deluxe Dropbox (900+ vault)",amount:75},
+    dropbox_promo:{label:"Deluxe Dropbox Today Promo",amount:55}, bg_folder:{label:"B/G Folder (3 vids)",amount:35},
     of_month:{label:"OnlyFans · monthly",amount:3}, gfe_basic:{label:"Basic GFE · 1 month",amount:70},
-    vip_daddy:{label:"VIP Daddy · 3 months",amount:150}, vip_ultimate:{label:"Ultimate VIP Daddy · 6 months",amount:350},
+    vip_daddy:{label:"VIP 1 Month",amount:150}, vip_ultimate:{label:"VIP 3 Months",amount:350},
     set_signature:{label:"Signature Set · 5 photos + 1-min",amount:35}, set_full:{label:"Full Shoot · 10 photos + 2-min",amount:50},
     set_custom_2:{label:"Custom Full Shoot · 10 + 2-min",amount:90}, set_custom_4:{label:"Custom Full Shoot · 10 + 4-min",amount:150},
-    custom_1min:{label:"Custom 1-minute video",amount:50,startingAt:true}, custom_10photo:{label:"Custom 10-photo set",amount:45,startingAt:true},
+    custom_1min:{label:"Custom 1-min Video",amount:50}, custom_10photo:{label:"Custom 10-photo set",amount:45,startingAt:true},
     custom_general:{label:"General custom request",amount:50,startingAt:true}, rating_detail:{label:"Detailed rating",amount:15},
-    rating_dick:{label:"Dick rating",amount:35}, voice_note:{label:"Voice note",amount:12},
+    rating_dick:{label:"Dick Rating",amount:35}, voice_note:{label:"Voice note",amount:12},
     flash_teasers:{label:"Flash + 5 live teasers",amount:25}, live_1min:{label:"One-minute live ass/tit/spit",amount:45},
     feet_5:{label:"Five feet photos",amount:20}, live_show:{label:"Live show",amount:55},
     extras:{say_name:25,dommy:30,submissive:20,panty:20}
   };
   const RULES = [
     {id:"screen_hey",name:"Lazy greeting",enabled:true,priority:60,tier:"auto",match:{type:"regex",value:"^(hey|hi|heyy+|hello|yo|sup)\\b"},reply:"hey you ♡ what did you have in mind — a bundle, something custom, or a VIP package?"},
-    {id:"ask_price",name:"Price question",enabled:true,priority:90,tier:"auto",match:{type:"regex",value:"\\b(price|prices|how much|cost|menu|rates?)\\b"},reply:"here's the list ♡\n\nbundles — {{bundle_10}} · {{bundle_20}} · {{bundle_50}}\ndeluxe vault — {{dropbox}}\ncustoms — from {{custom_1min}}\nratings — {{rating_detail}} detailed · {{rating_dick}} dick\nvoice note — {{voice_note}}\nlive — {{live_show}}\n\nwhich one?"},
+    {id:"ask_price",name:"Price question",enabled:true,priority:90,tier:"auto",match:{type:"regex",value:"\\b(price|prices|how much|cost|menu|rates?)\\b"},reply:"here's the list ♡\n\nbundles — {{bundle_10}} · {{bundle_20}} · {{bundle_50}}\nvault — {{dropbox}} · today {{dropbox_promo}}\nB/G — {{bg_folder}}\ncustom — {{custom_1min}}\ndick rating — {{rating_dick}}\nvip — {{vip_daddy}} · {{vip_ultimate}}\n\nwhich one?"},
     {id:"ask_custom",name:"Custom request",enabled:true,priority:80,tier:"draft",match:{type:"regex",value:"\\b(custom|make me|personal|just for me)\\b"},reply:"customs start at {{custom_1min}} and go up with length and extras.\ntell me three things you like and i'll do the rest ♡"},
     {id:"ask_what",name:"What do you do",enabled:true,priority:75,tier:"draft",match:{type:"regex",value:"\\b(what do you (do|offer)|what can you|what do i get)\\b"},reply:"the good stuff obviously ♡ bundles, customs, JOI, ratings, live, and the vip stuff.\nwhat are you in the mood for?"},
     {id:"age",name:"Age gate",enabled:true,priority:85,tier:"auto",match:{type:"regex",value:"\\b(how old|over ?18|18\\+|age)\\b"},reply:"old enough to be here? ♡ you over 18 babe"},
@@ -48,7 +49,7 @@
     {id:"joi",name:"JOI",enabled:true,priority:80,tier:"draft",match:{type:"regex",value:"\\bjoi\\b|jerk off|stroke"},reply:"JOI is the best one ♡ i talk, you listen, and i don't let you cum early.\nwant it as an audio or live?"},
     {id:"when",name:"Delivery time",enabled:true,priority:70,tier:"auto",match:{type:"regex",value:"\\b(when|how long|delivery|how soon|eta)\\b"},reply:"customs are finished within 48 hours ♡ priority is faster if you ask."},
     {id:"married",name:"Married / sneaky",enabled:true,priority:82,tier:"draft",match:{type:"regex",value:"\\b(wife|married|sneak|she's|she is)\\b"},reply:"she doesn't know. i do. ♡\nwant the sneaky custom? quiet little audio, made for exactly this."},
-    {id:"vip",name:"VIP",enabled:true,priority:78,tier:"draft",match:{type:"regex",value:"\\b(vip|daddy package|subscribe|membership|gfe)\\b"},reply:"vip is where it gets serious ♡\nbasic gfe {{gfe_basic}} · vip daddy {{vip_daddy}} · ultimate {{vip_ultimate}}\nall include priority and daily content."},
+    {id:"vip",name:"VIP",enabled:true,priority:78,tier:"draft",match:{type:"regex",value:"\\b(vip|daddy package|subscribe|membership|gfe)\\b"},reply:"vip is where it gets serious ♡\n{{vip_daddy}} or {{vip_ultimate}}\ngfe starter is {{gfe_basic}} and it does not include the vault."},
     {id:"tip",name:"Tip",enabled:true,priority:55,tier:"auto",match:{type:"regex",value:"\\b(tip|tipped|tipping)\\b"},reply:"tips are how you show you mean it ♡ not extra — necessary."},
     {id:"angry",name:"Problem / refund",enabled:true,priority:92,tier:"escalate",match:{type:"regex",value:"\\b(refund|scam|didn'?t (get|receive)|wrong|broken|complaint)\\b"},reply:""},
     {id:"bye",name:"Goodnight",enabled:true,priority:45,tier:"auto",match:{type:"regex",value:"\\b(good ?night|gn|going to bed|sleep)\\b"},reply:"goodnight babe ♡ don't touch it before bed, i'll know."}

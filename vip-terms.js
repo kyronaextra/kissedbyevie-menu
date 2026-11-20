@@ -36,10 +36,9 @@
     if(previousFocus&&previousFocus.isConnected&&previousFocus.focus)previousFocus.focus();
   });
 
-  // Capture before app.js checkout handlers. A separate, explicit acknowledgment is
-  // required before copying any order or opening the Telegram order link.
+  // Capture before the bag’s checkout button. Agreement is required before checkout.
   document.addEventListener('click',function(e){
-    const target=e.target.closest('#copyOrder, #confirmOrder');
+    const target=e.target.closest('#confirmOrder');
     if(!target||target.disabled||hasAccepted())return;
     e.preventDefault();
     e.stopImmediatePropagation();

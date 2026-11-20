@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0a0f10">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://cmjhecwwjoeqpcownkol.supabase.co; frame-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; form-action 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://cmjhecwwjoeqpcownkol.supabase.co; connect-src https://cmjhecwwjoeqpcownkol.supabase.co; frame-src 'none'; upgrade-insecure-requests">
   <title>Evie Admin — Private Control Room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,6 +58,7 @@
         <p class="sidebar-kicker">THE CONTROL DESK</p>
         <div class="nav-group">
           <button class="sidebar-link selected" type="button" data-admin-view="inbox" aria-current="page"><span class="nav-icon">✉</span> Message Inbox <span id="inboxNavBadge" class="inbox-nav-badge" hidden>0</span></button>
+          <button class="sidebar-link" type="button" data-admin-view="orders"><span class="nav-icon">▣</span> Orders</button>
           <button class="sidebar-link" type="button" data-admin-view="overview"><span class="nav-icon">◈</span> Overview</button>
           <button class="sidebar-link" type="button" data-admin-view="connections"><span class="nav-icon">⌘</span> Bots &amp; Connections</button>
           <button class="sidebar-link" type="button" data-admin-view="automations"><span class="nav-icon">⧖</span> Automations</button>
@@ -79,6 +80,20 @@
           <div class="workspace-controls"><button id="adminRefresh" type="button" class="secondary small">↻ Refresh</button><button id="adminMobileLogout" type="button" class="secondary small">Sign out</button><span class="access-pill">OWNER ACCESS</span></div>
         </div>
 
+        <section id="panel-orders" class="panel" aria-labelledby="ordersTitle" hidden>
+          <div class="section-heading">
+            <div>
+              <p class="overline">PAYMENT CHECKOUTS</p>
+              <h1 id="ordersTitle">Who <em>paid?</em></h1>
+              <p>Orders sent from the checkout page, including usernames and private payment screenshots. Saving an order does not prove the money arrived — mark it paid only after you recognize the receipt.</p>
+            </div>
+            <button type="button" id="ordersRefresh" class="secondary small">↻ Refresh orders</button>
+          </div>
+          <p class="hint" id="ordersHint">Screenshot previews are temporary private links. Refresh this list to load them again after 10 minutes.</p>
+          <p id="ordersError" class="inbox-error" role="alert" hidden></p>
+          <div id="ordersList" class="order-list" aria-live="polite"><p class="empty">Open this section to load orders.</p></div>
+        </section>
+
         <section id="panel-overview" class="panel" aria-labelledby="overviewTitle">
           <div class="panel-hero">
             <div><p class="overline">CONTROL ROOM / HOME</p><h1 id="overviewTitle">Good to see <em>you,</em> Evie.</h1>
@@ -94,6 +109,7 @@
           <div class="overview-columns">
             <div class="surface"><div class="surface-title"><h2>Quick actions</h2><span>START HERE</span></div>
               <button type="button" class="quick-action" data-jump="inbox"><span>00</span><strong>See who needs a reply</strong><b aria-hidden="true">↗</b></button>
+              <button type="button" class="quick-action" data-jump="orders"><span>05</span><strong>Review payment checkouts</strong><b aria-hidden="true">↗</b></button>
               <button type="button" class="quick-action" data-jump="connections"><span>01</span><strong>Register a bot or agent</strong><b aria-hidden="true">↗</b></button>
               <button type="button" class="quick-action" data-jump="automations"><span>02</span><strong>Plan an automation</strong><b aria-hidden="true">↗</b></button>
               <button type="button" class="quick-action" data-jump="docker"><span>03</span><strong>Connect a Docker service</strong><b aria-hidden="true">↗</b></button>

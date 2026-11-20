@@ -111,3 +111,16 @@ h1,h2,h3,p{margin-top:0}h1,h2{font-weight:400}h1 em,h2 em{color:var(--pink);font
 .tg-paired-workers{margin-top:28px;padding-top:21px;border-top:1px solid var(--line)}
 .tg-worker-last-seen{font-size:11px;color:var(--muted);line-height:1.7;margin:4px 0 10px}
 @media(max-width:850px){.tg-pair-grid{grid-template-columns:1fr}.tg-pair-steps{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}}
+.order-list{display:grid;gap:12px}
+.order-card{padding:16px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.03)}
+.order-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.order-top strong{font-size:22px}
+.order-status{padding:4px 8px;border-radius:999px;border:1px solid var(--line);font-size:10px;letter-spacing:.08em}
+.order-status[data-status="confirmed"]{color:var(--mint)}
+.order-status[data-status="cancelled"]{color:#e7a3a3}
+.order-meta,.order-handles{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+.order-handles{display:flex;flex-wrap:wrap;gap:8px 14px}
+.order-items{margin:8px 0 0;padding-left:18px}
+.order-proof{display:block;width:100%;max-height:220px;object-fit:contain;margin-top:10px;border-radius:8px;background:#050807}
+.order-proof-link{display:inline-block;margin-top:8px}
+.order-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}

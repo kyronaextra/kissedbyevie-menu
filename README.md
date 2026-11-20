@@ -21,6 +21,7 @@ Production website: https://kissedbyevie-menu.onrender.com/
 Database member tables and RLS were deployed previously:
 - supabase/migrations/20261023221422_evie_members_phone_pin_profiles.sql (schema filename historical; the tables are auth-provider-neutral)
 - supabase/migrations/20261023143000_evie_orders.sql (not yet applied)
+- supabase/migrations/20261120153000_evie_checkout_payment_proof.sql (apply after the orders table exists)
 
 Docs: https://supabase.com/docs/guides/auth/passwords
 
@@ -78,6 +79,27 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 - Bots, agents, Docker services and automations are **references/drafts** until a real backend worker is separately connected. No credentials or Docker commands run in browser code.
 - Setup and admin-role activation instructions: [docs/ADMIN_CONTROL_ROOM.md](docs/ADMIN_CONTROL_ROOM.md).
 - Optional non-executing Docker worker starter: [docker/evie-worker/README.md](docker/evie-worker/README.md).
+
+## Checkout and payment screenshots
+
+Public page: https://kissedbyevie-menu.onrender.com/checkout.html
+
+The storefront bag’s **Continue to checkout** button opens the same page and carries the bag in `sessionStorage`. Menu cards use the checkout names and prices, including VIP 3 Months at **$350** and the 900+ Dropbox at **$75** (today’s promo is **$55**).
+
+The browser only calls `evie-order-request` with the publishable key. The service-role key stays in Supabase Edge Function secrets. Proof images go to the private `evie-payment-proofs` bucket. Evie reviews them in Admin → Orders. A saved order is not a payment confirmation.
+
+If the function or migration is not deployed, checkout shows that the order was not saved.
+
+After merge, from this repo with the Supabase CLI logged into project `cmjhecwwjoeqpcownkol`:
+
+```bash
+supabase link --project-ref cmjhecwwjoeqpcownkol
+supabase db push
+supabase functions deploy evie-order-request --no-verify-jwt
+supabase functions deploy evie-admin-api
+```
+
+`db push` applies `20261023143000_evie_orders.sql` first if that table is still missing, then `20261120153000_evie_checkout_payment_proof.sql`. Do not put `SUPABASE_SERVICE_ROLE_KEY` in the static site. Optional: set Edge secret `EVIE_ALLOWED_ORIGINS` if the public origin is not `https://kissedbyevie-menu.onrender.com` (localhost ports 4173 and 8080 are already allowed by default).
 
 ## Personal Telegram account → Live Message Inbox (read-only)
 
