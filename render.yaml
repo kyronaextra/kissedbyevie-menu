@@ -1,0 +1,24 @@
+# Static site. Clean paths are real directories (menu/index.html and the
+# same for checkout, gallery, and about), so Render can serve /menu and
+# /menu/ without a catch-all rewrite. These rewrites cover hosts that do
+# not map a directory index onto the slashless path. Existing files such
+# as /checkout.html win over rules, because Render skips a rule when a
+# resource already exists at that path.
+services:
+  - type: web
+    name: kissedbyevie-menu
+    runtime: static
+    staticPublishPath: .
+    routes:
+      - type: rewrite
+        source: /menu
+        destination: /menu/index.html
+      - type: rewrite
+        source: /checkout
+        destination: /checkout/index.html
+      - type: rewrite
+        source: /gallery
+        destination: /gallery/index.html
+      - type: rewrite
+        source: /about
+        destination: /about/index.html

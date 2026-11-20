@@ -82,7 +82,7 @@ function response(data: unknown, status: number, origin: string) {
     "Cache-Control": "no-store",
     "Access-Control-Allow-Origin": origin,
     "Vary": "Origin",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "content-type, apikey, authorization, x-client-info",
   }});
 }

@@ -7,9 +7,11 @@
 <meta name="description" content="A few photos of Evie. The rest are in the menu.">
 <meta property="og:title" content="Gallery | Kissed by Evie">
 <meta property="og:description" content="A little look into my world.">
-<meta property="og:url" content="https://kissedbyevie-menu.onrender.com/gallery.html">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=20261029-evidence-box-1">
+<meta property="og:url" content="https://kissedbyevie-menu.onrender.com/gallery">
+<link rel="canonical" href="https://kissedbyevie-menu.onrender.com/gallery">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css?v=20261029-evidence-box-1">
+<link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <title>Gallery | Kissed by Evie</title>
 <style>
@@ -22,7 +24,7 @@ body.gallery-page{min-height:100vh;color:var(--white);background-color:var(--bla
 .gallery-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:37px;padding:8px 11px;border:1px solid rgba(192,192,192,.58);border-radius:999px;background:rgba(13,6,20,.9);color:var(--white);text-decoration:none;font:700 10px/1 "DM Sans",sans-serif;letter-spacing:.07em}
 .gallery-nav a[aria-current=page]{border-color:var(--silver);background:linear-gradient(110deg,var(--pink),var(--chrome-pink),var(--pink));box-shadow:0 0 12px rgba(255,79,216,.28);color:#fff}
 .gallery-main{width:min(1120px,calc(100% - 36px));margin:0 auto;padding:clamp(42px,8vw,92px) 0 72px}
-.gallery-heading{text-align:center;margin:0 auto 28px}
+.gallery-heading{display:block;text-align:center;margin:0 auto 28px}
 .gallery-kicker{margin:0;color:var(--chrome-pink);font:800 10px/1.5 "DM Sans",sans-serif;letter-spacing:.22em;text-transform:uppercase}
 .gallery-heading h1{margin:10px 0 8px;color:var(--chrome-pink);font:normal clamp(42px,8vw,76px)/1 "Instrument Serif",Georgia,serif;letter-spacing:-.025em;text-shadow:0 0 12px rgba(255,79,216,.26)}
 .gallery-heading h1 em{font-weight:normal;color:#fff}
@@ -41,13 +43,40 @@ body.gallery-page{min-height:100vh;color:var(--white);background-color:var(--bla
 </style>
 </head>
 <body class="gallery-page">
-<header class="gallery-header">
-<a class="gallery-wordmark" href="index.html#boutique">KISSEDBYEVIE</a>
-<nav class="gallery-nav" aria-label="Main navigation">
-<a href="index.html#boutique">MENU</a>
-<a href="index.html#about">ABOUT</a>
-<a href="gallery.html" aria-current="page">GALLERY</a>
-</nav>
+<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
+  <div class="age-gate-panel">
+    <section id="botGateStep" class="age-gate-step">
+      <span class="age-gate-kicker">QUICK CHECK · STEP 1 OF 2</span>
+      <h1 id="botGateTitle">Verify you’re <em>not a bot.</em></h1>
+      <p id="botGateDescription">Choose the answer that applies, then confirm you’re over 18.</p>
+      <div class="age-gate-actions">
+        <button type="button" id="notBotConfirm">I’m not a bot · Continue</button>
+        <a href="https://www.google.com/" rel="nofollow">I am a bot · Leave</a>
+      </div>
+      <p class="age-gate-note">Quick self-check. This does not use automated bot detection.</p>
+    </section>
+    <section id="ageGateStep" class="age-gate-step" hidden>
+      <span class="age-gate-kicker">ADULTS ONLY · STEP 2 OF 2</span>
+      <h1 id="ageGateTitle">Confirm you’re <em>over 18.</em></h1>
+      <p id="ageGateDescription">This site is for adults only.</p>
+      <div class="age-gate-actions">
+        <button type="button" id="ageGateConfirm">I’m 18+ · Enter site</button>
+        <a href="https://www.google.com/" rel="nofollow">I’m under 18 · Leave</a>
+      </div>
+      <p class="age-gate-note">Age confirmation is self-reported.</p>
+    </section>
+  </div>
+</div>
+<header class="route-nav">
+  <a class="route-brand" href="/">KISSEDBYEVIE</a>
+  <nav aria-label="Primary">
+    <a href="/menu#boutique" data-route="menu">Menu</a>
+    <a href="/menu#pay" data-route="pay">Pay</a>
+    <a href="/checkout" data-route="checkout">Checkout</a>
+    <a href="/gallery" data-route="gallery">Gallery</a>
+    <a href="/about" data-route="about">About</a>
+    <a href="/account.html" data-route="account">Account</a>
+  </nav>
 </header>
 <main class="gallery-main">
 <section class="gallery-heading" aria-labelledby="galleryTitle">
@@ -66,6 +95,24 @@ body.gallery-page{min-height:100vh;color:var(--white);background-color:var(--bla
 <a class="gallery-photo" href="/assets/photos/evie-gallery-22.webp" target="_blank" rel="noopener noreferrer"><img src="/assets/photos/evie-gallery-22.webp" alt="Evie making a playful face in a camouflage-print top" loading="lazy"></a>
 </div>
 </main>
-<footer class="gallery-footer"><a href="index.html#boutique">Back to menu</a><span>✦</span><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a></footer>
+<footer class="route-footer">
+  <span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span>
+  <nav aria-label="Footer">
+    <a href="/menu">Menu</a>
+    <a href="/checkout">Checkout</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/about">About</a>
+    <a href="/account.html">My account</a>
+    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer">NSFW channel</a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a>
+    <a href="/fulfillment.html">Fulfillment Agreement</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/disclosure.html">Disclosure</a>
+  </nav>
+</footer>
+<script src="/age-gate.js?v=20261120-routes-1"></script>
+<script src="/site-nav.js?v=20261120-routes-1"></script>
+
 </body>
 </html>
