@@ -1,0 +1,182 @@
+/* Product cards and the sticky View Cart control. Loaded after the page skins so it can win. */
+.view-cart{
+  position:fixed;
+  z-index:76;
+  top:calc(var(--route-nav-height, 54px) + 8px);
+  right:10px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:42px;
+  padding:8px 12px 8px 14px;
+  border:1px solid #ff6bc9;
+  border-radius:999px;
+  background:linear-gradient(110deg,#ff2e9a,#ff6bc9 58%,#ff2e9a);
+  box-shadow:0 0 16px rgba(255,79,216,.45),inset 0 1px rgba(255,255,255,.45);
+  color:#fff;
+  font:800 11px/1 "DM Sans",Arial,sans-serif;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.view-cart:hover{filter:brightness(1.08)}
+.view-cart:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.view-cart-count{
+  display:inline-grid;
+  place-items:center;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:999px;
+  background:#0d0614;
+  color:#ff6bc9;
+  font-size:11px;
+  letter-spacing:0;
+}
+body:has(.view-cart) .menu-home-main .boutique-section{padding-top:64px!important}
+body:has(.view-cart) .checkout-bar{padding-right:148px}
+
+#boutique .product-panel:not([hidden]),
+#boutique .menu-v2-panel:not([hidden]){
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+}
+#boutique .product-card,
+#boutique .menu-v2-card{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  min-width:0;
+  padding:12px!important;
+  border:1px solid rgba(255,79,216,.85)!important;
+  border-radius:16px!important;
+  background:#07040c!important;
+  box-shadow:0 0 0 1px rgba(255,46,154,.25),0 0 18px rgba(255,46,154,.28),inset 0 0 24px rgba(255,46,154,.05)!important;
+}
+#boutique .menu-v2-card::before{display:none!important}
+.menu-card-top{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.menu-card-icon{
+  flex:0 0 64px;
+  width:64px;
+  height:64px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,107,201,.75);
+  border-radius:14px;
+  background:radial-gradient(circle at 50% 42%,rgba(255,46,154,.28),#120814 68%);
+  box-shadow:0 0 14px rgba(255,46,154,.4),inset 0 0 12px rgba(255,79,216,.25);
+}
+.menu-card-icon img{display:block;width:36px;height:36px;filter:drop-shadow(0 0 5px #ff4fd8)}
+#boutique .menu-v2-info{min-width:0;flex:1}
+#boutique .menu-v2-badge{
+  float:right;
+  margin:0 0 4px 6px;
+  padding:3px 7px;
+  border:0!important;
+  border-radius:999px!important;
+  background:#ff2e9a!important;
+  color:#fff!important;
+  font:800 8px/1.2 "DM Sans",Arial,sans-serif;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  box-shadow:0 0 10px rgba(255,46,154,.45)!important;
+}
+#boutique .card-label,
+#boutique .menu-v2-card h3{
+  margin:0 0 4px!important;
+  color:#fff!important;
+  font:700 15px/1.2 "DM Sans",Arial,sans-serif!important;
+  text-shadow:none!important;
+}
+#boutique .menu-v2-desc{
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  margin:0!important;
+  color:#d7c3df!important;
+  font-size:12px!important;
+  line-height:1.35!important;
+}
+#boutique .menu-v2-buy{
+  display:flex;
+  flex-direction:column;
+  align-self:stretch!important;
+  width:100%!important;
+  gap:8px;
+  margin-top:auto;
+  padding-top:0!important;
+}
+#boutique .menu-v2-buy .offer-price{
+  font-size:22px!important;
+  line-height:1!important;
+  color:#ff6bc9!important;
+  text-shadow:0 0 12px rgba(255,79,216,.45)!important;
+}
+#boutique .menu-actions{display:flex!important;gap:8px;width:100%!important;min-width:0}
+#boutique .menu-actions .offer-btn,
+#boutique .menu-actions .menu-pay-link{
+  flex:1 1 0!important;
+  width:auto!important;
+  min-width:0;
+  min-height:38px!important;
+  padding:8px 10px!important;
+  border-radius:999px!important;
+  font:800 10px/1.1 "DM Sans",Arial,sans-serif!important;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  text-decoration:none;
+}
+#boutique .add-product{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border:0!important;
+  color:#fff!important;
+  background:linear-gradient(100deg,#d41486,#ff3aa8 55%,#ff1f8f)!important;
+  box-shadow:0 0 14px rgba(255,46,154,.4)!important;
+  text-shadow:none!important;
+}
+#boutique .add-product::before{content:none!important;display:none!important}
+.menu-bag-icon{width:14px;height:14px;flex:0 0 auto}
+#boutique .menu-pay-link{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #ff6bc9!important;
+  background:transparent!important;
+  color:#ffb3e4!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+}
+#boutique .menu-pay-link:hover,
+#boutique .add-product:hover{filter:brightness(1.08)}
+#boutique .menu-pay-link:focus-visible,
+#boutique .add-product:focus-visible{outline:3px solid #fff;outline-offset:2px}
+#boutique .menu-actions .menu-v2-add-label{
+  overflow:visible;
+  text-overflow:clip;
+  white-space:nowrap;
+}
+
+@media(max-width:420px){
+  .menu-card-icon{flex-basis:48px;width:48px;height:48px;border-radius:12px}
+  .menu-card-icon img{width:28px;height:28px}
+  #boutique .product-card,#boutique .menu-v2-card{padding:10px!important;gap:8px!important}
+  #boutique .card-label,#boutique .menu-v2-card h3{font-size:13px!important}
+  #boutique .menu-v2-buy .offer-price{font-size:18px!important}
+  #boutique .menu-actions{gap:6px!important}
+  #boutique .add-product{flex:1.5 1 0!important;overflow:visible!important;padding:7px 6px!important}
+  #boutique .menu-pay-link{flex:0.9 1 0!important}
+  #boutique .menu-actions .offer-btn,#boutique .menu-actions .menu-pay-link{font-size:8px!important;letter-spacing:0;padding:7px 4px!important}
+  .menu-bag-icon{width:11px;height:11px}
+  .view-cart{padding:8px 10px;letter-spacing:.05em}
+}
+@media(max-width:359px){
+  #boutique .product-panel:not([hidden]),
+  #boutique .menu-v2-panel:not([hidden]){grid-template-columns:1fr!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .view-cart,.add-product,.menu-pay-link{transition:none}
+}

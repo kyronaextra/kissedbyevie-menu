@@ -42,7 +42,7 @@
 
   function watchSectionCover() {
     if (!('IntersectionObserver' in window)) return;
-    var zones = ['pay', 'tip', 'work-order'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    var zones = ['pay', 'tip', 'work-order', 'boutique', 'boutiqueCatalog'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
     if (!zones.length) return;
     var covering = new Set();
     var cover = new IntersectionObserver(function (entries) {
@@ -51,7 +51,7 @@
         else covering.delete(entry.target);
       });
       setFloatCovered(covering.size > 0);
-    }, { threshold: 0.2 });
+    }, { threshold: 0.02 });
     zones.forEach(function (zone) { cover.observe(zone); });
   }
 

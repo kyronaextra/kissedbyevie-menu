@@ -116,6 +116,34 @@ function el(tag,cls,value){
  if(value!=null)node.textContent=value;
  return node;
 }
+function iconFile(name){
+ const map={
+  '10 pics/vids':'camera-gallery',
+  '20 pics/vids':'lips-gallery',
+  '50 pics/vids':'gallery-play',
+  'Deluxe Dropbox (900+ vault)':'box-sparkle',
+  'Deluxe Dropbox Today Promo':'box-sparkle',
+  'B/G Folder (3 vids)':'two-hearts',
+  'Dick Rating':'eggplant',
+  'Custom 1-min Video':'camera-silhouette',
+  'VIP 1 Month':'crown',
+  'VIP 3 Months':'crown-platinum',
+  'GFE':'heart',
+  'Custom Photo Set · 5 Photos':'photos',
+  'Custom Video · 3 Minutes':'film',
+  'Same Day Turnaround':'bolt',
+  'Live Clips · Sent to Your Chat':'chat-play',
+  'Moan Your Name':'mic',
+  'JOI Add-On':'spark',
+  'Voice Note':'wave',
+  'Sexting · 10 Minutes':'chat',
+  'Sexting · 15 Minutes':'chat',
+  'Sexting · 30 Minutes':'chat',
+  'Live Snap Show · 2 Minutes':'phone',
+  'Live Snap Show · 4 Minutes':'phone'
+ };
+ return '/assets/icons/'+(map[name]||'spark')+'.svg';
+}
 categories.forEach(([key,label],i)=>{
  const tab=el('button','category-tab'+(i===0?' active':''),label);
  tab.type='button';tab.id='tab-'+key;tab.dataset.tab=key;
@@ -178,6 +206,13 @@ categories.forEach(([section],i)=>{
      videoHeadingAdded=true;
    }
    const card=el('article','product-card menu-v2-card'+(p.badge?' featured':''));
+   const icon=el('div','menu-card-icon');
+   const iconImg=el('img');
+   iconImg.src=iconFile(p.name);
+   iconImg.alt='';
+   iconImg.width=36;
+   iconImg.height=36;
+   icon.append(iconImg);
    const info=el('div','menu-v2-info');
    if(p.badge)info.append(el('span','menu-v2-badge',p.badge));
    info.append(el('h3','card-label',p.name));
@@ -194,6 +229,7 @@ categories.forEach(([section],i)=>{
     const amount=el('strong','offer-price'+(onSale?' vip-sale-price':''),onSale?null:(p.priceDisplay||((p.extra?'+':'')+'$'+p.price+(p.from?'+':''))));
 
    const cta=menuAction(p);
+   cta.label='Add to bag';
    const action=el('button','offer-btn add-product btn '+cta.variant);
    action.type='button';
    const baseName=p.name+(p.from?' (starting at $'+p.price+')':'');
@@ -202,7 +238,12 @@ categories.forEach(([section],i)=>{
    action.dataset.cta=cta.label;
    if(p.group)action.dataset.exclusive=p.group;
    if(p.quoteOnly)action.dataset.exclusive='quote';
-   action.append(el('span','menu-v2-add-label',cta.label));
+   const bagIcon=document.createElementNS('http://www.w3.org/2000/svg','svg');
+   bagIcon.setAttribute('viewBox','0 0 24 24');
+   bagIcon.setAttribute('aria-hidden','true');
+   bagIcon.setAttribute('class','menu-bag-icon');
+   bagIcon.innerHTML='<path d="M6.5 8.5h11l-1 11h-9l-1-11z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8.5V7.2a3 3 0 0 1 6 0v1.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>';
+   action.append(bagIcon, el('span','menu-v2-add-label',cta.label));
    let categorySelect=null;
    const addonInputs=[];
    function refreshChoices(){
@@ -273,7 +314,9 @@ categories.forEach(([section],i)=>{
    const actions=el('div','menu-actions');
    actions.append(action,payLink);
    const buy=el('div','menu-v2-buy');buy.append(amount,actions);
-   card.append(info,buy);
+   const top=el('div','menu-card-top');
+   top.append(icon,info);
+   card.append(top,buy);
    panel.append(card);
    if(p.name==='Sexting · 30 Minutes'){
      panel.append(el('div','menu-v2-notes',el('p','','Sexting & live shows are where the mess usually happens. Bring a towel, or don’t. I’m not your mother.')));
