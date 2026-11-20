@@ -30,12 +30,13 @@
 <link rel="stylesheet" href="/public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script defer src="/menu-catalog.js?v=20261120-menu-3"></script>
-<script defer src="/app.js?v=20261120-menu-1"></script>
+<script defer src="/menu-catalog.js?v=20261120-cards-1"></script>
+<script defer src="/app.js?v=20261120-cards-1"></script>
 <script defer src="/vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="/evie-nav.js?v=20261028-explore-1"></script>
 <script defer src="/site-nav.js?v=20261120-routes-1"></script>
-<script defer src="/kofi-tip.js?v=20261120-tip-4"></script>
+<script defer src="/kofi-tip.js?v=20261120-cards-1"></script>
+<script defer src="/view-cart.js?v=20261120-cards-1"></script>
 <script defer src="/install-app.js?v=20261030-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="/member-config.js"></script>
@@ -375,6 +376,7 @@ html{scroll-padding-top:56px!important}
 #boutique .menu-pay-link{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:6px 10px;border-radius:999px;border:1px solid #ff6bc9;background:transparent;color:#ffd2ea;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap}
 @media(min-width:900px){#boutique .product-panel:not([hidden]),#boutique .menu-v2-panel:not([hidden]){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 </style>
+<link rel="stylesheet" href="/menu-cards.css?v=20261120-cards-5">
 </head>
 <body id="top">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -413,6 +415,10 @@ html{scroll-padding-top:56px!important}
     <a href="/account.html" data-route="account">Account</a>
   </nav>
 </header>
+<button class="view-cart" id="viewCart" type="button">
+  <span class="view-cart-label">View Cart</span>
+  <span class="view-cart-count" id="viewCartCount" data-view-cart-count>0</span>
+</button>
 
 
 <dialog class="install-app-dialog" id="installAppDialog" aria-labelledby="installAppTitle"><div class="install-app-content"><p class="eyebrow">KEEP ME CLOSE</p><h2 id="installAppTitle">Save my menu</h2><p id="installAppInstructions">Add Kissed by Evie to your home screen for quick access.</p><button class="install-app-close" id="installAppClose" type="button">Got it</button></div></dialog>

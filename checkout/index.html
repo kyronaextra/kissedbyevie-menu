@@ -13,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
   <link rel="stylesheet" href="/checkout.css?v=20261120-checkout-4">
+  <link rel="stylesheet" href="/menu-cards.css?v=20261120-cards-5">
 </head>
 <body>
 <header class="route-nav">
@@ -26,6 +27,10 @@
     <a href="/account.html" data-route="account">Account</a>
   </nav>
 </header>
+<button class="view-cart" id="viewCart" type="button">
+  <span class="view-cart-label">View Cart</span>
+  <span class="view-cart-count" id="viewCartCount" data-view-cart-count>0</span>
+</button>
 
   <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
     <div class="age-gate-panel">
@@ -271,7 +276,8 @@
   <script src="/checkout-catalog.js?v=20261120-checkout-4"></script>
   <script src="/member-config.js"></script>
   <script src="/order-config.js"></script>
-  <script src="/checkout.js?v=20261120-checkout-4"></script>
+  <script src="/checkout.js?v=20261120-cards-1"></script>
+  <script src="/view-cart.js?v=20261120-cards-1"></script>
   <script src="/site-nav.js?v=20261120-routes-1"></script>
 </body>
 </html>

@@ -262,6 +262,7 @@
       });
     });
     try { sessionStorage.setItem(BAG_KEY, JSON.stringify(lines)); } catch (err) { /* private mode */ }
+    document.dispatchEvent(new CustomEvent('evie-bag-updated'));
   }
   function persistTip() {
     try { sessionStorage.setItem(TIP_KEY, String(state.tip || '')); } catch (err) { /* private mode */ }
