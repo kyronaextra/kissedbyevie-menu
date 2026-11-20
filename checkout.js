@@ -95,8 +95,7 @@
   }
   function methodFromParam(value) {
     const method = String(value || '').trim().toLowerCase();
-    if (method === 'venmo') return 'venmo';
-    if (method === 'cashapp') return 'cashapp';
+    if (method === 'venmo' || method === 'cashapp' || method === 'paypal') return method;
     return '';
   }
   function notesText() {
@@ -223,7 +222,7 @@
     if (urlMethod) state.method = urlMethod;
     else {
       const savedMethod = sessionStorage.getItem(METHOD_KEY);
-      if (savedMethod === 'venmo' || savedMethod === 'cashapp') state.method = savedMethod;
+      if (savedMethod === 'venmo' || savedMethod === 'cashapp' || savedMethod === 'paypal') state.method = savedMethod;
     }
     const savedTip = Number(sessionStorage.getItem(TIP_KEY));
     if (Number.isFinite(savedTip) && savedTip > 0) state.tip = Math.min(catalog.maxTip, savedTip);
@@ -430,6 +429,8 @@
       const count = lines.reduce((sum, line) => sum + line.qty, 0) + (state.tip ? 1 : 0);
       $('amountNote').textContent = count + (count === 1 ? ' item' : ' items') + ' in your order';
     }
+    const paypalAmount = $('paypalAmount');
+    if (paypalAmount) paypalAmount.textContent = money(amount);
   }
   let catalogReady = false;
   let catalogOpen = true;
@@ -515,7 +516,7 @@
     window.location.href = appUrl;
   }
   function selectMethod(next) {
-    state.method = next === 'cashapp' ? 'cashapp' : 'venmo';
+    state.method = next === 'cashapp' || next === 'paypal' || next === 'venmo' ? next : 'venmo';
     try { sessionStorage.setItem(METHOD_KEY, state.method); } catch (err) { /* private mode */ }
     document.querySelectorAll('.pay-card').forEach((card) => {
       const on = card.getAttribute('data-method') === state.method;
@@ -554,6 +555,11 @@
     el.textContent = message || '';
     $('copySummary').hidden = !message;
   }
+  function paymentBlurb() {
+    if (state.method === 'cashapp') return 'Cash App ' + catalog.cashAppHandle;
+    if (state.method === 'paypal') return 'PayPal';
+    return 'Venmo ' + catalog.venmoHandle;
+  }
   function summaryText() {
     const users = handles();
     const lines = payableLines().map((line) => (line.qty > 1 ? line.qty + ' × ' : '') + line.name + ' — ' + money(line.total));
@@ -567,7 +573,7 @@
       'Kissed by Evie checkout',
       lines.join('\n') || 'No priced items',
       'Amount: ' + money(total()),
-      'Payment: ' + (state.method === 'cashapp' ? 'Cash App ' + catalog.cashAppHandle : 'Venmo ' + catalog.venmoHandle),
+      'Payment: ' + paymentBlurb(),
       'Memo: ' + (state.memo || 'Food'),
       who.join('\n'),
       note ? 'Notes: ' + note : '',
@@ -646,7 +652,9 @@
     $('confirmTotal').textContent = money(amount);
     $('confirmPay').textContent = state.method === 'cashapp'
       ? 'Payment method: Cash App  ' + catalog.cashAppHandle
-      : 'Payment method: Venmo  ' + catalog.venmoHandle;
+      : state.method === 'paypal'
+        ? 'Payment method: PayPal'
+        : 'Payment method: Venmo  ' + catalog.venmoHandle;
     const memoEl = $('confirmMemo');
     memoEl.hidden = !state.memo;
     memoEl.textContent = state.memo ? 'Memo: ' + state.memo : '';
@@ -736,7 +744,7 @@
       request_id: state.requestId,
       items: payableLines().map((line) => line.id ? {id: line.id, qty: line.qty} : {name: line.name, qty: line.qty}),
       tip_cents: Math.round((Number(state.tip) || 0) * 100),
-      payment_method: state.method === 'cashapp' ? 'cash_app' : 'venmo',
+      payment_method: state.method === 'cashapp' ? 'cash_app' : state.method === 'paypal' ? 'paypal' : 'venmo',
       snapchat_handle: users.snap,
       telegram_handle: users.telegram,
       x_handle: users.x,
@@ -761,7 +769,7 @@
       const data = await response.json().catch(() => null);
       if (response.status === 409 && data && data.memo) {
         applyMemo(data.memo, true);
-        showError(data.error || 'That memo was just used. Copy the new one into Venmo or Cash App.');
+        showError(data.error || 'That memo was just used. Copy the new one into Venmo, Cash App, or PayPal.');
         return;
       }
       if (!response.ok || !data || data.ok !== true || !data.order_id) {
@@ -773,7 +781,7 @@
       }
       state.submitted = true;
       try { sessionStorage.setItem(TERMS_KEY, 'yes'); } catch (err) { /* private mode */ }
-      showConfirm(true, 'Reference: ' + data.order_id + '. Evie still confirms payment from your screenshot. This page cannot see whether Venmo or Cash App received the money.');
+      showConfirm(true, 'Reference: ' + data.order_id + '. Evie still confirms payment from your screenshot. This page cannot see whether Venmo, Cash App, or PayPal received the money.');
     } catch (err) {
       showError('The payment server didn’t respond, so this order was not saved. Nothing was marked as paid. Copy the summary and message Evie if you already sent the money.');
     } finally {
@@ -825,6 +833,13 @@
     const urls = cashUrls();
     openApp(urls.app, urls.web);
   });
+  const openPaypal = $('openPaypal');
+  if (openPaypal) {
+    if (catalog.paypalUrl) openPaypal.href = catalog.paypalUrl;
+    openPaypal.addEventListener('click', () => { state.memoLocked = true; });
+  }
+  const copyPaypalAmount = $('copyPaypalAmount');
+  if (copyPaypalAmount) copyPaypalAmount.addEventListener('click', () => copyText(money(total())));
   function bindChat(id, kind) {
     const el = $(id);
     if (!el) return;

@@ -16,6 +16,7 @@ vm.createContext(catalogContext);
 vm.runInContext(read('checkout-catalog.js'), catalogContext);
 const catalog = catalogContext.window.EVIE_CHECKOUT_CATALOG;
 check('catalog loads', catalog && catalog.items.length === 10);
+check('paypal link stored', catalog.paypalUrl === 'https://www.paypal.com/qrcodes/p2pqrc/DTBWZFQXN6494');
 
 const fn = read('supabase/functions/evie-order-request/index.ts');
 const serverItems = [...fn.matchAll(/\{id: "([^"]+)", name: "(.*)", cents: (\d+)\}/g)].map((match) => ({
@@ -49,17 +50,23 @@ check('menu dropbox is 900+', menu.includes('Deluxe Dropbox (900+ vault)') && !m
 check('checkout VIP 3 is 350', catalog.items.find((item) => item.id === 'vip3').price === 350);
 check('checkout VIP 3 matches the menu price', catalog.items.find((item) => item.id === 'vip3').storefrontPrice === 350);
 check('no copy-order button', !read('index.html').includes('id="copyOrder"') && !read('index.html').includes('Dick rate add-on'));
+check('homepage lists PayPal checkout', read('index.html').includes('Venmo, Cash App, and PayPal go through checkout') && read('index.html').includes('>PayPal</span>'));
 
 const page = read('checkout.html');
 const script = read('checkout.js');
 [
-  'Item(s):',
-  'Recommended items:',
-  'Amount:',
+  'Your order',
+  'Add one',
+  '>Amount<',
   'Payment method:',
   '@Barfiesfunds',
   '$taylorgann90',
-  'for barfie’s vet bill, cat food or care',
+  'Friends and Family',
+  'Never Goods',
+  'https://www.paypal.com/qrcodes/p2pqrc/DTBWZFQXN6494',
+  'data-method="paypal"',
+  'data-select="paypal"',
+  'Copy memo',
   'Copy Memo',
   'Snapchat username',
   'Telegram username',
@@ -75,9 +82,16 @@ const script = read('checkout.js');
 ['venmo://paycharge?txn=pay&recipients=', 'twitter://user?screen_name=', 'tg://resolve?domain=', 'cash.app/$'].forEach((needle) => {
   check('script has ' + needle, script.includes(needle));
 });
+check('paypal url matches the catalog', page.includes(catalog.paypalUrl));
+check('script accepts paypal preselect', script.includes("method === 'paypal'") && script.includes("state.method === 'paypal' ? 'paypal'"));
+check('server accepts paypal checkout', fn.includes('if (raw === "paypal") return "paypal"') && fn.includes('Choose Venmo, Cash App, or PayPal'));
+check('paypal memo is still required', fn.includes('if (!isKnownMemo(memo))') && fn.includes('payment_memo: memo'));
 check('no service role in checkout client', !/service_role|SUPABASE_SERVICE_ROLE/.test(page + script + read('order-config.js') + read('checkout-catalog.js')));
 check('order api url set', read('order-config.js').includes('functions/v1/evie-order-request'));
-check('storefront continues to checkout', read('index.html').includes('Continue to checkout') && read('app.js').includes("location.assign('checkout.html')"));
+check('storefront continues to checkout', read('index.html').includes('Continue to checkout') && read('app.js').includes("location.assign('/checkout')"));
+const paypalMigration = read('supabase/migrations/20261120211500_evie_paypal_payment_method.sql');
+check('paypal migration allows the method', paypalMigration.includes("'paypal'") && paypalMigration.includes('evie_order_requests_payment_method_check'));
+check('admin labels PayPal', read('admin.js').includes("paypal:'PayPal'"));
 check('admin orders view', read('admin.html').includes('panel-orders') && read('admin.js').includes("request('orders')"));
 check('private bucket migration', read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql').includes("'evie-payment-proofs', false") || read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql').includes("false"));
 

@@ -2,7 +2,7 @@
 
 Updated November 20, 2026. `menu-catalog.js` and `checkout.html` use the same names and prices. Older VIP Daddy and 800+ Dropbox prices are retired.
 
-All items for adults 18+ only. The public menu and `checkout.html` use the same names and prices. Payment is Venmo or Cash App on the checkout page, with a screenshot. A saved order is not a payment confirmation.
+All items for adults 18+ only. The public menu and `checkout.html` use the same names and prices. Payment is Venmo, Cash App, or PayPal on the checkout page, with a screenshot. A saved order is not a payment confirmation.
 
 ## GFE and VIP membership
 
@@ -27,7 +27,7 @@ All items for adults 18+ only. The public menu and `checkout.html` use the same 
 
 Basic GFE stays $70 and does not include the vault. There is no separate $60 renewal price on the menu.
 
-**Important:** Checkout collects Venmo or Cash App payment and a screenshot. The on-site members’ vault remains a placeholder and must not be described as populated or automatically available.
+**Important:** Checkout collects Venmo, Cash App, or PayPal payment and a screenshot. The on-site members’ vault remains a placeholder and must not be described as populated or automatically available.
 
 ## OnlyFans
 - Monthly access — $3 per month

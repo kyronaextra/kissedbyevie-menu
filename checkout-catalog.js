@@ -10,6 +10,7 @@
     venmoWeb: 'https://venmo.com/Barfiesfunds',
     cashAppHandle: '$taylorgann90',
     cashAppSlug: 'taylorgann90',
+    paypalUrl: 'https://www.paypal.com/qrcodes/p2pqrc/DTBWZFQXN6494',
     xUser: 'kissedbyevie',
     xWeb: 'https://x.com/kissedbyevie?s=11',
     telegramUser: 'kissedbyevie',

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0d060b">
-  <meta name="description" content="Kissed by Evie checkout. Choose items, pay with Venmo or Cash App, and send a payment screenshot.">
+  <meta name="description" content="Kissed by Evie checkout. Choose items, pay with Venmo, Cash App, or PayPal, and send a payment screenshot.">
   <title>Kissed by Evie — Checkout</title>
   <link rel="canonical" href="https://kissedbyevie-menu.onrender.com/checkout">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
-  <link rel="stylesheet" href="/checkout.css?v=20261120-checkout-4">
+  <link rel="stylesheet" href="/checkout.css?v=20261120-paypal-1">
 </head>
 <body>
 <header class="route-nav">
@@ -128,6 +128,29 @@
               <div class="memo">please write <strong class="memo-text">Food</strong> in the memo</div>
               <button type="button" class="ghost" data-copy-memo style="margin-bottom:10px">Copy Memo</button>
               <button type="button" class="app-btn" id="openCash">Open Cash App</button>
+            </div>
+          </div>
+
+          <div class="pay-card" data-method="paypal">
+            <button type="button" class="pay-head" data-select="paypal" aria-pressed="false">
+              <span class="radio" aria-hidden="true"></span>
+              <span><b>PayPal</b><span>Friends &amp; Family</span></span>
+            </button>
+            <div class="pay-body">
+              <p class="paypal-rule">Send as <strong>Friends and Family</strong>. Never Goods &amp; Services.</p>
+              <div class="handle-row">
+                <div>
+                  <span class="paypal-kicker">Send exactly</span>
+                  <code id="paypalAmount">$0.00</code>
+                </div>
+                <button type="button" class="ghost" id="copyPaypalAmount">Copy total</button>
+              </div>
+              <div class="memo memo-with-copy">
+                <span>please write <strong class="memo-text">Food</strong> in the memo</span>
+                <button type="button" class="ghost" data-copy-memo>Copy memo</button>
+              </div>
+              <a class="app-btn" id="openPaypal" href="https://www.paypal.com/qrcodes/p2pqrc/DTBWZFQXN6494" target="_blank" rel="noopener noreferrer">Open PayPal</a>
+              <p class="hint">This opens Evie’s PayPal page. It does not fill in the amount or the memo, so type the total and paste the memo there.</p>
             </div>
           </div>
         </div>
@@ -268,10 +291,10 @@
   })();
   </script>
   <script type="module" src="/supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
-  <script src="/checkout-catalog.js?v=20261120-checkout-4"></script>
+  <script src="/checkout-catalog.js?v=20261120-paypal-1"></script>
   <script src="/member-config.js"></script>
   <script src="/order-config.js"></script>
-  <script src="/checkout.js?v=20261120-checkout-4"></script>
+  <script src="/checkout.js?v=20261120-paypal-1"></script>
   <script src="/site-nav.js?v=20261120-routes-1"></script>
 </body>
 </html>
