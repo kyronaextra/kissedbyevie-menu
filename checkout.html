@@ -6,13 +6,27 @@
   <meta name="theme-color" content="#0d060b">
   <meta name="description" content="Kissed by Evie checkout. Choose items, pay with Venmo or Cash App, and send a payment screenshot.">
   <title>Kissed by Evie — Checkout</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://kissedbyevie-menu.onrender.com/checkout">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="checkout.css?v=20261120-checkout-4">
+  <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
+  <link rel="stylesheet" href="/checkout.css?v=20261120-checkout-4">
 </head>
 <body>
+<header class="route-nav">
+  <a class="route-brand" href="/">KISSEDBYEVIE</a>
+  <nav aria-label="Primary">
+    <a href="/menu#boutique" data-route="menu">Menu</a>
+    <a href="/menu#pay" data-route="pay">Pay</a>
+    <a href="/checkout" data-route="checkout">Checkout</a>
+    <a href="/gallery" data-route="gallery">Gallery</a>
+    <a href="/about" data-route="about">About</a>
+    <a href="/account.html" data-route="account">Account</a>
+  </nav>
+</header>
+
   <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
     <div class="age-gate-panel">
       <section id="botGateStep" class="age-step">
@@ -37,7 +51,7 @@
   </div>
 
   <header class="checkout-bar">
-    <a class="bar-brand" href="index.html#boutique">Menu</a>
+    <a class="bar-brand" href="/menu#boutique">Menu</a>
     <nav class="step-nav" aria-label="Checkout steps">
       <a href="#itemsCard">Items</a>
       <a href="#payCard">Pay</a>
@@ -152,7 +166,7 @@
         <p class="file-name" id="fileName" hidden></p>
         <label class="consent" for="checkoutAdult">
           <input id="checkoutAdult" type="checkbox">
-          <span>I am 18 or older and I agree to the <a href="fulfillment.html" target="_blank" rel="noopener noreferrer">Fulfillment Agreement</a>.</span>
+          <span>I am 18 or older and I agree to the <a href="/fulfillment.html" target="_blank" rel="noopener noreferrer">Fulfillment Agreement</a>.</span>
         </label>
         <div class="anti-spam" aria-hidden="true">
           <label>Website <input id="checkoutWebsite" type="text" tabindex="-1" autocomplete="off"></label>
@@ -201,6 +215,22 @@
       <a class="sticky-jump" id="stickyJump" href="#payCard">Pay</a>
     </div>
   </main>
+<footer class="route-footer">
+  <span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span>
+  <nav aria-label="Footer">
+    <a href="/menu">Menu</a>
+    <a href="/checkout">Checkout</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/about">About</a>
+    <a href="/account.html">My account</a>
+    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer">NSFW channel</a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a>
+    <a href="/fulfillment.html">Fulfillment Agreement</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/disclosure.html">Disclosure</a>
+  </nav>
+</footer>
 
   <div class="toast" id="toast" role="status"></div>
   <noscript><p style="padding:24px;color:#f9eaf0;background:#0d060b">Checkout needs JavaScript so the total and payment links can update.</p></noscript>
@@ -237,10 +267,11 @@
     });
   })();
   </script>
-  <script type="module" src="supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
-  <script src="checkout-catalog.js?v=20261120-checkout-4"></script>
-  <script src="member-config.js"></script>
-  <script src="order-config.js"></script>
-  <script src="checkout.js?v=20261120-checkout-4"></script>
+  <script type="module" src="/supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
+  <script src="/checkout-catalog.js?v=20261120-checkout-4"></script>
+  <script src="/member-config.js"></script>
+  <script src="/order-config.js"></script>
+  <script src="/checkout.js?v=20261120-checkout-4"></script>
+  <script src="/site-nav.js?v=20261120-routes-1"></script>
 </body>
 </html>

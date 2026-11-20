@@ -129,7 +129,7 @@ onlyfans.href='https://onlyfans.com/kissedbyevie';
 onlyfans.target='_blank';onlyfans.rel='noopener noreferrer';
 onlyfans.setAttribute('aria-label','Open the OnlyFans free trial for Kissed by Evie in a new tab');
 const onlyfansIcon=el('img','onlyfans-brand-icon');
-onlyfansIcon.src='assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.width=23;onlyfansIcon.height=23;
+onlyfansIcon.src='/assets/onlyfans-icon.svg';onlyfansIcon.alt='';onlyfansIcon.width=23;onlyfansIcon.height=23;
 onlyfans.append(onlyfansIcon,el('span','','START MY FREE TRIAL'));
 controls.append(onlyfans);
 function menuAction(p){
@@ -253,7 +253,7 @@ categories.forEach(([section],i)=>{
    let payLink=null;
    if(sku){
     payLink=el('a','menu-pay-link','Checkout');
-    payLink.href='checkout.html?item='+sku;
+    payLink.href='/checkout?item='+sku;
    }else{
     payLink=el('button','menu-pay-link checkout-now','Checkout');
     payLink.type='button';

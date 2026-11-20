@@ -16,22 +16,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="../blog.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/blog.css">
+  <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
 </head>
 <body class="evie-blog-post-page" id="top">
   <a class="skip-link" href="#post">Skip to article</a>
-  <header class="evie-blog-nav">
-    <a class="evie-blog-brand" href="../index.html#top">KISSED BY EVIE <span aria-hidden="true">✧</span></a>
-    <nav aria-label="Blog navigation">
-      <a href="../index.html#about">About Me</a>
-      <a href="../index.html#blog">The Blog</a>
-      <a href="../index.html#boutique">Menu</a>
+  <header class="route-nav">
+    <a class="route-brand" href="/">KISSEDBYEVIE</a>
+    <nav aria-label="Primary">
+      <a href="/menu#boutique" data-route="menu">Menu</a>
+      <a href="/menu#pay" data-route="pay">Pay</a>
+      <a href="/checkout" data-route="checkout">Checkout</a>
+      <a href="/gallery" data-route="gallery">Gallery</a>
+      <a href="/about" data-route="about">About</a>
+      <a href="/account.html" data-route="account">Account</a>
     </nav>
   </header>
   <main id="post" class="evie-article-page">
     <div class="evie-article-top">
-      <a class="evie-back-link" href="../index.html#blog"><span aria-hidden="true">←</span> Back to the blog</a>
+      <a class="evie-back-link" href="/about#blog"><span aria-hidden="true">←</span> Back to about</a>
       <p class="evie-blog-kicker">THE EVIE EDIT <span aria-hidden="true">✧</span> OPINION / TECH &amp; CREATOR LIFE</p>
       <h1>Agencies are shit, Bots suck, can people stop downloading personalities??</h1>
       <div class="evie-article-byline"><span>By Evie</span><span aria-hidden="true">·</span><time datetime="2026-10-27">October 27, 2026</time><span aria-hidden="true">·</span><span>Unfiltered thoughts</span></div>
@@ -80,11 +84,12 @@
     <div class="evie-article-end">
       <span aria-hidden="true">✧</span>
       
-      <a href="../index.html#about">More about me <span aria-hidden="true">↗</span></a>
+      <a href="/about">More about me <span aria-hidden="true">↗</span></a>
     </div>
   </main>
   <footer class="evie-blog-footer">
-    <a href="../index.html">KISSED BY EVIE ✧</a>
+    <a href="/">KISSED BY EVIE ✧</a>
+    <script src="/site-nav.js?v=20261120-routes-1"></script>
     <span>© 2026 · Thoughts are my own · 18+</span>
   </footer>
 </body>

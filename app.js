@@ -338,7 +338,7 @@
       if(button.disabled)return;
       addItem(button.dataset.name,Number(button.dataset.price),button.dataset.exclusive||null);
       saveCart();
-      window.location.assign('checkout.html');
+      window.location.assign('/checkout');
     });
   });
   function modifyItem(name,delta){
@@ -390,12 +390,12 @@
       return;
     }
     saveCart();
-    window.location.assign('checkout.html');
+    window.location.assign('/checkout');
   });
   document.getElementById('confirmOrder').addEventListener('click',function(){
     if(!cart.length)return;
     saveCart();
-    window.location.assign('checkout.html');
+    window.location.assign('/checkout');
   });
   loadCart();
   renderCart();

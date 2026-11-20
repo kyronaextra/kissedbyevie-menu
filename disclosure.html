@@ -15,9 +15,21 @@
 header,main,footer{width:min(900px,calc(100% - 36px));margin:auto}header{padding:26px 0;border-bottom:1px solid #ffffff26}header a,footer a{color:#ffc6e9;text-decoration:none}
 .wordmark{font-size:12px;font-weight:800;letter-spacing:.18em}main{padding:55px 0 75px}h1,h2{font-family:Italiana,Georgia,serif;line-height:1.15}h1{font-size:clamp(42px,8vw,70px);margin:.2em 0}h2{font-size:27px;margin:35px 0 8px}p,li{color:var(--muted)}.updated{font-size:13px;color:#e8a8d1}.panel{padding:clamp(20px,5vw,44px);background:#170c19e8;border:1px solid #f05bb577;border-radius:14px}footer{padding:24px 0 38px;border-top:1px solid #ffffff26;font-size:13px;color:var(--muted)}
 </style>
+<link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
 </head>
 <body>
-<header><a class="wordmark" href="./">KISSEDBYEVIE</a></header>
+<header class="route-nav">
+  <a class="route-brand" href="/">KISSEDBYEVIE</a>
+  <nav aria-label="Primary">
+    <a href="/menu#boutique" data-route="menu">Menu</a>
+    <a href="/menu#pay" data-route="pay">Pay</a>
+    <a href="/checkout" data-route="checkout">Checkout</a>
+    <a href="/gallery" data-route="gallery">Gallery</a>
+    <a href="/about" data-route="about">About</a>
+    <a href="/account.html" data-route="account">Account</a>
+  </nav>
+</header>
+<header><a class="wordmark" href="/menu">KISSEDBYEVIE</a></header>
 <main><article class="panel">
 <p class="updated">DISCLOSURE · UPDATED OCTOBER 30, 2026</p>
 <h1>What you’re getting.</h1>
@@ -33,6 +45,7 @@ header,main,footer{width:min(900px,calc(100% - 36px));margin:auto}header{padding
 <h2>Questions</h2>
 <p>For order questions or corrections, message me through <a href="https://t.me/m/M0AMf5LDMGFh" target="_blank" rel="noopener noreferrer">Telegram</a> or <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">X</a>.</p>
 </article></main>
-<footer><a href="./">Back to the menu</a> · <a href="privacy.html">Privacy Policy</a></footer>
+<footer><a href="/menu">Back to the menu</a> · <a href="/privacy.html">Privacy Policy</a></footer>
+<script src="/site-nav.js?v=20261120-routes-1"></script>
 </body>
 </html>

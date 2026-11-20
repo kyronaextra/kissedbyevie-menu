@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d060b">
+  <meta name="description" content="Kissed by Evie checkout. Choose items, pay with Venmo or Cash App, and send a payment screenshot.">
+  <title>Kissed by Evie — Checkout</title>
+  <link rel="canonical" href="https://kissedbyevie-menu.onrender.com/checkout">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
+  <link rel="stylesheet" href="/checkout.css?v=20261120-checkout-4">
+</head>
+<body>
+<header class="route-nav">
+  <a class="route-brand" href="/">KISSEDBYEVIE</a>
+  <nav aria-label="Primary">
+    <a href="/menu#boutique" data-route="menu">Menu</a>
+    <a href="/menu#pay" data-route="pay">Pay</a>
+    <a href="/checkout" data-route="checkout">Checkout</a>
+    <a href="/gallery" data-route="gallery">Gallery</a>
+    <a href="/about" data-route="about">About</a>
+    <a href="/account.html" data-route="account">Account</a>
+  </nav>
+</header>
+
+  <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
+    <div class="age-gate-panel">
+      <section id="botGateStep" class="age-step">
+        <span class="age-gate-kicker">QUICK CHECK · STEP 1 OF 2</span>
+        <h1 id="botGateTitle">Verify you’re not a bot.</h1>
+        <p id="botGateDescription">Choose the answer that applies, then confirm you’re over 18.</p>
+        <div class="age-gate-actions">
+          <button type="button" id="notBotConfirm">I’m not a bot · Continue</button>
+          <a href="https://www.google.com/" rel="nofollow">I am a bot · Leave</a>
+        </div>
+      </section>
+      <section id="ageGateStep" class="age-step" hidden>
+        <span class="age-gate-kicker">ADULTS ONLY · STEP 2 OF 2</span>
+        <h1 id="ageGateTitle">Confirm you’re over 18.</h1>
+        <p id="ageGateDescription">This checkout is for adults only.</p>
+        <div class="age-gate-actions">
+          <button type="button" id="ageGateConfirm">I’m 18+ · Continue</button>
+          <a href="https://www.google.com/" rel="nofollow">I’m under 18 · Leave</a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <header class="checkout-bar">
+    <a class="bar-brand" href="/menu#boutique">Menu</a>
+    <nav class="step-nav" aria-label="Checkout steps">
+      <a href="#itemsCard">Items</a>
+      <a href="#payCard">Pay</a>
+      <a href="#shotCard">Screenshot</a>
+    </nav>
+  </header>
+  <main class="wrap" id="checkoutApp">
+    <form id="checkoutForm" class="checkout-layout">
+      <div class="checkout-order">
+      <section class="card" id="itemsCard" aria-labelledby="itemsTitle">
+        <div class="order-top">
+          <h2 class="section-title" id="itemsTitle">Your order</h2>
+          <p class="amount-value" id="amountValue">$0.00</p>
+        </div>
+        <p class="amount-note" id="amountNote">Add an item to see your total</p>
+        <p class="sync-note" id="syncNote" hidden></p>
+        <div id="selectedSummary" hidden></div>
+        <div class="promo-row">
+          <label for="promoCode">Promo code</label>
+          <div class="promo-field">
+            <input id="promoCode" type="text" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Optional">
+            <button type="button" class="ghost" id="applyPromo">Apply</button>
+          </div>
+          <p class="promo-status" id="promoStatus" hidden></p>
+        </div>
+        <button type="button" class="catalog-toggle" id="toggleCatalog" aria-expanded="true" aria-controls="catalogPanel">Browse / add more items</button>
+        <div id="catalogPanel">
+        <div id="itemList"></div>
+        <div class="tip-row">
+          <label for="tipInput">Custom amount / tip</label>
+          <div class="tip-field">
+            <span>$</span>
+            <input id="tipInput" type="number" min="0" max="500" step="0.01" inputmode="decimal" placeholder="0" value="">
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <section class="card recs-card" aria-labelledby="recsTitle">
+        <h2 class="section-title" id="recsTitle">Add one</h2>
+        <div class="recs" id="recs"></div>
+      </section>
+      </div>
+      <div class="checkout-pay">
+      <section class="card" id="payCard" aria-labelledby="payTitle">
+        <h2 class="section-title" id="payTitle">Payment method:</h2>
+        <div class="pay-choice">
+          <div class="pay-card is-on" data-method="venmo">
+            <button type="button" class="pay-head" data-select="venmo" aria-pressed="true">
+              <span class="radio" aria-hidden="true"></span>
+              <span><b>Venmo</b><span>@Barfiesfunds</span></span>
+            </button>
+            <div class="pay-body">
+              <div class="handle-row">
+                <code>@Barfiesfunds</code>
+                <button type="button" class="ghost" data-copy="@Barfiesfunds">Copy</button>
+              </div>
+              <div class="memo">please write <strong class="memo-text">Food</strong> in the memo</div>
+              <button type="button" class="ghost" data-copy-memo style="margin-bottom:10px">Copy Memo</button>
+              <button type="button" class="app-btn" id="openVenmo">Open Venmo App</button>
+            </div>
+          </div>
+
+          <div class="pay-card" data-method="cashapp">
+            <button type="button" class="pay-head" data-select="cashapp" aria-pressed="false">
+              <span class="radio" aria-hidden="true"></span>
+              <span><b>Cash App</b><span>$taylorgann90</span></span>
+            </button>
+            <div class="pay-body">
+              <div class="handle-row">
+                <code>$taylorgann90</code>
+                <button type="button" class="ghost" data-copy="$taylorgann90">Copy</button>
+              </div>
+              <div class="memo">please write <strong class="memo-text">Food</strong> in the memo</div>
+              <button type="button" class="ghost" data-copy-memo style="margin-bottom:10px">Copy Memo</button>
+              <button type="button" class="app-btn" id="openCash">Open Cash App</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="enterTitle">
+        <h2 class="section-title" id="enterTitle">Please enter:</h2>
+        <div class="fields">
+          <label>Snapchat username
+            <input id="snapUser" type="text" name="snapchat" autocomplete="username" maxlength="80" placeholder="@username">
+          </label>
+          <label>Telegram username
+            <input id="tgUser" type="text" name="telegram" autocomplete="username" maxlength="80" placeholder="@username">
+          </label>
+          <label>X username
+            <input id="xUser" type="text" name="x" autocomplete="username" maxlength="80" placeholder="@username">
+          </label>
+          <label>Notes / custom request details
+            <textarea id="orderNotes" name="notes" maxlength="500" rows="3" placeholder="Customs, ratings, add-ons, or anything I should know. Optional."></textarea>
+          </label>
+          <p class="notes-count" id="notesCount">0 / 500</p>
+        </div>
+        <p class="thanks">So I can keep track of who’s paid,<br>Thank you!</p>
+      </section>
+
+      <section class="card" id="shotCard" aria-labelledby="uploadTitle">
+        <h2 class="section-title" id="uploadTitle">Payment screenshot (required)</h2>
+        <label class="upload" id="uploadBox">
+          <input id="proofInput" type="file" accept="image/*" aria-required="true">
+          <span class="upload-copy">
+            <strong>Tap to upload a screenshot</strong>
+            Payment screenshot, image files only. Required before you submit.
+          </span>
+          <img class="preview-shot" id="proofPreview" alt="Uploaded payment screenshot preview">
+        </label>
+        <p class="file-name" id="fileName" hidden></p>
+        <label class="consent" for="checkoutAdult">
+          <input id="checkoutAdult" type="checkbox">
+          <span>I am 18 or older and I agree to the <a href="/fulfillment.html" target="_blank" rel="noopener noreferrer">Fulfillment Agreement</a>.</span>
+        </label>
+        <div class="anti-spam" aria-hidden="true">
+          <label>Website <input id="checkoutWebsite" type="text" tabindex="-1" autocomplete="off"></label>
+        </div>
+        <button type="submit" class="submit-btn" id="submitCheckout">Submit</button>
+        <p class="err" id="formErr" role="alert" hidden></p>
+        <button type="button" class="ghost" id="copySummary" hidden>Copy summary</button>
+      </section>
+      </div>
+    </form>
+
+    <section class="card" id="returnChat" aria-labelledby="chatTitle">
+      <h2 class="section-title" id="chatTitle">Return to chat …</h2>
+      <p class="chat-note">Opens the app version on your phone.</p>
+      <div class="chat-links">
+        <a class="chat-btn" id="openX" href="https://x.com/kissedbyevie?s=11">X  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn" id="openTg" href="https://t.me/kissedbyevie">Telegram DM  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn chat-btn-secondary" id="openTgChannel" href="https://t.me/eviesquirts">NSFW Channel  &gt;&gt;  @eviesquirts</a>
+      </div>
+    </section>
+
+    <section class="card confirm" id="confirmCard" hidden>
+      <span class="badge" id="confirmBadge">Saved for review</span>
+      <h2 id="confirmHeading">Order summary</h2>
+      <p class="confirm-meta" id="confirmLead"></p>
+      <ul class="confirm-list" id="confirmItems"></ul>
+      <div class="confirm-total"><span>Amount</span><strong id="confirmTotal">$0.00</strong></div>
+      <p class="confirm-meta" id="confirmPay"></p>
+      <p class="confirm-meta" id="confirmMemo" hidden></p>
+      <p class="confirm-meta" id="confirmUsers"></p>
+      <p class="confirm-meta" id="confirmNotes" hidden></p>
+      <img class="confirm-shot" id="confirmShot" alt="Payment screenshot" hidden>
+      <p class="confirm-meta" id="confirmProof"></p>
+      <h3 class="section-title" style="margin-top:16px">Return to chat …</h3>
+      <p class="chat-note">Opens the app version on your phone.</p>
+      <div class="chat-links">
+        <a class="chat-btn" id="openX2" href="https://x.com/kissedbyevie?s=11">X  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn" id="openTg2" href="https://t.me/kissedbyevie">Telegram DM  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn chat-btn-secondary" id="openTgChannel2" href="https://t.me/eviesquirts">NSFW Channel  &gt;&gt;  @eviesquirts</a>
+      </div>
+      <button type="button" class="edit-btn" id="editOrder">Edit order</button>
+    </section>
+
+    <div class="sticky-amount" aria-live="polite">
+      <div class="sticky-total"><span>Amount</span><strong id="stickyAmount">$0.00</strong></div>
+      <a class="sticky-jump" id="stickyJump" href="#payCard">Pay</a>
+    </div>
+  </main>
+<footer class="route-footer">
+  <span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span>
+  <nav aria-label="Footer">
+    <a href="/menu">Menu</a>
+    <a href="/checkout">Checkout</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/about">About</a>
+    <a href="/account.html">My account</a>
+    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer">NSFW channel</a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a>
+    <a href="/fulfillment.html">Fulfillment Agreement</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/disclosure.html">Disclosure</a>
+  </nav>
+</footer>
+
+  <div class="toast" id="toast" role="status"></div>
+  <noscript><p style="padding:24px;color:#f9eaf0;background:#0d060b">Checkout needs JavaScript so the total and payment links can update.</p></noscript>
+
+  <script>
+  (function(){
+    var gate=document.getElementById('ageGate');
+    var botStep=document.getElementById('botGateStep');
+    var ageStep=document.getElementById('ageGateStep');
+    var notBot=document.getElementById('notBotConfirm');
+    var confirm=document.getElementById('ageGateConfirm');
+    if(!gate||!botStep||!ageStep||!notBot||!confirm)return;
+    var key='evie-age-confirmed-v2';
+    var pageParts=Array.from(document.body.children).filter(function(node){return node!==gate});
+    function setPageBlocked(blocked){
+      document.body.style.overflow=blocked?'hidden':'';
+      pageParts.forEach(function(node){node.inert=blocked});
+    }
+    var already=false;
+    try{already=localStorage.getItem(key)==='yes'}catch(_){}
+    if(already){gate.hidden=true;setPageBlocked(false);return}
+    setPageBlocked(true);
+    notBot.addEventListener('click',function(){
+      botStep.hidden=true;
+      ageStep.hidden=false;
+      gate.setAttribute('aria-labelledby','ageGateTitle');
+      gate.setAttribute('aria-describedby','ageGateDescription');
+      confirm.focus();
+    });
+    confirm.addEventListener('click',function(){
+      try{localStorage.setItem(key,'yes')}catch(_){}
+      gate.hidden=true;
+      setPageBlocked(false);
+    });
+  })();
+  </script>
+  <script type="module" src="/supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
+  <script src="/checkout-catalog.js?v=20261120-checkout-4"></script>
+  <script src="/member-config.js"></script>
+  <script src="/order-config.js"></script>
+  <script src="/checkout.js?v=20261120-checkout-4"></script>
+  <script src="/site-nav.js?v=20261120-routes-1"></script>
+</body>
+</html>
