@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="checkout.css?v=20261120-checkout-3">
+  <link rel="stylesheet" href="checkout.css?v=20261120-checkout-4">
 </head>
 <body>
   <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -95,7 +95,7 @@
                 <code>@Barfiesfunds</code>
                 <button type="button" class="ghost" data-copy="@Barfiesfunds">Copy</button>
               </div>
-              <div class="memo">please write <strong>“for barfie’s vet bill, cat food or care”</strong> in memo</div>
+              <div class="memo">please write <strong class="memo-text">Food</strong> in the memo</div>
               <button type="button" class="ghost" data-copy-memo style="margin-bottom:10px">Copy Memo</button>
               <button type="button" class="app-btn" id="openVenmo">Open Venmo App</button>
             </div>
@@ -111,7 +111,7 @@
                 <code>$taylorgann90</code>
                 <button type="button" class="ghost" data-copy="$taylorgann90">Copy</button>
               </div>
-              <div class="memo">please write <strong>“for barfie’s vet bill, cat food or care”</strong> in memo</div>
+              <div class="memo">please write <strong class="memo-text">Food</strong> in the memo</div>
               <button type="button" class="ghost" data-copy-memo style="margin-bottom:10px">Copy Memo</button>
               <button type="button" class="app-btn" id="openCash">Open Cash App</button>
             </div>
@@ -181,6 +181,7 @@
       <ul class="confirm-list" id="confirmItems"></ul>
       <div class="confirm-total"><span>Amount</span><strong id="confirmTotal">$0.00</strong></div>
       <p class="confirm-meta" id="confirmPay"></p>
+      <p class="confirm-meta" id="confirmMemo" hidden></p>
       <p class="confirm-meta" id="confirmUsers"></p>
       <p class="confirm-meta" id="confirmNotes" hidden></p>
       <img class="confirm-shot" id="confirmShot" alt="Payment screenshot" hidden>
@@ -236,9 +237,10 @@
     });
   })();
   </script>
-  <script src="checkout-catalog.js?v=20261120-checkout-3"></script>
+  <script type="module" src="supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
+  <script src="checkout-catalog.js?v=20261120-checkout-4"></script>
   <script src="member-config.js"></script>
   <script src="order-config.js"></script>
-  <script src="checkout.js?v=20261120-checkout-3"></script>
+  <script src="checkout.js?v=20261120-checkout-4"></script>
 </body>
 </html>

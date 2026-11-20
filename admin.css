@@ -121,6 +121,8 @@ h1,h2,h3,p{margin-top:0}h1,h2{font-weight:400}h1 em,h2 em{color:var(--pink);font
 .order-meta,.order-handles{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
 .order-notes{margin:10px 0 0;padding:10px 12px;border-left:2px solid var(--gold);background:rgba(227,197,161,.08);color:var(--text);font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
 .order-notes strong{display:block;margin-bottom:4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.order-memo{margin:10px 0 0;padding:10px 12px;border-left:2px solid var(--mint);background:rgba(184,224,200,.08);color:var(--text);font-size:14px;line-height:1.45}
+.order-memo strong{display:block;margin-bottom:4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mint)}
 .order-handles{display:flex;flex-wrap:wrap;gap:8px 14px}
 .order-items{margin:8px 0 0;padding-left:18px}
 .order-proof{display:block;width:100%;max-height:220px;object-fit:contain;margin-top:10px;border-radius:8px;background:#050807}

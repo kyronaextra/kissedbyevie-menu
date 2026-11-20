@@ -31,7 +31,8 @@
     syncNotes: [],
     promoUnlocked: false,
     promoCode: '',
-    promoNotice: ''
+    promoNotice: '',
+    memo: ''
   };
 
   function escapeHtml(value) {
@@ -527,7 +528,7 @@
     const amount = total();
     let pay = 'venmo://paycharge?txn=pay&recipients=' + encodeURIComponent(catalog.venmoRecipient);
     if (amount > 0) pay += '&amount=' + encodeURIComponent(amountParam(amount));
-    pay += '&note=' + encodeURIComponent(catalog.memo);
+    pay += '&note=' + encodeURIComponent(state.memo || 'Food');
     return {app: pay, web: catalog.venmoWeb};
   }
   function cashUrls() {
@@ -567,7 +568,7 @@
       lines.join('\n') || 'No priced items',
       'Amount: ' + money(total()),
       'Payment: ' + (state.method === 'cashapp' ? 'Cash App ' + catalog.cashAppHandle : 'Venmo ' + catalog.venmoHandle),
-      'Memo: ' + catalog.memo,
+      'Memo: ' + (state.memo || 'Food'),
       who.join('\n'),
       note ? 'Notes: ' + note : '',
       'This note is not a payment confirmation.'
@@ -646,6 +647,9 @@
     $('confirmPay').textContent = state.method === 'cashapp'
       ? 'Payment method: Cash App  ' + catalog.cashAppHandle
       : 'Payment method: Venmo  ' + catalog.venmoHandle;
+    const memoEl = $('confirmMemo');
+    memoEl.hidden = !state.memo;
+    memoEl.textContent = state.memo ? 'Memo: ' + state.memo : '';
     const bits = [];
     if (users.snap) bits.push('Snapchat: ' + users.snap);
     if (users.telegram) bits.push('Telegram: ' + users.telegram);
@@ -737,6 +741,7 @@
       telegram_handle: users.telegram,
       x_handle: users.x,
       notes: note,
+      payment_memo: state.memo,
       promo_code: promoCodeForOrder(),
       adult_confirmed: true,
       website: ''
@@ -754,6 +759,11 @@
     try {
       const response = await fetch(api, {method: 'POST', headers: headers, body: body, signal: controller.signal});
       const data = await response.json().catch(() => null);
+      if (response.status === 409 && data && data.memo) {
+        applyMemo(data.memo, true);
+        showError(data.error || 'That memo was just used. Copy the new one into Venmo or Cash App.');
+        return;
+      }
       if (!response.ok || !data || data.ok !== true || !data.order_id) {
         const reason = data && data.error ? data.error : (response.status === 404
           ? 'The payment server isn’t deployed yet.'
@@ -801,9 +811,13 @@
     btn.addEventListener('click', () => copyText(btn.getAttribute('data-copy')));
   });
   document.querySelectorAll('[data-copy-memo]').forEach((btn) => {
-    btn.addEventListener('click', () => copyText(catalog.memo));
+    btn.addEventListener('click', () => {
+      state.memoLocked = true;
+      copyText(state.memo || 'Food');
+    });
   });
   $('openVenmo').addEventListener('click', () => {
+    state.memoLocked = true;
     const urls = venmoUrls();
     openApp(urls.app, urls.web);
   });
@@ -930,7 +944,58 @@
       promoUnlocked: state.promoUnlocked,
       promoCode: promoCodeForOrder(),
       notes: notesText().trim(),
+      memo: state.memo,
       extras: state.extras.map((extra) => Object.assign({}, extra))
     })
   };
+
+  const SHOWN_KEY = 'evie-shown-memos';
+  function readShown() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(SHOWN_KEY) || '[]');
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string').slice(-120) : [];
+    } catch (err) {
+      return [];
+    }
+  }
+  function rememberMemo(memo) {
+    const shown = readShown().filter((item) => item !== memo);
+    shown.push(memo);
+    try { localStorage.setItem(SHOWN_KEY, JSON.stringify(shown.slice(-120))); } catch (err) { /* private mode */ }
+  }
+  function applyMemo(memo, lock) {
+    const text = String(memo || '').trim();
+    if (!text) return;
+    state.memo = text;
+    if (lock) state.memoLocked = true;
+    document.querySelectorAll('.memo-text').forEach((node) => { node.textContent = text; });
+    rememberMemo(text);
+  }
+  function localMemo(exclude) {
+    if (window.EVIE_MEMOS && window.EVIE_MEMOS.pickMemo) return window.EVIE_MEMOS.pickMemo([], exclude);
+    return 'Food';
+  }
+  async function loadMemo() {
+    const first = localMemo(readShown());
+    applyMemo(first, false);
+    const api = String(window.EVIE_ORDER_API_URL || '').trim();
+    if (!api || !window.EVIE_MEMOS) return;
+    const url = new URL(api);
+    url.searchParams.set('action', 'memo');
+    readShown().forEach((memo) => url.searchParams.append('exclude', memo));
+    const headers = {};
+    if (window.EVIE_SUPABASE_PUBLISHABLE_KEY) headers.apikey = window.EVIE_SUPABASE_PUBLISHABLE_KEY;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 4000);
+    try {
+      const response = await fetch(url, {method: 'GET', headers: headers, signal: controller.signal});
+      const data = await response.json().catch(() => null);
+      if (response.ok && data && window.EVIE_MEMOS.isKnownMemo(data.memo) && !state.memoLocked && data.memo !== state.memo) {
+        applyMemo(data.memo, false);
+      }
+    } catch (err) { /* keep the memo already on the page */ }
+    finally { clearTimeout(timer); }
+  }
+  if (window.EVIE_MEMOS) loadMemo();
+  else window.addEventListener('evie-memos-ready', function () { loadMemo(); }, {once: true});
 })();

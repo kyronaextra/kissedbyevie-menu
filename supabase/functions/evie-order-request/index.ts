@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { isKnownMemo, pickMemo } from "./memos.js";
 
 // Legacy menu names kept so older order posts still validate.
 // Prices are server-side cents. The browser cannot set them.
@@ -141,6 +142,7 @@ function checkoutAlertText(input: {
   total: number;
   payment: string;
   notes: string;
+  memo: string;
 }) {
   const handles = [
     input.snap ? "Snapchat: " + input.snap : "",
@@ -155,6 +157,7 @@ function checkoutAlertText(input: {
     "Total: " + moneyLabel(input.total),
     "Payment: " + (input.payment === "cash_app" ? "Cash App" : "Venmo"),
   ];
+  if (input.memo) lines.push("Memo: " + input.memo);
   if (input.notes) lines.push("Notes: " + input.notes);
   lines.push("Admin: " + ADMIN_ORDER_URL);
   return lines.join("\n").slice(0, 3500);
@@ -198,6 +201,36 @@ async function recentHandleCount(handle: string) {
   const recent = await supabase.from("evie_order_requests").select("id").gte("created_at", since).or(filter).limit(5);
   if (recent.error) throw recent.error;
   return (recent.data || []).length;
+}
+
+async function usedMemoSet() {
+  const found = new Set<string>();
+  if (!supabase) return found;
+  let from = 0;
+  while (from < 20000) {
+    const page = await supabase.from("evie_used_memos").select("memo").range(from, from + 999);
+    if (page.error) throw page.error;
+    for (const row of page.data || []) {
+      if (typeof row.memo === "string") found.add(row.memo);
+    }
+    if (!page.data || page.data.length < 1000) break;
+    from += 1000;
+  }
+  return found;
+}
+
+async function claimMemo(memo: string, requestId: string) {
+  const insert = await supabase.from("evie_used_memos").insert({memo, request_id: requestId}).select("memo").single();
+  if (!insert.error) return "claimed" as const;
+  if (insert.error.code !== "23505") throw insert.error;
+  const existing = await supabase.from("evie_used_memos").select("request_id").eq("memo", memo).maybeSingle();
+  if (existing.error) throw existing.error;
+  if (existing.data?.request_id === requestId) return "owned" as const;
+  return "taken" as const;
+}
+
+async function releaseMemo(memo: string, requestId: string) {
+  await supabase.from("evie_used_memos").delete().eq("memo", memo).eq("request_id", requestId);
 }
 
 async function handleCheckout(bodyText: string, file: Blob | null, origin: string) {
@@ -255,27 +288,55 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
   if (total <= 0 || total > 250000) {
     return response({ok: false, error: total > 250000 ? "Order exceeds $2,500 on this page" : "Add an item or a custom amount"}, 400, origin);
   }
+  const memo = typeof b.payment_memo === "string" ? b.payment_memo.trim() : "";
+  if (!isKnownMemo(memo)) return response({ok: false, error: "Use the memo shown on this page"}, 400, origin);
 
   const prior = await supabase.from("evie_order_requests").select("id").eq("request_id", b.request_id).maybeSingle();
   if (prior.error) throw prior.error;
   if (prior.data) return response({ok: true, order_id: prior.data.id, stored: true}, 200, origin);
 
-  if (!file || file.size <= 0) return response({ok: false, error: "Upload a payment screenshot"}, 400, origin);
-  if (file.size > MAX_PROOF_BYTES) return response({ok: false, error: "Screenshots need to be 5 MB or smaller"}, 413, origin);
+  const claim = await claimMemo(memo, b.request_id);
+  if (claim === "taken") {
+    let replacement = "Cat care 10000";
+    try {
+      const used = await usedMemoSet();
+      used.add(memo);
+      replacement = pickMemo(used, [memo]);
+    } catch { /* keep the numbered fallback */ }
+    return response({ok: false, error: "That memo was just used. Copy the new one into Venmo or Cash App.", memo: replacement}, 409, origin);
+  }
+
+  if (!file || file.size <= 0) {
+    if (claim === "claimed") await releaseMemo(memo, b.request_id);
+    return response({ok: false, error: "Upload a payment screenshot"}, 400, origin);
+  }
+  if (file.size > MAX_PROOF_BYTES) {
+    if (claim === "claimed") await releaseMemo(memo, b.request_id);
+    return response({ok: false, error: "Screenshots need to be 5 MB or smaller"}, 413, origin);
+  }
   const bytes = new Uint8Array(await file.arrayBuffer());
   const mime = sniffImage(bytes);
-  if (!mime) return response({ok: false, error: "Upload a JPEG, PNG, GIF, WebP, or HEIC screenshot"}, 400, origin);
+  if (!mime) {
+    if (claim === "claimed") await releaseMemo(memo, b.request_id);
+    return response({ok: false, error: "Upload a JPEG, PNG, GIF, WebP, or HEIC screenshot"}, 400, origin);
+  }
 
   const uniqueHandles = [...new Set([snap, telegram, xHandle].filter((value): value is string => Boolean(value)))];
   for (const handle of uniqueHandles) {
-    if (await recentHandleCount(handle) >= 3) return response({ok: false, error: "Please wait before submitting again"}, 429, origin);
+    if (await recentHandleCount(handle) >= 3) {
+      if (claim === "claimed") await releaseMemo(memo, b.request_id);
+      return response({ok: false, error: "Please wait before submitting again"}, 429, origin);
+    }
   }
   const rand = Array.from(crypto.getRandomValues(new Uint8Array(8)), (byte) => byte.toString(16).padStart(2, "0")).join("");
   const proofPath = b.request_id.toLowerCase() + "/" + rand + "." + extensionFor(mime);
   const proofMime = mime;
   const proofBytes = bytes.byteLength;
   const upload = await supabase.storage.from(PROOF_BUCKET).upload(proofPath, new Blob([bytes], {type: mime}), {contentType: mime, upsert: false});
-  if (upload.error) throw upload.error;
+  if (upload.error) {
+    if (claim === "claimed") await releaseMemo(memo, b.request_id);
+    throw upload.error;
+  }
 
   const primary = snap ? ["snapchat", snap] : telegram ? ["telegram", telegram] : ["x", xHandle as string];
   const insert = await supabase.from("evie_order_requests").insert({
@@ -286,6 +347,7 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
     telegram_handle: telegram,
     x_handle: xHandle,
     notes,
+    payment_memo: memo,
     payment_method: payment,
     items: priced,
     initial_total_cents: total,
@@ -299,6 +361,7 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
   }).select("id").single();
   if (insert.error) {
     await supabase.storage.from(PROOF_BUCKET).remove([proofPath]);
+    if (claim === "claimed") await releaseMemo(memo, b.request_id);
     if (insert.error.code === "23505") {
       const again = await supabase.from("evie_order_requests").select("id").eq("request_id", b.request_id).maybeSingle();
       if (again.data) return response({ok: true, order_id: again.data.id, stored: true}, 200, origin);
@@ -306,7 +369,7 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
     throw insert.error;
   }
   await scheduleCheckoutAlert(checkoutAlertText({
-    snap, telegram, xHandle, items: priced, total, payment, notes,
+    snap, telegram, xHandle, items: priced, total, payment, notes, memo,
   }));
   return response({ok: true, order_id: insert.data.id, stored: true}, 201, origin);
 }
@@ -366,10 +429,22 @@ async function handleLegacy(raw: string, origin: string) {
   return response({ok: true, order_id: insert.data.id}, 201, origin);
 }
 
+async function handleMemo(req: Request, origin: string) {
+  const url = new URL(req.url);
+  const exclude = url.searchParams.getAll("exclude")
+    .map((value) => value.trim())
+    .filter((value) => value.length >= 2 && value.length <= 80)
+    .slice(0, 120);
+  let used = new Set<string>();
+  try { used = await usedMemoSet(); } catch { used = new Set(); }
+  return response({ok: true, memo: pickMemo(used, exclude)}, 200, origin);
+}
+
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin") || "";
   if (!allowedOrigins.includes(origin)) return new Response("Origin not allowed", {status: 403});
   if (req.method === "OPTIONS") return response({ok: true}, 200, origin);
+  if (req.method === "GET") return await handleMemo(req, origin);
   if (req.method !== "POST") return response({ok: false, error: "Method not allowed"}, 405, origin);
   if (!supabase) return response({ok: false, error: "Backend not configured"}, 503, origin);
   const contentType = req.headers.get("content-type") || "";

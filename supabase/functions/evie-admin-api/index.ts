@@ -244,7 +244,7 @@ async function memberPage(page:number){
 }
 async function listOrders(){
  const {data,error}=await privileged.from("evie_order_requests")
-  .select("id,created_at,status,source,contact_platform,contact_handle,snapchat_handle,telegram_handle,x_handle,payment_method,items,initial_total_cents,tip_cents,notes,proof_path,proof_mime")
+  .select("id,created_at,status,source,contact_platform,contact_handle,snapchat_handle,telegram_handle,x_handle,payment_method,payment_memo,items,initial_total_cents,tip_cents,notes,proof_path,proof_mime")
   .order("created_at",{ascending:false}).limit(40);
  if(error)return {orders:[],unavailable:true,message:"Orders aren’t available yet. Apply the checkout migration, then refresh."};
  const orders=[];

@@ -224,6 +224,12 @@ async function loadOrders(){
    top.append(pill);
    card.append(top);
    card.append(node('p','order-meta',orderWhen(order.created_at)+' · '+String(order.payment_method||'payment').replace(/_/g,' ')+(order.source==='checkout'?' · checkout':' · earlier order')));
+   if(order.payment_memo){
+    const memo=node('p','order-memo');
+    memo.append(node('strong','','Payment memo'));
+    memo.append(document.createTextNode(String(order.payment_memo)));
+    card.append(memo);
+   }
    const who=node('p','order-handles');
    [handleLine('Snapchat',order.snapchat_handle),handleLine('Telegram',order.telegram_handle),handleLine('X',order.x_handle)]
     .filter(Boolean).forEach(part=>who.append(part));
