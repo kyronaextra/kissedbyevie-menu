@@ -1,9 +1,8 @@
-/* Lazy Ko-fi panel plus the official floating button, after the 18+ gate. */
+/* Lazy Ko-fi panel. The floating control is ours, shown after the 18+ gate. */
 (function () {
   'use strict';
 
   var PANEL_SRC = 'https://ko-fi.com/eviesquirts/?hidefeed=true&widget=true&embed=true';
-  var OVERLAY_SRC = 'https://storage.ko-fi.com/cdn/scripts/overlay-widget.js';
   var AGE_KEY = 'evie-age-confirmed-v2';
 
   function menuPath() {
@@ -28,9 +27,22 @@
     });
   }
 
+  function setFloatCovered(covered) {
+    document.body.classList.toggle('kofi-float-hidden', covered);
+    var button = document.getElementById('kofiFloat');
+    if (!button || button.hidden) return;
+    if (covered) {
+      button.setAttribute('aria-hidden', 'true');
+      button.setAttribute('tabindex', '-1');
+    } else {
+      button.removeAttribute('aria-hidden');
+      button.removeAttribute('tabindex');
+    }
+  }
+
   function watchSectionCover() {
     if (!('IntersectionObserver' in window)) return;
-    var zones = ['pay', 'tip'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    var zones = ['pay', 'tip', 'work-order'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
     if (!zones.length) return;
     var covering = new Set();
     var cover = new IntersectionObserver(function (entries) {
@@ -38,7 +50,7 @@
         if (entry.isIntersecting) covering.add(entry.target);
         else covering.delete(entry.target);
       });
-      document.body.classList.toggle('kofi-float-hidden', covering.size > 0);
+      setFloatCovered(covering.size > 0);
     }, { threshold: 0.2 });
     zones.forEach(function (zone) { cover.observe(zone); });
   }
@@ -67,22 +79,11 @@
     observer.observe(shell);
   }
 
-  function drawOverlay() {
-    if (window.__evieKofiOverlay) return;
-    window.__evieKofiOverlay = true;
-    var script = document.createElement('script');
-    script.src = OVERLAY_SRC;
-    script.async = true;
-    script.onload = function () {
-      if (!window.kofiWidgetOverlay || typeof window.kofiWidgetOverlay.draw !== 'function') return;
-      window.kofiWidgetOverlay.draw('eviesquirts', {
-        type: 'floating-chat',
-        'floating-chat.donateButton.text': 'Tip Evie',
-        'floating-chat.donateButton.background-color': '#ff2e9a',
-        'floating-chat.donateButton.text-color': '#fff'
-      });
-    };
-    document.body.appendChild(script);
+  function showFloat() {
+    var button = document.getElementById('kofiFloat');
+    if (!button) return;
+    button.hidden = false;
+    setFloatCovered(document.body.classList.contains('kofi-float-hidden'));
   }
 
   function whenAdult(callback) {
@@ -99,10 +100,10 @@
 
   syncTipLink();
   window.addEventListener('hashchange', syncTipLink);
+  if (location.hash === '#tip' || location.hash === '#pay') {
+    document.body.classList.add('kofi-float-hidden');
+  }
   watchSectionCover();
   loadPanel();
-  whenAdult(function () {
-    if ('requestIdleCallback' in window) requestIdleCallback(drawOverlay, { timeout: 2500 });
-    else window.setTimeout(drawOverlay, 500);
-  });
+  whenAdult(showFloat);
 })();

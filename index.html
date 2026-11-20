@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="/style.css?v=20261029-evidence-box-1">
 <link rel="stylesheet" href="/evie-nav.css?v=20261028-nav-clean-3">
 <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
-<link rel="stylesheet" href="/kofi-tip.css?v=20261120-tip-3">
+<link rel="stylesheet" href="/kofi-tip.css?v=20261120-tip-4">
 <link rel="stylesheet" href="/blog.css">
 <link rel="stylesheet" href="/vip-terms.css">
 <link rel="stylesheet" href="/public-gallery.css?v=20261027-gallery-1">
@@ -35,7 +35,7 @@
 <script defer src="/vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="/evie-nav.js?v=20261028-explore-1"></script>
 <script defer src="/site-nav.js?v=20261120-routes-1"></script>
-<script defer src="/kofi-tip.js?v=20261120-tip-3"></script>
+<script defer src="/kofi-tip.js?v=20261120-tip-4"></script>
 <script defer src="/install-app.js?v=20261030-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="/member-config.js"></script>
@@ -594,19 +594,25 @@ html{scroll-padding-top:56px!important}
 </section>
 
 <section class="payments kofi-tip" id="tip" aria-labelledby="tipHeading">
-  <p class="eyebrow">OPTIONAL</p>
-  <h2 id="tipHeading">Tip <em>me.</em></h2>
-  <p class="sub" id="tipNote">Tips are optional and appreciated. They don’t buy content, and they don’t change the total I confirm with you.</p>
-  <div class="kofi-frame" id="kofiFrame">
-    <p class="kofi-frame-status" id="kofiPanelStatus">Ko-fi’s tip panel loads here.</p>
-    <iframe id="kofiPanel" title="Tip Evie on Ko-fi" loading="lazy" data-src="https://ko-fi.com/eviesquirts/?hidefeed=true&widget=true&embed=true" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <div class="kofi-card">
+    <p class="eyebrow">IF YOU’RE FEELING IT</p>
+    <h2 id="tipHeading">Tip <em>me.</em></h2>
+    <p class="kofi-flirt">If I made your night, spoil me a little.</p>
+    <p class="sub" id="tipNote">Optional, and appreciated. A tip doesn’t buy content, and it doesn’t change the total I confirm with you.</p>
+    <p class="kofi-hero">
+      <a class="primary-btn kofi-open" href="https://ko-fi.com/eviesquirts" target="_blank" rel="noopener noreferrer">Open Ko-fi <span aria-hidden="true">↗</span></a>
+    </p>
+    <div class="kofi-stage">
+      <p class="kofi-stage-label" id="kofiStageLabel">Or leave it here</p>
+      <div class="kofi-frame" id="kofiFrame">
+        <p class="kofi-frame-status" id="kofiPanelStatus">The Ko-fi panel loads here.</p>
+        <iframe id="kofiPanel" title="Tip Evie on Ko-fi" loading="lazy" data-src="https://ko-fi.com/eviesquirts/?hidefeed=true&widget=true&embed=true" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+    <noscript>
+      <iframe title="Tip Evie on Ko-fi" src="https://ko-fi.com/eviesquirts/?hidefeed=true&widget=true&embed=true" loading="lazy" style="width:min(100%,400px);height:630px;border:0;border-radius:12px;background:#fff"></iframe>
+    </noscript>
   </div>
-  <noscript>
-    <iframe title="Tip Evie on Ko-fi" src="https://ko-fi.com/eviesquirts/?hidefeed=true&widget=true&embed=true" loading="lazy" style="width:min(100%,400px);height:680px;border:0;background:#fff"></iframe>
-  </noscript>
-  <p class="kofi-fallback">
-    <a class="primary-btn kofi-fallback-link" href="https://ko-fi.com/eviesquirts" target="_blank" rel="noopener noreferrer">Tip me on Ko-fi <span aria-hidden="true">↗</span></a>
-  </p>
 </section>
 
 
@@ -674,6 +680,7 @@ html{scroll-padding-top:56px!important}
   </nav>
 </footer>
 <button class="bag-pill" id="bagPill" type="button" aria-label="Open your bag"><span id="bagCount">0</span><span>Bag · <strong id="bagTotal">$0</strong></span></button>
+<a class="kofi-float" id="kofiFloat" href="https://ko-fi.com/eviesquirts" target="_blank" rel="noopener noreferrer" hidden>Tip Evie</a>
 <div class="added-toast" id="addedToast" role="status" aria-live="polite"></div>
 <dialog id="vipTerms" aria-labelledby="vipTermsTitle" aria-describedby="vipTermsLead">
   <div class="terms-head"><span>KISSED BY EVIE · BEFORE YOU ORDER</span><button type="button" class="terms-close" id="termsClose" aria-label="Close fulfillment agreement">×</button></div>

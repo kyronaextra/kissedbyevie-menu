@@ -1,83 +1,175 @@
-/* Ko-fi tip panel on the menu. Uses the same type, pills, and rose chrome as the route nav. */
+/* Tip section. Same metal, serif, and glow as the menu cards and primary buttons. */
 #tip{scroll-margin-top:calc(var(--route-nav-height, 54px) + 16px)}
 
 .route-nav nav a[data-route="tip"]{
-  border-color:#ff6bc9;
-  background:linear-gradient(110deg,#ff2e9a,#ff6bc9 55%,#ff2e9a);
+  border-color:#c0c0c0;
+  background:linear-gradient(145deg,rgba(255,46,154,.22),rgba(13,6,20,.94));
   color:#fff;
-  box-shadow:0 0 14px rgba(255,79,216,.35),inset 0 1px rgba(255,255,255,.4);
+  box-shadow:inset 0 1px rgba(255,255,255,.35),0 0 14px rgba(255,79,216,.28);
 }
-.route-nav nav a[data-route="tip"]:hover{border-color:#fff;color:#fff}
+.route-nav nav a[data-route="tip"]:hover{
+  border-color:#fff;
+  color:#fff;
+}
+.route-nav nav a[data-route="tip"][aria-current="page"]{
+  border-color:#c0c0c0;
+  background:linear-gradient(115deg,#ff2e9a 0%,#ff6bc9 46%,#ff2e9a 100%);
+  color:#fff;
+  box-shadow:0 0 16px rgba(255,79,216,.42),inset 0 1px rgba(255,255,255,.55);
+}
 .route-nav nav a[data-route="tip"]:focus-visible{
   outline:3px solid #fff;
   outline-offset:3px;
 }
 
 .kofi-tip{
-  padding-top:1.25rem;
-  border-top:1px solid rgba(255,228,255,.28);
+  padding-top:1.5rem;
+  padding-bottom:2.5rem;
 }
-.kofi-tip h2 em{color:#ffd7f6;font-style:italic;font-weight:normal}
+.kofi-card{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  margin:0 auto;
+  padding:clamp(22px,4vw,36px) clamp(16px,3vw,28px) clamp(18px,3vw,26px);
+  border:1px solid rgba(255,46,154,.62);
+  border-radius:22px;
+  background:
+    radial-gradient(ellipse at 88% 0%,rgba(255,79,216,.16),transparent 46%),
+    linear-gradient(145deg,rgba(13,6,20,.96),rgba(0,0,0,.98));
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.14),
+    0 0 22px rgba(255,79,216,.18),
+    0 18px 46px rgba(0,0,0,.45);
+}
+.kofi-card::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#c0c0c0,#ff6bc9,#fff,#ff2e9a,transparent);
+  pointer-events:none;
+}
+.kofi-tip h2{
+  margin:6px 0 12px;
+  font-family:"Italiana",Georgia,serif;
+  font-size:clamp(46px,11vw,78px);
+  font-weight:400;
+  line-height:.92;
+  letter-spacing:-.03em;
+}
+.kofi-tip h2 em{font-style:italic;font-weight:400}
+.kofi-flirt{
+  max-width:26rem;
+  margin:0 auto 8px;
+  color:#ff6bc9;
+  font-family:"Italiana",Georgia,serif;
+  font-size:clamp(22px,3vw,30px);
+  font-style:italic;
+  line-height:1.25;
+}
 .kofi-tip .sub{
   max-width:34rem;
   margin-left:auto;
   margin-right:auto;
   line-height:1.55;
-  color:var(--muted,#dbc8df);
   opacity:1;
 }
+.kofi-hero{margin:18px 0 0}
+.kofi-open{
+  min-height:52px;
+  padding:15px 26px;
+  letter-spacing:.08em;
+  text-decoration:none;
+  text-transform:uppercase;
+}
+.kofi-open:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:4px;
+}
+.kofi-open:hover{transform:translateY(-2px)}
 
+.kofi-stage{margin-top:22px}
+.kofi-stage-label{
+  margin:0 0 12px;
+  color:#ff6bc9;
+  font:800 11px/1.4 "DM Sans",Arial,sans-serif;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
 .kofi-frame{
   width:min(100%,400px);
-  margin:0 auto 1.15rem;
-  border:1px solid rgba(255,228,255,.4);
+  margin:0 auto;
+  padding:10px;
+  border:1px solid rgba(192,192,192,.45);
   border-radius:18px;
-  overflow:hidden;
-  background:#fff;
-  box-shadow:inset 0 1px rgba(255,255,255,.2),0 16px 40px rgba(0,0,0,.35);
+  background:#07040a;
+  box-shadow:inset 0 0 0 1px rgba(255,46,154,.28),0 0 18px rgba(255,79,216,.12);
 }
 .kofi-frame-status{
   margin:0;
-  padding:22px 16px;
-  color:#3a2433;
-  background:#fff;
+  padding:28px 16px;
+  border-radius:12px;
+  background:#0d0614;
+  color:#e8a0c8;
   font:600 14px/1.5 "DM Sans",Arial,sans-serif;
 }
 .kofi-frame.is-ready .kofi-frame-status{display:none}
 .kofi-frame iframe{
   display:none;
   width:100%;
-  height:680px;
+  height:630px;
   border:0;
+  border-radius:12px;
   background:#fff;
 }
 .kofi-frame.is-ready iframe{display:block}
-.kofi-frame iframe:focus-visible{outline:3px solid #ff2e9a;outline-offset:-3px}
+.kofi-frame iframe:focus-visible{outline:3px solid #ff6bc9;outline-offset:3px}
 
-.kofi-fallback{margin:0}
-.kofi-fallback-link{
+.kofi-float{
+  position:fixed;
+  z-index:90;
+  left:14px;
+  bottom:max(16px,env(safe-area-inset-bottom));
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   min-height:48px;
+  padding:12px 18px;
+  border:1px solid #c0c0c0;
+  border-radius:999px;
+  background:linear-gradient(115deg,#ff2e9a 0%,#ff6bc9 33%,#ff9be0 46%,#ff6bc9 59%,#ff2e9a 100%);
+  box-shadow:0 0 16px rgba(255,79,216,.42),inset 0 2px 3px rgba(255,255,255,.72),inset 0 -3px 6px rgba(108,0,62,.38);
+  color:#fff;
+  font:900 12px/1 "DM Sans",Arial,sans-serif;
+  letter-spacing:.08em;
   text-decoration:none;
+  text-transform:uppercase;
+  text-shadow:0 1px 2px rgba(80,0,40,.35);
 }
-.kofi-fallback-link:focus-visible{
-  outline:3px solid #fff;
-  outline-offset:4px;
+.kofi-float::before{
+  content:"";
+  position:absolute;
+  inset:2px 2px 52%;
+  border-radius:inherit;
+  background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0));
+  pointer-events:none;
 }
-
-/* Ko-fi’s floating button sits bottom-left. Hide it over How to pay and the tip panel so it does not cover a payment chip, the form, or the fallback link. */
-body.kofi-float-hidden .floatingchat-container-wrap,
-body.kofi-float-hidden .floatingchat-container-wrap-mobi{
-  opacity:0;
+.kofi-float:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.kofi-float:focus-visible{outline:3px solid #fff;outline-offset:3px}
+body.kofi-float-hidden .kofi-float{
   visibility:hidden;
   pointer-events:none;
 }
 
 @media(max-width:600px){
   .kofi-frame{width:100%}
-  .kofi-frame iframe{height:640px}
-  .kofi-fallback-link{width:100%}
+  .kofi-frame iframe{height:600px}
+  .kofi-open{width:100%}
+  .kofi-float{left:10px;min-height:46px;padding:11px 14px}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .kofi-fallback-link{transition:none}
+  .kofi-open,.kofi-float{transition:none}
+  .kofi-open:hover,.kofi-float:hover{transform:none}
 }
