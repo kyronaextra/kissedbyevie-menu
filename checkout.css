@@ -23,9 +23,9 @@ body {
   -webkit-font-smoothing: antialiased;
   line-height: 1.5;
 }
-button, input, a { font: inherit; color: inherit; }
+button, input, textarea, a { font: inherit; color: inherit; scroll-margin-bottom: 96px; }
 button { cursor: pointer; }
-button:focus-visible, input:focus-visible, a:focus-visible {
+button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
   outline: 2px solid var(--rose-bright);
   outline-offset: 3px;
 }
@@ -151,6 +151,20 @@ a.wordmark {
   padding: 12px 0;
   outline: none;
 }
+.promo-row { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.promo-row label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.promo-field { display: flex; gap: 8px; align-items: center; }
+.promo-field input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #27111d;
+  color: var(--ivory);
+  font-size: 16px;
+}
+.promo-status { margin: 8px 0 0; color: var(--rose-bright); font-size: 12px; line-height: 1.45; }
 
 .recs { display: grid; gap: 10px; }
 .rec {
@@ -195,6 +209,7 @@ a.wordmark {
   transform: translateX(-50%);
   width: min(100%, 430px);
   z-index: 10;
+  pointer-events: none;
   padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, rgba(13,6,11,0), rgba(13,6,11,.94) 32%, #0d060b);
   display: flex;
@@ -299,7 +314,8 @@ a.wordmark {
 
 .fields { display: grid; gap: 12px; }
 .fields label { display: block; font-size: 13px; font-weight: 600; }
-.fields input[type="text"] {
+.fields input[type="text"],
+.fields textarea {
   width: 100%;
   margin-top: 6px;
   padding: 13px;
@@ -309,6 +325,8 @@ a.wordmark {
   color: var(--ivory);
   font-size: 16px;
 }
+.fields textarea { min-height: 96px; resize: vertical; line-height: 1.45; }
+.notes-count { margin: 6px 0 0; color: var(--muted); font-size: 11px; text-align: right; }
 .thanks { margin: 14px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
 
 .upload {
@@ -387,6 +405,7 @@ a.wordmark {
   font-size: 14px;
   font-weight: 700;
 }
+.chat-btn-secondary { font-weight: 600; color: var(--rose-bright); }
 .chat-note { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
 
 .confirm h2 { margin: 0 0 8px; font: normal 34px/1 var(--display); }

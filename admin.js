@@ -241,7 +241,13 @@ async function loadOrders(){
     card.append(list);
    }
    if(Number(order.tip_cents)>0)card.append(node('p','order-meta','Custom amount / tip '+moneyCents(order.tip_cents)));
-   if(order.notes)card.append(node('p','order-meta',order.notes));
+   const noteText=typeof order.notes==='string'?order.notes.trim():'';
+   if(noteText){
+    const notes=node('p','order-notes');
+    notes.append(node('strong','','Notes'));
+    notes.append(document.createTextNode(noteText));
+    card.append(notes);
+   }
    if(order.proof_url){
     const shot=node('img','order-proof');
     shot.src=order.proof_url;

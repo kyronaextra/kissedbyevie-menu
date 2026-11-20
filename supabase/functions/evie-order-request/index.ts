@@ -63,6 +63,8 @@ const CHECKOUT_EXTRAS: {name: string; cents: number; single?: boolean}[] = [
 ];
 const PROOF_BUCKET = "evie-payment-proofs";
 const MAX_PROOF_BYTES = 5 * 1024 * 1024;
+const ADMIN_ORDER_URL = (Deno.env.get("EVIE_ADMIN_URL") || "https://kissedbyevie-menu.onrender.com/admin.html").trim();
+const PROMO_CODES = new Set(["55", "today55", "evie55"]);
 const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const handleRe = /^[A-Za-z0-9_.@-]{2,80}$/;
 
@@ -114,6 +116,79 @@ function cleanHandle(value: unknown) {
   return text;
 }
 
+function promoAccepted(value: unknown) {
+  if (typeof value !== "string") return false;
+  return PROMO_CODES.has(value.trim().toLowerCase());
+}
+
+function checkoutNotes(value: unknown): string | false {
+  if (value == null || value === "") return "";
+  if (typeof value !== "string") return false;
+  const notes = value.trim();
+  if (notes.length > 500) return false;
+  return notes;
+}
+
+function moneyLabel(cents: number) {
+  return "$" + (cents / 100).toFixed(2);
+}
+
+function checkoutAlertText(input: {
+  snap: string | null;
+  telegram: string | null;
+  xHandle: string | null;
+  items: {name: string; qty: number}[];
+  total: number;
+  payment: string;
+  notes: string;
+}) {
+  const handles = [
+    input.snap ? "Snapchat: " + input.snap : "",
+    input.telegram ? "Telegram: " + input.telegram : "",
+    input.xHandle ? "X: " + input.xHandle : "",
+  ].filter(Boolean);
+  const items = input.items.map((item) => item.qty + " × " + item.name).join(", ");
+  const lines = [
+    "New checkout",
+    handles.join("\n") || "No handle",
+    "Items: " + (items || "Custom amount"),
+    "Total: " + moneyLabel(input.total),
+    "Payment: " + (input.payment === "cash_app" ? "Cash App" : "Venmo"),
+  ];
+  if (input.notes) lines.push("Notes: " + input.notes);
+  lines.push("Admin: " + ADMIN_ORDER_URL);
+  return lines.join("\n").slice(0, 3500);
+}
+
+async function notifyCheckout(text: string) {
+  const token = (Deno.env.get("TELEGRAM_BOT_TOKEN") || "").trim();
+  const chatId = (Deno.env.get("TELEGRAM_ALERT_CHAT_ID") || "").trim();
+  if (!token || !chatId) return;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 4000);
+  try {
+    const result = await fetch("https://api.telegram.org/bot" + token + "/sendMessage", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({chat_id: chatId, text, disable_web_page_preview: true}),
+      signal: controller.signal,
+    });
+    if (!result.ok) console.error("Telegram alert failed", result.status);
+  } catch (e) {
+    console.error("Telegram alert failed", e instanceof Error ? e.name : "unknown");
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function scheduleCheckoutAlert(text: string) {
+  const pending = notifyCheckout(text);
+  const runtime = (globalThis as {EdgeRuntime?: {waitUntil?: (promise: Promise<unknown>) => void}}).EdgeRuntime;
+  if (runtime && typeof runtime.waitUntil === "function") runtime.waitUntil(pending);
+  else return pending;
+  return Promise.resolve();
+}
+
 async function recentHandleCount(handle: string) {
   if (!supabase) return 0;
   const since = new Date(Date.now() - 15 * 60 * 1000).toISOString();
@@ -140,6 +215,8 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
   const xHandle = cleanHandle(b.x_handle);
   if (snap === false || telegram === false || xHandle === false) return response({ok: false, error: "Invalid username"}, 400, origin);
   if (!snap && !telegram && !xHandle) return response({ok: false, error: "Enter at least one username"}, 400, origin);
+  const notes = checkoutNotes(b.notes);
+  if (notes === false) return response({ok: false, error: "Notes need to be 500 characters or fewer"}, 400, origin);
   if (!Number.isSafeInteger(b.tip_cents) || b.tip_cents < 0 || b.tip_cents > 50000) {
     return response({ok: false, error: "Invalid custom amount"}, 400, origin);
   }
@@ -169,7 +246,13 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
     priced.push({name: extra.name, qty: item.qty, unit_cents: extra.cents});
     total += extra.cents * item.qty;
   }
-  if ((seen.has("deluxe") && seen.has("deluxe55")) || total <= 0 || total > 250000) {
+  if (seen.has("deluxe") && seen.has("deluxe55")) {
+    return response({ok: false, error: "Choose one Dropbox price"}, 400, origin);
+  }
+  if (seen.has("deluxe55") && !promoAccepted(b.promo_code)) {
+    return response({ok: false, error: "That Dropbox promo needs a valid code"}, 400, origin);
+  }
+  if (total <= 0 || total > 250000) {
     return response({ok: false, error: total > 250000 ? "Order exceeds $2,500 on this page" : "Add an item or a custom amount"}, 400, origin);
   }
 
@@ -177,26 +260,22 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
   if (prior.error) throw prior.error;
   if (prior.data) return response({ok: true, order_id: prior.data.id, stored: true}, 200, origin);
 
+  if (!file || file.size <= 0) return response({ok: false, error: "Upload a payment screenshot"}, 400, origin);
+  if (file.size > MAX_PROOF_BYTES) return response({ok: false, error: "Screenshots need to be 5 MB or smaller"}, 413, origin);
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const mime = sniffImage(bytes);
+  if (!mime) return response({ok: false, error: "Upload a JPEG, PNG, GIF, WebP, or HEIC screenshot"}, 400, origin);
+
   const uniqueHandles = [...new Set([snap, telegram, xHandle].filter((value): value is string => Boolean(value)))];
   for (const handle of uniqueHandles) {
     if (await recentHandleCount(handle) >= 3) return response({ok: false, error: "Please wait before submitting again"}, 429, origin);
   }
-
-  let proofPath: string | null = null;
-  let proofMime: string | null = null;
-  let proofBytes: number | null = null;
-  if (file && file.size > 0) {
-    if (file.size > MAX_PROOF_BYTES) return response({ok: false, error: "Screenshots need to be 5 MB or smaller"}, 413, origin);
-    const bytes = new Uint8Array(await file.arrayBuffer());
-    const mime = sniffImage(bytes);
-    if (!mime) return response({ok: false, error: "Upload a JPEG, PNG, GIF, WebP, or HEIC screenshot"}, 400, origin);
-    const rand = Array.from(crypto.getRandomValues(new Uint8Array(8)), (byte) => byte.toString(16).padStart(2, "0")).join("");
-    proofPath = b.request_id.toLowerCase() + "/" + rand + "." + extensionFor(mime);
-    proofMime = mime;
-    proofBytes = bytes.byteLength;
-    const upload = await supabase.storage.from(PROOF_BUCKET).upload(proofPath, new Blob([bytes], {type: mime}), {contentType: mime, upsert: false});
-    if (upload.error) throw upload.error;
-  }
+  const rand = Array.from(crypto.getRandomValues(new Uint8Array(8)), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  const proofPath = b.request_id.toLowerCase() + "/" + rand + "." + extensionFor(mime);
+  const proofMime = mime;
+  const proofBytes = bytes.byteLength;
+  const upload = await supabase.storage.from(PROOF_BUCKET).upload(proofPath, new Blob([bytes], {type: mime}), {contentType: mime, upsert: false});
+  if (upload.error) throw upload.error;
 
   const primary = snap ? ["snapchat", snap] : telegram ? ["telegram", telegram] : ["x", xHandle as string];
   const insert = await supabase.from("evie_order_requests").insert({
@@ -206,26 +285,29 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
     snapchat_handle: snap,
     telegram_handle: telegram,
     x_handle: xHandle,
-    notes: "",
+    notes,
     payment_method: payment,
     items: priced,
     initial_total_cents: total,
     tip_cents: b.tip_cents,
     adult_confirmed: true,
     source: "checkout",
-    proof_bucket: proofPath ? PROOF_BUCKET : null,
+    proof_bucket: PROOF_BUCKET,
     proof_path: proofPath,
     proof_mime: proofMime,
     proof_bytes: proofBytes,
   }).select("id").single();
   if (insert.error) {
-    if (proofPath) await supabase.storage.from(PROOF_BUCKET).remove([proofPath]);
+    await supabase.storage.from(PROOF_BUCKET).remove([proofPath]);
     if (insert.error.code === "23505") {
       const again = await supabase.from("evie_order_requests").select("id").eq("request_id", b.request_id).maybeSingle();
       if (again.data) return response({ok: true, order_id: again.data.id, stored: true}, 200, origin);
     }
     throw insert.error;
   }
+  await scheduleCheckoutAlert(checkoutAlertText({
+    snap, telegram, xHandle, items: priced, total, payment, notes,
+  }));
   return response({ok: true, order_id: insert.data.id, stored: true}, 201, origin);
 }
 

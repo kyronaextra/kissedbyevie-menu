@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="checkout.css?v=20261120-checkout-1">
+  <link rel="stylesheet" href="checkout.css?v=20261120-checkout-2">
 </head>
 <body>
   <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
@@ -55,6 +55,14 @@
             <span>$</span>
             <input id="tipInput" type="number" min="0" max="500" step="0.01" inputmode="decimal" placeholder="0" value="">
           </div>
+        </div>
+        <div class="promo-row">
+          <label for="promoCode">Promo code</label>
+          <div class="promo-field">
+            <input id="promoCode" type="text" maxlength="40" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Optional">
+            <button type="button" class="ghost" id="applyPromo">Apply</button>
+          </div>
+          <p class="promo-status" id="promoStatus" hidden></p>
         </div>
       </section>
 
@@ -118,17 +126,21 @@
           <label>X username
             <input id="xUser" type="text" name="x" autocomplete="username" maxlength="80" placeholder="@username">
           </label>
+          <label>Notes / custom request details
+            <textarea id="orderNotes" name="notes" maxlength="500" rows="4" placeholder="Customs, ratings, add-ons, or anything I should know. Optional."></textarea>
+          </label>
+          <p class="notes-count" id="notesCount">0 / 500</p>
         </div>
         <p class="thanks">So I can keep track of who’s paid,<br>Thank you!</p>
       </section>
 
       <section class="card" aria-labelledby="uploadTitle">
-        <h2 class="section-title" id="uploadTitle">(Upload proof of payment here)</h2>
+        <h2 class="section-title" id="uploadTitle">Payment screenshot (required)</h2>
         <label class="upload" id="uploadBox">
-          <input id="proofInput" type="file" accept="image/*">
+          <input id="proofInput" type="file" accept="image/*" aria-required="true">
           <span class="upload-copy">
             <strong>Tap to upload a screenshot</strong>
-            Payment screenshot, image files only
+            Payment screenshot, image files only. Required before you submit.
           </span>
           <img class="preview-shot" id="proofPreview" alt="Uploaded payment screenshot preview">
         </label>
@@ -151,7 +163,8 @@
       <p class="chat-note">Opens the app version on your phone.</p>
       <div class="chat-links">
         <a class="chat-btn" id="openX" href="https://x.com/kissedbyevie?s=11">X  &gt;&gt;  @kissedbyevie</a>
-        <a class="chat-btn" id="openTg" href="https://t.me/eviesquirts">Telegram  &gt;&gt;  eviesquirts</a>
+        <a class="chat-btn" id="openTg" href="https://t.me/kissedbyevie">Telegram DM  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn chat-btn-secondary" id="openTgChannel" href="https://t.me/eviesquirts">NSFW Channel  &gt;&gt;  @eviesquirts</a>
       </div>
     </section>
 
@@ -163,13 +176,15 @@
       <div class="confirm-total"><span>Amount</span><strong id="confirmTotal">$0.00</strong></div>
       <p class="confirm-meta" id="confirmPay"></p>
       <p class="confirm-meta" id="confirmUsers"></p>
+      <p class="confirm-meta" id="confirmNotes" hidden></p>
       <img class="confirm-shot" id="confirmShot" alt="Payment screenshot" hidden>
       <p class="confirm-meta" id="confirmProof"></p>
       <h3 class="section-title" style="margin-top:16px">Return to chat …</h3>
       <p class="chat-note">Opens the app version on your phone.</p>
       <div class="chat-links">
         <a class="chat-btn" id="openX2" href="https://x.com/kissedbyevie?s=11">X  &gt;&gt;  @kissedbyevie</a>
-        <a class="chat-btn" id="openTg2" href="https://t.me/eviesquirts">Telegram  &gt;&gt;  eviesquirts</a>
+        <a class="chat-btn" id="openTg2" href="https://t.me/kissedbyevie">Telegram DM  &gt;&gt;  @kissedbyevie</a>
+        <a class="chat-btn chat-btn-secondary" id="openTgChannel2" href="https://t.me/eviesquirts">NSFW Channel  &gt;&gt;  @eviesquirts</a>
       </div>
       <button type="button" class="edit-btn" id="editOrder">Edit order</button>
     </section>
@@ -215,9 +230,9 @@
     });
   })();
   </script>
-  <script src="checkout-catalog.js?v=20261120-checkout-1"></script>
+  <script src="checkout-catalog.js?v=20261120-checkout-2"></script>
   <script src="member-config.js"></script>
   <script src="order-config.js"></script>
-  <script src="checkout.js?v=20261120-checkout-1"></script>
+  <script src="checkout.js?v=20261120-checkout-2"></script>
 </body>
 </html>
