@@ -3,6 +3,22 @@
 Supabase project: cmjhecwwjoeqpcownkol
 Production website: https://kissedbyevie-menu.onrender.com/
 
+## Tips (Ko-fi)
+
+The menu (`/` and `/menu`) has an optional tip section under How to pay. It uses the same dark card, serif heading, and metal-pink button as the rest of the menu. The hero action is “Open Ko-fi”, which goes to https://ko-fi.com/eviesquirts in a new tab. Ko-fi’s panel iframe is secondary, inside a dark rounded frame, and loads only when that frame is near the screen. There are no amount chips: a Ko-fi link cannot reliably prefill an amount. A small “Tip Evie” button, styled like the menu buttons, appears after the 18+ check and stays off How to pay, the checkout prompt, and the tip panel. Tips are not purchases: they do not buy content and they do not change the checkout total. The menu pages do not set a Content-Security-Policy. If one is added later, allow `https://ko-fi.com` for the panel frame.
+
+The live Render service is a static site (`render.yaml`, `runtime: static`). It cannot run `POST /api/kofi-webhook`, so that route is not in this repo. There is no `KOFI_VERIFICATION_TOKEN` to set on the static site, and there is no webhook URL to paste into Ko-fi yet.
+
+To receive Ko-fi webhooks later, add a separate server (a small Render web service, or a Supabase Edge Function) that:
+
+- Accepts `POST` with Ko-fi’s form field `data` (a JSON string).
+- Reads `verification_token` from that JSON and compares it to the environment variable `KOFI_VERIFICATION_TOKEN` with a constant-time compare. Never put the token in the static site or in git.
+- Returns `401` when the token is missing or does not match.
+- Logs only `type`, `amount`, `currency`, `from_name`, and `message`. Do not log email.
+- Leaves a TODO for future notifications.
+
+Point Ko-fi’s API webhook setting at that server’s `/api/kofi-webhook`. The menu embed does not need the token.
+
 ## Member authentication
 - Members choose a unique login username and private eight-digit PIN. Signup recommends using their Snapchat or X username as a recognizable reference, but does not require linking those accounts. Email is retained for verification and setup recovery.
 - Supabase Auth stores the email identity and securely hashes the PIN/password. PINs are never stored in public database tables.
