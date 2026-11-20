@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#09070b">
+  <meta name="description" content="Custom tip and payment page for @kissedbyevie. Choose an amount and pay with Stripe.">
+  <title>Custom Tip / Payment | Kissed by Evie</title>
+  <link rel="canonical" href="https://kissedbyevie-menu.onrender.com/pay.html">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&family=Syne:wght@600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
+  <link rel="stylesheet" href="/pay.css?v=20261120-pay-1">
+</head>
+<body>
+  <a class="skip-link" href="#payForm">Skip to payment</a>
+  <div class="sky" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="orb orb-d"></span>
+  </div>
+
+  <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
+    <div class="age-gate-panel">
+      <section id="botGateStep" class="age-gate-step">
+        <span class="age-gate-kicker">QUICK CHECK · STEP 1 OF 2</span>
+        <h1 id="botGateTitle">Verify you’re <em>not a bot.</em></h1>
+        <p id="botGateDescription">Choose the answer that applies, then confirm you’re over 18.</p>
+        <div class="age-gate-actions">
+          <button type="button" id="notBotConfirm">I’m not a bot · Continue</button>
+          <a href="https://www.google.com/" rel="nofollow">I am a bot · Leave</a>
+        </div>
+        <p class="age-gate-note">Quick self-check. This does not use automated bot detection.</p>
+      </section>
+      <section id="ageGateStep" class="age-gate-step" hidden>
+        <span class="age-gate-kicker">ADULTS ONLY · STEP 2 OF 2</span>
+        <h1 id="ageGateTitle">Confirm you’re <em>over 18.</em></h1>
+        <p id="ageGateDescription">This payment page is for adults only.</p>
+        <div class="age-gate-actions">
+          <button type="button" id="ageGateConfirm">I’m 18+ · Continue</button>
+          <a href="https://www.google.com/" rel="nofollow">I’m under 18 · Leave</a>
+        </div>
+        <p class="age-gate-note">Age confirmation is self-reported.</p>
+      </section>
+    </div>
+  </div>
+
+  <header class="route-nav">
+    <a class="route-brand" href="/">KISSEDBYEVIE</a>
+    <nav aria-label="Primary">
+      <a href="/menu#boutique" data-route="menu">Menu</a>
+      <a href="/menu#pay" data-route="pay">Pay</a>
+      <a href="/pay.html" data-route="tip" aria-current="page">Tip</a>
+      <a href="/checkout" data-route="checkout">Checkout</a>
+      <a href="/gallery" data-route="gallery">Gallery</a>
+      <a href="/about" data-route="about">About</a>
+      <a href="/account.html" data-route="account">Account</a>
+    </nav>
+  </header>
+
+  <main class="pay-shell">
+    <section class="pay-intro" aria-labelledby="payTitle">
+      <p class="pay-kicker">Custom tip / payment</p>
+      <h1 id="payTitle">Pay <em>what we agreed.</em></h1>
+      <p class="pay-lead">Tips, tributes, custom requests, and agreed rates for <strong>@kissedbyevie</strong>. You choose the amount. Stripe takes the payment.</p>
+      <ul class="pay-points">
+        <li>Minimum $5.00, maximum $5,000.00</li>
+        <li>Card and the other methods Stripe offers you</li>
+        <li>Customs are confirmed with me on Telegram</li>
+      </ul>
+      <p class="pay-back"><a href="/menu#boutique">Back to the menu</a></p>
+    </section>
+
+    <section class="pay-panel" aria-labelledby="panelTitle">
+      <p id="cancelBanner" class="banner" role="status" hidden></p>
+
+      <form id="payForm" novalidate>
+        <div class="panel-head">
+          <p class="panel-mark">@kissedbyevie</p>
+          <h2 id="panelTitle">Custom amount</h2>
+        </div>
+
+        <div class="presets" role="group" aria-label="Suggested amounts">
+          <button type="button" class="preset" data-amount="10.00">$10</button>
+          <button type="button" class="preset" data-amount="25.00">$25</button>
+          <button type="button" class="preset" data-amount="50.00">$50</button>
+          <button type="button" class="preset" data-amount="100.00">$100</button>
+          <button type="button" class="preset" data-amount="250.00">$250</button>
+        </div>
+
+        <div class="field">
+          <label for="amountInput">Amount in USD</label>
+          <div class="amount-field">
+            <span aria-hidden="true">$</span>
+            <input id="amountInput" name="amount" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="0.00" aria-describedby="amountHint formError">
+          </div>
+          <p id="amountHint" class="hint">Dollars and cents. $5.00 minimum.</p>
+        </div>
+
+        <div class="field">
+          <label for="purpose">Purpose <span>optional</span></label>
+          <select id="purpose" name="purpose">
+            <option value="">Choose one</option>
+            <option value="tip">Tip / Tribute</option>
+            <option value="custom">Custom Content</option>
+            <option value="priority">Priority / Spoil</option>
+            <option value="rate">Agreed Rate</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="note">Note <span>optional</span></label>
+          <textarea id="note" name="note" maxlength="200" rows="3" placeholder="What this payment is for"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="handle">Telegram or display handle <span>optional</span></label>
+          <input id="handle" name="handle" type="text" maxlength="40" autocomplete="off" spellcheck="false" placeholder="@username">
+        </div>
+
+        <p id="formError" class="field-error" role="alert" hidden></p>
+
+        <button type="submit" class="pay-submit" id="payButton" disabled>Pay with Stripe</button>
+        <p class="fine">Stripe processes the payment. A saved menu order is separate from this page. Nothing is charged until you finish on Stripe.</p>
+      </form>
+
+      <section id="successView" class="success" hidden aria-live="polite">
+        <p class="panel-mark">@kissedbyevie</p>
+        <h2 id="successTitle">Checking your payment…</h2>
+        <p id="successLead" class="pay-lead"></p>
+        <dl class="receipt" id="receipt" hidden>
+          <div>
+            <dt>Amount paid</dt>
+            <dd id="successAmount"></dd>
+          </div>
+          <div>
+            <dt>Payment status</dt>
+            <dd id="successStatus"></dd>
+          </div>
+          <div id="purposeRow" hidden>
+            <dt>Purpose</dt>
+            <dd id="successPurpose"></dd>
+          </div>
+        </dl>
+        <div class="success-actions">
+          <a class="pay-submit pay-link" href="/menu#boutique">Back to the menu</a>
+          <a class="ghost-link" href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Message me on Telegram</a>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="pay-foot">
+    <a href="/menu">Menu</a>
+    <a href="/fulfillment.html">Fulfillment agreement</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Telegram</a>
+  </footer>
+
+  <script src="/age-gate.js"></script>
+  <script src="/site-nav.js?v=20261120-routes-1"></script>
+  <script src="/order-config.js?v=20261120-pay-1"></script>
+  <script src="/pay.js?v=20261120-pay-1"></script>
+</body>
+</html>

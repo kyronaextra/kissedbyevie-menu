@@ -80,6 +80,12 @@ Docs: https://supabase.com/docs/guides/auth/passwords
 - Setup and admin-role activation instructions: [docs/ADMIN_CONTROL_ROOM.md](docs/ADMIN_CONTROL_ROOM.md).
 - Optional non-executing Docker worker starter: [docker/evie-worker/README.md](docker/evie-worker/README.md).
 
+## Custom Stripe tips
+
+Public page: https://kissedbyevie-menu.onrender.com/pay.html
+
+`pay.html` takes a custom USD amount and opens Stripe Checkout. The Node server in `server/` creates the Checkout Session, verifies webhooks, and can also serve the static site. The current Render service is still static, so card payments stay off until the owner sets a restricted Stripe key and either points this page at a companion web service or runs the Node server as the site. Setup: [docs/stripe-custom-pay.md](docs/stripe-custom-pay.md).
+
 ## Checkout and payment screenshots
 
 Public page: https://kissedbyevie-menu.onrender.com/checkout.html

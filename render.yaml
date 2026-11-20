@@ -22,3 +22,27 @@ services:
       - type: rewrite
         source: /about
         destination: /about/index.html
+      - type: rewrite
+        source: /pay
+        destination: /pay.html
+      - type: rewrite
+        source: /pay/
+        destination: /pay.html
+  - type: web
+    name: kissedbyevie-pay
+    runtime: node
+    plan: starter
+    # Companion API. Applying this blueprint adds a service; it does not
+    # replace the static kissedbyevie-menu site above.
+    buildCommand: npm ci --prefix server
+    startCommand: npm start --prefix server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: PUBLIC_BASE_URL
+        value: https://kissedbyevie-menu.onrender.com
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false

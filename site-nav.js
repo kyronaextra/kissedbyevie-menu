@@ -19,6 +19,7 @@
     '/': 'menu',
     '/menu': 'menu',
     '/checkout': 'checkout',
+    '/pay': 'tip',
     '/gallery': 'gallery',
     '/photos': 'gallery',
     '/about': 'about',
