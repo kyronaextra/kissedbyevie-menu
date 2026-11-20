@@ -333,6 +333,14 @@
       if(added)flashProductButton(button);
     });
   });
+  document.querySelectorAll('.checkout-now').forEach(function(button){
+    button.addEventListener('click',function(){
+      if(button.disabled)return;
+      addItem(button.dataset.name,Number(button.dataset.price),button.dataset.exclusive||null);
+      saveCart();
+      window.location.assign('checkout.html');
+    });
+  });
   function modifyItem(name,delta){
     var item=cart.find(function(entry){return entry.name===name});
     if(!item|| (delta>0 && singleQty(item.exclusive,item.name)))return;
@@ -381,7 +389,8 @@
       document.getElementById('boutiqueCatalog').scrollIntoView({behavior:reduceBehavior,block:'start'});
       return;
     }
-    openBag();
+    saveCart();
+    window.location.assign('checkout.html');
   });
   document.getElementById('confirmOrder').addEventListener('click',function(){
     if(!cart.length)return;

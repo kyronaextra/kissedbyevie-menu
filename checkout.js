@@ -403,7 +403,7 @@
     return recs;
   }
   function renderRecs() {
-    const recs = recommendations();
+    const recs = recommendations().slice(0, 2);
     const box = $('recs');
     if (!recs.length) {
       box.innerHTML = '<p class="recs-empty">You’re all set — nothing else to add right now.</p>';
@@ -430,10 +430,51 @@
       $('amountNote').textContent = count + (count === 1 ? ' item' : ' items') + ' in your order';
     }
   }
+  let catalogReady = false;
+  let catalogOpen = true;
+  function hasPricedSelection() {
+    return payableLines().length > 0 || state.extras.some((extra) => extra.qty > 0);
+  }
+  function renderSelected() {
+    const box = $('selectedSummary');
+    if (!box) return;
+    const rows = payableLines().map((line) => (
+      '<div class="picked"><span>' + escapeHtml(line.qty > 1 ? line.qty + ' × ' + line.name : line.name) + '</span><strong>' + money(line.total) + '</strong></div>'
+    ));
+    state.extras.forEach((extra) => {
+      if (!extra.unrecognized || extra.qty <= 0) return;
+      rows.push('<div class="picked"><span>' + escapeHtml(extra.name) + '</span><strong>Ask Evie</strong></div>');
+    });
+    if (state.tip) rows.push('<div class="picked"><span>Custom amount / tip</span><strong>' + money(state.tip) + '</strong></div>');
+    box.hidden = rows.length === 0;
+    box.innerHTML = rows.join('');
+  }
+  function applyCatalog() {
+    if (!catalogReady) {
+      catalogOpen = !hasPricedSelection();
+      catalogReady = true;
+    }
+    const panel = $('catalogPanel');
+    const button = $('toggleCatalog');
+    if (!panel || !button) return;
+    panel.hidden = !catalogOpen;
+    button.setAttribute('aria-expanded', catalogOpen ? 'true' : 'false');
+    button.textContent = catalogOpen ? 'Hide item list' : 'Browse / add more items';
+  }
+  function syncStickyJump() {
+    const jump = $('stickyJump');
+    if (!jump) return;
+    const ready = payableLines().length > 0 || state.tip > 0;
+    jump.textContent = ready ? 'Pay' : 'Items';
+    jump.setAttribute('href', ready ? '#payCard' : '#itemsCard');
+  }
   function render() {
     renderItems();
     renderRecs();
     renderAmount();
+    renderSelected();
+    applyCatalog();
+    syncStickyJump();
   }
 
   function toast(message) {
@@ -793,6 +834,11 @@
     if ($('orderNotes').value.length > 500) $('orderNotes').value = $('orderNotes').value.slice(0, 500);
     try { sessionStorage.setItem(NOTES_KEY, notesText()); } catch (err) { /* private mode */ }
     renderNotesCount();
+  });
+  $('toggleCatalog').addEventListener('click', () => {
+    catalogReady = true;
+    catalogOpen = !catalogOpen;
+    applyCatalog();
   });
   $('applyPromo').addEventListener('click', () => applyPromo($('promoCode').value));
   $('promoCode').addEventListener('keydown', (event) => {
