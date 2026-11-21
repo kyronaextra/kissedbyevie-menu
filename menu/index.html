@@ -23,18 +23,18 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css?v=20261029-evidence-box-1">
 <link rel="stylesheet" href="/evie-nav.css?v=20261028-nav-clean-3">
-<link rel="stylesheet" href="/site-nav.css?v=20261121-hero-1">
+<link rel="stylesheet" href="/site-nav.css?v=20261121-type-1">
 <link rel="stylesheet" href="/kofi-tip.css?v=20261121-social-1">
 <link rel="stylesheet" href="/blog.css">
 <link rel="stylesheet" href="/vip-terms.css">
 <link rel="stylesheet" href="/public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script defer src="/menu-catalog.js?v=20261120-menu-3"></script>
-<script defer src="/app.js?v=20261120-menu-1"></script>
+<script defer src="/menu-catalog.js?v=20261121-sale-1"></script>
+<script defer src="/app.js?v=20261121-bag-1"></script>
 <script defer src="/vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="/evie-nav.js?v=20261028-explore-1"></script>
-<script defer src="/site-nav.js?v=20261120-routes-1"></script>
+<script defer src="/site-nav.js?v=20261121-type-1"></script>
 <script defer src="/kofi-tip.js?v=20261121-hero-1"></script>
 <script defer src="/install-app.js?v=20261030-1"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -402,16 +402,15 @@ html{scroll-padding-top:56px!important}
   </div>
 </div>
 <header class="route-nav">
-  <a class="route-checkout" href="/checkout" data-route="checkout" title="Checkout"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M6.5 8.2h11l-.85 11a1.6 1.6 0 0 1-1.6 1.5H8.95a1.6 1.6 0 0 1-1.6-1.5l-.85-11z"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M9 8.2V6.7a3 3 0 0 1 6 0v1.5"/></svg><span>Checkout</span></a>
   <a class="route-brand" href="/">KISSEDBYEVIE</a>
   <nav aria-label="Primary">
     <a href="/menu#boutique" data-route="menu">Menu</a>
     <a href="/menu#pay" data-route="pay">Pay</a>
     <a href="#tip" data-route="tip">Tip</a>
-    <a href="/checkout" data-route="checkout">Checkout</a>
     <a href="/gallery" data-route="gallery">Gallery</a>
     <a href="/about" data-route="about">About</a>
     <a href="/account.html" data-route="account">Account</a>
+    <a class="route-cart" href="/checkout" data-route="checkout">Checkout / View cart<span class="route-cart-count" hidden>0</span></a>
   </nav>
 </header>
 
@@ -679,5 +678,6 @@ html{scroll-padding-top:56px!important}
     }
   },true);
 })();
-</script></body>
+</script><link rel="stylesheet" href="/readable.css?v=20261121-type-1">
+</body>
 </html>
