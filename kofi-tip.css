@@ -210,11 +210,60 @@ body.kofi-float-hidden .kofi-float{
   box-shadow:0 0 18px rgba(255,79,216,.45);
   pointer-events:none;
 }
+.home-hero-social{
+  position:relative;
+  z-index:2;
+  width:min(100%,980px);
+  margin:0 auto 18px;
+}
 .home-hero-panel{
   position:relative;
   z-index:2;
   width:min(100%,520px);
   margin:0 auto;
+}
+.social-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.social-links a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:44px;
+  padding:10px 14px;
+  border:1px solid rgba(192,192,192,.6);
+  border-radius:999px;
+  background:linear-gradient(145deg,rgba(255,46,154,.34),rgba(13,6,20,.9));
+  box-shadow:inset 0 1px rgba(255,255,255,.4),0 0 16px rgba(255,79,216,.28);
+  color:#fff;
+  text-decoration:none;
+  font:800 12px/1.2 "DM Sans",Arial,sans-serif;
+  letter-spacing:.03em;
+}
+.social-links a small{
+  font-weight:700;
+  letter-spacing:.04em;
+  opacity:.85;
+}
+.social-links svg{display:block;width:16px;height:16px;flex:0 0 auto}
+.social-links a:hover{border-color:#fff;filter:brightness(1.08)}
+.social-links a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.route-footer .social-links{
+  flex:1 0 100%;
+  justify-content:flex-start;
+  margin-top:4px;
+}
+@media(max-width:600px){
+  .home-hero-social{margin-bottom:14px}
+  .social-links{gap:8px}
+  .social-links a{min-height:42px;padding:9px 12px;font-size:12px}
 }
 .home-hero .kofi-tip{padding:0}
 .home-hero .kofi-card{text-align:center}
@@ -258,7 +307,7 @@ body.kofi-float-hidden .kofi-float{
   align-items:center;
 }
 .checkout-kofi-copy{text-align:left}
-.checkout-kofi .kofi-lead{margin-left:0;text-align:left}
+.checkout-kofi.kofi-tip h2.kofi-lead{max-width:11em;margin-left:0;font-size:clamp(26px,3vw,36px);line-height:1.2;text-align:left}
 .kofi-prefill{margin:0;color:#f5f0f8;font:600 15px/1.55 "DM Sans",Arial,sans-serif}
 .kofi-prefill strong{color:#fff;font-weight:800}
 .kofi-copy-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0 0}
