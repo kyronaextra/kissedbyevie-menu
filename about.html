@@ -20,6 +20,12 @@
 <link rel="stylesheet" href="/blog.css">
 <link rel="stylesheet" href="/site-nav.css?v=20261121-clean-1">
 <title>About | Kissed by Evie</title>
+<style>
+.about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.about-photos img:first-child { grid-column: 1 / -1; aspect-ratio: 3/4; }
+.about-photos img { width: 100%; border-radius: 12px; object-fit: cover; }
+@media (max-width: 700px) { .about-photos { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body class="about-page">
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
@@ -66,12 +72,13 @@
       <p>I'm Evie. I study, I work a real job, I build weird tools for this industry, and somewhere in between all that I take my clothes off for money.</p>
       <p>I make content the way I want to make it. I'm a squirter, a gooner, a porn addict. I'm not tidy about it, and I like making things to order more than I like making things in bulk, which is why customs exist and why I actually enjoy them.</p>
       <p>If you want the polished version, you're on the wrong site.</p>
-      <a class="evie-about-link" href="/blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots &amp; fake personalities</a>
+      <a class="evie-about-link" href="/blog/agencies-are-shit-bots-suck.html">My first blog post: agencies, bots & fake personalities</a>
       <p class="about-closing">I'm not for everyone. That's the point. ;)</p>
     </div>
     <div class="about-photos">
-      <img class="editorial-image" src="/assets/photos/evie-about-01.jpg" alt="Evie sitting comfortably on a couch in warm natural light" style="object-position:center 18%">
-      <img class="editorial-image" src="/assets/photos/evie-about-02.jpg" alt="Evie in a second photo-diary portrait">
+      <img src="/assets/photos/evie-featured-01.jpg" alt="Evie in burgundy lingerie, seated pose">
+      <img src="/assets/photos/evie-featured-02.jpg" alt="Evie in black lace by the pole">
+      <img src="/assets/photos/evie-gallery-01.jpg" alt="Evie in the kitchen lingerie set">
     </div>
   </div>
 </section>
