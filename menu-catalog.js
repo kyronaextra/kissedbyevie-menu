@@ -168,11 +168,19 @@ const TEASERS={
   'Live Snap Show · 4 Minutes':'/assets/photos/evie-gallery-02.jpg',
   'Same Day Turnaround':'/assets/photos/evie-gallery-01.jpg'
 };
-function teaserFor(name){return TEASERS[name]||'/assets/photos/evie-gallery-19.webp'}
-function appendTeaser(card, name){
+function isCustomsCard(p, section){
+  if(section==='Customs')return true;
+  const name=(p&&p.name)||'';
+  return /custom/i.test(name);
+}
+function teaserFor(name){return TEASERS[name]||''}
+function appendTeaser(card, p, section){
+  if(!isCustomsCard(p, section))return;
+  const src=teaserFor(p.name);
+  if(!src)return;
   const wrap=el('div','card-teaser');
   const img=el('img','card-teaser-img');
-  img.src=teaserFor(name);
+  img.src=src;
   img.alt='';
   img.loading='lazy';
   img.decoding='async';
@@ -182,7 +190,7 @@ function appendTeaser(card, name){
 }
 function buildCard(p, section, mood){
   const card=el('article','product-card menu-v2-card'+(p.badge?' featured':'')+(mood==='calm'?' card-calm':''));
-  appendTeaser(card,p.name);
+  appendTeaser(card,p,section);
   if(p.todayOnly||p.salePrice===55){
     card.append(el('p','today-only-banner','Today only: $55 (was $75) + live pics if u pay today'));
   }
@@ -365,7 +373,6 @@ showItems.forEach(function(item){
   const p=item.product;
   if(!p)return;
   const card=el('article','hero-offer hero-offer--'+item.mood);
-  appendTeaser(card,p.name);
   if(item.mark){
     const img=el('img',item.mark.cls);
     img.src=item.mark.src;img.alt='';img.width=item.mark.w;img.height=item.mark.h;
