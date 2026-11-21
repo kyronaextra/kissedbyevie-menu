@@ -109,6 +109,7 @@
   }
   function saveCart(){
     try{sessionStorage.setItem('evie-bag-v4',JSON.stringify(cart))}catch(e){}
+    try{window.dispatchEvent(new CustomEvent('evie-bag-change'))}catch(e){}
   }
   function loadCart(){
     try{

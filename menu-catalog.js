@@ -16,9 +16,9 @@ const products=[
    description:'Twenty. Yes, it’s hard. That’s the point.'},
   {section:'BestSellers',name:'50 pics/vids',price:50,
    description:'Fifty pics and vids.'},
-  {section:'BestSellers',name:'Deluxe Dropbox (900+ vault)',price:75,group:'vault',badge:'BEST VALUE',
+  {section:'BestSellers',name:'Deluxe Dropbox (900+ vault)',price:75,salePrice:55,wasPrice:75,group:'vault',badge:'BEST VALUE',
    description:'The whole vault. 900+ pics and videos. One payment, lifetime access.',
-   note:'One Dropbox per order. Checkout charges $75.'},
+   note:'Sale price $55. Was $75. One Dropbox per order.',bagName:'Deluxe Dropbox Today Promo'},
   {section:'BestSellers',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
    description:'Same 900+ vault, today’s price. This is not an add-on to the $75 Dropbox.'},
   {section:'BestSellers',name:'B/G Folder (3 vids)',price:35,
@@ -35,9 +35,9 @@ const products=[
    description:'Three months. This is the one people actually finish.',
    features:['Three months of VIP','The 900+ vault','Priority messages and calls'],
    note:'Checkout charges $350 for the three months.'},
-  {section:'Dropbox',name:'Deluxe Dropbox (900+ vault)',price:75,group:'vault',
+  {section:'Dropbox',name:'Deluxe Dropbox (900+ vault)',price:75,salePrice:55,wasPrice:75,group:'vault',
    description:'The whole thing. 900+ pics and videos. Lifetime access.',
-   note:'JOI, B/G, solo, clips, and the rest of the vault.',
+   note:'Sale price $55. Was $75. JOI, B/G, solo, clips, and the rest of the vault.',bagName:'Deluxe Dropbox Today Promo',
    badge:'900+ ITEMS'},
   {section:'Dropbox',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
    description:'Same 900+ vault for $55 today.'},
@@ -137,14 +137,14 @@ function menuAction(p){
   if(p.name==='20 pics/vids')return {label:'Fine. $20',variant:'btn-primary'};
   if(p.name==='VIP 1 Month')return {label:'Go VIP · $150',variant:'btn-primary'};
   if(p.name==='VIP 3 Months')return {label:'Go VIP · $350',variant:'btn-primary'};
-  if(p.name==='Deluxe Dropbox Today Promo')return {label:'Today’s vault · $55',variant:'btn-primary'};
+  if(p.name==='Deluxe Dropbox Today Promo'||p.salePrice===55)return {label:'Add to bag',variant:'btn-primary'};
   if(p.name==='Dick Rating')return {label:'Add · $35',variant:'btn-primary'};
   if(p.name==='Custom 1-min Video')return {label:'Request this custom',variant:'btn-primary'};
   if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
   if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
   if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
  if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
- if(p.group==='vault')return {label:'Just get the vault · $75',variant:'btn-primary'};
+ if(p.group==='vault')return {label:'Add to bag',variant:'btn-primary'};
   if(p.name==='Live Clips · Sent to Your Chat')return {label:'Add these clips',variant:'btn-primary'};
   if(p.name.includes('Live Teasy Snaps'))return {label:'Pick this pack',variant:'btn-primary'};
   if(p.name.startsWith('Live Snap Show'))return {label:'Choose this live',variant:'btn-primary'};
@@ -189,14 +189,17 @@ categories.forEach(([section],i)=>{
      info.append(list);
    }
    if(p.note)info.append(el('p','menu-v2-fine',p.note));
-    const onSale=false;
-    const effectivePrice=onSale?Math.round(p.price*0.60*100)/100:p.price;
-    const amount=el('strong','offer-price'+(onSale?' vip-sale-price':''),onSale?null:(p.priceDisplay||((p.extra?'+':'')+'$'+p.price+(p.from?'+':''))));
+    const onSale=Number.isFinite(p.salePrice);
+    const effectivePrice=onSale?p.salePrice:(p.price);
+    const amount=el('strong','offer-price',p.priceDisplay||((p.extra?'+':'')+'$'+effectivePrice+(p.from?'+':'')));
+    const priceStack=el('div','price-stack');
+    if(onSale)priceStack.append(el('span','offer-was','was $'+p.wasPrice));
+    priceStack.append(amount);
 
    const cta=menuAction(p);
    const action=el('button','offer-btn add-product btn '+cta.variant);
    action.type='button';
-   const baseName=p.name+(p.from?' (starting at $'+p.price+')':'');
+   const baseName=(p.bagName||p.name)+(p.from?' (starting at $'+effectivePrice+')':'');
    action.dataset.name=baseName;
    action.dataset.price=String(effectivePrice);
    action.dataset.cta=cta.label;
@@ -249,11 +252,11 @@ categories.forEach(([section],i)=>{
     'Deluxe Dropbox (900+ vault)':'deluxe','B/G Folder (3 vids)':'bg','Dick Rating':'dickrate',
     'Custom 1-min Video':'custom1','VIP 1 Month':'vip1','VIP 3 Months':'vip3'
    };
-   const sku=checkoutItemIds[p.name];
+   const sku=p.salePrice===55?'deluxe55':checkoutItemIds[p.name];
    let payLink=null;
    if(sku){
     payLink=el('a','menu-pay-link','Checkout');
-    payLink.href='/checkout?item='+sku;
+    payLink.href='/checkout?item='+sku+(sku==='deluxe55'?'&promo=55':'');
    }else{
     payLink=el('button','menu-pay-link checkout-now','Checkout');
     payLink.type='button';
@@ -272,7 +275,7 @@ categories.forEach(([section],i)=>{
    refreshChoices();
    const actions=el('div','menu-actions');
    actions.append(action,payLink);
-   const buy=el('div','menu-v2-buy');buy.append(amount,actions);
+   const buy=el('div','menu-v2-buy');buy.append(priceStack,actions);
    card.append(info,buy);
    panel.append(card);
    if(p.name==='Sexting · 30 Minutes'){

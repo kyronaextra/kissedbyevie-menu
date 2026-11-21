@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="curated-gallery.css">
-<link rel="stylesheet" href="/site-nav.css?v=20261120-routes-1">
+<link rel="stylesheet" href="/site-nav.css?v=20261121-type-1">
 <title>Some Photos of Me | Kissed by Evie</title>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
@@ -24,10 +24,10 @@
   <nav aria-label="Primary">
     <a href="/menu#boutique" data-route="menu">Menu</a>
     <a href="/menu#pay" data-route="pay">Pay</a>
-    <a href="/checkout" data-route="checkout">Checkout</a>
     <a href="/gallery" data-route="gallery">Gallery</a>
     <a href="/about" data-route="about">About</a>
     <a href="/account.html" data-route="account">Account</a>
+    <a class="route-cart" href="/checkout" data-route="checkout">Checkout / View cart<span class="route-cart-count" hidden>0</span></a>
   </nav>
 </header>
 <header class="gallery-header">
@@ -43,7 +43,7 @@
     <p class="gallery-status" id="galleryStatus">Opening the photo collection…</p>
   </section>
   <p class="gallery-note">Want more? <a href="/menu#boutique">My menu is right here.</a></p>
-<script src="/site-nav.js?v=20261120-routes-1"></script>
+<script src="/site-nav.js?v=20261121-type-1"></script>
 </main>
 <dialog class="photo-viewer" id="photoViewer" aria-label="Photo viewer">
   <button class="viewer-close" id="viewerClose" type="button" aria-label="Close photo">×</button>
@@ -52,5 +52,6 @@
   <button class="viewer-arrow viewer-next" id="viewerNext" type="button" aria-label="Next photo">→</button>
   <span class="viewer-count" id="viewerCount"></span>
 </dialog>
+<link rel="stylesheet" href="/readable.css?v=20261121-type-1">
 </body>
 </html>

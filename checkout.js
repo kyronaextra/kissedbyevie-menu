@@ -137,7 +137,12 @@
     state.promoCode = '';
     state.promoNotice = '';
     let vaultId = '';
-    readBag().forEach((line) => {
+    const bagLines = readBag();
+    if (bagLines.some((line) => catalog.aliases[line.name] === 'deluxe55')) {
+      state.promoUnlocked = true;
+      if (!state.promoCode) state.promoCode = '55';
+    }
+    bagLines.forEach((line) => {
       const qty = Math.max(0, Math.min(catalog.maxQty, Math.round(Number(line.qty))));
       const sku = catalog.aliases[line.name] || '';
       if (sku === 'deluxe55' && !state.promoUnlocked) {
@@ -262,6 +267,7 @@
       });
     });
     try { sessionStorage.setItem(BAG_KEY, JSON.stringify(lines)); } catch (err) { /* private mode */ }
+    try { window.dispatchEvent(new CustomEvent('evie-bag-change')); } catch (err) { /* older browsers */ }
   }
   function persistTip() {
     try { sessionStorage.setItem(TIP_KEY, String(state.tip || '')); } catch (err) { /* private mode */ }
