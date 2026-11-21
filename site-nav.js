@@ -1,4 +1,4 @@
-/* Marks the current clean route and sends old homepage hashes to their pages. */
+/* Marks the current clean route, paints the cart count, and toggles the mobile menu. */
 (function () {
   'use strict';
   function normalize(pathname) {
@@ -63,10 +63,37 @@
       badge.hidden = count < 1;
     });
     document.querySelectorAll('.route-cart').forEach(function (link) {
-      link.setAttribute('aria-label', count ? 'Checkout / View cart, ' + count + ' in your bag' : 'Checkout / View cart');
+      link.setAttribute('aria-label', count ? 'Cart, ' + count + ' in your bag' : 'Cart');
     });
   }
   paintBagBadge();
   window.addEventListener('evie-bag-change', paintBagBadge);
   window.addEventListener('storage', paintBagBadge);
+
+  var toggle = document.getElementById('routeToggle');
+  var menu = document.getElementById('routeMenu');
+  var header = document.querySelector('.route-nav');
+  function setOpen(open) {
+    document.body.classList.toggle('route-menu-open', open);
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+  }
+  if (toggle && menu) {
+    toggle.addEventListener('click', function (ev) {
+      ev.stopPropagation();
+      setOpen(!document.body.classList.contains('route-menu-open'));
+    });
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { setOpen(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+    document.addEventListener('click', function (e) {
+      if (!header) return;
+      if (document.body.classList.contains('route-menu-open') && !header.contains(e.target)) setOpen(false);
+    });
+  }
 })();
