@@ -178,6 +178,33 @@
       </article>
     </div>
   </section>
+
+  <section class="home-reviews" id="reviews" aria-labelledby="reviewsHeading">
+    <h2 id="reviewsHeading">Notes from buyers</h2>
+    <p class="reviews-lede">Short notes from people who already bought. They only show up after I approve them.</p>
+    <div id="reviewsList" class="reviews-list" aria-live="polite"></div>
+    <form class="review-form" id="reviewForm">
+      <label>Your note
+        <textarea id="reviewBody" name="body" rows="3" minlength="8" maxlength="280" required placeholder="Keep it short and kind."></textarea>
+      </label>
+      <label>Optional @username
+        <input id="reviewHandle" name="handle" maxlength="33" autocomplete="off" placeholder="@username">
+      </label>
+      <label>Where that username is
+        <select id="reviewPlatform" name="platform">
+          <option value="">No handle</option>
+          <option value="x">X</option>
+          <option value="telegram">Telegram</option>
+        </select>
+      </label>
+      <div class="review-hp" aria-hidden="true">
+        <label>Website <input id="reviewWebsite" name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <button type="submit">Send for Evie to review</button>
+      <p class="review-hint">Nothing is posted until I approve it.</p>
+      <p class="review-status" id="reviewStatus" role="status"></p>
+    </form>
+  </section>
 </main>
 <footer class="route-footer">
   <span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span>
@@ -197,6 +224,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="/member-config.js"></script>
 <script src="/feed.js?v=20261121-clean-1"></script>
+<script src="/reviews.js?v=20261121-round3-2"></script>
 <script>
 (function(){
   var box=document.getElementById('feedSignin');

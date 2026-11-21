@@ -272,3 +272,23 @@
   font:700 12px/1.35 var(--font-sans,inherit)
 }
 .home-page .menu-v2-rule{margin:8px 0 0;color:#ffd0ea;font:400 .9rem/1.4 var(--font-sans,inherit)}
+
+.home-reviews{margin:36px 0 8px;max-width:720px}
+.home-reviews h2{margin:0 0 8px;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:500;color:#ffe6f3}
+.reviews-lede,.review-hint{margin:0 0 14px;color:#e9c2d7;font-size:14px;line-height:1.45}
+.reviews-list{display:grid;gap:12px;margin:0 0 18px}
+.reviews-empty{color:#e9c2d7;font-size:14px}
+.review-card{padding:14px 16px;border-radius:16px;border:1px solid rgba(255,222,240,.28);background:rgba(255,255,255,.04)}
+.review-body{margin:0 0 8px;color:#ffe6f3;line-height:1.45}
+.review-by,.review-anon{margin:0;color:#ffd0ea;font-size:13px}
+.review-handle{color:#ffd0ea}
+.review-form{display:grid;gap:10px}
+.review-form label{color:#ffd0ea;font-size:13px;display:grid;gap:4px}
+.review-form input,.review-form textarea,.review-form select{
+  width:100%;box-sizing:border-box;padding:10px 12px;border-radius:12px;
+  border:1px solid rgba(255,222,240,.28);background:#1a0c16;color:#ffe6f3;font:inherit
+}
+.review-form button{min-height:46px;border:0;border-radius:12px;background:linear-gradient(180deg,#ff9ed0,#e46aa8);color:#2a1020;font:700 15px/1 inherit;cursor:pointer}
+.review-hp{position:absolute;left:-9999px;height:0;width:0;overflow:hidden}
+.review-status[data-error="1"]{color:#ffb3c8}
+.review-status{margin:8px 0 0;color:#e9c2d7;font-size:13px}
