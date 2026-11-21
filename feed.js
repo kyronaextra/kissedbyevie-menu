@@ -42,8 +42,8 @@ async function loadPosts(){
     .order('pinned',{ascending:false})
     .order('created_at',{ascending:false})
     .limit(80);
-  if(error){list.innerHTML='<p class="feed-empty">The feed is not available yet.</p>';return []}
-  if(!posts||!posts.length){list.innerHTML='<p class="feed-empty">Nothing posted yet. Evie can write the first one from this page or with /post in Telegram.</p>';return []}
+  if(error){return []}
+  if(!posts||!posts.length){return []}
   const ids=posts.map(p=>p.id);
   const {data:photos}=await client.from('evie_public_photos')
     .select('id,storage_path,alt_text,post_id,created_at')
@@ -63,10 +63,17 @@ function render(posts, adminToken){
     const art=document.createElement('article');
     art.className='feed-post'+(post.pinned?' is-pinned':'');
     art.dataset.id=post.id;
+    const head=document.createElement('header');head.className='feed-post-head';
+    const av=document.createElement('img');av.className='feed-avatar';av.src='/assets/photos/evie-gallery-15.webp';av.alt='';av.width=42;av.height=42;
+    const by=document.createElement('div');by.className='feed-byline';
+    const name=document.createElement('p');name.className='feed-author';name.textContent='Evie';
+    const when=document.createElement('p');when.className='feed-when';when.textContent=fmtWhen(post.created_at);
+    by.append(name,when);head.append(av,by);
     if(post.pinned){
       const flag=document.createElement('p');flag.className='pin-flag';flag.textContent='Pinned';
-      art.append(flag);
+      head.append(flag);
     }
+    art.append(head);
     if(post.body){
       const body=document.createElement('p');body.className='body';body.textContent=post.body;
       art.append(body);
@@ -111,9 +118,6 @@ function render(posts, adminToken){
       a.append(document.createTextNode(kinds[post.link_kind]||'Open link'));
       art.append(a);
     }
-    const meta=document.createElement('p');meta.className='meta';
-    meta.textContent=fmtWhen(post.created_at)+' · '+String(post.id).slice(0,8);
-    art.append(meta);
     if(adminToken){
       const row=document.createElement('div');row.className='feed-admin-row';
       const del=document.createElement('button');del.type='button';del.className='quiet';del.textContent='Delete post';

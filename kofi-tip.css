@@ -346,3 +346,31 @@ body.kofi-float-hidden .kofi-float{
 @media(prefers-reduced-motion:reduce){
   .home-hero-video{display:none}
 }
+
+/* Single-path tip page (button only — more reliable in mobile Safari than the embed). */
+.tip-page{width:min(560px,calc(100% - 32px));margin:28px auto 72px}
+.tip-page .kofi-card{padding:28px 22px 32px;text-align:left}
+.tip-page .kofi-lead{margin:0 0 10px;font-family:var(--font-display);font-style:italic;font-weight:500;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.1;color:#ffe6f3}
+.tip-page .sub{margin:0 0 22px;color:var(--color-muted);font:400 1rem/1.5 var(--font-sans)}
+.tip-page .kofi-hero{margin:0 0 16px}
+.tip-page .kofi-open{min-width:min(100%,280px);padding:0 22px}
+.tip-page .kofi-next{margin:0;color:var(--color-muted);font:400 0.95rem/1.5 var(--font-sans)}
+.tip-page .feed-logo{display:none}
+.tip-page .kofi-stage{display:none}
+
+.menu-tip-strip{
+  width:min(1040px,calc(100% - 32px));
+  margin:16px auto 0;
+  padding:12px 16px;
+  border:1px solid rgba(255,196,229,.22);
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  color:var(--color-muted,#ddbbcf);
+  font:500 14px/1.4 Outfit,"DM Sans",sans-serif;
+  text-align:center;
+}
+.menu-tip-strip a{color:#ffd0ea;font-weight:650;text-decoration:none}
+.menu-tip-strip a:hover{color:#fff}
+@media(max-width:640px){
+  .menu-tip-strip{border-radius:16px;text-align:left}
+}
