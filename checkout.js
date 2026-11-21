@@ -550,6 +550,64 @@
     window.addEventListener('pagehide', cancel, {once: true});
     window.location.href = appUrl;
   }
+  function isMobilePay() {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
+  }
+  function openPayInNewTab(url) {
+    if (!url) return;
+    markPayOpened();
+    let win = null;
+    try { win = window.open(url, '_blank'); } catch (err) { win = null; }
+    if (win) {
+      try { win.opener = null; } catch (err) { /* ignore */ }
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.referrerPolicy = 'no-referrer';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+  function markPayOpened() {
+    state.payOpenedAt = Date.now();
+    state.payReturnArmed = true;
+    persistProgress();
+  }
+  function contactReady() {
+    const users = handles();
+    return !!users.platform && ['telegram','snapchat','x','onlyfans','stripchat'].indexOf(users.platform) !== -1 && !!users.user && HANDLE_RE.test(users.user);
+  }
+  function showPaidReturnPrompt() {
+    const prompt = $('paidReturnPrompt');
+    if (prompt) {
+      prompt.hidden = false;
+      prompt.classList.add('is-on');
+    }
+    document.querySelectorAll('#wizardProgress .seg[data-step="proof"]').forEach((seg) => {
+      seg.classList.add('is-nudge');
+    });
+  }
+  function hidePaidReturnPrompt() {
+    const prompt = $('paidReturnPrompt');
+    if (prompt) {
+      prompt.hidden = true;
+      prompt.classList.remove('is-on');
+    }
+    document.querySelectorAll('#wizardProgress .seg[data-step="proof"]').forEach((seg) => {
+      seg.classList.remove('is-nudge');
+    });
+  }
+  function onReturnedFromPay() {
+    if (state.submitted) return;
+    if (!state.payReturnArmed) return;
+    if (!state.payOpenedAt || Date.now() - state.payOpenedAt < 800) return;
+    state.payReturnArmed = false;
+    showPaidReturnPrompt();
+    if (contactReady() && state.step !== 'confirm') goToStep('proof');
+  }
   function knownMethod(next) {
     if (next === 'cashapp' || next === 'paypal' || next === 'venmo' || next === 'amazon_egift') return next;
     if (next === 'amazon') return 'amazon_egift';
@@ -1127,26 +1185,28 @@
     const step = saved.step && STEPS.indexOf(saved.step) !== -1 ? saved.step : 'order';
     if (step !== 'confirm') state.step = step;
   }
+  function openVenmoPay() {
+    state.memoLocked = true;
+    const urls = venmoUrls();
+    openPayInNewTab(isMobilePay() ? urls.app : urls.web);
+  }
+  function openCashPay() {
+    const urls = cashUrls();
+    openPayInNewTab(urls.app || urls.web);
+  }
+  function openPaypalPay() {
+    state.memoLocked = true;
+    openPayInNewTab(catalog.paypalUrl);
+  }
+  function openAmazonPay() {
+    copyText(catalog.amazonEmail, 'Email copied, paste it in the To field');
+    openPayInNewTab(catalog.amazonUrl);
+  }
   function openSelectedProvider() {
-    if (state.method === 'venmo') {
-      state.memoLocked = true;
-      const urls = venmoUrls();
-      openApp(urls.app, urls.web);
-      return;
-    }
-    if (state.method === 'cashapp') {
-      const urls = cashUrls();
-      openApp(urls.app, urls.web);
-      return;
-    }
-    if (state.method === 'paypal' && $('openPaypal')) {
-      state.memoLocked = true;
-      $('openPaypal').click();
-      return;
-    }
-    if (state.method === 'amazon_egift' && $('openAmazon')) {
-      $('openAmazon').click();
-    }
+    if (state.method === 'venmo') { openVenmoPay(); return; }
+    if (state.method === 'cashapp') { openCashPay(); return; }
+    if (state.method === 'paypal') { openPaypalPay(); return; }
+    if (state.method === 'amazon_egift') { openAmazonPay(); }
   }
   function stepError(step, message) {
     goToStep(step);
@@ -1218,19 +1278,23 @@
       copyText(state.memo || 'Food');
     });
   });
-  $('openVenmo').addEventListener('click', () => {
-    state.memoLocked = true;
-    const urls = venmoUrls();
-    openApp(urls.app, urls.web);
+  $('openVenmo').addEventListener('click', (event) => {
+    event.preventDefault();
+    openVenmoPay();
   });
-  $('openCash').addEventListener('click', () => {
-    const urls = cashUrls();
-    openApp(urls.app, urls.web);
+  $('openCash').addEventListener('click', (event) => {
+    event.preventDefault();
+    openCashPay();
   });
   const openPaypal = $('openPaypal');
   if (openPaypal) {
     if (catalog.paypalUrl) openPaypal.href = catalog.paypalUrl;
-    openPaypal.addEventListener('click', () => { state.memoLocked = true; });
+    openPaypal.setAttribute('target', '_blank');
+    openPaypal.setAttribute('rel', 'noopener noreferrer');
+    openPaypal.addEventListener('click', (event) => {
+      event.preventDefault();
+      openPaypalPay();
+    });
   }
   const copyPaypalAmount = $('copyPaypalAmount');
   if (copyPaypalAmount) copyPaypalAmount.addEventListener('click', () => copyText(money(total())));
@@ -1243,10 +1307,24 @@
   const openAmazon = $('openAmazon');
   if (openAmazon) {
     if (catalog.amazonUrl) openAmazon.href = catalog.amazonUrl;
-    openAmazon.addEventListener('click', () => {
-      copyText(catalog.amazonEmail, 'Email copied, paste it in the To field');
+    openAmazon.setAttribute('target', '_blank');
+    openAmazon.setAttribute('rel', 'noopener noreferrer');
+    openAmazon.addEventListener('click', (event) => {
+      event.preventDefault();
+      openAmazonPay();
     });
   }
+  window.addEventListener('focus', onReturnedFromPay);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') onReturnedFromPay();
+  });
+  const paidGo = $('paidReturnGo');
+  if (paidGo) paidGo.addEventListener('click', () => {
+    hidePaidReturnPrompt();
+    goToStep('proof');
+  });
+  const paidDismiss = $('paidReturnDismiss');
+  if (paidDismiss) paidDismiss.addEventListener('click', hidePaidReturnPrompt);
   function bindChat(id, kind) {
     const el = $(id);
     if (!el) return;

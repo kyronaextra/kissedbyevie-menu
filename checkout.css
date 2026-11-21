@@ -884,3 +884,58 @@ scroll-behavior:auto!important}
   .payment-tile .pay-brand{width:33px;height:33px}
 }
 
+
+.paid-return-prompt{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:12px 0 0;
+  padding:11px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,190,220,.45);
+  background:linear-gradient(145deg,#3a1528,#1c0b18);
+  color:#ffe6f3;
+  box-sizing:border-box;
+  max-width:100%;
+}
+.paid-return-prompt[hidden]{display:none!important}
+.paid-return-prompt p{
+  margin:0;
+  flex:1 1 auto;
+  min-width:0;
+  font:600 14px/1.35 inherit;
+}
+.paid-return-go{
+  flex:0 0 auto;
+  min-height:36px;
+  padding:0 12px;
+  border:0;
+  border-radius:10px;
+  background:#f4b6d0;
+  color:#3a1024;
+  font:700 13px/1 inherit;
+  cursor:pointer;
+}
+.paid-return-dismiss{
+  flex:0 0 auto;
+  width:32px;
+  height:32px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:#ffe6f3;
+  font-size:22px;
+  line-height:1;
+  cursor:pointer;
+}
+#wizardProgress .seg[data-step="proof"].is-nudge{
+  box-shadow:0 0 0 3px rgba(255,180,210,.65);
+  animation:proofNudge 1.1s ease 0s 3;
+}
+@keyframes proofNudge{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+}
+@media(prefers-reduced-motion:reduce){
+  #wizardProgress .seg[data-step="proof"].is-nudge{animation:none}
+}

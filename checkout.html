@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/site-nav.css?v=20261121-clean-1">
   <link rel="stylesheet" href="/brand.css?v=20261121-clean-2">
-  <link rel="stylesheet" href="/checkout.css?v=20261121-clean-1">
+  <link rel="stylesheet" href="/checkout.css?v=20261121-paytab-1">
   <link rel="stylesheet" href="/readable.css?v=20261121-type-1">
 </head>
 <body class="kbe-brand candy-counter">
@@ -71,6 +71,11 @@
         <div class="seg" data-step="proof" title="Payment proof"></div>
       </div>
 
+      <div id="paidReturnPrompt" class="paid-return-prompt" hidden>
+        <p>Paid? Send me the proof ♡</p>
+        <button type="button" class="paid-return-go" id="paidReturnGo">Add proof</button>
+        <button type="button" class="paid-return-dismiss" id="paidReturnDismiss" aria-label="Dismiss">×</button>
+      </div>
       <div class="panel-area">
         <div class="panel-screen" id="screen">
 
@@ -130,7 +135,7 @@
               <div class="recipient-placeholder handle-row"><code data-handle="venmoHandle"></code><button type="button" class="icon-copy" data-copy-handle="venmoHandle">Copy</button></div>
               <div class="memo">Write <strong class="memo-text">Food</strong> in the memo <button type="button" class="btn-text" data-copy-memo>Copy memo</button></div>
               <button type="button" class="btn-outline" id="openVenmo">Open Venmo</button>
-              <p class="hint">Opens Venmo with the amount and memo when the app can accept them. Double-check before you send.</p>
+              <p class="hint">Opens Venmo in a new tab so you can come back here. On your phone it may hand off to the app with the amount and memo when the app can accept them. Double-check before you send.</p>
             </div>
             <div class="payment-detail pay-panel" data-method="cashapp" hidden>
               <img class="pay-wordmark" src="/assets/brand/cashapp.webp" width="320" height="154" alt="Cash App">
@@ -139,7 +144,7 @@
               <div class="recipient-placeholder handle-row"><code data-handle="cashAppHandle"></code><button type="button" class="icon-copy" data-copy-handle="cashAppHandle">Copy</button></div>
               <div class="memo">Write <strong class="memo-text">Food</strong> in the memo <button type="button" class="btn-text" data-copy-memo>Copy memo</button></div>
               <button type="button" class="btn-outline" id="openCash">Open Cash App</button>
-              <p class="hint">Opens Cash App with the amount when the app can accept it. Add the memo yourself.</p>
+              <p class="hint">Opens Cash App in a new tab so you can come back here, with the amount when the app can accept it. Add the memo yourself.</p>
             </div>
             <div class="payment-detail pay-panel" data-method="paypal" hidden>
               <img class="pay-wordmark" src="/assets/brand/paypal.webp" width="320" height="143" alt="PayPal">
@@ -148,7 +153,7 @@
               <button type="button" class="icon-copy" id="copyPaypalAmount">Copy amount</button>
               <div class="memo">Write <strong class="memo-text">Food</strong> in the memo <button type="button" class="btn-text" data-copy-memo>Copy memo</button></div>
               <a class="btn-outline" id="openPaypal" href="#" target="_blank" rel="noopener noreferrer">Open PayPal</a>
-              <p class="hint">This opens Evie’s PayPal page. It does not fill in the amount or the memo, so type the total and paste the memo there.</p>
+              <p class="hint">Opens Evie’s PayPal page in a new tab so you can come back here. It does not fill in the amount or the memo, so type the total and paste the memo there.</p>
             </div>
             <div class="payment-detail pay-panel" data-method="amazon_egift" hidden>
               <img class="pay-wordmark" src="/assets/brand/amazon.webp" width="320" height="144" alt="Amazon">
@@ -160,7 +165,7 @@
               </div>
               <button type="button" class="icon-copy" id="copyAmazonAmount">Copy amount</button>
               <a class="btn-outline" id="openAmazon" href="#" target="_blank" rel="noopener noreferrer">Open Amazon</a>
-              <p class="hint">Choose the amount shown, paste the email in the recipient field, then send the confirmation or order number back.</p>
+              <p class="hint">Opens Amazon in a new tab so you can come back here. Choose the amount shown, paste the email in the recipient field, then send the confirmation or order number back.</p>
             </div>
           </section>
 
@@ -300,7 +305,7 @@
 <script src="/checkout-catalog.js?v=20261121-candy-4"></script>
 <script src="/member-config.js"></script>
 <script src="/order-config.js"></script>
-<script src="/checkout.js?v=20261121-candy-4"></script>
+<script src="/checkout.js?v=20261121-paytab-1"></script>
 <script src="/site-nav.js?v=20261121-clean-1"></script>
 </body>
 </html>
