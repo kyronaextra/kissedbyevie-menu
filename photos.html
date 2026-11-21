@@ -12,9 +12,9 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="curated-gallery.css">
-<link rel="stylesheet" href="/site-nav.css?v=20261121-type-1">
+<link rel="stylesheet" href="/site-nav.css?v=20261121-clean-1">
 <title>Some Photos of Me | Kissed by Evie</title>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script defer src="member-config.js"></script>
@@ -23,15 +23,23 @@
 <body>
 <header class="route-nav">
   <a class="route-brand" href="/"><img class="brand-logo" src="/assets/brand/logo.webp" width="240" height="146" alt="kissedbyevie"></a>
-  <nav aria-label="Primary">
+  <nav class="route-menu" id="routeMenu" aria-label="Primary">
+    <a href="/" data-route="home">Home</a>
     <a href="/menu#boutique" data-route="menu">Menu</a>
+    <a href="/gallery" data-route="gallery">Gallery</a>
     <a href="/tip" data-route="tip">Tip</a>
     <a href="/blog" data-route="blog">Blog</a>
-    <a href="/gallery" data-route="gallery">Gallery</a>
     <a href="/about" data-route="about">About</a>
     <a href="/account.html" data-route="account">Account</a>
-    <a class="route-cart" href="/checkout" data-route="checkout">Checkout / View cart<span class="route-cart-count" hidden>0</span></a>
   </nav>
+  <a class="route-cart" href="/checkout" data-route="checkout">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h15l-1.5 9h-13z"/><path d="M6 8 5 4H2"/><circle cx="9" cy="20" r="1.3" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.3" fill="currentColor" stroke="none"/></svg>
+    <span class="route-cart-text">Cart</span>
+    <span class="route-cart-count" hidden>0</span>
+  </a>
+  <button type="button" class="route-toggle" id="routeToggle" aria-label="Open menu" aria-expanded="false" aria-controls="routeMenu">
+    <span class="route-toggle-bars" aria-hidden="true"></span>
+  </button>
 </header>
 <header class="gallery-header">
   <a class="wordmark" href="/menu">KISSEDBYEVIE</a>
@@ -46,7 +54,7 @@
     <p class="gallery-status" id="galleryStatus">Opening the photo collection…</p>
   </section>
   <p class="gallery-note">Want more? <a href="/menu#boutique">My menu is right here.</a></p>
-<script src="/site-nav.js?v=20261121-type-1"></script>
+<script src="/site-nav.js?v=20261121-clean-1"></script>
 </main>
 <dialog class="photo-viewer" id="photoViewer" aria-label="Photo viewer">
   <button class="viewer-close" id="viewerClose" type="button" aria-label="Close photo">×</button>
