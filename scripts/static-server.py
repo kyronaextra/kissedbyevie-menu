@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-CLEAN = {"menu", "checkout", "gallery", "about"}
+CLEAN = {"menu", "checkout", "gallery", "about", "tip", "blog"}
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -30,7 +30,17 @@ class Handler(SimpleHTTPRequestHandler):
         return super().do_GET()
 
 
+def ensure_assets():
+    """Rebuild binaries from assets-src if the Render build step did not run."""
+    script = ROOT / "scripts" / "decode-assets.py"
+    manifest = ROOT / "assets-src" / "manifest.json"
+    if script.is_file() and manifest.is_file():
+        import subprocess, sys
+        subprocess.check_call([sys.executable, str(script)], cwd=str(ROOT))
+
+
 if __name__ == "__main__":
+    ensure_assets()
     server = ThreadingHTTPServer(("0.0.0.0", 4173), Handler)
     print("serving", ROOT, "on http://127.0.0.1:4173", flush=True)
     server.serve_forever()

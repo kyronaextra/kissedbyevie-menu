@@ -8,6 +8,7 @@ services:
   - type: web
     name: kissedbyevie-menu
     runtime: static
+    buildCommand: python3 scripts/decode-assets.py
     staticPublishPath: .
     routes:
       - type: rewrite
@@ -22,3 +23,9 @@ services:
       - type: rewrite
         source: /about
         destination: /about/index.html
+      - type: rewrite
+        source: /tip
+        destination: /tip/index.html
+      - type: rewrite
+        source: /blog
+        destination: /blog/index.html
