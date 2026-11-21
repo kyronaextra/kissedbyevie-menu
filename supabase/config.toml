@@ -6,3 +6,7 @@ verify_jwt = false
 # Must be false or the device GET (no Authorization header) is rejected by the gateway.
 [functions.evie-bot-sync]
 verify_jwt = false
+
+# Homepage live check. No user session; the function returns only live/offline.
+[functions.evie-stripchat-status]
+verify_jwt = false

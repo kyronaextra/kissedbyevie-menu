@@ -1,0 +1,165 @@
+/* Live Stripchat stage. Ink #09070b, kiss rose #ff4d8d, soft glow. */
+.live-stage{
+  margin:2px 0 18px;
+  min-width:0;
+}
+.live-stage-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 10px;
+  min-width:0;
+}
+.live-stage-mark{
+  width:22px;
+  height:22px;
+  flex:0 0 auto;
+  object-fit:contain;
+}
+.live-stage-head h2{
+  margin:0;
+  font-family:var(--font-display, "Playfair Display", Georgia, serif);
+  font-style:italic;
+  font-weight:500;
+  letter-spacing:-.03em;
+  color:#ffe6f3;
+  font-size:clamp(1.7rem, 5.4vw, 2.35rem);
+  line-height:1.05;
+}
+.live-stage-head p{
+  margin:2px 0 0;
+  color:var(--color-muted, #ddbbcf);
+  font:400 0.95rem/1.4 var(--font-sans, "Outfit", system-ui, sans-serif);
+}
+.live-stage-copy{min-width:0}
+.live-frame{
+  position:relative;
+  width:min(100%, 920px);
+  margin:0;
+  aspect-ratio:16 / 9;
+  background:#09070b;
+  border-radius:28px;
+  overflow:hidden;
+  border:1px solid rgba(255, 77, 141, .62);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 22px 60px rgba(0,0,0,.45),
+    0 0 42px rgba(255, 77, 141, .28);
+}
+.live-frame video,
+.live-frame iframe,
+.live-fallback{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#09070b;
+  object-fit:cover;
+}
+.live-offline{position:absolute;inset:0}
+.live-offline[hidden]{display:none}
+.live-badge{
+  position:absolute;
+  z-index:3;
+  top:12px;
+  left:12px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:6px 11px 6px 10px;
+  border-radius:999px;
+  background:#ff4d8d;
+  color:#fff;
+  font:800 11px/1 var(--font-sans, "Outfit", system-ui, sans-serif);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  box-shadow:0 0 18px rgba(255, 77, 141, .7);
+}
+.live-badge[hidden]{display:none}
+.live-badge-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#fff;
+  animation:live-pulse 1.4s ease-in-out infinite;
+}
+@keyframes live-pulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(.72);opacity:.45}
+}
+.live-overlay{
+  position:absolute;
+  z-index:2;
+  left:0;
+  right:0;
+  bottom:0;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:10px 14px;
+  padding:42px 16px 14px;
+  background:linear-gradient(180deg, rgba(9,7,11,0) 0%, rgba(9,7,11,.88) 58%);
+  pointer-events:none;
+}
+.live-overlay p{
+  margin:0;
+  color:#fff7fb;
+  font:700 1.05rem/1.2 var(--font-sans, "Outfit", system-ui, sans-serif);
+  text-shadow:0 2px 12px rgba(0,0,0,.45);
+}
+.live-cta,
+.live-play{
+  pointer-events:auto;
+  box-sizing:border-box;
+  min-height:44px;
+  padding:0 16px;
+  border-radius:999px;
+  border:1px solid #ffd1ec;
+  background:linear-gradient(175deg, #fff3fc 0%, #ff9fd1 22%, #ff4d8d 68%, #d93a8c 100%);
+  color:#2e071e;
+  font:800 13px/1 var(--font-sans, "Outfit", system-ui, sans-serif);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:inset 0 2px #ffffffcc, 0 6px 18px rgba(255, 77, 141, .4);
+  cursor:pointer;
+}
+.live-cta:hover,
+.live-play:hover{filter:brightness(1.06)}
+.live-cta:focus-visible,
+.live-play:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.live-play{
+  position:absolute;
+  z-index:3;
+  left:50%;
+  top:46%;
+  transform:translate(-50%, -50%);
+}
+.live-play[hidden]{display:none}
+@media (max-width:520px){
+  .live-frame{border-radius:22px}
+  .live-overlay{padding:36px 12px 12px}
+  .live-overlay p{font-size:.98rem}
+  .live-badge{top:10px;left:10px}
+}
+@media (min-width:980px){
+  .live-stage{
+    display:grid;
+    grid-template-columns:minmax(180px, .72fr) minmax(0, 1.28fr);
+    gap:22px 28px;
+    align-items:center;
+    margin:6px 0 26px;
+  }
+  .live-stage-head{margin:0}
+  .live-stage-head h2{font-size:clamp(2rem, 3vw, 2.7rem)}
+  .live-stage-head p{margin-top:8px;font-size:1.02rem}
+  .live-frame{width:100%;margin:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .live-badge-dot{animation:none}
+  .live-cta:hover,
+  .live-play:hover{filter:none}
+}

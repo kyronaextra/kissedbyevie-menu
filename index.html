@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="/brand.css?v=20261121-clean-2">
 <link rel="stylesheet" href="/feed.css?v=20261121-clean-1">
 <link rel="stylesheet" href="/home.css?v=20261121-round4-1">
+<link rel="stylesheet" href="/stripchat-player.css?v=20261121-live-1">
 <link rel="stylesheet" href="/readable.css?v=20261121-type-1">
 </head>
 <body class="kbe-brand">
@@ -72,6 +73,30 @@
         <p>The vault, VIP, or just a taste. Everything is on the menu, and checkout is a tap away.</p>
       </div>
     </div>
+    <section class="live-stage" id="evieLive" aria-labelledby="evieLiveHeading">
+      <div class="live-stage-head">
+        <img class="live-stage-mark" src="/assets/brand/stripchat-mark.webp" width="22" height="22" alt="">
+        <div class="live-stage-copy">
+          <h2 id="evieLiveHeading">Watch me live</h2>
+          <p>Right here when I’m on Stripchat. If I’m not, this loops until I am.</p>
+        </div>
+      </div>
+      <div class="live-frame" id="evieLiveFrame">
+        <p class="live-badge" id="evieLiveBadge" hidden>
+          <span class="live-badge-dot" aria-hidden="true"></span>
+          Live now
+        </p>
+        <div class="live-offline" id="evieOffline">
+          <video id="evieOfflineVideo" src="/assets/video/evie-offline-loop.mp4" poster="/assets/video/evie-offline-poster.jpg" muted autoplay loop playsinline preload="auto"></video>
+          <img class="live-fallback" id="evieOfflineFallback" alt="" hidden src="/assets/video/evie-offline-poster.jpg">
+          <button type="button" class="live-play" id="evieOfflinePlay" hidden>Play preview</button>
+          <div class="live-overlay">
+            <p>Not live right now</p>
+            <a class="live-cta" id="evieLiveCta" href="https://stripchat.com/eviesquirts" target="_blank" rel="noopener noreferrer">See me on Stripchat</a>
+          </div>
+        </div>
+      </div>
+    </section>
     <div class="hero-cards">
       <article class="hero-offer hero-offer--vip">
         <p class="eyebrow">Membership</p>
@@ -220,6 +245,7 @@
 <script src="/site-nav.js?v=20261121-clean-1"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="/member-config.js"></script>
+<script src="/stripchat-player.js?v=20261121-live-1"></script>
 <script src="/feed.js?v=20261121-clean-1"></script>
 <script src="/reviews.js?v=20261121-round3-2"></script>
 <script>
