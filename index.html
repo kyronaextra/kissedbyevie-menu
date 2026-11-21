@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#100712">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kissed by Evie">
@@ -19,11 +19,12 @@
 <title>Kissed by Evie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css?v=20261121-tco14-1">
-<link rel="stylesheet" href="/site-nav.css?v=20261121-tco14-2">
-<link rel="stylesheet" href="/brand.css?v=20261121-tco14-3">
-<link rel="stylesheet" href="/feed.css?v=20261121-tco14-2">
+<link rel="stylesheet" href="/site-nav.css?v=20261121-clean-1">
+<link rel="stylesheet" href="/brand.css?v=20261121-clean-1">
+<link rel="stylesheet" href="/feed.css?v=20261121-clean-1">
+<link rel="stylesheet" href="/home.css?v=20261121-clean-1">
 <link rel="stylesheet" href="/readable.css?v=20261121-type-1">
 </head>
 <body class="kbe-brand">
@@ -54,7 +55,7 @@
 </div>
 <header class="route-nav">
   <a class="route-brand" href="/"><img class="brand-logo" src="/assets/brand/logo.webp" width="240" height="146" alt="kissedbyevie"></a>
-  <nav aria-label="Primary">
+  <nav class="route-menu" id="routeMenu" aria-label="Primary">
     <a href="/" data-route="home">Home</a>
     <a href="/menu#boutique" data-route="menu">Menu</a>
     <a href="/gallery" data-route="gallery">Gallery</a>
@@ -62,89 +63,137 @@
     <a href="/blog" data-route="blog">Blog</a>
     <a href="/about" data-route="about">About</a>
     <a href="/account.html" data-route="account">Account</a>
-    <a class="route-cart" href="/checkout" data-route="checkout">Checkout / View cart<span class="route-cart-count" hidden>0</span></a>
   </nav>
+  <a class="route-cart" href="/checkout" data-route="checkout">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h15l-1.5 9h-13z"/><path d="M6 8 5 4H2"/><circle cx="9" cy="20" r="1.3" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.3" fill="currentColor" stroke="none"/></svg>
+    <span class="route-cart-text">Cart</span>
+    <span class="route-cart-count" hidden>0</span>
+  </a>
+  <button type="button" class="route-toggle" id="routeToggle" aria-label="Open menu" aria-expanded="false" aria-controls="routeMenu">
+    <span class="route-toggle-bars" aria-hidden="true"></span>
+  </button>
 </header>
-<main class="feed-page">
-  <header class="feed-head">
-    <img class="feed-logo hero-logo" src="/assets/brand/logo.webp" width="440" height="267" alt="kissedbyevie">
-    <h1>What’s new.</h1>
-    <p>My own page for photos, shows, customs, and whatever I feel like posting. The menu is one tap away.</p>
-    <div class="feed-links">
-      <a href="/menu#boutique">Shop the menu</a>
-      <a href="https://stripchat.com/eviesquirts/profile" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/stripchat-mark.webp" width="28" height="28" alt="">Lurk me on Stripchat</a>
-      <a href="https://onlyfans.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/onlyfans-mark.webp" width="28" height="28" alt="">Free OnlyFans trial</a>
-      <a href="/gallery">Gallery</a>
+<main class="home-page">
+  <section class="home-hero" aria-labelledby="homeHeroHeading">
+    <div class="home-hero-copy">
+      <h1 id="homeHeroHeading">Come shop with me.</h1>
+      <p>The vault, VIP, or just a taste. Everything is on the menu, and checkout is a tap away.</p>
     </div>
-    <img class="feed-sticker evie-sticker" src="/assets/stickers/see-menu-sticker.webp" width="640" height="640" alt="Evie See Menu sticker">
-  </header>
-
-  <form class="feed-signin" id="feedSignin" hidden>
-    <p>Evie, sign in to post.</p>
-    <label>Email <input id="feedEmail" type="email" autocomplete="username" required></label>
-    <label>Password <input id="feedPassword" type="password" autocomplete="current-password" required></label>
-    <div class="row"><button type="submit" id="feedLoginSubmit">Sign in</button></div>
-  </form>
-  <script>
-    // Show the sign-in box only after a click, so it never looks like a public form.
-    document.getElementById('feedSignin').addEventListener('submit', function(){});
-  </script>
-
-  <form class="feed-composer" id="feedComposer" hidden>
-    <h2>New post</h2>
-    <label>Text
-      <textarea id="feedBody" rows="4" maxlength="2000" placeholder="What’s going on…"></textarea>
-    </label>
-    <label>Photos
-      <input id="feedPhotos" type="file" accept="image/*" multiple>
-    </label>
-    <label>Optional link
-      <input id="feedLink" type="url" placeholder="https://">
-    </label>
-    <label>Link type
-      <select id="feedLinkKind">
-        <option value="">Just a link</option>
-        <option value="show">Stripchat show</option>
-        <option value="custom">Custom spotlight</option>
-        <option value="sale">Sale card to the menu</option>
-        <option value="url">Other</option>
-      </select>
-    </label>
-    <label><input id="feedPinned" type="checkbox"> Pin this post to the top</label>
-    <label><input id="feedSkipGallery" type="checkbox"> Don’t also add photos to the gallery</label>
-    <div class="row">
-      <button type="submit">Post</button>
-      <button type="button" class="quiet" id="feedSignOut">Sign out</button>
+    <div class="hero-cards">
+      <a class="hero-offer hero-offer--vip kbe-glass" href="/checkout?item=vip3">
+        <p class="eyebrow">Membership</p>
+        <span class="badge">Best value</span>
+        <h2>VIP 3 Months</h2>
+        <p class="price">$350</p>
+        <p class="blurb">The membership that actually lasts. Distinct from GFE.</p>
+      </a>
+      <a class="hero-offer kbe-glass" href="/checkout?item=deluxe55&amp;promo=55">
+        <p class="eyebrow">The vault</p>
+        <span class="badge">Sale</span>
+        <h2>Deluxe Dropbox</h2>
+        <p class="price">$55 <span class="was">$75</span></p>
+        <p class="blurb">900+ in the vault, on sale today.</p>
+      </a>
+      <a class="hero-offer kbe-glass" href="/checkout?item=bundle20">
+        <p class="eyebrow">Just a taste</p>
+        <h2>20 pics/vids</h2>
+        <p class="price">$20</p>
+        <p class="blurb">A little set, if you’re not ready for the vault yet.</p>
+      </a>
     </div>
-    <p class="feed-status" id="feedStatus" role="status"></p>
-  </form>
+    <div class="home-hero-actions">
+      <a class="kbe-next" href="/menu#boutique">See the full menu</a>
+      <a class="home-ghost" href="/tip">Leave a tip</a>
+    </div>
+    <ul class="home-social">
+      <li><a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="16" height="16" alt="">Telegram</a></li>
+      <li><a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/x-mark.webp" width="16" height="16" alt="">X</a></li>
+      <li><a href="https://onlyfans.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/onlyfans-mark.webp" width="16" height="16" alt="">OnlyFans trial</a></li>
+    </ul>
+  </section>
 
-  <section id="feedList" class="feed-list" aria-live="polite"></section>
+  <section class="home-feed" id="whats-new" aria-labelledby="feedHeading">
+    <div class="home-feed-head">
+      <h2 id="feedHeading">From Evie</h2>
+      <a href="/blog">Read the blog</a>
+    </div>
+    <p class="home-feed-lede">Notes, photos, and whatever I’m in the mood to post.</p>
+
+    <form class="feed-signin" id="feedSignin" hidden>
+      <p>Evie, sign in to post.</p>
+      <label>Email <input id="feedEmail" type="email" autocomplete="username" required></label>
+      <label>Password <input id="feedPassword" type="password" autocomplete="current-password" required></label>
+      <div class="row"><button type="submit" id="feedLoginSubmit">Sign in</button></div>
+    </form>
+    <script>
+      document.getElementById('feedSignin').addEventListener('submit', function(){});
+    </script>
+
+    <form class="feed-composer" id="feedComposer" hidden>
+      <h2>New post</h2>
+      <label>Text
+        <textarea id="feedBody" rows="4" maxlength="2000" placeholder="What’s going on…"></textarea>
+      </label>
+      <label>Photos
+        <input id="feedPhotos" type="file" accept="image/*" multiple>
+      </label>
+      <label>Optional link
+        <input id="feedLink" type="url" placeholder="https://">
+      </label>
+      <label>Link type
+        <select id="feedLinkKind">
+          <option value="">Just a link</option>
+          <option value="show">Stripchat show</option>
+          <option value="custom">Custom spotlight</option>
+          <option value="sale">Sale card to the menu</option>
+          <option value="url">Other</option>
+        </select>
+      </label>
+      <label><input id="feedPinned" type="checkbox"> Pin this post to the top</label>
+      <label><input id="feedSkipGallery" type="checkbox"> Don’t also add photos to the gallery</label>
+      <div class="row">
+        <button type="submit">Post</button>
+        <button type="button" class="quiet" id="feedSignOut">Sign out</button>
+      </div>
+      <p class="feed-status" id="feedStatus" role="status"></p>
+    </form>
+
+    <div id="feedList" class="feed-list" aria-live="polite">
+      <article class="feed-post is-pinned is-welcome kbe-glass" data-welcome="1">
+        <header class="feed-post-head">
+          <img class="feed-avatar" src="/assets/photos/evie-gallery-15.webp" width="42" height="42" alt="">
+          <div class="feed-byline">
+            <p class="feed-author">Evie</p>
+            <p class="feed-when">Nov 21, 2026</p>
+          </div>
+          <p class="pin-flag">Pinned</p>
+        </header>
+        <p class="body">Welcome to my menu ! I worked so hard building this. If you see any bugs, let me know.</p>
+        <div class="feed-photos one">
+          <img src="/assets/photos/evie-gallery-15.webp" alt="Evie in a burgundy look" width="720" height="900" loading="lazy">
+        </div>
+      </article>
+    </div>
+  </section>
 </main>
 <footer class="route-footer">
   <span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span>
-  <nav aria-label="Footer">
-    <a href="/">Home</a>
-    <a href="/menu">Menu</a>
-    <a href="/checkout">Checkout</a>
-    <a href="/gallery">Gallery</a>
-    <a href="/tip">Tip</a>
-    <a href="/blog">Blog</a>
-    <a href="/about">About</a>
-    <a href="/account.html">My account</a>
-    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="18" height="18" alt="">Telegram</a>
-    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="18" height="18" alt="">NSFW channel</a>
-    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/x-mark.webp" width="18" height="18" alt="">DM me on X</a>
-    <a href="/fulfillment.html">Fulfillment Agreement</a>
-    <a href="/privacy.html">Privacy Policy</a>
+  <nav aria-label="Find Evie">
+    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="16" height="16" alt="">Telegram</a>
+    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="16" height="16" alt="">NSFW channel</a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/x-mark.webp" width="16" height="16" alt="">X</a>
+  </nav>
+  <nav aria-label="Legal">
+    <a href="/fulfillment.html">Fulfillment</a>
+    <a href="/privacy.html">Privacy</a>
     <a href="/disclosure.html">Disclosure</a>
   </nav>
 </footer>
 <script src="/age-gate.js?v=20261120-routes-1"></script>
-<script src="/site-nav.js?v=20261121-tco14-1"></script>
+<script src="/site-nav.js?v=20261121-clean-1"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="/member-config.js"></script>
-<script src="/feed.js?v=20261121-tco14-1"></script>
+<script src="/feed.js?v=20261121-clean-1"></script>
 <script>
 (function(){
   var box=document.getElementById('feedSignin');

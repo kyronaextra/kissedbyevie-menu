@@ -290,3 +290,12 @@
   filter:drop-shadow(0 0 14px rgba(255,80,180,.45));
 }
 .hero-card--deluxe{position:relative;}
+
+/* Clean-up: hide leftover placeholder and duplicate intro copy. */
+.sticker-slot{display:none!important}
+.menu-picker-intro{display:none}
+@media(max-width:700px){
+  .boutique-section::before{content:none!important}
+  .hero-floater{display:none}
+  .hero-sticker{display:none}
+}
