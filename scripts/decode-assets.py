@@ -16,9 +16,9 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "assets-src" / "manifest.json"
 
 
-def load_manifest() -> dict:
+def load_manifest():
     if not MANIFEST.is_file():
-        raise SystemExit(f"missing manifest: {MANIFEST}")
+        return None
     return json.loads(MANIFEST.read_text())
 
 
@@ -34,6 +34,9 @@ def assemble(parts: list[str]) -> bytes:
 
 def decode(force: bool = False) -> int:
     doc = load_manifest()
+    if doc is None:
+        print("decode-assets: no assets-src/manifest.json, nothing to do")
+        return 0
     written = 0
     checked = 0
     for item in doc["files"]:
