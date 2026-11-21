@@ -1,6 +1,7 @@
 /* Shared sticky navigation for clean routes. Root-absolute assets, so
    /route and /route/ and the legacy .html files all load the same file. */
-:root{--route-nav-height:54px}
+/* Taller bar so the real wordmark can sit in the header. */
+:root{--route-nav-height:88px}
 .route-nav{
   position:fixed;
   top:0;
@@ -13,7 +14,8 @@
   box-sizing:border-box;
   width:100%;
   max-width:none;
-  height:var(--route-nav-height);
+  height:auto;
+  min-height:var(--route-nav-height);
   margin:0;
   padding:env(safe-area-inset-top) 12px 0;
   background:rgba(13,6,20,.94);
@@ -22,6 +24,7 @@
   box-shadow:0 8px 22px rgba(0,0,0,.35);
 }
 body:has(.route-nav){padding-top:var(--route-nav-height)}
+.route-nav{align-items:center}
 .route-brand{
   flex:0 0 auto;
   color:#ff6bc9;
@@ -212,3 +215,9 @@ body:has(.route-nav) #blog{scroll-margin-top:calc(var(--route-nav-height) + 12px
   .route-brand{letter-spacing:.06em;font-size:10px}
   .route-checkout span{font-size:9px}
 }
+
+/* Neon brand marks on footer social links */
+.route-footer .social-mark, footer .social-mark, .social-links .social-mark{
+  width:16px;height:16px;margin-right:6px;vertical-align:-3px;display:inline-block;object-fit:contain;
+}
+.social-links .social-mark{width:28px;height:28px;margin-right:8px;}
