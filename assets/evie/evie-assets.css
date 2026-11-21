@@ -1,0 +1,26 @@
+/* Kissed by Evie · neon chrome asset pack · standalone HTML/CSS kit */
+:root { --evie-hot: #FF2E9A; --evie-pink: #FF6BC9; --evie-ink: #050208; --evie-purple: #160617;
+  --evie-copy: #F5F0F8; --evie-muted: #D7BCCE; }
+.evie-store { color: var(--evie-copy); background:var(--evie-ink); font-family:Inter,system-ui,Arial,sans-serif; }
+.evie-nav {display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; margin:20px 0 38px;}
+.evie-button {display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:47px;padding:13px 23px;
+  border:1px solid #ff5bb9;border-radius:999px;background:rgba(13,4,20,.92);color:#FFE4F4;
+  text-decoration:none;font:750 13px/1.15 Inter,system-ui,sans-serif;letter-spacing:.05em;cursor:pointer;
+  box-shadow:inset 0 0 0 1px #4e183d, 0 0 16px #ff2e9a22; transition:transform .2s,box-shadow .2s;}
+.evie-button:hover,.evie-button:focus-visible{transform:translateY(-2px);box-shadow:0 0 20px #ff2e9a77, inset 0 0 12px #ff2e9a66;outline:1px solid #ffbde6;}
+.evie-button--primary {background:linear-gradient(120deg,#FF7DD4 0%,#FF2E9A 23%,#C80974 65%,#FF54B9 100%);color:white;border-color:#ffbbe6;box-shadow:0 0 18px #ff2e9a55,inset 0 2px 1px #ffe0f2aa;}
+.evie-button--primary:hover{box-shadow:0 0 30px #ff2e9aaa, inset 0 2px 2px #fff5;}
+.evie-products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px;max-width:1080px;margin:auto;}
+.evie-product{position:relative;display:flex;flex-direction:column;min-width:0;border:1px solid #7e285d;border-radius:24px;padding:21px;
+ background:radial-gradient(ellipse at 50% 0%,#210822,#08030b 62%,#030205);box-shadow:0 0 0 2px #ff2e9a11, 0 0 20px #f7138522;}
+.evie-product__main{display:flex;gap:18px;align-items:flex-start;min-height:158px;}
+.evie-product__art{width:121px;height:121px;min-width:0;object-fit:contain;}
+.evie-product h3{margin:11px 0 7px;font-size:clamp(16px,2vw,22px);line-height:1.2;}
+.evie-product p{margin:0;color:var(--evie-muted);line-height:1.48;font-size:14px;}
+.evie-product__price{font-size:27px;font-weight:850;color:#ff76cb;margin:9px 0 13px;text-shadow:0 0 12px #f23f9b77;}
+.evie-product__actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;}
+.evie-product__badge{position:absolute;right:13px;top:13px;border-radius:99px;padding:7px 10px;
+ background:linear-gradient(110deg,#ff389f,#bd006c);box-shadow:0 0 12px #ff2e9a66;font-size:10px;font-weight:800;letter-spacing:.05em;}
+.evie-product__badge~.evie-product__main h3{padding-top:23px;}
+@media(max-width:700px){.evie-products{grid-template-columns:1fr}.evie-product__art{width:110px;height:110px}.evie-product{padding:16px}}
+@media(prefers-reduced-motion:reduce){.evie-button{transition:none}}

@@ -22,3 +22,48 @@ services:
       - type: rewrite
         source: /about
         destination: /about/index.html
+    # Render purges the CDN on each deploy. Files under /assets keep a long
+    # cache. HTML is revalidated. CSS and JS at the site root are cache-busted
+    # with a query string and are not marked immutable, because the filenames
+    # do not include a content hash. A catch-all /* header is omitted so it
+    # cannot override the asset rule.
+    headers:
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /index.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /menu
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /menu/index.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /checkout
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /checkout/index.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /checkout.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /gallery
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /gallery/index.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /gallery.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /about
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /about/index.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /about.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate

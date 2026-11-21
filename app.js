@@ -422,12 +422,25 @@
   }
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
-  if(!reducedMotion&&window.gsap&&window.ScrollTrigger){
+  function runReveal(){
+    if(reducedMotion||!window.gsap||!window.ScrollTrigger)return;
     gsap.registerPlugin(ScrollTrigger);
     document.querySelectorAll('.reveal').forEach(function(element){
       gsap.fromTo(element,{opacity:0,y:34},{opacity:1,y:0,duration:.85,ease:'power2.out',
         scrollTrigger:{trigger:element,start:'top 92%',once:true}});
     });
-
   }
+  function loadMotion(){
+    if(reducedMotion||!document.querySelector('.reveal'))return;
+    function add(src,next){
+      var script=document.createElement('script');
+      script.src=src;script.async=true;script.onload=next;
+      document.body.appendChild(script);
+    }
+    add('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',function(){
+      add('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js',runReveal);
+    });
+  }
+  if('requestIdleCallback' in window)requestIdleCallback(loadMotion,{timeout:2500});
+  else window.setTimeout(loadMotion,1500);
 })();

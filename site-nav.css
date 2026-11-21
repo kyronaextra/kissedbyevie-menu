@@ -146,9 +146,9 @@ body:has(.route-nav) #blog{scroll-margin-top:calc(var(--route-nav-height) + 12px
 .age-gate-step[hidden],.age-step[hidden]{display:none!important}
 
 @media(max-width:760px){
-  :root{--route-nav-height:112px}
+  :root{--route-nav-height:148px}
   .route-nav{flex-wrap:wrap;align-content:center;height:auto;min-height:var(--route-nav-height);padding:calc(6px + env(safe-area-inset-top)) 10px 8px}
   .route-brand{letter-spacing:.14em}
-  .route-nav nav{flex:1 0 100%;margin-left:0;flex-wrap:wrap;overflow:visible}
-  .route-nav nav a{padding:0 9px}
+  .route-nav nav{flex:1 0 100%;margin-left:0;flex-wrap:wrap;overflow:visible;gap:8px}
+  .route-nav nav a{min-height:44px;padding:0 12px;font-size:13px}
 }

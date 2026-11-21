@@ -16,9 +16,11 @@ body{
 }
 .menu-home-main,.wrap{position:relative;z-index:1}
 .route-nav{
-  background:rgba(7,4,12,.88)!important;
+  background:rgba(7,4,12,.55)!important;
   border-bottom:1px solid rgba(255,107,157,.7)!important;
   box-shadow:0 8px 24px rgba(0,0,0,.45),0 0 18px rgba(255,46,154,.18)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.35);
+  backdrop-filter:blur(16px) saturate(1.35);
 }
 .route-brand{
   position:relative;
@@ -144,8 +146,7 @@ body:has(.view-cart) .y3k-hero{margin-top:64px}
   height:30px;
   animation:y3k-float 9s ease-in-out infinite;
 }
-.y3k-fly-a{left:8%;top:36%}
-.y3k-fly-b{right:9%;top:28%;width:30px;animation-delay:-3s}
+.y3k-fly{display:none}
 
 #boutique .menu-v2-card,
 .payments,.kofi-card,.card,.menu-order-panel,.crypto-receive-card{
@@ -153,10 +154,33 @@ body:has(.view-cart) .y3k-hero{margin-top:64px}
   border-color:rgba(255,107,157,.85)!important;
   box-shadow:0 0 0 1px rgba(126,240,255,.16),0 0 22px rgba(255,46,154,.22)!important;
 }
+#boutique .menu-v2-card,
+.kofi-card,
+.view-cart,
+.y3k-hero{
+  background-color:rgba(8,4,14,.62)!important;
+  -webkit-backdrop-filter:blur(14px) saturate(1.25);
+  backdrop-filter:blur(14px) saturate(1.25);
+}
 #boutique .menu-v2-card{
-  background:
-    linear-gradient(128deg,rgba(255,107,157,.16),rgba(126,240,255,.08) 42%,rgba(215,196,255,.12) 68%,rgba(7,4,12,0) 80%),
-    #07040c!important;
+  background-image:
+    linear-gradient(128deg,rgba(255,107,157,.2),rgba(126,240,255,.1) 42%,rgba(215,196,255,.14) 68%,rgba(7,4,12,.2) 80%)!important;
+}
+.y3k-blob{filter:blur(0);opacity:.72}
+.view-cart{
+  background:linear-gradient(110deg,rgba(255,46,154,.78),rgba(255,107,201,.62))!important;
+}
+@media(max-width:760px){
+  .route-nav,.view-cart,#boutique .menu-v2-card,.kofi-card,.y3k-hero{
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+  }
+  #boutique .menu-v2-card,.kofi-card,.y3k-hero{background-color:#100814!important}
+  .route-nav{background:rgba(7,4,12,.94)!important}
+  .view-cart{background:#ff2e9a!important}
+  .y3k-blob-b,.y3k-bubble-b,.y3k-bubble-c,.y3k-fly-b{display:none}
+  .route-brand,#boutique .add-product::after,.view-cart::after{animation:none!important}
+  body{background-attachment:scroll!important}
 }
 #boutique .add-product{position:relative;overflow:hidden}
 .view-cart{
@@ -190,7 +214,8 @@ body:has(.view-cart) .y3k-hero{margin-top:64px}
   .route-brand::after{display:none}
 }
 @media(prefers-reduced-motion:reduce){
-  .route-brand,.y3k-word,.y3k-enter,.y3k-blob,.y3k-bubble,.y3k-fly{animation:none!important}
+  .route-brand,.y3k-word,.y3k-enter,.y3k-blob,.y3k-bubble,.y3k-fly,
+  #boutique .add-product::after,.view-cart::after{animation:none!important}
   .route-brand::after{animation:none}
 }
 @keyframes y3k-sheen{

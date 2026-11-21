@@ -7,7 +7,7 @@
   display:inline-flex;
   align-items:center;
   gap:8px;
-  min-height:42px;
+  min-height:44px;
   padding:8px 12px 8px 14px;
   border:1px solid #ff6bc9;
   border-radius:999px;
@@ -85,7 +85,7 @@ body:has(.view-cart) .checkout-bar{padding-right:148px}
 #boutique .menu-v2-card h3{
   margin:0 0 4px!important;
   color:#fff!important;
-  font:700 15px/1.2 "DM Sans",Arial,sans-serif!important;
+  font:700 18px/1.25 "DM Sans",Arial,sans-serif!important;
   text-shadow:none!important;
 }
 #boutique .menu-v2-desc{
@@ -95,8 +95,8 @@ body:has(.view-cart) .checkout-bar{padding-right:148px}
   overflow:hidden;
   margin:0!important;
   color:#d7c3df!important;
-  font-size:12px!important;
-  line-height:1.35!important;
+  font-size:16px!important;
+  line-height:1.4!important;
 }
 #boutique .menu-v2-buy{
   display:flex;
@@ -163,20 +163,36 @@ body:has(.view-cart) .checkout-bar{padding-right:148px}
 @media(max-width:420px){
   .menu-card-icon{flex-basis:48px;width:48px;height:48px;border-radius:12px}
   .menu-card-icon img{width:28px;height:28px}
-  #boutique .product-card,#boutique .menu-v2-card{padding:10px!important;gap:8px!important}
-  #boutique .card-label,#boutique .menu-v2-card h3{font-size:13px!important}
-  #boutique .menu-v2-buy .offer-price{font-size:18px!important}
-  #boutique .menu-actions{gap:6px!important}
-  #boutique .add-product{flex:1.5 1 0!important;overflow:visible!important;padding:7px 6px!important}
-  #boutique .menu-pay-link{flex:0.9 1 0!important}
-  #boutique .menu-actions .offer-btn,#boutique .menu-actions .menu-pay-link{font-size:8px!important;letter-spacing:0;padding:7px 4px!important}
-  .menu-bag-icon{width:11px;height:11px}
-  .view-cart{padding:8px 10px;letter-spacing:.05em}
+  #boutique .product-card,#boutique .menu-v2-card{padding:14px!important;gap:10px!important}
+  #boutique .card-label,#boutique .menu-v2-card h3{font-size:18px!important}
+  #boutique .menu-v2-buy .offer-price{font-size:20px!important}
+  #boutique .menu-actions{gap:8px!important}
+  #boutique .add-product{flex:1.4 1 0!important;overflow:visible!important;padding:10px 12px!important}
+  #boutique .menu-pay-link{flex:1 1 0!important}
+  #boutique .menu-actions .offer-btn,#boutique .menu-actions .menu-pay-link{font-size:16px!important;letter-spacing:.02em;padding:10px 12px!important}
+  .menu-bag-icon{width:16px;height:16px}
+  .view-cart{padding:10px 14px;letter-spacing:.04em}
 }
-@media(max-width:359px){
+.menu-card-icon.is-pack-tile{
+  flex-basis:88px;
+  width:88px;
+  height:88px;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.menu-card-icon.is-pack-tile img{width:88px;height:88px;filter:none}
+@media(max-width:430px){
   #boutique .product-panel:not([hidden]),
   #boutique .menu-v2-panel:not([hidden]){grid-template-columns:1fr!important}
+  .menu-home-main{padding-left:16px;padding-right:16px}
+  #boutique .menu-v2-desc{font-size:16px!important;line-height:1.45!important}
+  #boutique .menu-actions .offer-btn,
+  #boutique .menu-actions .menu-pay-link,
+  .view-cart{min-height:44px!important}
 }
+#boutiqueCatalog{min-height:70vh}
 @media(prefers-reduced-motion:reduce){
   .view-cart,.add-product,.menu-pay-link{transition:none}
 }

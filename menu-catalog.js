@@ -117,16 +117,19 @@ function el(tag,cls,value){
  return node;
 }
 function iconFile(name){
+ const pack={
+  '10 pics/vids':'ten-pics-vids',
+  '20 pics/vids':'twenty-pics-vids',
+  '50 pics/vids':'fifty-pics-vids',
+  'Deluxe Dropbox (900+ vault)':'deluxe-vault',
+  'Deluxe Dropbox Today Promo':'deluxe-vault',
+  'B/G Folder (3 vids)':'bg-folder',
+  'Dick Rating':'dick-rating',
+  'Custom 1-min Video':'custom-one-minute',
+  'VIP 1 Month':'vip-one-month'
+ };
+ if(pack[name])return {src:'/assets/evie/product-tiles/svg/'+pack[name]+'.svg',pack:true};
  const map={
-  '10 pics/vids':'camera-gallery',
-  '20 pics/vids':'lips-gallery',
-  '50 pics/vids':'gallery-play',
-  'Deluxe Dropbox (900+ vault)':'box-sparkle',
-  'Deluxe Dropbox Today Promo':'box-sparkle',
-  'B/G Folder (3 vids)':'two-hearts',
-  'Dick Rating':'eggplant',
-  'Custom 1-min Video':'camera-silhouette',
-  'VIP 1 Month':'crown',
   'VIP 3 Months':'crown-platinum',
   'GFE':'heart',
   'Custom Photo Set · 5 Photos':'photos',
@@ -142,7 +145,7 @@ function iconFile(name){
   'Live Snap Show · 2 Minutes':'phone',
   'Live Snap Show · 4 Minutes':'phone'
  };
- return '/assets/icons/'+(map[name]||'spark')+'.svg';
+ return {src:'/assets/icons/'+(map[name]||'spark')+'.svg',pack:false};
 }
 categories.forEach(([key,label],i)=>{
  const tab=el('button','category-tab'+(i===0?' active':''),label);
@@ -206,12 +209,15 @@ categories.forEach(([section],i)=>{
      videoHeadingAdded=true;
    }
    const card=el('article','product-card menu-v2-card'+(p.badge?' featured':''));
-   const icon=el('div','menu-card-icon');
+   const art=iconFile(p.name);
+   const icon=el('div','menu-card-icon'+(art.pack?' is-pack-tile':''));
    const iconImg=el('img');
-   iconImg.src=iconFile(p.name);
+   iconImg.src=art.src;
    iconImg.alt='';
-   iconImg.width=36;
-   iconImg.height=36;
+   iconImg.width=art.pack?96:36;
+   iconImg.height=art.pack?96:36;
+   iconImg.loading='lazy';
+   iconImg.decoding='async';
    icon.append(iconImg);
    const info=el('div','menu-v2-info');
    if(p.badge)info.append(el('span','menu-v2-badge',p.badge));
