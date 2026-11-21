@@ -173,3 +173,127 @@ body.kofi-float-hidden .kofi-float{
   .kofi-open,.kofi-float{transition:none}
   .kofi-open:hover,.kofi-float:hover{transform:none}
 }
+
+/* Homepage hero. New class names so older chrome-hero rules do not squash it. */
+.home-hero{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  padding:clamp(22px,4vw,48px) clamp(14px,4vw,40px) clamp(32px,5vw,60px);
+  background:#0c0611 url("/assets/hero/homepage-hero-poster.jpg") center/cover no-repeat;
+}
+.home-hero-video{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+}
+.home-hero-shade{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(180deg,rgba(8,4,12,.8) 0%,rgba(8,4,12,.64) 42%,rgba(8,4,12,.84) 100%);
+  pointer-events:none;
+}
+.home-hero::after{
+  content:"";
+  position:absolute;
+  z-index:3;
+  left:0;
+  right:0;
+  bottom:0;
+  height:4px;
+  background:linear-gradient(90deg,#c0c0c0,#fff,#ff2e9a,#ff6bc9,#c0c0c0);
+  box-shadow:0 0 18px rgba(255,79,216,.45);
+  pointer-events:none;
+}
+.home-hero-panel{
+  position:relative;
+  z-index:2;
+  width:min(100%,520px);
+  margin:0 auto;
+}
+.home-hero .kofi-tip{padding:0}
+.home-hero .kofi-card{text-align:center}
+.kofi-tip h2.kofi-lead{
+  max-width:16em;
+  margin:0 auto 10px;
+  font-family:"Italiana",Georgia,serif;
+  font-size:clamp(28px,4vw,44px);
+  font-weight:400;
+  font-style:italic;
+  line-height:1.15;
+  letter-spacing:0;
+}
+.kofi-next{
+  max-width:34rem;
+  margin:8px auto 0;
+  color:#f5f0f8;
+  font:600 15px/1.55 "DM Sans",Arial,sans-serif;
+}
+.kofi-next a{
+  color:#ffb6e4;
+  font-weight:800;
+  text-underline-offset:3px;
+}
+.kofi-next a:hover{color:#fff}
+.kofi-next a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.menu-home-main .boutique-top h2#boutiqueHeading{
+  max-width:16em !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  font-size:clamp(24px,3.4vw,40px) !important;
+  line-height:1.25 !important;
+  letter-spacing:-.02em !important;
+}
+
+.checkout-kofi{margin:0 0 16px}
+.checkout-kofi-layout{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+  align-items:center;
+}
+.checkout-kofi-copy{text-align:left}
+.checkout-kofi .kofi-lead{margin-left:0;text-align:left}
+.kofi-prefill{margin:0;color:#f5f0f8;font:600 15px/1.55 "DM Sans",Arial,sans-serif}
+.kofi-prefill strong{color:#fff;font-weight:800}
+.kofi-copy-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0 0}
+.kofi-copy{
+  min-height:42px;
+  padding:10px 16px;
+  border:1px solid #c0c0c0;
+  border-radius:999px;
+  background:linear-gradient(115deg,#ff2e9a 0%,#ff6bc9 33%,#ff9be0 46%,#ff6bc9 59%,#ff2e9a 100%);
+  box-shadow:0 0 16px rgba(255,79,216,.35),inset 0 1px rgba(255,255,255,.45);
+  color:#fff;
+  font:800 12px/1 "DM Sans",Arial,sans-serif;
+  letter-spacing:.06em;
+  cursor:pointer;
+}
+.kofi-copy:hover{filter:brightness(1.08)}
+.kofi-copy:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.kofi-copy-status{min-height:1em;color:#ffd0ea;font:600 13px/1.4 "DM Sans",Arial,sans-serif}
+.kofi-nsfw-note{
+  margin:14px 0 0;
+  padding:12px 14px;
+  border-left:2px solid #ff6bc9;
+  border-radius:0 12px 12px 0;
+  background:rgba(255,46,154,.12);
+  color:#ffe6f6;
+  font:600 14px/1.5 "DM Sans",Arial,sans-serif;
+}
+.kofi-nsfw-note strong{color:#fff;font-weight:800}
+@media(min-width:960px){
+  .checkout-kofi-layout{grid-template-columns:minmax(0,1fr) minmax(260px,400px);gap:22px}
+}
+@media(max-width:600px){
+  .home-hero{padding:16px 12px 28px}
+  .home-hero .kofi-frame iframe{height:560px}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-hero-video{display:none}
+}
