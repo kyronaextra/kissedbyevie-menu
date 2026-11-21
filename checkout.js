@@ -95,8 +95,8 @@
   }
   function methodFromParam(value) {
     const method = String(value || '').trim().toLowerCase();
-    if (method === 'venmo') return 'venmo';
-    if (method === 'cashapp') return 'cashapp';
+    if (method === 'venmo' || method === 'cashapp' || method === 'paypal') return method;
+    if (method === 'amazon' || method === 'amazon_egift') return 'amazon_egift';
     return '';
   }
   function notesText() {
@@ -223,7 +223,7 @@
     if (urlMethod) state.method = urlMethod;
     else {
       const savedMethod = sessionStorage.getItem(METHOD_KEY);
-      if (savedMethod === 'venmo' || savedMethod === 'cashapp') state.method = savedMethod;
+      if (savedMethod === 'venmo' || savedMethod === 'cashapp' || savedMethod === 'paypal' || savedMethod === 'amazon_egift') state.method = savedMethod;
     }
     const savedTip = Number(sessionStorage.getItem(TIP_KEY));
     if (Number.isFinite(savedTip) && savedTip > 0) state.tip = Math.min(catalog.maxTip, savedTip);
@@ -288,9 +288,16 @@
     });
     return lines;
   }
-  function total() {
+  function merchandiseTotal() {
     const itemsTotal = payableLines().reduce((sum, line) => sum + line.total, 0);
     return Math.round((itemsTotal + (Number(state.tip) || 0)) * 100) / 100;
+  }
+  function amazonFee() {
+    if (!catalog.amazonFeeCents) return 0;
+    return catalog.amazonFeeCents(Math.round(merchandiseTotal() * 100), state.method) / 100;
+  }
+  function total() {
+    return Math.round((merchandiseTotal() + amazonFee()) * 100) / 100;
   }
   function unrecognizedCount() {
     return state.extras.reduce((sum, extra) => sum + (extra.unrecognized ? extra.qty : 0), 0);
@@ -430,6 +437,12 @@
       const count = lines.reduce((sum, line) => sum + line.qty, 0) + (state.tip ? 1 : 0);
       $('amountNote').textContent = count + (count === 1 ? ' item' : ' items') + ' in your order';
     }
+    const paypalAmount = $('paypalAmount');
+    if (paypalAmount) paypalAmount.textContent = money(amount);
+    const amazonAmount = $('amazonAmount');
+    if (amazonAmount) amazonAmount.textContent = money(amount);
+    const feeLine = $('amazonFeeLine');
+    if (feeLine) feeLine.hidden = amazonFee() <= 0;
   }
   let catalogReady = false;
   let catalogOpen = true;
@@ -447,6 +460,7 @@
       rows.push('<div class="picked"><span>' + escapeHtml(extra.name) + '</span><strong>Ask Evie</strong></div>');
     });
     if (state.tip) rows.push('<div class="picked"><span>Custom amount / tip</span><strong>' + money(state.tip) + '</strong></div>');
+    if (amazonFee()) rows.push('<div class="picked"><span>Amazon gift card fee</span><strong>+$10</strong></div>');
     box.hidden = rows.length === 0;
     box.innerHTML = rows.join('');
   }
@@ -478,14 +492,14 @@
     syncStickyJump();
   }
 
-  function toast(message) {
+  function toast(message, ms) {
     const el = $('toast');
     el.textContent = message;
     el.classList.add('show');
     clearTimeout(toast._t);
-    toast._t = setTimeout(() => el.classList.remove('show'), 1600);
+    toast._t = setTimeout(() => el.classList.remove('show'), ms || 1600);
   }
-  async function copyText(value) {
+  async function copyText(value, message) {
     try {
       if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(value);
       else {
@@ -499,7 +513,7 @@
         temp.remove();
         if (!ok) throw new Error('copy failed');
       }
-      toast('Copied');
+      toast(message || 'Copied', message ? 2800 : 1600);
     } catch (err) {
       toast('Copy unavailable');
     }
@@ -514,8 +528,13 @@
     window.addEventListener('pagehide', cancel, {once: true});
     window.location.href = appUrl;
   }
+  function knownMethod(next) {
+    if (next === 'cashapp' || next === 'paypal' || next === 'venmo' || next === 'amazon_egift') return next;
+    if (next === 'amazon') return 'amazon_egift';
+    return 'venmo';
+  }
   function selectMethod(next) {
-    state.method = next === 'cashapp' ? 'cashapp' : 'venmo';
+    state.method = knownMethod(next);
     try { sessionStorage.setItem(METHOD_KEY, state.method); } catch (err) { /* private mode */ }
     document.querySelectorAll('.pay-card').forEach((card) => {
       const on = card.getAttribute('data-method') === state.method;
@@ -523,16 +542,19 @@
       const head = card.querySelector('[data-select]');
       if (head) head.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    renderAmount();
+    renderSelected();
+    syncStickyJump();
   }
   function venmoUrls() {
-    const amount = total();
+    const amount = merchandiseTotal();
     let pay = 'venmo://paycharge?txn=pay&recipients=' + encodeURIComponent(catalog.venmoRecipient);
     if (amount > 0) pay += '&amount=' + encodeURIComponent(amountParam(amount));
     pay += '&note=' + encodeURIComponent(state.memo || 'Food');
     return {app: pay, web: catalog.venmoWeb};
   }
   function cashUrls() {
-    const amount = total();
+    const amount = merchandiseTotal();
     const web = amount > 0
       ? 'https://cash.app/$' + catalog.cashAppSlug + '/' + encodeURIComponent(amountParam(amount))
       : 'https://cash.app/$' + catalog.cashAppSlug;
@@ -554,10 +576,23 @@
     el.textContent = message || '';
     $('copySummary').hidden = !message;
   }
+  function paymentMethodCode() {
+    if (state.method === 'cashapp') return 'cash_app';
+    if (state.method === 'paypal') return 'paypal';
+    if (state.method === 'amazon_egift') return 'amazon_egift';
+    return 'venmo';
+  }
+  function paymentBlurb() {
+    if (state.method === 'cashapp') return 'Cash App ' + catalog.cashAppHandle;
+    if (state.method === 'paypal') return 'PayPal';
+    if (state.method === 'amazon_egift') return 'Pay By Amazon E-gift';
+    return 'Venmo ' + catalog.venmoHandle;
+  }
   function summaryText() {
     const users = handles();
     const lines = payableLines().map((line) => (line.qty > 1 ? line.qty + ' × ' : '') + line.name + ' — ' + money(line.total));
     if (state.tip) lines.push('Custom amount / tip — ' + money(state.tip));
+    if (amazonFee()) lines.push('Amazon gift card fee +$10');
     const who = [];
     if (users.snap) who.push('Snapchat: ' + users.snap);
     if (users.telegram) who.push('Telegram: ' + users.telegram);
@@ -567,7 +602,7 @@
       'Kissed by Evie checkout',
       lines.join('\n') || 'No priced items',
       'Amount: ' + money(total()),
-      'Payment: ' + (state.method === 'cashapp' ? 'Cash App ' + catalog.cashAppHandle : 'Venmo ' + catalog.venmoHandle),
+      'Payment: ' + paymentBlurb(),
       'Memo: ' + (state.memo || 'Food'),
       who.join('\n'),
       note ? 'Notes: ' + note : '',
@@ -642,11 +677,16 @@
       return '<li><span>' + escapeHtml(label) + '</span><span>' + money(line.total) + '</span></li>';
     });
     if (state.tip) rows.push('<li><span>Custom amount / tip</span><span>' + money(state.tip) + '</span></li>');
+    if (amazonFee()) rows.push('<li><span>Amazon gift card fee</span><span>+$10</span></li>');
     list.innerHTML = rows.join('');
     $('confirmTotal').textContent = money(amount);
     $('confirmPay').textContent = state.method === 'cashapp'
       ? 'Payment method: Cash App  ' + catalog.cashAppHandle
-      : 'Payment method: Venmo  ' + catalog.venmoHandle;
+      : state.method === 'paypal'
+        ? 'Payment method: PayPal'
+        : state.method === 'amazon_egift'
+          ? 'Payment method: Pay By Amazon E-gift'
+          : 'Payment method: Venmo  ' + catalog.venmoHandle;
     const memoEl = $('confirmMemo');
     memoEl.hidden = !state.memo;
     memoEl.textContent = state.memo ? 'Memo: ' + state.memo : '';
@@ -736,7 +776,7 @@
       request_id: state.requestId,
       items: payableLines().map((line) => line.id ? {id: line.id, qty: line.qty} : {name: line.name, qty: line.qty}),
       tip_cents: Math.round((Number(state.tip) || 0) * 100),
-      payment_method: state.method === 'cashapp' ? 'cash_app' : 'venmo',
+      payment_method: paymentMethodCode(),
       snapchat_handle: users.snap,
       telegram_handle: users.telegram,
       x_handle: users.x,
@@ -761,7 +801,7 @@
       const data = await response.json().catch(() => null);
       if (response.status === 409 && data && data.memo) {
         applyMemo(data.memo, true);
-        showError(data.error || 'That memo was just used. Copy the new one into Venmo or Cash App.');
+        showError(data.error || 'That memo was just used. Copy the new one into Venmo, Cash App, or PayPal.');
         return;
       }
       if (!response.ok || !data || data.ok !== true || !data.order_id) {
@@ -773,7 +813,7 @@
       }
       state.submitted = true;
       try { sessionStorage.setItem(TERMS_KEY, 'yes'); } catch (err) { /* private mode */ }
-      showConfirm(true, 'Reference: ' + data.order_id + '. Evie still confirms payment from your screenshot. This page cannot see whether Venmo or Cash App received the money.');
+      showConfirm(true, 'Reference: ' + data.order_id + '. Evie still confirms payment from your screenshot. This page cannot see whether Venmo, Cash App, PayPal, or Amazon received the money.');
     } catch (err) {
       showError('The payment server didn’t respond, so this order was not saved. Nothing was marked as paid. Copy the summary and message Evie if you already sent the money.');
     } finally {
@@ -798,6 +838,7 @@
     state.tip = raw === '' ? 0 : Math.max(0, Number(raw) || 0);
     persistTip();
     renderAmount();
+    renderSelected();
   });
   ['snapUser', 'tgUser', 'xUser'].forEach((id) => {
     $(id).addEventListener('change', () => {
@@ -825,6 +866,26 @@
     const urls = cashUrls();
     openApp(urls.app, urls.web);
   });
+  const openPaypal = $('openPaypal');
+  if (openPaypal) {
+    if (catalog.paypalUrl) openPaypal.href = catalog.paypalUrl;
+    openPaypal.addEventListener('click', () => { state.memoLocked = true; });
+  }
+  const copyPaypalAmount = $('copyPaypalAmount');
+  if (copyPaypalAmount) copyPaypalAmount.addEventListener('click', () => copyText(money(total())));
+  const amazonEmail = $('amazonEmail');
+  if (amazonEmail && catalog.amazonEmail) amazonEmail.textContent = catalog.amazonEmail;
+  const copyAmazonEmail = $('copyAmazonEmail');
+  if (copyAmazonEmail) copyAmazonEmail.addEventListener('click', () => copyText(catalog.amazonEmail));
+  const copyAmazonAmount = $('copyAmazonAmount');
+  if (copyAmazonAmount) copyAmazonAmount.addEventListener('click', () => copyText(money(total())));
+  const openAmazon = $('openAmazon');
+  if (openAmazon) {
+    if (catalog.amazonUrl) openAmazon.href = catalog.amazonUrl;
+    openAmazon.addEventListener('click', () => {
+      copyText(catalog.amazonEmail, 'Email copied, paste it in the To field');
+    });
+  }
   function bindChat(id, kind) {
     const el = $(id);
     if (!el) return;
@@ -931,6 +992,8 @@
 
   window.EvieCheckout = {
     total: total,
+    merchandiseTotal: merchandiseTotal,
+    amazonFee: amazonFee,
     money: money,
     venmoUrls: venmoUrls,
     cashUrls: cashUrls,

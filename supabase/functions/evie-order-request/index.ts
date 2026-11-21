@@ -134,6 +134,30 @@ function moneyLabel(cents: number) {
   return "$" + (cents / 100).toFixed(2);
 }
 
+function checkoutPayment(value: unknown) {
+  const raw = typeof value === "string" ? value.trim().toLowerCase() : "";
+  if (raw === "cashapp" || raw === "cash_app") return "cash_app";
+  if (raw === "venmo") return "venmo";
+  if (raw === "paypal") return "paypal";
+  if (raw === "amazon_egift" || raw === "amazon") return "amazon_egift";
+  return "";
+}
+
+function paymentName(payment: string) {
+  if (payment === "cash_app") return "Cash App";
+  if (payment === "paypal") return "PayPal";
+  if (payment === "amazon_egift") return "Amazon e-gift";
+  return "Venmo";
+}
+
+// Keep these thresholds aligned with checkout-catalog.js amazonFeeCents.
+// The browser cannot set the fee. Subtotal is items plus tip, before the fee.
+function amazonGiftFeeCents(subtotalCents: number, payment: string) {
+  if (payment !== "amazon_egift") return 0;
+  if (subtotalCents > 0 && subtotalCents < 3500) return 1000;
+  return 0;
+}
+
 function checkoutAlertText(input: {
   snap: string | null;
   telegram: string | null;
@@ -155,7 +179,7 @@ function checkoutAlertText(input: {
     handles.join("\n") || "No handle",
     "Items: " + (items || "Custom amount"),
     "Total: " + moneyLabel(input.total),
-    "Payment: " + (input.payment === "cash_app" ? "Cash App" : "Venmo"),
+    "Payment: " + paymentName(input.payment),
   ];
   if (input.memo) lines.push("Memo: " + input.memo);
   if (input.notes) lines.push("Notes: " + input.notes);
@@ -241,8 +265,8 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
   if (b.website) return response({ok: false, error: "Invalid request"}, 400, origin);
   if (b.adult_confirmed !== true) return response({ok: false, error: "18+ confirmation required"}, 400, origin);
   if (!uuidRe.test(b.request_id || "")) return response({ok: false, error: "Invalid request ID"}, 400, origin);
-  const payment = b.payment_method === "cashapp" ? "cash_app" : b.payment_method;
-  if (payment !== "venmo" && payment !== "cash_app") return response({ok: false, error: "Choose Venmo or Cash App"}, 400, origin);
+  const payment = checkoutPayment(b.payment_method);
+  if (!payment) return response({ok: false, error: "Choose Venmo, Cash App, PayPal, or Amazon e-gift"}, 400, origin);
   const snap = cleanHandle(b.snapchat_handle);
   const telegram = cleanHandle(b.telegram_handle);
   const xHandle = cleanHandle(b.x_handle);
@@ -285,6 +309,11 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
   if (seen.has("deluxe55") && !promoAccepted(b.promo_code)) {
     return response({ok: false, error: "That Dropbox promo needs a valid code"}, 400, origin);
   }
+  const giftFee = amazonGiftFeeCents(total, payment);
+  if (giftFee > 0) {
+    priced.push({name: "Amazon gift card fee", qty: 1, unit_cents: giftFee});
+    total += giftFee;
+  }
   if (total <= 0 || total > 250000) {
     return response({ok: false, error: total > 250000 ? "Order exceeds $2,500 on this page" : "Add an item or a custom amount"}, 400, origin);
   }
@@ -303,7 +332,7 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
       used.add(memo);
       replacement = pickMemo(used, [memo]);
     } catch { /* keep the numbered fallback */ }
-    return response({ok: false, error: "That memo was just used. Copy the new one into Venmo or Cash App.", memo: replacement}, 409, origin);
+    return response({ok: false, error: "That memo was just used. Copy the new one into Venmo, Cash App, or PayPal.", memo: replacement}, 409, origin);
   }
 
   if (!file || file.size <= 0) {
@@ -383,7 +412,7 @@ async function handleLegacy(raw: string, origin: string) {
   if (!uuidRe.test(b.request_id || "")) return response({ok: false, error: "Invalid request ID"}, 400, origin);
   if (!["telegram", "snapchat"].includes(b.contact_platform) ||
     !handleRe.test(b.contact_handle || "") ||
-    !["cash_app", "venmo", "amazon_gift_card", "apple_pay"].includes(b.payment_method) ||
+    !["cash_app", "venmo", "paypal", "amazon_gift_card", "apple_pay"].includes(b.payment_method) ||
     typeof b.notes !== "string" || b.notes.length > 500) {
     return response({ok: false, error: "Invalid contact details"}, 400, origin);
   }

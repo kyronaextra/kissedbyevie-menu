@@ -49,7 +49,7 @@ function explicitPaymentIntent(row){
  // Do not alert for explicit negation, questions about future payment, or refusal.
  if(/\b(?:not ready|not paying|don't (?:want to|have|pay)|can't pay|cannot pay|won't pay|pay later|maybe later|no money|need to wait|when i get paid|if i pay)\b/i.test(preview))return false;
  return /\b(?:i'm|im|i am|we're|we are)\s+(?:all\s+|totally\s+|finally\s+)?ready to (?:pay|buy|purchase|order|check\s*out)\b/i.test(preview)
-  || /\b(?:ready to pay|ready for payment|payment ready|send (?:me )?(?:your|the) (?:payment (?:details|info|link)|cash\s*app|venmo)|how (?:can|do) i pay(?: you)?|can i pay (?:you )?now|where (?:can|do) i pay|i want to (?:pay|check\s*out)|i'd like to pay|take my money)\b/i.test(preview);
+  || /\b(?:ready to pay|ready for payment|payment ready|send (?:me )?(?:your|the) (?:payment (?:details|info|link)|cash\s*app|venmo|paypal|amazon(?:\s*e-?gift)?)|how (?:can|do) i pay(?: you)?|can i pay (?:you )?now|where (?:can|do) i pay|i want to (?:pay|check\s*out)|i'd like to pay|take my money)\b/i.test(preview);
 }
 function emitPaymentReady(row){
  const messageTime=Date.parse(row.last_message_at||'');

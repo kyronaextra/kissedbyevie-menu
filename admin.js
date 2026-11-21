@@ -185,6 +185,11 @@ async function loadMembers(nextPage){
   $('memberPrev').disabled=page<=1;$('memberNext').disabled=!hasMore;
  }catch(error){host.replaceChildren(node('p','empty',msg(error)));status(msg(error),true)}
 }
+function paymentLabel(method){
+ const key=String(method||'').toLowerCase();
+ const labels={cash_app:'Cash App',venmo:'Venmo',paypal:'PayPal',amazon_egift:'Amazon e-gift',amazon_gift_card:'Amazon e-gift',apple_pay:'Apple Pay'};
+ return labels[key]||key.replace(/_/g,' ')||'payment';
+}
 function moneyCents(cents){
  const amount=(Number(cents)||0)/100;
  return '$'+amount.toFixed(2);
@@ -223,7 +228,7 @@ async function loadOrders(){
    pill.dataset.status=order.status||'pending';
    top.append(pill);
    card.append(top);
-   card.append(node('p','order-meta',orderWhen(order.created_at)+' · '+String(order.payment_method||'payment').replace(/_/g,' ')+(order.source==='checkout'?' · checkout':' · earlier order')));
+   card.append(node('p','order-meta',orderWhen(order.created_at)+' · '+paymentLabel(order.payment_method)+(order.source==='checkout'?' · checkout':' · earlier order')));
    if(order.payment_memo){
     const memo=node('p','order-memo');
     memo.append(node('strong','','Payment memo'));

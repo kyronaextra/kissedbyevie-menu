@@ -355,10 +355,12 @@ a.wordmark {
   margin-bottom: 10px;
 }
 .handle-row code {
+  display: block;
   font-family: var(--body);
   font-size: 16px;
   font-weight: 700;
   color: var(--ivory);
+  overflow-wrap: anywhere;
 }
 .ghost {
   min-height: 32px;
@@ -382,6 +384,9 @@ a.wordmark {
 }
 .memo strong { font-weight: 700; }
 .app-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 46px;
   border: 0;
@@ -391,8 +396,49 @@ a.wordmark {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: .04em;
+  text-align: center;
+  text-decoration: none;
 }
 .app-btn:disabled, .submit-btn:disabled { opacity: .45; cursor: default; }
+.paypal-rule {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--rose-bright);
+  background: rgba(233, 164, 190, .16);
+  color: var(--ivory);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.paypal-rule strong { font-weight: 800; }
+.paypal-kicker {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.amazon-fee {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--rose);
+  background: rgba(233, 164, 190, .12);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.memo-with-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.memo-with-copy > span { flex: 1 1 auto; min-width: 0; }
+.memo-with-copy .ghost { flex: 0 0 auto; margin: 0; white-space: nowrap; }
 .hint { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
 
 .fields { display: grid; gap: 12px; }

@@ -1,4 +1,4 @@
-// Everyday Venmo/Cash App memos. The first 50 are used before any generated
+// Everyday Venmo, Cash App, and PayPal memos. The first 50 are used before any generated
 // variant. Keep this list free of dog references; the cat is Barfie.
 export const CURATED_MEMOS = [
   "Food",
