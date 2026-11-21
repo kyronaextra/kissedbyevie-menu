@@ -282,13 +282,14 @@
       total: item.price * state.qty[item.id],
       note: priceNote(item)
     }));
-    state.extras.forEach((extra) => {
+    state.extras.forEach((extra, index) => {
       if (extra.unrecognized || extra.qty <= 0) return;
       lines.push({
         name: extra.name,
         qty: extra.qty,
         price: extra.price,
         total: extra.price * extra.qty,
+        extraIndex: index,
         note: Number(extra.bagPrice) !== extra.price ? 'Menu bag had ' + money(extra.bagPrice) + '. This payment link uses ' + money(extra.price) + '.' : ''
       });
     });
@@ -419,6 +420,7 @@
   function renderRecs() {
     const recs = recommendations().slice(0, 2);
     const box = $('recs');
+    if (!box) return;
     if (!recs.length) {
       box.innerHTML = '<p class="recs-empty">You’re all set — nothing else to add right now.</p>';
       return;
@@ -447,20 +449,40 @@
     if (paypalAmount) paypalAmount.textContent = money(amount);
     const amazonAmount = $('amazonAmount');
     if (amazonAmount) amazonAmount.textContent = money(amount);
+    document.querySelectorAll('.live-total').forEach((node) => { node.textContent = money(amount); });
     const feeLine = $('amazonFeeLine');
     if (feeLine) feeLine.hidden = amazonFee() <= 0;
+    const aside = $('summaryAside');
+    if (aside && $('selectedSummary')) aside.innerHTML = $('selectedSummary').innerHTML;
+    const summaryTotal = $('summaryTotal');
+    if (summaryTotal) summaryTotal.textContent = money(amount);
+    updateSubmitState();
   }
   let catalogReady = false;
   let catalogOpen = true;
+  function charmMarkup(line) {
+    const name = String((line && (line.name || line.id)) || '').toLowerCase();
+    let kind = 'heart';
+    if (name.indexOf('deluxe') !== -1 || name.indexOf('dropbox') !== -1 || name.indexOf('vault') !== -1) kind = 'lock';
+    else if (name.indexOf('vip') !== -1) kind = 'crown';
+    else if (name.indexOf('custom') !== -1) kind = 'phone';
+    else if (name.indexOf('tip') !== -1) kind = 'bow';
+    const icons = {
+      heart: '<path fill="#FF8FC5" d="M12 21S3 13.4 3 8.4C3 5.9 4.9 4 7.4 4c1.6 0 3 .8 3.6 2 .6-1.2 2-2 3.6-2C19.1 4 21 5.9 21 8.4 21 13.4 12 21 12 21z"/>',
+      lock: '<path fill="none" stroke="#C0C0C0" stroke-width="1.6" d="M8 11V8a4 4 0 0 1 8 0v3"/><rect x="6" y="11" width="12" height="9" rx="2" fill="none" stroke="#C0C0C0" stroke-width="1.6"/>',
+      crown: '<path fill="#FF8FC5" d="M4 16h16l-1.2-8-4.2 3.2L12 6l-2.6 5.2L5.2 8z"/><path fill="#C0C0C0" d="M4 17h16v2H4z"/>',
+      phone: '<rect x="8" y="3" width="8" height="18" rx="2" fill="none" stroke="#FF8FC5" stroke-width="1.6"/><circle cx="12" cy="18.2" r="0.8" fill="#FF8FC5"/>',
+      bow: '<path fill="#C0C0C0" d="M12 13c-3-3-7-3-7 0 2.2 0 4.2.7 7 2.5 2.8-1.8 4.8-2.5 7-2.5 0-3-4-3-7 0z"/>'
+    };
+    return '<svg class="charm" viewBox="0 0 24 24" aria-hidden="true">' + (icons[kind] || icons.heart) + '</svg>';
+  }
   function hasPricedSelection() {
     return payableLines().length > 0 || state.extras.some((extra) => extra.qty > 0);
   }
   function renderSelected() {
     const box = $('selectedSummary');
     if (!box) return;
-    const rows = payableLines().map((line) => (
-      '<div class="picked"><span>' + escapeHtml(line.qty > 1 ? line.qty + ' × ' + line.name : line.name) + '</span><strong>' + money(line.total) + '</strong></div>'
-    ));
+    const rows = payableLines().map((line) => haulCard(line));
     state.extras.forEach((extra) => {
       if (!extra.unrecognized || extra.qty <= 0) return;
       rows.push('<div class="picked"><span>' + escapeHtml(extra.name) + '</span><strong>Ask Evie</strong></div>');
@@ -480,22 +502,16 @@
     if (!panel || !button) return;
     panel.hidden = !catalogOpen;
     button.setAttribute('aria-expanded', catalogOpen ? 'true' : 'false');
-    button.textContent = catalogOpen ? 'Hide item list' : 'Browse / add more items';
+    button.textContent = catalogOpen ? 'Hide item list' : 'Add to bag';
   }
-  function syncStickyJump() {
-    const jump = $('stickyJump');
-    if (!jump) return;
-    const ready = payableLines().length > 0 || state.tip > 0;
-    jump.textContent = ready ? 'Pay' : 'Items';
-    jump.setAttribute('href', ready ? '#payCard' : '#itemsCard');
-  }
+  function syncStickyJump() { updateWizardChrome(); }
   function render() {
     renderItems();
     renderRecs();
     renderAmount();
     renderSelected();
     applyCatalog();
-    syncStickyJump();
+    updateWizardChrome();
   }
 
   function toast(message, ms) {
@@ -542,15 +558,19 @@
   function selectMethod(next) {
     state.method = knownMethod(next);
     try { sessionStorage.setItem(METHOD_KEY, state.method); } catch (err) { /* private mode */ }
-    document.querySelectorAll('.pay-card').forEach((card) => {
-      const on = card.getAttribute('data-method') === state.method;
+    document.querySelectorAll('.payment-tile, .pay-tile, .pay-card, .pay-panel, .payment-detail').forEach((card) => {
+      const method = card.getAttribute('data-method');
+      if (!method) return;
+      const on = method === state.method;
       card.classList.toggle('is-on', on);
-      const head = card.querySelector('[data-select]');
-      if (head) head.setAttribute('aria-pressed', on ? 'true' : 'false');
+      card.classList.toggle('active', on);
+      if (card.classList.contains('pay-panel') || card.classList.contains('payment-detail')) card.hidden = !on;
+      if (card.hasAttribute('aria-pressed')) card.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     renderAmount();
     renderSelected();
-    syncStickyJump();
+    persistProgress();
+    updateWizardChrome();
   }
   function venmoUrls() {
     const amount = merchandiseTotal();
@@ -569,12 +589,43 @@
   function cleanHandle(value) {
     return String(value || '').trim();
   }
+  function contactPlatform() {
+    const on = document.querySelector('.contact-chip.active, .contact-chip[aria-pressed="true"]');
+    if (on) return on.getAttribute('data-contact') || '';
+    const checked = document.querySelector('input[name="contactPlatform"]:checked');
+    if (checked) return checked.value;
+    const field = $('contactPlatform');
+    return field ? String(field.value || '').trim() : '';
+  }
+  function setContact(platform) {
+    const next = String(platform || '');
+    document.querySelectorAll('.contact-chip').forEach((chip) => {
+      const on = chip.getAttribute('data-contact') === next;
+      chip.classList.toggle('active', on);
+      chip.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    handles();
+    persistHandles();
+    updateWizardChrome();
+  }
   function handles() {
-    return {
-      snap: cleanHandle($('snapUser').value),
-      telegram: cleanHandle($('tgUser').value),
-      x: cleanHandle($('xUser').value)
-    };
+    const platform = contactPlatform();
+    let raw = ($('contactUser') && $('contactUser').value) || '';
+    raw = String(raw).replace(/^@+/, '');
+    if ($('contactUser') && $('contactUser').value !== raw && document.activeElement !== $('contactUser')) {
+      $('contactUser').value = raw;
+    }
+    const user = cleanHandle(raw);
+    const out = { snap: '', telegram: '', x: '', platform: platform, user: user, stripchat: '', onlyfans: '' };
+    if (platform === 'telegram') out.telegram = user;
+    if (platform === 'x') out.x = user;
+    if (platform === 'snapchat') out.snap = user;
+    if (platform === 'stripchat') out.stripchat = user;
+    if (platform === 'onlyfans') out.onlyfans = user;
+    if ($('tgUser')) $('tgUser').value = out.telegram;
+    if ($('xUser')) $('xUser').value = out.x;
+    if ($('snapUser')) $('snapUser').value = out.snap;
+    return out;
   }
   function showError(message) {
     const el = $('formErr');
@@ -687,19 +738,20 @@
     list.innerHTML = rows.join('');
     $('confirmTotal').textContent = money(amount);
     $('confirmPay').textContent = state.method === 'cashapp'
-      ? 'Payment method: Cash App  ' + catalog.cashAppHandle
+      ? 'Payment: Cash App'
       : state.method === 'paypal'
-        ? 'Payment method: PayPal'
+        ? 'Payment: PayPal'
         : state.method === 'amazon_egift'
-          ? 'Payment method: Pay By Amazon E-gift'
-          : 'Payment method: Venmo  ' + catalog.venmoHandle;
+          ? 'Payment: Amazon E-gift'
+          : 'Payment: Venmo';
     const memoEl = $('confirmMemo');
     memoEl.hidden = !state.memo;
     memoEl.textContent = state.memo ? 'Memo: ' + state.memo : '';
     const bits = [];
-    if (users.snap) bits.push('Snapchat: ' + users.snap);
-    if (users.telegram) bits.push('Telegram: ' + users.telegram);
-    if (users.x) bits.push('X: ' + users.x);
+    if (users.platform && users.user) {
+      const labels = {telegram:'Telegram',stripchat:'Stripchat',onlyfans:'OnlyFans',x:'X'};
+      bits.push((labels[users.platform] || users.platform) + ': ' + users.user);
+    }
     $('confirmUsers').textContent = bits.join(' · ');
     const note = notesText().trim();
     const noteEl = $('confirmNotes');
@@ -716,14 +768,27 @@
       $('confirmProof').textContent = 'No payment screenshot attached.';
     }
     const badge = $('confirmBadge');
-    badge.classList.toggle('is-warn', !saved);
-    badge.textContent = saved ? 'Saved for Evie' : 'Not saved';
-    $('confirmHeading').textContent = saved ? 'Order summary' : 'Not sent';
-    $('confirmLead').textContent = detail;
-    $('checkoutForm').hidden = true;
-    $('returnChat').hidden = true;
-    $('confirmCard').hidden = false;
-    $('confirmCard').scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+    if (badge) {
+      badge.classList.toggle('is-warn', !saved);
+      badge.textContent = saved ? 'Saved for review' : 'Not saved';
+    }
+    $('confirmHeading').innerHTML = saved ? 'Mwah. Got it <span aria-hidden="true">♡</span>' : 'Not sent';
+    $('confirmLead').textContent = saved
+      ? 'Your order has been received for review!'
+      : (detail || 'This order was not saved.');
+    const ref = $('confirmRef');
+    if (ref) {
+      if (saved && state.lastOrderId) {
+        ref.hidden = false;
+        ref.textContent = 'Order #' + state.lastOrderId;
+      } else {
+        ref.hidden = true;
+        ref.textContent = '';
+      }
+    }
+    if ($('returnChat')) $('returnChat').hidden = true;
+    if (saved) clearWizardProgress();
+    goToStep('confirm');
   }
 
   async function submitOrder(event) {
@@ -751,17 +816,26 @@
       showError('Remove bag items that are not on this payment link before submitting.');
       return;
     }
-    const entered = [users.snap, users.telegram, users.x].filter(Boolean);
-    if (!entered.length) {
-      showError('Enter at least one username so I can keep track of who’s paid.');
+    if (!users.platform || ['telegram','stripchat','onlyfans','x'].indexOf(users.platform) === -1) {
+      showError('Choose where I should find you.');
       return;
     }
-    if (entered.some((value) => !HANDLE_RE.test(value))) {
+    if (!users.user) {
+      showError('Enter your username so I can keep track of who’s paid.');
+      return;
+    }
+    if (!HANDLE_RE.test(users.user)) {
       showError('Usernames can use letters, numbers, @, periods, underscores, and hyphens.');
       return;
     }
-    if (!$('checkoutAdult').checked) {
-      showError('Confirm you are 18 or older and agree to the Fulfillment Agreement.');
+    if (!$('checkoutAdult') || !$('checkoutAdult').checked) {
+      showError('Confirm you are 18 or older.');
+      goToStep('proof');
+      return;
+    }
+    if (!$('checkoutFulfillment') || !$('checkoutFulfillment').checked) {
+      showError('Agree to the fulfillment terms before sending.');
+      goToStep('proof');
       return;
     }
     const note = notesText().trim();
@@ -783,6 +857,8 @@
       items: payableLines().map((line) => line.id ? {id: line.id, qty: line.qty} : {name: line.name, qty: line.qty}),
       tip_cents: Math.round((Number(state.tip) || 0) * 100),
       payment_method: paymentMethodCode(),
+      contact_platform: users.platform,
+      contact_handle: users.user,
       snapchat_handle: users.snap,
       telegram_handle: users.telegram,
       x_handle: users.x,
@@ -818,18 +894,288 @@
         return;
       }
       state.submitted = true;
+      state.lastOrderId = data.order_id;
       try { sessionStorage.setItem(TERMS_KEY, 'yes'); } catch (err) { /* private mode */ }
-      showConfirm(true, 'Reference: ' + data.order_id + '. Evie still confirms payment from your screenshot. This page cannot see whether Venmo, Cash App, PayPal, or Amazon received the money.');
+      showConfirm(true, 'Evie still confirms payment from your screenshot. This page cannot see whether Venmo, Cash App, PayPal, or Amazon received the money.');
     } catch (err) {
       showError('The payment server didn’t respond, so this order was not saved. Nothing was marked as paid. Copy the summary and message Evie if you already sent the money.');
     } finally {
       clearTimeout(timer);
       button.disabled = false;
-      button.textContent = 'Submit';
+      button.textContent = 'Send my order ♡';
     }
   }
 
-  $('itemList').addEventListener('click', (event) => {
+
+  const STEPS = ['order', 'pay', 'contact', 'proof', 'confirm'];
+  const STEP_NAMES = {order:'Your bag', pay:'Payment', contact:'Your info', proof:'Payment proof', confirm:'All finished'};
+  const STEP_HINTS = {order:'Your treat is waiting', pay:'One payment option', contact:'Just one username', proof:'Almost finished', confirm:'Saved for review'};
+  const STEP_LABELS = {order:'Looks good, next ♡', pay:'Continue to payment ♡', contact:'Next: payment proof →', proof:'Send my order ♡', confirm:''};
+  const PROGRESS_KEY = 'evie-checkout-wizard-v1';
+  const PROOF_KEY = 'evie-checkout-proof-v1';
+  state.step = state.step || 'order';
+  state.lastOrderId = state.lastOrderId || '';
+
+  function charmSrc(line) {
+    const name = String((line && (line.name || line.id)) || '').toLowerCase();
+    if (name.indexOf('deluxe') !== -1 || name.indexOf('dropbox') !== -1 || name.indexOf('vault') !== -1) return '/assets/brand/dropbox-mark.webp';
+    let file = 'gift.webp';
+    if (name.indexOf('vip') !== -1) file = 'crown.webp';
+    else if (name.indexOf('custom') !== -1) file = 'phone.webp';
+    else if (name.indexOf('20 pics') !== -1 || name.indexOf('20 for') !== -1) file = 'cherries.webp';
+    return '/assets/charms/' + file;
+  }
+  function haulCard(line) {
+    const listed = line.id && itemById(line.id) ? referencePrice(itemById(line.id)) : line.price;
+    const old = listed > line.price ? '<span class="old-price">' + money(listed * (line.qty || 1)) + '</span>' : '';
+    const inc = line.id ? 'data-inc="' + escapeHtml(line.id) + '"' : 'data-inc-extra="' + line.extraIndex + '"';
+    const dec = line.id ? 'data-dec="' + escapeHtml(line.id) + '"' : 'data-dec-extra="' + line.extraIndex + '"';
+    const remove = line.id ? 'data-remove="' + escapeHtml(line.id) + '"' : 'data-remove-extra="' + line.extraIndex + '"';
+    return '<div class="item-card">' +
+      '<div class="item-art"><img class="charm-img" src="' + charmSrc(line) + '" alt=""></div>' +
+      '<div class="item-copy"><h3>' + escapeHtml(line.name) + '</h3>' +
+      '<div class="stepper"><button type="button" ' + dec + ' aria-label="Decrease">−</button><span class="qty">' + line.qty + '</span><button type="button" ' + inc + ' aria-label="Increase">+</button></div></div>' +
+      '<div class="item-price">' + old + '<strong>' + money(line.total) + '</strong>' +
+      '<button type="button" class="trash" ' + remove + ' aria-label="Remove">Remove</button></div></div>';
+  }
+  function fillConfiguredHandles() {
+    document.querySelectorAll('[data-handle]').forEach((node) => {
+      const key = node.getAttribute('data-handle');
+      if (key && catalog[key]) node.textContent = catalog[key];
+    });
+  }
+  function persistProgress() {
+    try {
+      const users = handles();
+      const data = {
+        step: state.step === 'confirm' ? 'confirm' : state.step,
+        method: state.method,
+        platform: users.platform,
+        user: users.user,
+        note: notesText(),
+        adult: !!(!($('checkoutAdult')) || $('checkoutAdult').checked),
+        fulfillment: !!(!($('checkoutFulfillment')) || $('checkoutFulfillment').checked),
+        promo: state.promoCode || ($('promoCode') && $('promoCode').value) || ''
+      };
+      if (state.submitted) return;
+      sessionStorage.setItem(PROGRESS_KEY, JSON.stringify(data));
+    } catch (err) { /* private mode */ }
+  }
+  function clearWizardProgress() {
+    try {
+      sessionStorage.removeItem(PROGRESS_KEY);
+      sessionStorage.removeItem(PROOF_KEY);
+    } catch (err) { /* private mode */ }
+  }
+  function formatBytes(n) {
+    if (!n) return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  }
+  function setProof(file, input) {
+    if (state.proofUrl) URL.revokeObjectURL(state.proofUrl);
+    state.proofUrl = '';
+    state.proofName = '';
+    state.proofFile = null;
+    const box = $('uploadBox');
+    const chip = $('fileChip');
+    const preview = $('proofPreview');
+    const nameEl = $('fileName');
+    const sizeEl = $('fileSize');
+    const remove = $('removeProof');
+    const label = $('fileLabel');
+    const help = $('fileHelp');
+    if (!file) {
+      if (box) box.classList.remove('has-file');
+      if (chip) chip.hidden = true;
+      if (preview) preview.removeAttribute('src');
+      if (nameEl) nameEl.textContent = '';
+      if (remove) remove.hidden = true;
+      if (label) label.textContent = 'Add your payment screenshot';
+      if (help) help.textContent = 'Tap to upload or drag & drop · image files only · required';
+      try { sessionStorage.removeItem(PROOF_KEY); } catch (err) {}
+      updateWizardChrome();
+      return Promise.resolve();
+    }
+    return validateImage(file).then(() => {
+      showError('');
+      state.proofFile = file;
+      state.proofName = file.name || 'payment-screenshot';
+      const type = String(file.type || '').toLowerCase();
+      if (chip) chip.hidden = false;
+      if (nameEl) nameEl.textContent = state.proofName;
+      if (sizeEl) sizeEl.textContent = formatBytes(file.size);
+      if (remove) remove.hidden = false;
+      if (label) label.textContent = state.proofName;
+      if (type === 'image/heic' || type === 'image/heif') {
+        if (preview) preview.removeAttribute('src');
+        if (help) help.textContent = 'Preview isn’t available for this format, and it will still be uploaded.';
+      } else {
+        state.proofUrl = URL.createObjectURL(file);
+        if (preview) { preview.src = state.proofUrl; preview.hidden = false; }
+        if (help) help.textContent = formatBytes(file.size);
+      }
+      if (file.size <= 2.5 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          try { sessionStorage.setItem(PROOF_KEY, JSON.stringify({name: state.proofName, type: file.type, dataUrl: reader.result})); } catch (err) {}
+        };
+        reader.readAsDataURL(file);
+      }
+      updateWizardChrome();
+    }).catch((err) => {
+      if (input) input.value = '';
+      if (chip) chip.hidden = true;
+      showError(err.message || 'Please upload an image of your payment screenshot.');
+      updateWizardChrome();
+    });
+  }
+  function restoreProof() {
+    const saved = readJson(PROOF_KEY, null);
+    if (!saved || !saved.dataUrl) return;
+    fetch(saved.dataUrl).then((res) => res.blob()).then((blob) => {
+      const file = new File([blob], saved.name || 'payment-screenshot', {type: saved.type || blob.type || 'image/jpeg'});
+      return setProof(file);
+    }).catch(() => {});
+  }
+  function listedMerchandise() {
+    return payableLines().reduce((sum, line) => {
+      const listed = line.id && itemById(line.id) ? referencePrice(itemById(line.id)) : line.price;
+      return sum + listed * (line.qty || 1);
+    }, 0) + (Number(state.tip) || 0);
+  }
+  function updateWizardChrome() {
+    const step = state.step || 'order';
+    const form = $('checkoutForm');
+    if (form) form.setAttribute('data-step', step);
+    document.querySelectorAll('.wizard-step').forEach((el) => {
+      const on = el.getAttribute('data-step') === step;
+      el.classList.toggle('is-on', on);
+      el.hidden = !on;
+    });
+    const idx = STEPS.indexOf(step);
+    document.querySelectorAll('#wizardProgress .seg').forEach((seg, i) => {
+      seg.classList.toggle('on', i <= idx && step !== 'confirm' ? i <= Math.min(idx, 3) : step === 'confirm' || i <= idx);
+      if (step === 'confirm') seg.classList.add('on');
+    });
+    if ($('stepCount')) $('stepCount').textContent = step === 'confirm' ? 'Done' : 'Step ' + Math.min(idx + 1, 4) + ' of 4';
+    if ($('stepName')) $('stepName').textContent = STEP_NAMES[step] || '';
+    if ($('bottomHint')) $('bottomHint').textContent = STEP_HINTS[step] || '';
+    if ($('nextLabel')) $('nextLabel').textContent = STEP_LABELS[step] || '';
+    const back = $('wizardBack');
+    if (back) back.hidden = step === 'order' || step === 'confirm';
+    const totalBox = document.querySelector('.wizard-bottom .total');
+    if (totalBox) totalBox.style.visibility = step === 'confirm' ? 'hidden' : 'visible';
+    const amount = total();
+    if ($('stickyAmount')) $('stickyAmount').textContent = money(amount);
+    if ($('haulTotal')) $('haulTotal').textContent = money(amount);
+    if ($('summaryTotal')) $('summaryTotal').textContent = money(amount);
+    const listed = listedMerchandise() + amazonFee();
+    const payable = amount;
+    if ($('summarySubtotal')) $('summarySubtotal').textContent = money(Math.max(listed, payable));
+    const disc = Math.round((listed - payable) * 100) / 100;
+    if ($('discountRow')) {
+      $('discountRow').hidden = !(disc > 0);
+      if ($('discountValue') && disc > 0) $('discountValue').textContent = '−' + money(disc);
+    }
+    if ($('amountBreakdown')) $('amountBreakdown').hidden = !(payableLines().length || state.tip);
+    document.querySelectorAll('.live-total').forEach((node) => { node.textContent = money(amount); });
+    const next = $('nextBtn');
+    const submit = $('submitCheckout');
+    const users = handles();
+    const bagOk = (payableLines().length > 0 || state.tip > 0) && unrecognizedCount() === 0;
+    const contactOk = !!users.platform && ['telegram','snapchat','x','onlyfans','stripchat'].indexOf(users.platform) !== -1 && !!users.user && HANDLE_RE.test(users.user);
+    const proofOk = !!state.proofFile && !!($('checkoutAdult') && $('checkoutAdult').checked) && !!($('checkoutFulfillment') && $('checkoutFulfillment').checked);
+    if (next) {
+      next.hidden = step === 'proof' || step === 'confirm';
+      let enabled = true;
+      if (step === 'order') enabled = bagOk;
+      if (step === 'contact') enabled = contactOk;
+      next.disabled = !enabled || state.submitted;
+    }
+    if (submit) {
+      submit.hidden = step !== 'proof';
+      submit.disabled = !proofOk || state.submitted;
+    }
+    persistProgress();
+  }
+  function goToStep(name, opts) {
+    const next = STEPS.indexOf(name) === -1 ? 'order' : name;
+    if (state.submitted && next !== 'confirm' && !(opts && opts.edit)) return;
+    state.step = next;
+    showError('');
+    updateWizardChrome();
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const on = document.querySelector('.wizard-step.is-on');
+    if (on && !(opts && opts.silent)) {
+      const title = on.querySelector('h2, h1');
+      if (title) title.focus({preventScroll: true});
+      if (!(opts && opts.noscroll)) on.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
+    }
+  }
+  function restoreProgress() {
+    const saved = readJson(PROGRESS_KEY, null);
+    if (!saved || typeof saved !== 'object') return;
+    if (saved.method) state.method = knownMethod(saved.method);
+    if (saved.platform) setContact(saved.platform);
+    if (saved.user && $('contactUser')) $('contactUser').value = String(saved.user).replace(/^@+/, '');
+    if (saved.note && $('orderNotes')) $('orderNotes').value = String(saved.note).slice(0, 500);
+    if (saved.promo && $('promoCode')) $('promoCode').value = String(saved.promo);
+    if ($('checkoutAdult')) $('checkoutAdult').checked = !!saved.adult;
+    if ($('checkoutFulfillment')) $('checkoutFulfillment').checked = !!saved.fulfillment;
+    const step = saved.step && STEPS.indexOf(saved.step) !== -1 ? saved.step : 'order';
+    if (step !== 'confirm') state.step = step;
+  }
+  function openSelectedProvider() {
+    if (state.method === 'venmo') {
+      state.memoLocked = true;
+      const urls = venmoUrls();
+      openApp(urls.app, urls.web);
+      return;
+    }
+    if (state.method === 'cashapp') {
+      const urls = cashUrls();
+      openApp(urls.app, urls.web);
+      return;
+    }
+    if (state.method === 'paypal' && $('openPaypal')) {
+      state.memoLocked = true;
+      $('openPaypal').click();
+      return;
+    }
+    if (state.method === 'amazon_egift' && $('openAmazon')) {
+      $('openAmazon').click();
+    }
+  }
+  function stepError(step, message) {
+    goToStep(step);
+    showError(message);
+  }
+  function advanceFrom(step) {
+    if (step === 'order') {
+      if (!(payableLines().length > 0 || state.tip > 0)) return stepError('order', 'Add an item or a custom amount first.');
+      if (unrecognizedCount() > 0) return stepError('order', 'Remove bag items that are not on this payment link before continuing.');
+      goToStep('pay');
+      return;
+    }
+    if (step === 'pay') {
+      openSelectedProvider();
+      goToStep('contact');
+      return;
+    }
+    if (step === 'contact') {
+      const users = handles();
+      if (!users.platform || ['telegram','snapchat','x','onlyfans','stripchat'].indexOf(users.platform) === -1) return stepError('contact', 'Choose where I should find you.');
+      if (!users.user) return stepError('contact', 'Enter your username so I can keep track of who’s paid.');
+      if (!HANDLE_RE.test(users.user)) return stepError('contact', 'Usernames can use letters, numbers, @, periods, underscores, and hyphens.');
+      goToStep('proof');
+    }
+  }
+
+
+  function updateSubmitState() { updateWizardChrome(); }
+  function onBagClick(event) {
     const inc = event.target.closest('[data-inc]');
     const dec = event.target.closest('[data-dec]');
     const incExtra = event.target.closest('[data-inc-extra]');
@@ -838,7 +1184,13 @@
     if (dec) setQty(dec.getAttribute('data-dec'), state.qty[dec.getAttribute('data-dec')] - 1);
     if (incExtra) setExtra(Number(incExtra.getAttribute('data-inc-extra')), state.extras[Number(incExtra.getAttribute('data-inc-extra'))].qty + 1);
     if (decExtra) setExtra(Number(decExtra.getAttribute('data-dec-extra')), state.extras[Number(decExtra.getAttribute('data-dec-extra'))].qty - 1);
-  });
+    const remove = event.target.closest('[data-remove]');
+    const removeExtra = event.target.closest('[data-remove-extra]');
+    if (remove) setQty(remove.getAttribute('data-remove'), 0);
+    if (removeExtra) setExtra(Number(removeExtra.getAttribute('data-remove-extra')), 0);
+  }
+  $('itemList').addEventListener('click', onBagClick);
+  if ($('selectedSummary')) $('selectedSummary').addEventListener('click', onBagClick);
   $('tipInput').addEventListener('input', (event) => {
     const raw = event.target.value;
     state.tip = raw === '' ? 0 : Math.max(0, Number(raw) || 0);
@@ -846,10 +1198,13 @@
     renderAmount();
     renderSelected();
   });
-  ['snapUser', 'tgUser', 'xUser'].forEach((id) => {
-    $(id).addEventListener('change', () => {
-      try { sessionStorage.setItem(HANDLES_KEY, JSON.stringify(handles())); } catch (err) { /* private mode */ }
-    });
+  function persistHandles() {
+    try { sessionStorage.setItem(HANDLES_KEY, JSON.stringify(handles())); } catch (err) { /* private mode */ }
+    updateSubmitState();
+  }
+  ['contactPlatform', 'contactUser'].forEach((id) => {
+    if ($(id)) $(id).addEventListener('change', persistHandles);
+    if ($(id)) $(id).addEventListener('input', persistHandles);
   });
   document.querySelectorAll('[data-select]').forEach((btn) => {
     btn.addEventListener('click', () => selectMethod(btn.getAttribute('data-select')));
@@ -927,7 +1282,11 @@
     event.preventDefault();
     applyPromo($('promoCode').value);
   });
-  $('proofInput').addEventListener('change', async (event) => {
+  if ($('proofInput')) $('proofInput').addEventListener('change', (event) => {
+    const file = event.target.files && event.target.files[0];
+    setProof(file || null, event.target);
+  });
+  if (false && $('proofInput')) $('proofInput').addEventListener('change', async (event) => {
     const file = event.target.files && event.target.files[0];
     if (state.proofUrl) URL.revokeObjectURL(state.proofUrl);
     state.proofUrl = '';
@@ -967,21 +1326,64 @@
   });
   $('checkoutForm').addEventListener('submit', submitOrder);
   $('copySummary').addEventListener('click', () => copyText(summaryText()));
-  $('editOrder').addEventListener('click', () => {
+  if ($('editOrder')) $('editOrder').addEventListener('click', () => {
     if (state.submitted) rotateRequest();
-    $('confirmCard').hidden = true;
-    $('checkoutForm').hidden = false;
-    $('returnChat').hidden = false;
+    state.submitted = false;
+    state.lastOrderId = '';
+    goToStep('order', {edit: true});
     window.scrollTo({top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
   });
+
+
+  fillConfiguredHandles();
+  document.querySelectorAll('[data-copy-handle]').forEach((btn) => {
+    btn.addEventListener('click', () => copyText(catalog[btn.getAttribute('data-copy-handle')] || ''));
+  });
+  document.querySelectorAll('[data-copy-total]').forEach((btn) => {
+    btn.addEventListener('click', () => copyText(money(total())));
+  });
+  document.querySelectorAll('[data-contact]').forEach((btn) => {
+    btn.addEventListener('click', () => setContact(btn.getAttribute('data-contact')));
+  });
+  if ($('wizardBack')) $('wizardBack').addEventListener('click', () => {
+    const idx = STEPS.indexOf(state.step);
+    if (idx > 0) goToStep(STEPS[idx - 1]);
+  });
+  if ($('nextBtn')) $('nextBtn').addEventListener('click', () => advanceFrom(state.step));
+  if ($('removeProof')) $('removeProof').addEventListener('click', () => {
+    if ($('proofInput')) $('proofInput').value = '';
+    setProof(null);
+  });
+  const uploadBox = $('uploadBox');
+  if (uploadBox) {
+    ['dragenter','dragover'].forEach((name) => uploadBox.addEventListener(name, (event) => {
+      event.preventDefault();
+      uploadBox.classList.add('is-drop');
+    }));
+    ['dragleave','drop'].forEach((name) => uploadBox.addEventListener(name, (event) => {
+      event.preventDefault();
+      uploadBox.classList.remove('is-drop');
+    }));
+    uploadBox.addEventListener('drop', (event) => {
+      const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) setProof(file, $('proofInput'));
+    });
+  }
+  if ($('checkoutAdult')) $('checkoutAdult').addEventListener('change', updateWizardChrome);
+  if ($('checkoutFulfillment')) $('checkoutFulfillment').addEventListener('change', updateWizardChrome);
+  if ($('contactUser')) {
+    $('contactUser').addEventListener('input', () => { persistHandles(); persistProgress(); updateWizardChrome(); });
+  }
 
   hydrate();
   persistBag();
   const savedHandles = readJson(HANDLES_KEY, null);
   if (savedHandles && typeof savedHandles === 'object') {
-    if (savedHandles.snap) $('snapUser').value = String(savedHandles.snap);
-    if (savedHandles.telegram) $('tgUser').value = String(savedHandles.telegram);
-    if (savedHandles.x) $('xUser').value = String(savedHandles.x);
+    const platform = savedHandles.platform || (savedHandles.telegram ? 'telegram' : savedHandles.x ? 'x' : savedHandles.snap ? 'snapchat' : '');
+    const user = savedHandles.user || savedHandles.telegram || savedHandles.x || savedHandles.snap || '';
+    if (platform) setContact(platform);
+    if ($('contactUser') && user) $('contactUser').value = String(user).replace(/^@+/, '');
+    handles();
   }
   try {
     const savedNotes = sessionStorage.getItem(NOTES_KEY);
@@ -989,14 +1391,17 @@
   } catch (err) { /* private mode */ }
   renderNotesCount();
   showPromoStatus();
-  try {
-    if (sessionStorage.getItem(TERMS_KEY) === 'yes') $('checkoutAdult').checked = true;
-  } catch (err) { /* private mode */ }
+  /* Do not auto-check 18+ / fulfillment from a prior order. Progress restore handles mid-flow. */
   if (state.tip) $('tipInput').value = String(state.tip);
+  restoreProgress();
+  restoreProof();
   selectMethod(state.method);
   render();
+  goToStep(state.step || 'order', {silent: true, noscroll: true});
+  updateWizardChrome();
 
   window.EvieCheckout = {
+    goToStep: goToStep,
     total: total,
     merchandiseTotal: merchandiseTotal,
     amazonFee: amazonFee,

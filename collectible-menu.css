@@ -1,0 +1,292 @@
+/* Product stage. Heroes have distinct moods. Secondary cards stay quiet. */
+
+.hero-stage{
+  position:relative;
+  display:grid;
+  gap:18px;
+  margin:0 0 36px;
+  padding:8px 0 28px;
+}
+.hero-floater{
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+  mix-blend-mode:screen;
+  opacity:.55;
+  user-select:none;
+}
+.hero-floater--star{width:88px;top:-8px;right:6%;}
+.hero-floater--butterfly{width:110px;bottom:8%;left:-2%;opacity:.4}
+.hero-floater--swoosh{width:160px;top:38%;right:-4%;opacity:.28}
+.hero-floater--sparkle{width:64px;top:12%;left:22%;opacity:.35}
+.hero-sticker{
+  position:absolute;
+  width:108px;
+  right:10px;
+  bottom:-8px;
+  z-index:3;
+  transform:rotate(8deg);
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));
+  border-radius:22px;
+}
+.sticker-slot{
+  position:absolute;
+  width:72px;height:72px;
+  left:12px;top:8px;
+  z-index:2;
+  border:1.5px dashed rgba(246,238,242,.28);
+  border-radius:18px;
+  background:rgba(18,14,20,.4);
+  color:var(--color-muted);
+  font:500 9px/1.25 var(--font-sans);
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:8px;
+  pointer-events:none;
+}
+.hero-stage > .hero-card,
+.hero-stage > .hero-pair{position:relative;z-index:1}
+
+.hero-pair{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+@media (min-width:700px){
+  .hero-pair{grid-template-columns:1.05fr .95fr;align-items:stretch}
+  .hero-sticker{width:132px;right:18px;bottom:-16px}
+}
+
+/* Shared hero typography + simple buy row */
+.hero-card{
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:22px 22px 20px;
+  min-height:240px;
+}
+.hero-card .menu-v2-info{position:relative;z-index:1}
+.hero-card .menu-v2-buy{position:relative;z-index:1;margin-top:18px}
+.hero-card .card-label{
+  font-family:var(--font-display);
+  font-weight:700;
+  line-height:1.05;
+  margin:0 0 8px;
+}
+.hero-card .offer-price{
+  font-family:var(--font-display);
+  font-weight:700;
+  letter-spacing:-.03em;
+  line-height:.9;
+}
+.hero-card .menu-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.hero-card .offer-btn,
+.hero-card .menu-pay-link{
+  font-family:var(--font-sans);
+  font-weight:600;
+}
+
+/* VIP — genuinely expensive. Distinct silhouette, restrained, almost no pink. */
+.hero-card--vip{
+  min-height:320px;
+  padding:28px 26px 24px;
+  border-radius:8px 28px 8px 28px;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(255,255,255,.08), transparent 42%),
+    linear-gradient(165deg,#0a0a0c 0%,#16161a 48%,#0b0b0d 100%);
+  border:1px solid rgba(210,210,216,.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -20px 40px rgba(0,0,0,.35),
+    0 24px 50px rgba(0,0,0,.4);
+  clip-path:polygon(0 18px, 18px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.hero-card--vip::before{
+  content:"";
+  position:absolute;inset:0;
+  pointer-events:none;
+  background:linear-gradient(120deg, transparent 40%, rgba(255,255,255,.07) 50%, transparent 60%);
+}
+.hero-crown{
+  width:28px;height:28px;
+  margin-bottom:14px;
+  color:#e8e8ea;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));
+}
+.hero-card--vip .card-label{
+  font-size:clamp(2rem, 6vw, 3.4rem);
+  color:#f3f3f5;
+}
+.hero-card--vip .offer-price{
+  font-size:clamp(3.2rem, 9vw, 5.4rem);
+  background:linear-gradient(180deg,#fff 0%,#c8c8ce 42%,#8a8a90 51%,#f6f6f7 68%,#9c9ca2 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-card--vip .menu-v2-desc,
+.hero-card--vip .menu-v2-fine,
+.hero-card--vip .menu-v2-features{color:#b7b7bd}
+.hero-card--vip .menu-v2-badge{
+  background:transparent;
+  border:1px solid rgba(230,230,235,.45);
+  color:#e8e8ea;
+  letter-spacing:.14em;
+  font-size:10px;
+}
+.hero-card--vip .offer-btn,
+.hero-card--vip .menu-pay-link{
+  background:#efefF2;
+  color:#111;
+  border:0;
+  border-radius:999px;
+}
+.hero-card--vip .menu-pay-link{
+  background:transparent;
+  color:#efeff2;
+  border:1px solid rgba(230,230,235,.45);
+}
+
+/* Deluxe — irresistible. Juicy hot-pink plastic, holographic, most tempting. */
+.hero-card--deluxe{
+  border-radius:28px;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.28), rgba(255,77,141,.15) 18%, transparent 42%),
+    linear-gradient(180deg, rgba(255,90,160,.55), rgba(190,20,90,.42));
+  border:2px solid transparent;
+  background-clip:padding-box;
+  box-shadow:
+    0 0 0 2px rgba(230,230,235,.7),
+    0 0 0 3px rgba(255,77,141,.35),
+    0 18px 40px rgba(255,50,130,.28),
+    inset 0 1px 0 rgba(255,255,255,.55);
+  color:#fff;
+}
+.hero-card--deluxe .holo{
+  position:absolute;inset:-20%;
+  pointer-events:none;
+  background:conic-gradient(from 120deg, rgba(255,255,255,.0), rgba(180,255,255,.35), rgba(255,180,255,.3), rgba(255,255,180,.25), rgba(255,255,255,0) 70%);
+  mix-blend-mode:screen;
+  opacity:.7;
+  animation:holoShift 9s linear infinite;
+}
+@keyframes holoShift{to{transform:rotate(360deg)}}
+.hero-card--deluxe .card-label{
+  font-size:clamp(1.6rem, 4.5vw, 2.4rem);
+  color:#fff;
+  text-shadow:0 2px 16px rgba(120,0,50,.35);
+}
+.hero-card--deluxe .offer-price{
+  font-size:clamp(2.8rem, 8vw, 4.4rem);
+  background:linear-gradient(180deg,#fff, #ffe4f2 36%, #ff9ac8 50%, #fff 72%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-card--deluxe .offer-was{color:rgba(255,240,246,.75);text-decoration:line-through}
+.hero-card--deluxe .menu-v2-badge{background:#fff;color:#c0156a}
+.hero-card--deluxe .offer-btn{
+  background:#fff;color:#b01058;border:0;border-radius:999px;
+}
+
+/* 20 for $20 — sweet. Soft candy, playful, lighter, not neon. */
+.hero-card--sweet{
+  border-radius:26px;
+  background:
+    radial-gradient(80% 60% at 20% 0%, rgba(255,255,255,.7), transparent 50%),
+    linear-gradient(180deg,#fff1f6 0%, #ffd9e8 55%, #ffc6dd 100%);
+  border:1px solid rgba(255,200,220,.9);
+  box-shadow:0 14px 28px rgba(80,20,40,.12);
+  color:#4a2433;
+}
+.hero-card--sweet .card-label{
+  font-size:clamp(1.5rem, 4vw, 2.1rem);
+  color:#4a2433;
+}
+.hero-card--sweet .offer-price{
+  font-size:clamp(2.4rem, 7vw, 3.6rem);
+  color:#c44a7a;
+}
+.hero-card--sweet .menu-v2-desc,
+.hero-card--sweet .menu-v2-fine{color:#7a4a5c}
+.hero-card--sweet .menu-v2-badge{
+  background:#fff;color:#c44a7a;border:0;
+}
+.hero-card--sweet .offer-btn{
+  background:#c44a7a;color:#fff;border:0;border-radius:999px;
+}
+.hero-card--sweet .menu-pay-link{color:#7a4a5c}
+
+/* Secondary catalog — calm, clean luxury. No glow. */
+.menu-calm-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+@media (min-width:960px){
+  .menu-calm-grid{grid-template-columns:repeat(3,1fr);gap:16px}
+}
+.menu-calm-grid .menu-v2-card,
+.product-panel .menu-v2-card.card-calm{
+  background:var(--color-panel);
+  border:1px solid rgba(246,238,242,.1);
+  border-radius:var(--radius-card);
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+.menu-calm-grid .menu-v2-card.featured,
+.product-panel .menu-v2-card.card-calm.featured{
+  border-color:rgba(246,238,242,.18);
+}
+.menu-calm-grid .card-label,
+.card-calm .card-label{
+  font-family:var(--font-sans);
+  font-weight:600;
+  font-size:1rem;
+  color:var(--color-chrome);
+}
+.menu-calm-grid .offer-price,
+.card-calm .offer-price{
+  font-family:var(--font-sans);
+  font-weight:600;
+  font-size:1.15rem;
+  color:var(--color-chrome);
+  background:none;
+  -webkit-text-fill-color:unset;
+}
+.menu-calm-grid .menu-v2-desc,
+.card-calm .menu-v2-desc{color:var(--color-muted);font-size:.92rem}
+.menu-calm-grid .offer-btn,
+.card-calm .offer-btn{
+  background:#221c24;
+  color:var(--color-chrome);
+  border:1px solid rgba(246,238,242,.2);
+  border-radius:999px;
+}
+
+#boutique.boutique-section,
+#boutique{position:relative}
+
+/* Shared glass from the t276u style reference — used lightly on calm cards only. */
+.menu-calm-card, .menu-v2-card:not(.hero-card){
+  border:1px solid rgba(255,196,229,.28);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+  background:linear-gradient(140deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+}
+
+.hero-card--deluxe .hero-deluxe-charm{
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:min(46%,180px);
+  height:auto;
+  pointer-events:none;
+  z-index:2;
+  filter:drop-shadow(0 0 14px rgba(255,80,180,.45));
+}
+.hero-card--deluxe{position:relative;}

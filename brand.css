@@ -1,0 +1,247 @@
+/* Kissed by Evie — shared visual system from the glass checkout style reference.
+   Tokens, backdrop, glass, chrome buttons. Secondary surfaces stay calmer. */
+:root{
+  color-scheme:dark;
+  --ink:#100711;
+  --glass:rgba(94,43,77,.20);
+  --border:rgba(255,196,229,.34);
+  --muted:#ddbbcf;
+  --pink:#ff68b7;
+  --rose:#ffb5d8;
+  --white:#fff7fb;
+  --radius:30px;
+  --color-ink:#100711;
+  --color-ink-2:#160818;
+  --color-panel:#1a0d18;
+  --color-rose:#ff68b7;
+  --color-rose-2:#ff9fd1;
+  --color-blush:#ffb5d8;
+  --color-chrome:#fff7fb;
+  --color-muted:#ddbbcf;
+  --color-line:rgba(255,196,229,.34);
+  --color-ok:#3ddc97;
+  --color-warn:#ffb020;
+  --font-sans:"DM Sans",system-ui,sans-serif;
+  --font-display:"Playfair Display",Georgia,serif;
+  --radius-card:1.25rem;
+  --glass-bg:rgba(94,43,77,.28);
+  --glass-fill:linear-gradient(136deg,rgba(255,255,255,.13),rgba(255,255,255,.018) 26%,rgba(255,93,183,.08) 74%,rgba(255,255,255,.07));
+  --glass-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 25px 85px #0009,0 0 45px rgba(255,84,170,.12);
+}
+html{background:#0b0510;min-height:100%}
+body.kbe-brand,
+body:has(.route-nav){
+  font-family:var(--font-sans);
+  color:var(--white);
+  background:#0b0510;
+}
+.kbe-brand h1,.kbe-brand h2,.display-type{
+  font-family:var(--font-display);
+  font-weight:500;
+  font-style:italic;
+  letter-spacing:-.03em;
+}
+a{color:#ffbada}
+
+/* Backdrop: pink clouds + tiny stars. Background stays put; pages transform on top. */
+.kbe-backdrop{
+  position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:
+    radial-gradient(ellipse 46% 50% at 82% 52%,#49132c 0%,transparent 75%),
+    radial-gradient(ellipse 44% 40% at 10% 20%,#380f34 0%,transparent 70%),
+    linear-gradient(120deg,#09060f 0%,#160818 54%,#09040d 100%);
+}
+.kbe-backdrop .cloud{
+  position:absolute;filter:blur(44px);opacity:.28;border-radius:50%;transform:rotate(-30deg);
+}
+.kbe-backdrop .cloud-one{width:37vw;height:18vw;right:-4vw;top:22vh;background:#ed3d99}
+.kbe-backdrop .cloud-two{width:36vw;height:16vw;left:-16vw;bottom:-3vw;background:#a6308b}
+.kbe-backdrop .tiny-stars{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,#ffdbf1 1px,transparent 1.4px),radial-gradient(circle,#e97abb .8px,transparent 1.6px);
+  background-size:167px 149px,211px 207px;
+  background-position:12px 21px,79px 93px;
+  opacity:.4;
+}
+
+.glass, .wizard-shell, .kbe-glass{
+  background:var(--glass-fill);
+  border:1px solid rgba(255,222,240,.45);
+  border-radius:var(--radius);
+  box-shadow:var(--glass-shadow);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  position:relative;
+  isolation:isolate;
+}
+.glass:before, .wizard-shell:before, .kbe-glass:before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;
+  background:radial-gradient(ellipse at top left,rgba(255,255,255,.15),transparent 49%),radial-gradient(ellipse at bottom right,rgba(255,93,183,.11),transparent 46%);
+  border-radius:inherit;
+}
+
+/* Chrome buttons */
+.kbe-next, .btn-primary, button.next{
+  border-radius:999px;
+  min-height:55px;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.015em;
+  color:#2e071e;
+  background:linear-gradient(175deg,#fff3fc 0%,#ff9fd1 22%,#ff56ae 62%,#d93a8c 100%);
+  border:1px solid #ffd1ec;
+  box-shadow:inset 0 2px #ffffffcc,inset 0 -3px #89144e66,0 5px 20px #ff54ad77;
+  text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+}
+.kbe-next:hover, .btn-primary:hover, button.next:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.kbe-next:disabled, .btn-primary:disabled, button.next:disabled{opacity:.5;cursor:not-allowed;filter:grayscale(.35);transform:none}
+.kbe-back, .btn-back, button.back{
+  border-radius:999px;
+  min-height:55px;
+  padding:0 23px;
+  font-size:13px;
+  font-weight:800;
+  background:linear-gradient(180deg,#ffffff20,#ffffff09);
+  color:#fbd9e9;
+  border:1px solid #d9a1be8c;
+  text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.btn-outline{
+  border-radius:999px;
+  min-height:44px;
+  padding:0 18px;
+  background:linear-gradient(180deg,#ffffff20,#ffffff09);
+  color:#fbd9e9;
+  border:1px solid #d9a1be8c;
+  text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:700;
+}
+
+/* Limited glass: header, bag drawer */
+.route-nav{
+  background:rgba(16,7,17,.72);
+  border-bottom:1px solid rgba(255,198,229,.14);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.bag-drawer{
+  background:rgba(16,7,17,.88);
+  border-left:1px solid rgba(255,196,229,.28);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.category-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.category-tab{
+  border-radius:999px;
+  border:1px solid rgba(255,196,229,.28);
+  background:rgba(255,255,255,.06);
+  color:var(--white);
+  font-family:var(--font-sans);
+  font-weight:600;
+}
+.category-tab.active, .category-tab[aria-selected="true"]{
+  border-color:#ffb0dc;
+  background:#a4447c75;
+  color:#fff;
+  box-shadow:0 0 15px #ff4f9d44;
+}
+
+@media (prefers-reduced-transparency:reduce){
+  .route-nav,.bag-drawer,.glass,.wizard-shell,.kbe-glass{
+    background:#160818;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-sticker,.hero-floater,.hero-card--deluxe .holo,.floating-lock,.panel-screen,.wizard-step.is-on{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+
+
+/* Real kissedbyevie wordmark (transparent WebP). Swap /assets/brand/logo.webp to update. */
+.brand-logo{
+  display:block;
+  height:72px;
+  width:auto;
+  max-width:min(240px, 58vw);
+  object-fit:contain;
+  object-position:left center;
+}
+.route-brand{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+}
+.route-brand .brand-logo{filter:drop-shadow(0 0 12px rgba(255,80,180,.28))}
+.hero-logo, .feed-logo{
+  display:block;
+  width:min(440px, 88vw);
+  height:auto;
+  margin:0 auto 10px;
+  filter:drop-shadow(0 0 22px rgba(255,80,180,.35));
+}
+.masthead .brand{
+  display:flex;
+  align-items:center;
+  text-decoration:none;
+  color:inherit;
+  gap:0;
+}
+.masthead .brand .brand-logo{
+  height:84px;
+  max-width:min(340px, 70vw);
+  object-position:center;
+}
+@media (max-width:640px){
+  .brand-logo{height:56px}
+  .masthead .brand .brand-logo{height:64px}
+}
+@media (prefers-reduced-transparency:reduce){
+  .brand-logo, .hero-logo, .feed-logo{filter:none}
+}
+
+/* Swappable brand marks (transparent WebP). Drop new files in /assets/brand/. */
+.pay-brand, .brand-mark, .social-mark{
+  display:block;
+  object-fit:contain;
+  flex:0 0 auto;
+}
+.pay-brand{width:42px;height:42px;filter:drop-shadow(0 0 8px rgba(255,80,180,.35))}
+.pay-wordmark{
+  display:block;
+  height:40px;
+  width:auto;
+  max-width:min(280px,100%);
+  object-fit:contain;
+  object-position:left center;
+  margin:0 0 10px;
+  filter:drop-shadow(0 0 10px rgba(80,140,255,.28));
+}
+.payment-detail[data-method="cashapp"] .pay-wordmark{filter:drop-shadow(0 0 10px rgba(255,80,180,.35))}
+.brand-mark{width:22px;height:22px}
+.social-mark{width:28px;height:28px;display:inline-block;vertical-align:middle;margin-right:8px}
+.feed-link .brand-mark, .feed-link .social-mark{width:20px;height:20px;display:inline-block;margin-right:6px;vertical-align:-4px}
+@media (max-width:640px){
+  .pay-brand{width:36px;height:36px}
+  .pay-wordmark{height:32px}
+}
+
+.payment-tile[data-method="amazon_egift"] .pay-brand--wide{
+  width:72px;height:32px;
+}
+.payment-detail[data-method="paypal"] .pay-wordmark{filter:drop-shadow(0 0 10px rgba(80,140,255,.4))}
+.payment-detail[data-method="amazon_egift"] .pay-wordmark{filter:drop-shadow(0 0 10px rgba(255,140,40,.35))}
+.route-footer .social-mark, footer .social-mark{
+  width:16px;height:16px;margin-right:6px;vertical-align:-3px;display:inline-block;object-fit:contain;
+}
+.category-brand-mark{
+  width:20px;height:20px;object-fit:contain;margin-right:8px;vertical-align:-4px;
+  filter:drop-shadow(0 0 6px rgba(255,80,180,.45));
+}
+.category-tab{display:inline-flex;align-items:center;justify-content:center;}

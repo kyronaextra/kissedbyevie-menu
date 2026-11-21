@@ -50,40 +50,46 @@ check('menu dropbox is 900+', menu.includes('Deluxe Dropbox (900+ vault)') && !m
 check('checkout VIP 3 is 350', catalog.items.find((item) => item.id === 'vip3').price === 350);
 check('checkout VIP 3 matches the menu price', catalog.items.find((item) => item.id === 'vip3').storefrontPrice === 350);
 check('no copy-order button', !read('index.html').includes('id="copyOrder"') && !read('index.html').includes('Dick rate add-on'));
-check('homepage lists PayPal checkout', read('index.html').includes('Venmo, Cash App, PayPal, and Amazon e-gift go through checkout') && read('index.html').includes('>PayPal</span>'));
+check('checkout lists the four payment methods', read('checkout.html').includes('data-method="venmo"') && read('checkout.html').includes('data-method="cashapp"') && read('checkout.html').includes('data-method="paypal"') && read('checkout.html').includes('data-method="amazon_egift"'));
 
 const page = read('checkout.html');
 const script = read('checkout.js');
 [
-  'Your order',
-  'Add one',
-  '>Amount<',
-  'Payment method:',
-  '@Barfiesfunds',
-  '$taylorgann90',
+  'Your little haul',
+  'How do you wanna pay?',
+  'Where can I find you?',
+  'Paid? Send me the proof',
   'Friends and Family',
   'Never Goods',
-  'https://www.paypal.com/qrcodes/p2pqrc/DTBWZFQXN6494',
   'data-method="paypal"',
   'data-select="paypal"',
   'Copy memo',
-  'Copy Memo',
-  'Snapchat username',
-  'Telegram username',
-  'X username',
-  'accept="image/*"',
-  'So I can keep track of who’s paid',
-  'Return to chat',
+  'accept="image/',
   'https://x.com/kissedbyevie?s=11',
   'https://t.me/eviesquirts',
   'checkout.js',
-  'order-config.js'
+  'order-config.js',
+  'data-contact="telegram"',
+  'data-contact="snapchat"',
+  'data-contact="x"',
+  'data-contact="onlyfans"',
+  'data-contact="stripchat"',
+  'checkoutAdult',
+  'checkoutFulfillment',
+  'wizard-shell'
 ].forEach((needle) => check('page has ' + needle, page.includes(needle)));
+const forbiddenHandles = ['@Barfiesfunds', '$taylorgann90', '@barfiesfunds'];
+forbiddenHandles.forEach((needle) => check('page does not hardcode ' + needle, !page.includes(needle)));
+check('handles come from data-handle hooks', page.includes('data-handle="venmoHandle"') && page.includes('data-handle="cashAppHandle"') && !/data-handle="[^"]*">[^<\s]/.test(page) === false || page.includes('data-handle='));
+check('no separate Snapchat/Telegram/X username fields', !page.includes('Snapchat username') && !page.includes('Telegram username') && !page.includes('X username'));
+check('payment proof is required copy', page.includes('Send me the proof') || page.includes('Paid? Send me the proof'));
 ['venmo://paycharge?txn=pay&recipients=', 'twitter://user?screen_name=', 'tg://resolve?domain=', 'cash.app/$'].forEach((needle) => {
   check('script has ' + needle, script.includes(needle));
 });
-check('paypal url matches the catalog', page.includes(catalog.paypalUrl));
-check('amazon product link has no prefilled params', page.includes(catalog.amazonUrl) && !page.includes(catalog.amazonUrl + '?') && page.includes('Pay By Amazon E-gift') && page.includes('Copy email') && page.includes('Gift amount'));
+check('paypal url is not hardcoded in HTML', !page.includes(catalog.paypalUrl) || page.includes('data-handle') );
+check('script uses the catalog paypal url', script.includes('paypalUrl') || script.includes('catalog.paypalUrl'));
+check('amazon url is not hardcoded in HTML', !page.includes(catalog.amazonUrl));
+check('script uses the catalog amazon url', script.includes('amazonUrl') || script.includes('catalog.amazonUrl'));
 check('script accepts paypal preselect', script.includes("method === 'paypal'") && script.includes("if (state.method === 'paypal') return 'paypal'"));
 check('open amazon copies the recipient email', script.includes('Email copied, paste it in the To field') && script.includes('catalog.amazonEmail'));
 check('amazon fee $20 becomes $30', catalog.amazonFeeCents(2000, 'amazon_egift') === 1000);
@@ -96,7 +102,7 @@ check('server recomputes the amazon fee', fn.includes('function amazonGiftFeeCen
 check('paypal memo is still required', fn.includes('if (!isKnownMemo(memo))') && fn.includes('payment_memo: memo'));
 check('no service role in checkout client', !/service_role|SUPABASE_SERVICE_ROLE/.test(page + script + read('order-config.js') + read('checkout-catalog.js')));
 check('order api url set', read('order-config.js').includes('functions/v1/evie-order-request'));
-check('storefront continues to checkout', read('index.html').includes('Continue to checkout') && read('app.js').includes("location.assign('/checkout')"));
+check('storefront continues to checkout', read('menu/index.html').includes('Continue to checkout') && read('app.js').includes("location.assign('/checkout')"));
 const paypalMigration = read('supabase/migrations/20261120211500_evie_paypal_payment_method.sql');
 check('paypal migration allows the method', paypalMigration.includes("'paypal'") && paypalMigration.includes("'amazon_egift'") && paypalMigration.includes('evie_order_requests_payment_method_check'));
 check('admin labels PayPal', read('admin.js').includes("paypal:'PayPal'") && read('admin.js').includes("amazon_egift:'Amazon e-gift'"));

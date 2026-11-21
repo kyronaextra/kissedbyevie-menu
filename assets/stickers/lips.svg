@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" role="img">
+<defs>
+<linearGradient id="jelly" x1=".03" y1=".03" x2=".92" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#fffaff"/><stop offset=".2" stop-color="#ffabe1"/><stop offset=".49" stop-color="#f84ca7"/><stop offset=".75" stop-color="#a81965"/><stop offset="1" stop-color="#ffbce0"/></linearGradient>
+<linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".16" stop-color="#9f7c9f"/><stop offset=".33" stop-color="#f9f2ff"/><stop offset=".47" stop-color="#715e80"/><stop offset=".68" stop-color="#f6e8fc"/><stop offset=".85" stop-color="#b08ca9"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<linearGradient id="pink" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff1fa"/><stop offset=".18" stop-color="#ff98da"/><stop offset=".56" stop-color="#f32b92"/><stop offset="1" stop-color="#7e0d5c"/></linearGradient>
+<radialGradient id="shine" cx=".32" cy=".21" r=".65"><stop stop-color="#fff" stop-opacity=".9"/><stop offset=".4" stop-color="#ffd8f2" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<filter id="drop" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="5"/><feOffset dy="6"/><feComponentTransfer><feFuncA type="linear" slope=".44"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs><g filter="url(#drop)"><path d="M22 131 C53 112 67 82 101 89 C120 93 125 100 128 100 C131 100 136 93 155 89 C189 82 203 112 234 131 C206 155 177 187 128 185 C79 187 50 155 22 131Z" fill="url(#jelly)" stroke="#ffe3f5" stroke-width="5"/>
+<path d="M29 132 Q77 120 128 134 Q179 120 227 132 Q178 146 128 146 Q78 146 29 132" fill="#490b3e" stroke="#ffcde7" stroke-width="3"/>
+<path d="M54 118 Q68 100 92 103" stroke="white" stroke-width="8" opacity=".8" stroke-linecap="round"/>
+<path d="M153 168 Q186 159 201 144" stroke="white" stroke-width="5" opacity=".62" stroke-linecap="round"/></g></svg>

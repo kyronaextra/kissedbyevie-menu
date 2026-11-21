@@ -162,17 +162,23 @@ function checkoutAlertText(input: {
   snap: string | null;
   telegram: string | null;
   xHandle: string | null;
+  platform?: string;
+  handle?: string;
   items: {name: string; qty: number}[];
   total: number;
   payment: string;
   notes: string;
   memo: string;
 }) {
+  const labels: Record<string, string> = {snapchat: "Snapchat", telegram: "Telegram", x: "X", onlyfans: "OnlyFans", stripchat: "Stripchat"};
   const handles = [
     input.snap ? "Snapchat: " + input.snap : "",
     input.telegram ? "Telegram: " + input.telegram : "",
     input.xHandle ? "X: " + input.xHandle : "",
   ].filter(Boolean);
+  if (input.platform && input.handle && !["snapchat", "telegram", "x"].includes(input.platform)) {
+    handles.push((labels[input.platform] || input.platform) + ": " + input.handle);
+  }
   const items = input.items.map((item) => item.qty + " × " + item.name).join(", ");
   const lines = [
     "New checkout",
@@ -267,11 +273,27 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
   if (!uuidRe.test(b.request_id || "")) return response({ok: false, error: "Invalid request ID"}, 400, origin);
   const payment = checkoutPayment(b.payment_method);
   if (!payment) return response({ok: false, error: "Choose Venmo, Cash App, PayPal, or Amazon e-gift"}, 400, origin);
+  const allowedPlatforms = ["telegram", "snapchat", "x", "onlyfans", "stripchat"] as const;
+  const requestedPlatform = typeof b.contact_platform === "string" ? b.contact_platform.trim().toLowerCase() : "";
+  const platformOk = (allowedPlatforms as readonly string[]).includes(requestedPlatform) ? requestedPlatform : "";
+  const directHandle = cleanHandle(b.contact_handle);
   const snap = cleanHandle(b.snapchat_handle);
   const telegram = cleanHandle(b.telegram_handle);
   const xHandle = cleanHandle(b.x_handle);
-  if (snap === false || telegram === false || xHandle === false) return response({ok: false, error: "Invalid username"}, 400, origin);
-  if (!snap && !telegram && !xHandle) return response({ok: false, error: "Enter at least one username"}, 400, origin);
+  if (snap === false || telegram === false || xHandle === false || directHandle === false) {
+    return response({ok: false, error: "Invalid username"}, 400, origin);
+  }
+  let primaryPlatform = platformOk;
+  let primaryHandle = typeof directHandle === "string" && directHandle ? directHandle : "";
+  if (!primaryPlatform || !primaryHandle) {
+    if (snap) { primaryPlatform = "snapchat"; primaryHandle = snap; }
+    else if (telegram) { primaryPlatform = "telegram"; primaryHandle = telegram; }
+    else if (xHandle) { primaryPlatform = "x"; primaryHandle = xHandle; }
+  }
+  if (!primaryPlatform || !primaryHandle) return response({ok: false, error: "Enter at least one username"}, 400, origin);
+  const snapOut = primaryPlatform === "snapchat" ? primaryHandle : (snap || null);
+  const telegramOut = primaryPlatform === "telegram" ? primaryHandle : (telegram || null);
+  const xOut = primaryPlatform === "x" ? primaryHandle : (xHandle || null);
   const notes = checkoutNotes(b.notes);
   if (notes === false) return response({ok: false, error: "Notes need to be 500 characters or fewer"}, 400, origin);
   if (!Number.isSafeInteger(b.tip_cents) || b.tip_cents < 0 || b.tip_cents > 50000) {
@@ -350,7 +372,7 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
     return response({ok: false, error: "Upload a JPEG, PNG, GIF, WebP, or HEIC screenshot"}, 400, origin);
   }
 
-  const uniqueHandles = [...new Set([snap, telegram, xHandle].filter((value): value is string => Boolean(value)))];
+  const uniqueHandles = [...new Set([snapOut, telegramOut, xOut, primaryHandle].filter((value): value is string => Boolean(value)))];
   for (const handle of uniqueHandles) {
     if (await recentHandleCount(handle) >= 3) {
       if (claim === "claimed") await releaseMemo(memo, b.request_id);
@@ -367,14 +389,13 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
     throw upload.error;
   }
 
-  const primary = snap ? ["snapchat", snap] : telegram ? ["telegram", telegram] : ["x", xHandle as string];
   const insert = await supabase.from("evie_order_requests").insert({
     request_id: b.request_id,
-    contact_platform: primary[0],
-    contact_handle: primary[1],
-    snapchat_handle: snap,
-    telegram_handle: telegram,
-    x_handle: xHandle,
+    contact_platform: primaryPlatform,
+    contact_handle: primaryHandle,
+    snapchat_handle: snapOut,
+    telegram_handle: telegramOut,
+    x_handle: xOut,
     notes,
     payment_memo: memo,
     payment_method: payment,
@@ -398,7 +419,9 @@ async function handleCheckout(bodyText: string, file: Blob | null, origin: strin
     throw insert.error;
   }
   await scheduleCheckoutAlert(checkoutAlertText({
-    snap, telegram, xHandle, items: priced, total, payment, notes, memo,
+    snap: snapOut, telegram: telegramOut, xHandle: xOut,
+    platform: primaryPlatform, handle: primaryHandle,
+    items: priced, total, payment, notes, memo,
   }));
   return response({ok: true, order_id: insert.data.id, stored: true}, 201, origin);
 }
@@ -410,7 +433,7 @@ async function handleLegacy(raw: string, origin: string) {
   if (b.website) return response({ok: false, error: "Invalid request"}, 400, origin);
   if (b.adult_confirmed !== true) return response({ok: false, error: "18+ confirmation required"}, 400, origin);
   if (!uuidRe.test(b.request_id || "")) return response({ok: false, error: "Invalid request ID"}, 400, origin);
-  if (!["telegram", "snapchat"].includes(b.contact_platform) ||
+  if (!["telegram", "snapchat", "x", "onlyfans", "stripchat"].includes(b.contact_platform) ||
     !handleRe.test(b.contact_handle || "") ||
     !["cash_app", "venmo", "paypal", "amazon_gift_card", "apple_pay"].includes(b.payment_method) ||
     typeof b.notes !== "string" || b.notes.length > 500) {

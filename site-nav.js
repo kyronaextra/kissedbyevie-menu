@@ -11,21 +11,34 @@
   }
   var path = normalize(window.location.pathname);
   var hash = window.location.hash;
-  if ((path === '/' || path === '/menu') && (hash === '#about' || hash === '#blog')) {
-    window.location.replace('/about' + window.location.search + hash);
+  if ((path === '/' || path === '/menu') && hash === '#about') {
+    window.location.replace('/about' + window.location.search);
+    return;
+  }
+  if ((path === '/' || path === '/menu') && hash === '#blog') {
+    window.location.replace('/blog' + window.location.search);
+    return;
+  }
+  if (path === '/' && hash === '#pay') {
+    window.location.replace('/menu#pay');
+    return;
+  }
+  if (path === '/' && (hash === '#boutique' || hash === '#tip')) {
+    window.location.replace('/menu' + hash);
     return;
   }
   var routes = {
-    '/': 'menu',
+    '/': 'home',
     '/menu': 'menu',
     '/checkout': 'checkout',
     '/gallery': 'gallery',
     '/photos': 'gallery',
     '/about': 'about',
-    '/account': 'account'
+    '/account': 'account',
+    '/tip': 'tip',
+    '/blog': 'blog'
   };
   var current = routes[path] || '';
-  if ((path === '/' || path === '/menu') && hash === '#pay') current = 'pay';
   document.querySelectorAll('.route-nav a[data-route]').forEach(function (link) {
     if (link.getAttribute('data-route') === current) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');

@@ -10,27 +10,31 @@
 <meta name="description" content="Kissed by Evie. A private menu and member experience.">
 <meta property="og:title" content="Everything I Sell | Kissed by Evie">
 <meta property="og:description" content="The full menu, the vault, VIP, and my order rules. Pick fast.">
-<meta property="og:image" content="https://kissedbyevie-menu.onrender.com/assets/photos/evie-hero-new.jpg">
+<meta property="og:image" content="https://kissedbyevie-menu.onrender.com/assets/brand/og-image.jpg">
 <meta property="og:url" content="https://kissedbyevie-menu.onrender.com/menu">
 <link rel="canonical" href="https://kissedbyevie-menu.onrender.com/menu">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/app-icon-192.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/brand/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <title>Menu | Kissed by Evie</title>
 <script>(function(){var p=location.pathname.replace(/\/index\.html$/i,"/").replace(/\/$/,"")||"/";var h=location.hash;if((p==="/"||p==="/menu")&&(h==="#about"||h==="#blog"))location.replace("/about"+location.search+h);})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Italiana&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800&family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css?v=20261029-evidence-box-1">
 <link rel="stylesheet" href="/evie-nav.css?v=20261028-nav-clean-3">
 <link rel="stylesheet" href="/site-nav.css?v=20261121-type-1">
+<link rel="stylesheet" href="/brand.css?v=20261121-tco14-3">
+<link rel="stylesheet" href="/collectible-menu.css?v=20261121-tco14-2">
 <link rel="stylesheet" href="/kofi-tip.css?v=20261121-social-1">
 <link rel="stylesheet" href="/blog.css">
 <link rel="stylesheet" href="/vip-terms.css">
 <link rel="stylesheet" href="/public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script defer src="/menu-catalog.js?v=20261121-sale-1"></script>
+<script defer src="/menu-catalog.js?v=20261121-tco14-1"></script>
 <script defer src="/app.js?v=20261121-bag-1"></script>
 <script defer src="/vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="/evie-nav.js?v=20261028-explore-1"></script>
@@ -226,7 +230,8 @@ body{background-image:radial-gradient(ellipse at 2% 5%,rgba(255,79,216,.10),tran
 .chrome-hero-cta,.menu-hero-cta,.primary-btn,.offer-btn,.onlyfans-category-link,#copyOrder,#confirmOrder,.checkout-btn,.menu-order-button,.bag-pill,.cart-upsell button,.terms-accept,.crypto-address-row button,.install-app-close{position:relative;overflow:hidden;border:1px solid #C0C0C0!important;border-radius:999px!important;color:#fff!important;background:linear-gradient(115deg,#FF2E9A 0%,#FF6BC9 33%,#ff9be0 46%,#FF6BC9 59%,#FF2E9A 100%)!important;box-shadow:0 0 16px rgba(255,79,216,.42),inset 0 2px 3px rgba(255,255,255,.72),inset 0 -3px 6px rgba(108,0,62,.38)!important;text-shadow:0 1px 2px rgba(80,0,40,.35)!important;font-weight:900!important}
 .chrome-hero-cta::before,.menu-hero-cta::before,.primary-btn::before,.offer-btn::before,.onlyfans-category-link::before{content:"";position:absolute;inset:2px 2px 52%;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0));pointer-events:none}
 .onlyfans-category-link{gap:9px!important;text-decoration:none!important}
-.onlyfans-category-link .onlyfans-brand-icon{filter:grayscale(1) brightness(0) invert(1)!important;opacity:.92}
+/* neon OnlyFans mark keeps its own color */
+.onlyfans-category-link .onlyfans-brand-icon{width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(255,120,220,.45))}
 .chrome-butterfly-layer{position:fixed;inset:0;z-index:16;pointer-events:none;overflow:hidden}
 .chrome-butterfly-layer span{position:absolute;display:block;font-size:20px;opacity:.48;filter:grayscale(1) brightness(1.7) drop-shadow(0 0 7px rgba(192,192,192,.72));animation:butterfly-drift 9s ease-in-out infinite}
 .chrome-butterfly-layer span:nth-child(1){left:3%;top:28%}
@@ -363,7 +368,8 @@ html{scroll-padding-top:56px!important}
 @media(min-width:900px){#boutique .product-panel:not([hidden]),#boutique .menu-v2-panel:not([hidden]){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 </style>
 </head>
-<body id="top">
+<body class="kbe-brand" id="top">
+<div class="kbe-backdrop" aria-hidden="true"><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div><div class="tiny-stars"></div></div>
 <div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
   <div class="age-gate-panel">
     <section id="botGateStep" class="age-gate-step">
@@ -389,10 +395,9 @@ html{scroll-padding-top:56px!important}
   </div>
 </div>
 <header class="route-nav">
-  <a class="route-brand" href="/">KISSEDBYEVIE</a>
+  <a class="route-brand" href="/"><img class="brand-logo" src="/assets/brand/logo.webp" width="240" height="146" alt="kissedbyevie"></a>
   <nav aria-label="Primary">
     <a href="/menu#boutique" data-route="menu">Menu</a>
-    <a href="/menu#pay" data-route="pay">Pay</a>
     <a href="#tip" data-route="tip">Tip</a>
     <a href="/gallery" data-route="gallery">Gallery</a>
     <a href="/about" data-route="about">About</a>
@@ -411,10 +416,10 @@ html{scroll-padding-top:56px!important}
   </video>
   <div class="home-hero-shade" aria-hidden="true"></div>
 <nav class="home-hero-social social-links" aria-label="Find Evie">
-    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.6 10.4 22 2h-2.2l-6.4 7.3L8.2 2H2.2l7.8 11.1L2.2 22h2.2l6.8-7.8L15.8 22h6l-7.4-11.6Zm-2.4 2.7-.8-1.1L5.2 3.6h2.7l5 7.1.8 1.1 6.6 9.4h-2.7l-5.4-7.1Z"/></svg><span>X</span></a>
-    <a href="https://stripchat.com/eviesquirts" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="12" height="11" rx="2"/><path d="m15 10.5 6-3v9l-6-3"/></svg><span>Stripchat</span></a>
-    <a href="https://onlyfans.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 6a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13"/><path d="M8.5 15a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5"/><path d="M14 16c2.5 0 6.42-1.467 7-4h-6c3-1 6.44-3.533 7-6h-4c-3.03 0-3.764-.196-5 1.5"/></svg><span>OnlyFans <small>free for now</small></span></a>
-    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.8 4.2 18.6 20c-.2 1-1 .9-1.6.6l-4.4-3.3-2.1 2c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3 0-.5-.5-.2L7.3 13.1 2.9 11.7c-1-.3-1-1 .2-1.5L20.4 3.3c.8-.3 1.6.2 1.4.9Z"/></svg><span>Join my NSFW Telegram channel</span></a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/x-mark.webp" width="28" height="28" alt=""><span>X</span></a>
+    <a href="https://stripchat.com/eviesquirts" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/stripchat-mark.webp" width="28" height="28" alt=""><span>Stripchat</span></a>
+    <a href="https://onlyfans.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/onlyfans-mark.webp" width="28" height="28" alt=""><span>OnlyFans <small>free for now</small></span></a>
+    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="28" height="28" alt=""><span>Join my NSFW Telegram channel</span></a>
   </nav>
   <div class="home-hero-panel kofi-tip">
     <div class="kofi-card">
@@ -536,10 +541,10 @@ html{scroll-padding-top:56px!important}
 <footer class="route-footer">
   <span>KISSED BY EVIE · ALL SALES CONFIRMED DIRECTLY</span>
   <nav class="social-links" aria-label="Find Evie">
-    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.6 10.4 22 2h-2.2l-6.4 7.3L8.2 2H2.2l7.8 11.1L2.2 22h2.2l6.8-7.8L15.8 22h6l-7.4-11.6Zm-2.4 2.7-.8-1.1L5.2 3.6h2.7l5 7.1.8 1.1 6.6 9.4h-2.7l-5.4-7.1Z"/></svg><span>X</span></a>
-    <a href="https://stripchat.com/eviesquirts" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="12" height="11" rx="2"/><path d="m15 10.5 6-3v9l-6-3"/></svg><span>Stripchat</span></a>
-    <a href="https://onlyfans.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 6a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13"/><path d="M8.5 15a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5"/><path d="M14 16c2.5 0 6.42-1.467 7-4h-6c3-1 6.44-3.533 7-6h-4c-3.03 0-3.764-.196-5 1.5"/></svg><span>OnlyFans <small>free for now</small></span></a>
-    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.8 4.2 18.6 20c-.2 1-1 .9-1.6.6l-4.4-3.3-2.1 2c-.2.2-.4.4-.8.4l.3-4.6 8.4-7.6c.4-.3 0-.5-.5-.2L7.3 13.1 2.9 11.7c-1-.3-1-1 .2-1.5L20.4 3.3c.8-.3 1.6.2 1.4.9Z"/></svg><span>Join my NSFW Telegram channel</span></a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/x-mark.webp" width="28" height="28" alt=""><span>X</span></a>
+    <a href="https://stripchat.com/eviesquirts" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/stripchat-mark.webp" width="28" height="28" alt=""><span>Stripchat</span></a>
+    <a href="https://onlyfans.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/onlyfans-mark.webp" width="28" height="28" alt=""><span>OnlyFans <small>free for now</small></span></a>
+    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="28" height="28" alt=""><span>Join my NSFW Telegram channel</span></a>
   </nav>
   <nav aria-label="Footer">
     <a href="/menu">Menu</a>
@@ -547,9 +552,9 @@ html{scroll-padding-top:56px!important}
     <a href="/gallery">Gallery</a>
     <a href="/about">About</a>
     <a href="/account.html">My account</a>
-    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer">Telegram</a>
-    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer">NSFW channel</a>
-    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer">DM me on X</a>
+    <a href="https://t.me/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="18" height="18" alt="">Telegram</a>
+    <a href="https://t.me/eviesquirts" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/telegram-mark.webp" width="18" height="18" alt="">NSFW channel</a>
+    <a href="https://x.com/kissedbyevie" target="_blank" rel="noopener noreferrer"><img class="social-mark" src="/assets/brand/x-mark.webp" width="18" height="18" alt="">DM me on X</a>
     <a href="/fulfillment.html">Fulfillment Agreement</a>
     <a href="/privacy.html">Privacy Policy</a>
     <a href="/disclosure.html">Disclosure</a>

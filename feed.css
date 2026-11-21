@@ -1,0 +1,105 @@
+/* Homepage feed: clean luxury with a little Y3K at the edges. */
+.feed-page{max-width:720px;margin:0 auto;padding:28px 18px 80px}
+.feed-head{position:relative;margin:8px 0 28px;padding-bottom:22px;border-bottom:1px solid rgba(246,238,242,.1)}
+.feed-head h1{margin:0 0 8px;font-family:var(--font-display);font-size:clamp(2.2rem,7vw,3.6rem);line-height:1;color:#f6eef2}
+.feed-head p{margin:0;color:var(--color-muted);max-width:36em}
+.feed-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.feed-links a{
+  font:500 13px/1 var(--font-sans);
+  color:var(--color-chrome);
+  text-decoration:none;
+  border:1px solid rgba(246,238,242,.18);
+  border-radius:999px;
+  padding:8px 12px;
+}
+.feed-links a:hover{border-color:rgba(246,238,242,.4)}
+.feed-sticker{
+  position:absolute;right:0;top:-8px;width:92px;transform:rotate(7deg);
+  border-radius:20px;filter:drop-shadow(0 10px 16px rgba(0,0,0,.4));
+}
+@media (max-width:640px){.feed-sticker{width:72px;top:auto;bottom:-18px}}
+
+.feed-composer{
+  background:var(--color-panel);
+  border:1px solid rgba(246,238,242,.12);
+  border-radius:1.15rem;
+  padding:16px;
+  margin:0 0 28px;
+}
+.feed-composer[hidden]{display:none}
+.feed-composer h2{margin:0 0 12px;font-family:var(--font-sans);font-size:1rem;font-weight:600}
+.feed-composer textarea,
+.feed-composer input[type=text],
+.feed-composer input[type=url],
+.feed-composer select{
+  width:100%;
+  box-sizing:border-box;
+  margin:0 0 10px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(246,238,242,.16);
+  background:#0e0c10;
+  color:var(--color-chrome);
+  font:400 15px/1.4 var(--font-sans);
+}
+.feed-composer .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.feed-composer button{
+  font:600 14px var(--font-sans);
+  border-radius:999px;
+  border:0;
+  padding:10px 16px;
+  background:#efeff2;color:#111;
+  cursor:pointer;
+}
+.feed-composer button.quiet{background:transparent;color:var(--color-chrome);border:1px solid rgba(246,238,242,.2)}
+.feed-status{min-height:1.2em;color:var(--color-muted);font-size:13px}
+
+.feed-list{display:flex;flex-direction:column;gap:18px}
+.feed-post{
+  background:var(--color-panel);
+  border:1px solid rgba(246,238,242,.1);
+  border-radius:1.15rem;
+  padding:16px 16px 14px;
+}
+.feed-post.is-pinned{border-color:rgba(246,238,242,.28)}
+.feed-post .pin-flag{font:600 10px/1 var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--color-muted);margin:0 0 8px}
+.feed-post .body{margin:0 0 12px;white-space:pre-wrap;font-size:1.05rem;line-height:1.5}
+.feed-post .meta{color:var(--color-muted);font-size:12px}
+.feed-photos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
+.feed-photos img{width:100%;height:auto;border-radius:12px;display:block;object-fit:cover;max-height:360px}
+.feed-photos.one{grid-template-columns:1fr}
+.feed-link{
+  display:inline-block;
+  margin:0 0 10px;
+  color:#ffd0e2;
+  font-weight:500;
+  text-decoration:none;
+}
+.feed-admin-row{display:flex;gap:8px;margin-top:10px}
+.feed-signin{
+  margin:0 0 24px;
+  padding:14px;
+  border:1px dashed rgba(246,238,242,.2);
+  border-radius:1.15rem;
+}
+.feed-signin[hidden]{display:none}
+.feed-empty{color:var(--color-muted);padding:24px 0}
+
+
+/* Glass system from the t276u style reference */
+.feed-page{position:relative}
+.feed-head h1{font-family:var(--font-display);font-style:italic;font-weight:500;letter-spacing:-.03em;color:#ffe6f3;text-shadow:0 0 30px #ff4ea866}
+.feed-signin, .feed-composer, .feed-post, .feed-empty{
+  background:linear-gradient(136deg,rgba(255,255,255,.13),rgba(255,255,255,.018) 26%,rgba(255,93,183,.08) 74%,rgba(255,255,255,.07));
+  border:1px solid rgba(255,222,240,.45);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 18px 50px #0006;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:24px;
+}
+.feed-links a, .feed-composer button[type="submit"]{
+  border-radius:999px;
+}
+@media (prefers-reduced-transparency:reduce){
+  .feed-signin, .feed-composer, .feed-post, .feed-empty{background:#1a0d18;backdrop-filter:none;-webkit-backdrop-filter:none}
+}
