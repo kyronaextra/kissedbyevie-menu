@@ -203,7 +203,10 @@
     let urlVault = '';
     urlItems.forEach((id) => {
       if (!itemById(id)) return;
-      if (id === 'deluxe55' && !state.promoUnlocked) return;
+      if (id === 'deluxe55' && !state.promoUnlocked) {
+      if (!(next > 0)) return;
+      state.promoUnlocked = true;
+    }
       if (id === 'deluxe' || id === 'deluxe55') {
         urlVault = id;
         return;
@@ -343,19 +346,37 @@
     render();
   }
 
-  function renderItems() {
-    const rows = items.filter((item) => item.id !== 'deluxe55' || state.promoUnlocked).map((item) => {
-      const note = priceNote(item);
-      return '<div class="item-row' + (state.qty[item.id] ? ' is-on' : '') + '">' +
-        '<div><div class="item-name">' + escapeHtml(item.name) + '</div>' +
-        '<span class="item-price">' + money(item.price) + '</span>' +
-        (note ? '<span class="item-note">' + escapeHtml(note) + '</span>' : '') +
-        '</div><div class="stepper">' +
-        '<button type="button" data-dec="' + item.id + '"' + (state.qty[item.id] === 0 ? ' disabled' : '') + ' aria-label="Remove one ' + escapeHtml(item.name) + '">−</button>' +
-        '<span class="qty">' + state.qty[item.id] + '</span>' +
-        '<button type="button" data-inc="' + item.id + '"' + (state.qty[item.id] >= catalog.maxQty ? ' disabled' : '') + ' aria-label="Add one ' + escapeHtml(item.name) + '">+</button>' +
-        '</div></div>';
+  let catalogExpanded = false;
+  function featuredCatalogItems() {
+    const featured = [];
+    ['deluxe55', 'vip1', 'bundle20'].forEach((id) => {
+      const item = items.find((row) => row.id === id);
+      if (item) featured.push(item);
     });
+    return featured;
+  }
+  function catalogItemRow(item) {
+    const note = priceNote(item);
+    return '<div class="item-row' + (state.qty[item.id] ? ' is-on' : '') + '">' +
+      '<div><div class="item-name">' + escapeHtml(item.name) + '</div>' +
+      '<span class="item-price">' + money(item.price) + '</span>' +
+      (note ? '<span class="item-note">' + escapeHtml(note) + '</span>' : '') +
+      '</div><div class="stepper">' +
+      '<button type="button" data-dec="' + item.id + '"' + (state.qty[item.id] === 0 ? ' disabled' : '') + ' aria-label="Remove one ' + escapeHtml(item.name) + '">−</button>' +
+      '<span class="qty">' + state.qty[item.id] + '</span>' +
+      '<button type="button" data-inc="' + item.id + '"' + (state.qty[item.id] >= catalog.maxQty ? ' disabled' : '') + ' aria-label="Add one ' + escapeHtml(item.name) + '">+</button>' +
+      '</div></div>';
+  }
+  function renderItems() {
+    const featured = featuredCatalogItems();
+    const featuredIds = {};
+    featured.forEach((item) => { featuredIds[item.id] = true; });
+    const rest = items.filter((item) => !featuredIds[item.id] && (item.id !== 'deluxe55' || state.promoUnlocked));
+    const shown = catalogExpanded ? featured.concat(rest) : featured;
+    const rows = shown.map(catalogItemRow);
+    if (rest.length) {
+      rows.push('<button type="button" class="see-more" id="seeMoreCatalog" aria-expanded="' + (catalogExpanded ? 'true' : 'false') + '">' + (catalogExpanded ? 'SEE LESS' : 'SEE MORE >>>') + '</button>');
+    }
     if (state.extras.length) {
       rows.push('<p class="extra-label">Also in your bag</p>');
       state.extras.forEach((extra, index) => {
@@ -504,9 +525,12 @@
     const panel = $('catalogPanel');
     const button = $('toggleCatalog');
     if (!panel || !button) return;
-    panel.hidden = !catalogOpen;
-    button.setAttribute('aria-expanded', catalogOpen ? 'true' : 'false');
-    button.textContent = catalogOpen ? 'Hide item list' : 'Add to bag';
+    catalogOpen = true;
+    panel.hidden = false;
+    if (button) {
+      button.hidden = true;
+      button.setAttribute('aria-expanded', 'true');
+    }
   }
   function syncStickyJump() { updateWizardChrome(); }
   function render() {
@@ -1184,7 +1208,7 @@
     if (on && !(opts && opts.silent)) {
       const title = on.querySelector('h2, h1');
       if (title) title.focus({preventScroll: true});
-      if (!(opts && opts.noscroll)) on.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
+      if (!(opts && opts.noscroll)) on.scrollIntoView({behavior: 'auto', block: 'start'});
     }
   }
   function restoreProgress() {
@@ -1274,6 +1298,12 @@
   });
   $('itemList').addEventListener('click', onBagClick);
   if ($('selectedSummary')) $('selectedSummary').addEventListener('click', onBagClick);
+    if ($('itemList')) $('itemList').addEventListener('click', (event) => {
+      const more = event.target.closest('#seeMoreCatalog');
+      if (!more) return;
+      catalogExpanded = !catalogExpanded;
+      renderItems();
+    });
     if ($('stickyUpsell')) $('stickyUpsell').addEventListener('click', onBagClick);
   $('tipInput').addEventListener('input', (event) => {
     const raw = event.target.value;

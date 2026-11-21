@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/site-nav.css?v=20261121-clean-1">
   <link rel="stylesheet" href="/brand.css?v=20261121-clean-2">
-  <link rel="stylesheet" href="/checkout.css?v=20261121-round3-1">
+  <link rel="stylesheet" href="/checkout.css?v=20261121-round4-1">
   <link rel="stylesheet" href="/readable.css?v=20261121-type-1">
 </head>
 <body class="kbe-brand candy-counter checkout-page">
@@ -50,8 +50,7 @@
 
     <form id="checkoutForm" class="wizard-shell" data-step="order" novalidate>
       <div class="wizard-top">
-        <div class="top-label"><span class="dot" aria-hidden="true"></span> Evie’s Candy Counter</div>
-        <div class="mini-pills"><span>18+</span><span>Secure checkout</span></div>
+        <div class="top-label"><span class="dot" aria-hidden="true"></span> Evie’s Candy Counter · 18+ · Secure checkout</div>
       </div>
       <div class="progress-head"><span id="stepCount">Step 1 of 4</span><span id="stepName">Your bag</span></div>
       <div class="progress" id="wizardProgress" aria-label="Checkout progress">
@@ -84,6 +83,12 @@
               <div id="discountRow" hidden><span>Promotional discount</span><strong class="discount" id="discountValue"></strong></div>
               <div class="break-total"><span>Your total</span><strong id="haulTotal">$0.00</strong></div>
             </div>
+            <button type="button" class="btn-outline catalog-toggle" id="toggleCatalog" aria-expanded="false" aria-controls="catalogPanel">Add to bag</button>
+            <div id="catalogPanel" hidden>
+              <div id="itemList"></div>
+              <label class="field-label" for="tipInput">Custom amount / tip</label>
+              <div class="input-wrapper"><span>$</span><input id="tipInput" type="number" min="0" max="500" step="0.01" inputmode="decimal" placeholder="0" value=""></div>
+            </div>
             <ul class="trust-list">
               <li>Secure &amp; private</li>
               <li>Manual review &amp; quick delivery</li>
@@ -98,12 +103,6 @@
               <button type="button" class="kbe-back" id="applyPromo" style="margin:8px 10px 10px;min-height:44px">Apply</button>
               <p class="promo-status" id="promoStatus" hidden></p>
             </details>
-            <button type="button" class="btn-outline catalog-toggle" id="toggleCatalog" aria-expanded="false" aria-controls="catalogPanel">Add to bag</button>
-            <div id="catalogPanel" hidden>
-              <div id="itemList"></div>
-              <label class="field-label" for="tipInput">Custom amount / tip</label>
-              <div class="input-wrapper"><span>$</span><input id="tipInput" type="number" min="0" max="500" step="0.01" inputmode="decimal" placeholder="0" value=""></div>
-            </div>
           </section>
 
           <section class="wizard-step" data-step="pay" id="payCard" aria-labelledby="payTitle" hidden>
@@ -309,7 +308,7 @@
 <script src="/checkout-catalog.js?v=20261121-candy-4"></script>
 <script src="/member-config.js"></script>
 <script src="/order-config.js"></script>
-<script src="/checkout.js?v=20261121-round3-1"></script>
+<script src="/checkout.js?v=20261121-round4-1"></script>
 <script src="/site-nav.js?v=20261121-clean-1"></script>
 </body>
 </html>
