@@ -2,6 +2,7 @@
 'use strict';
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
 // Prices marked "from" are minimums; all orders are reviewed before payment.
+// Updated Nov 21 2026 to current menu.
 const categories=[
   ["Bundles","Bundles"],
   ["VIP","VIP & GFE"],
@@ -14,81 +15,66 @@ const products=[
   {section:'BestSellers',name:'20 pics/vids',price:20,badge:'JUST A TASTE',
    description:'Twenty. Yes, it’s hard. That’s the point.'},
   {section:'BestSellers',name:'50 pics/vids',price:50,
-   description:'Fifty pics and vids.'},
+   description:'Fifty pics and vids — full videos, mostly videos.'},
   {section:'BestSellers',name:'Deluxe Dropbox (900+ vault)',price:75,salePrice:55,wasPrice:75,group:'vault',badge:'BEST VALUE',
-   description:'The whole vault. 900+ pics and videos. One payment, lifetime access.',
+   description:'The whole vault. 900+ pics and videos. One payment, lifetime access. Live pics/videos thrown in if you pay today.',
    note:'One Dropbox per order.',bagName:'Deluxe Dropbox Today Promo',todayOnly:true},
   {section:'BestSellers',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
-   description:'Same 900+ vault, today’s price. This is not an add-on to the $75 Dropbox.'},
-  {section:'BestSellers',name:'B/G Folder (3 vids)',price:35,
-   description:'Three B/G videos. That’s the folder.'},
-  {section:'BestSellers',name:'Dick Rating',price:35,
-   description:'On camera, out loud.'},
-  {section:'BestSellers',name:'Custom 1-min Video',price:50,
-   description:'One minute, your idea.'},
+   description:'Same 900+ vault, today’s price + live pics/videos if you pay today.'},
+  {section:'BestSellers',name:'B/G Dropbox',price:35,
+   description:'B/G Dropbox with 17+ files.'},
+  {section:'BestSellers',name:'EVIE’s Picks',price:35,
+   description:'EVIE’s Picks — 20+ files.'},
+  {section:'BestSellers',name:'Video Dick Rate',price:35,
+   description:'Video dick rate, 30 secs + teasers.'},
   {section:'BestSellers',name:'VIP 1 Month',price:150,group:'membership',badge:'VIP · ONE MONTH',
    description:'One month. Priority messages, casual FaceTimes, and me actually replying.',
    features:['One month of VIP','The 900+ vault','Priority messages and calls'],
    rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
-  {section:'BestSellers',name:'VIP 3 Months',price:350,group:'membership',badge:'BEST VALUE',
-   description:'Three months. This is the one people actually finish.',
-   features:['Three months of VIP','The 900+ vault','Priority messages and calls'],
+  {section:'BestSellers',name:'VIP 3 Months',price:300,group:'membership',badge:'BEST VALUE',
+   description:'Three months for $300, then $60/month.',
+   features:['Three months of VIP','The 900+ vault','Priority messages and calls','Then $60/month'],
    rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
   {section:'Dropbox',name:'Deluxe Dropbox (900+ vault)',price:75,salePrice:55,wasPrice:75,group:'vault',
-   description:'The whole thing. 900+ pics and videos. Lifetime access.',
+   description:'The whole thing. 900+ pics and videos. Lifetime access. Live pics/videos if you pay today.',
    note:'One Dropbox per order.',bagName:'Deluxe Dropbox Today Promo',
    badge:'900+ ITEMS',todayOnly:true},
   {section:'Dropbox',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
-   description:'Same 900+ vault for $55 today.'},
-  {section:'Dropbox',name:'B/G Folder (3 vids)',price:35,
-   description:'Three B/G videos.'},
+   description:'Same 900+ vault for $55 today + live content.'},
+  {section:'Dropbox',name:'B/G Dropbox',price:35,
+   description:'B/G Dropbox · 17+ files.'},
+  {section:'Dropbox',name:'EVIE’s Picks',price:35,
+   description:'EVIE’s Picks · 20+ files.'},
   {section:'VIP',name:'VIP 1 Month',price:150,group:'membership',badge:'$150',
    description:'One month of VIP. Priority messages and FaceTime eligibility.',
    features:['One month','900+ vault','Priority messages and calls'],
    rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
-  {section:'VIP',name:'VIP 3 Months',price:350,group:'membership',badge:'$350',
-   description:'Three months of VIP.',
-   features:['Three months','900+ vault','Priority messages and calls'],
+  {section:'VIP',name:'VIP 3 Months',price:300,group:'membership',badge:'$300',
+   description:'Three months for $300, then $60/month.',
+   features:['Three months','900+ vault','Priority messages and calls','Then $60/month'],
    rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
-  {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
-   description:'The starter month. No vault and no explicit calls.',
+  {section:'VIP',name:'1 Month GFE',price:70,priceDisplay:'$70',group:'membership',
+   description:'1 Month GFE. Priority replies, daily content, casual calls.',
    features:['Daily Snaps and clips','Priority replies','Casual calls only'],
-   note:'This is not VIP, and it does not include the vault.'},
-  {section:'Customs',name:'Custom 1-min Video',price:50,
-   description:'One minute, your idea. Nothing starts until I’ve agreed.'},
-  {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
-   description:'Five photos, exactly what you ask for. Add $7 for each one after that.'},
-  {section:'Customs',name:'Custom Video · 3 Minutes',price:60,
-   description:'Three minutes, your idea. Add $15 a minute after that. Anything unusual gets quoted before I start.'},
-  {section:'Customs',name:'Same Day Turnaround',price:15,extra:true,
-   description:'If my schedule allows. It usually doesn’t. Ask anyway.'},
-  {section:'More',name:'Live Clips · Sent to Your Chat',price:10,
-   description:'A few live clips, sent to your chat. Don’t ask what they are. You’ll see.'},
-  {section:'More',name:'Moan Your Name',price:10,
-   description:'Your name in my mouth on an approved custom. This version is just for you.'},
-  {section:'More',name:'JOI Add-On',price:20,
-   description:'Dirty talk and JOI on top of a session you already booked.'},
-  {section:'More',name:'Voice Note',price:10,
-   description:'Me, saying something to you specifically. I’ll be nice. Probably.'},
-  {section:'More',name:'Sexting · 10 Minutes',price:30,unit:'text only',
-   description:'Text only. Ten minutes.'},
-  {section:'More',name:'Sexting · 15 Minutes',price:40,unit:'text only',
-   description:'Fifteen. Use them well.'},
-  {section:'More',name:'Sexting · 30 Minutes',price:75,unit:'text only',
-   description:'Half an hour of my full attention. That’s a lot of time I could be making sales.'},
-  {section:'More',name:'Live Snap Show · 2 Minutes',price:35,
-   description:'Like a FaceTime, except I don’t have to look at you. Sit back and watch. Includes a few live pics. Content only, no extended chatting or dirty talk.'},
-  {section:'More',name:'Live Snap Show · 4 Minutes',price:60,
-   description:'Four minutes, plus a few live pics. Content only, no extended chatting or dirty talk.'}
+   note:'This is not full VIP and does not include the vault.'},
+  {section:'Customs',name:'Customs',price:85,priceDisplay:'from $85',
+   description:'Customs starting at $85, subject to discount or extra charges. Nothing starts until I’ve agreed.'},
+  {section:'Customs',name:'Custom 1-min Video',price:85,
+   description:'Starting at $85. One minute, your idea. Subject to discount or extra charges.'},
+  {section:'More',name:'FaceTimes',price:55,priceDisplay:'from $55',
+   description:'FaceTimes starting at $55. Only for fans who’ve bought a bundle or have VIP.'},
+  {section:'More',name:'Sexting · 10 Minutes',price:55,unit:'text only',
+   description:'Sexting starting at $55 for 10 mins.'}
 ];
 const notes={
-  "Bundles": [],
-  "VIP": [],
+  "Bundles": ["Every delivery also comes with your free OnlyFans link."],
+  "VIP": ["FaceTimes are reserved for those who have purchased a bundle or got VIP."],
   "Customs": [
-    "Give me a real idea and I’ll get into it. Tell me what to do or where to aim. I’ll make a real mess and send you the evidence. :)"
+    "Customs starting at $85, subject to discount or extra charges. Give me a real idea and I’ll get into it."
   ],
   "More": [
-    "Live things get scheduled with me. I confirm the time before you pay. Don’t send money for a live without a confirmed time."
+    "Live things get scheduled with me. I confirm the time before you pay. Don’t send money for a live without a confirmed time.",
+    "Every delivery also comes with your free OnlyFans link."
   ]
 };
 const root=document.getElementById('boutiqueCatalog');
@@ -122,7 +108,6 @@ categories.forEach(([key,label],i)=>{
  }
  tabs.append(tab);
 });
-// OnlyFans takes visitors to the creator's actual profile, not the shopping bag.
 const onlyfans=el('a','onlyfans-quiet');
 onlyfans.href='https://onlyfans.com/kissedbyevie';
 onlyfans.target='_blank';onlyfans.rel='noopener noreferrer';
@@ -151,22 +136,14 @@ const TEASERS={
   '20 pics/vids':'/assets/photos/bundle-20.webp',
   '10 pics/vids':'/assets/photos/bundle-10.webp',
   '50 pics/vids':'/assets/photos/evie-gallery-23.webp',
-  'B/G Folder (3 vids)':'/assets/photos/evie-gallery-18.webp',
-  'Dick Rating':'/assets/photos/evie-gallery-08.jpg',
+  'B/G Dropbox':'/assets/photos/evie-gallery-18.webp',
+  'EVIE’s Picks':'/assets/photos/evie-gallery-15.webp',
+  'Video Dick Rate':'/assets/photos/evie-gallery-08.jpg',
+  'Customs':'/assets/photos/evie-gallery-13.jpg',
   'Custom 1-min Video':'/assets/photos/evie-gallery-13.jpg',
-  'Custom Photo Set · 5 Photos':'/assets/photos/evie-gallery-14.jpg',
-  'Custom Video · 3 Minutes':'/assets/photos/evie-gallery-12.jpg',
-  'GFE':'/assets/photos/evie-gallery-15.webp',
-  'Live Clips · Sent to Your Chat':'/assets/photos/evie-gallery-11.jpg',
-  'Moan Your Name':'/assets/photos/evie-gallery-09.jpg',
-  'JOI Add-On':'/assets/photos/evie-gallery-10.jpg',
-  'Voice Note':'/assets/photos/evie-gallery-07.jpg',
-  'Sexting · 10 Minutes':'/assets/photos/evie-gallery-06.jpg',
-  'Sexting · 15 Minutes':'/assets/photos/evie-gallery-05.jpg',
-  'Sexting · 30 Minutes':'/assets/photos/evie-gallery-04.jpg',
-  'Live Snap Show · 2 Minutes':'/assets/photos/evie-gallery-03.jpg',
-  'Live Snap Show · 4 Minutes':'/assets/photos/evie-gallery-02.jpg',
-  'Same Day Turnaround':'/assets/photos/evie-gallery-01.jpg'
+  '1 Month GFE':'/assets/photos/evie-gallery-15.webp',
+  'FaceTimes':'/assets/photos/evie-gallery-05.jpg',
+  'Sexting · 10 Minutes':'/assets/photos/evie-gallery-06.jpg'
 };
 function isCustomsCard(p, section){
   if(section==='Customs')return true;
@@ -175,7 +152,6 @@ function isCustomsCard(p, section){
 }
 function teaserFor(name){return TEASERS[name]||''}
 function appendTeaser(card, p, section){
-  // show for key products too
   if(!isCustomsCard(p, section) && !["Deluxe Dropbox (900+ vault)","VIP 1 Month","20 pics/vids","10 pics/vids"].includes(p.name)) return;
   const src=teaserFor(p.name);
   if(!src)return;
@@ -189,5 +165,4 @@ function appendTeaser(card, p, section){
   wrap.append(img);
   card.append(wrap);
 }
-// rest of the original function continues... (truncated for push, full logic preserved in intent)
 })();
