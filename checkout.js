@@ -379,62 +379,57 @@
     note.textContent = state.syncNotes[0] || '';
   }
 
-  function recommendations() {
-    const recs = [];
-    if (state.promoUnlocked && !state.qty.deluxe && !state.qty.deluxe55) {
-      recs.push({
-        id: 'deluxe55',
-        name: 'Deluxe Dropbox Today Promo',
-        price: 55,
-        blurb: '900+ vault, today’s price',
-        action: () => { setQty('deluxe55', 1); toast('Added Deluxe Dropbox'); }
-      });
-    }
-    if (!state.qty.vip1 && !state.qty.vip3) {
-      recs.push({
-        id: 'vip1',
-        name: 'VIP 1 Month',
-        price: 150,
-        blurb: 'Unlocks FaceTime eligibility',
-        action: () => { addItem('vip1'); toast('Added VIP 1 Month'); }
-      });
-    }
-    if (state.qty.bundle10 > 0) {
-      recs.push({
-        id: 'bundle20',
-        name: '20 pics/vids',
-        price: 20,
-        blurb: '20-for-$20 upgrade',
-        action: () => {
-          if (state.qty.bundle10 > 0) state.qty.bundle10 -= 1;
-          if (state.qty.bundle10 === 0) delete state.origin.bundle10;
-          state.qty.bundle20 = Math.min(catalog.maxQty, state.qty.bundle20 + 1);
-          persistBag();
-          render();
-          toast('Upgraded to 20 pics/vids');
+  function catalogPrice(id) {
+    const item = items.find((row) => row.id === id);
+    return item ? Number(item.price) || 0 : 0;
+  }
+  function hasDeluxe() { return !!(state.qty.deluxe || state.qty.deluxe55); }
+  function hasVip() { return !!(state.qty.vip1 || state.qty.vip3); }
+  function currentUpsell() {
+    if (!hasDeluxe() && (state.qty.bundle20 > 0 || state.qty.bundle10 > 0)) {
+      const fromId = state.qty.bundle20 > 0 ? 'bundle20' : 'bundle10';
+      const fromPrice = catalogPrice(fromId);
+      const deluxePrice = catalogPrice('deluxe55') || 55;
+      const delta = Math.round((deluxePrice - fromPrice) * 100) / 100;
+      if (!(delta > 0)) return null;
+      return {
+        kind: 'deluxe',
+        fromId,
+        label: 'Upgrade to Deluxe 900+, ' + money(delta) + ' more today',
+        apply: function () {
+          state.promoUnlocked = true;
+          setQty(fromId, 0);
+          setQty('deluxe55', 1);
+          toast('Upgraded to Deluxe 900+');
         }
-      });
+      };
     }
-    return recs;
+    if (hasDeluxe() && !hasVip()) {
+      const vipPrice = catalogPrice('vip1') || 150;
+      return {
+        kind: 'vip',
+        label: 'Add VIP 1 Month, ' + money(vipPrice) + ' more',
+        apply: function () {
+          addItem('vip1');
+          toast('Added VIP 1 Month');
+        }
+      };
+    }
+    return null;
+  }
+  function recommendations() {
+    const offer = currentUpsell();
+    return offer ? [offer] : [];
   }
   function renderRecs() {
-    const recs = recommendations().slice(0, 2);
-    const box = $('recs');
-    if (!box) return;
-    if (!recs.length) {
-      box.innerHTML = '<p class="recs-empty">You’re all set — nothing else to add right now.</p>';
-      return;
-    }
-    box.innerHTML = recs.map((rec) => (
-      '<div class="rec"><div><strong>' + escapeHtml(rec.name) + '</strong>' +
-      '<span class="price">' + money(rec.price) + '</span><em>' + escapeHtml(rec.blurb) + '</em></div>' +
-      '<button type="button" class="add-btn" data-rec="' + rec.id + '">+ Add</button></div>'
-    )).join('');
-    box.querySelectorAll('[data-rec]').forEach((btn) => {
-      const rec = recs.find((row) => row.id === btn.getAttribute('data-rec'));
-      btn.addEventListener('click', rec.action);
-    });
+    /* Upsell now lives inside the order summary. */
   }
+  function upsellMarkup() {
+    const offer = currentUpsell();
+    if (!offer) return '';
+    return '<div class="order-upsell"><button type="button" class="order-upsell-btn" data-upsell="' + offer.kind + '">' + escapeHtml(offer.label) + '</button></div>';
+  }
+
   function renderAmount() {
     const amount = total();
     $('amountValue').textContent = money(amount);
@@ -491,6 +486,15 @@
     if (amazonFee()) rows.push('<div class="picked"><span>Amazon gift card fee</span><strong>+$10</strong></div>');
     box.hidden = rows.length === 0;
     box.innerHTML = rows.join('');
+    renderStickyUpsell();
+  }
+  function renderStickyUpsell() {
+    const slot = $('stickyUpsell');
+    if (!slot) return;
+    const onOrder = document.querySelector('.wizard-shell') && document.querySelector('.wizard-shell').getAttribute('data-step') === 'order';
+    const html = onOrder ? upsellMarkup() : '';
+    slot.innerHTML = html;
+    slot.hidden = !html;
   }
   function applyCatalog() {
     if (!catalogReady) {
@@ -616,7 +620,7 @@
   function selectMethod(next) {
     state.method = knownMethod(next);
     try { sessionStorage.setItem(METHOD_KEY, state.method); } catch (err) { /* private mode */ }
-    document.querySelectorAll('.payment-tile, .pay-tile, .pay-card, .pay-panel, .payment-detail').forEach((card) => {
+    document.querySelectorAll('.payment-tile, .payment-row, .pay-tile, .pay-card, .pay-panel, .payment-detail').forEach((card) => {
       const method = card.getAttribute('data-method');
       if (!method) return;
       const on = method === state.method;
@@ -1120,12 +1124,21 @@
     if ($('stepCount')) $('stepCount').textContent = step === 'confirm' ? 'Done' : 'Step ' + Math.min(idx + 1, 4) + ' of 4';
     if ($('stepName')) $('stepName').textContent = STEP_NAMES[step] || '';
     if ($('bottomHint')) $('bottomHint').textContent = STEP_HINTS[step] || '';
-    if ($('nextLabel')) $('nextLabel').textContent = STEP_LABELS[step] || '';
     const back = $('wizardBack');
     if (back) back.hidden = step === 'order' || step === 'confirm';
     const totalBox = document.querySelector('.wizard-bottom .total');
     if (totalBox) totalBox.style.visibility = step === 'confirm' ? 'hidden' : 'visible';
     const amount = total();
+    if ($('nextLabel')) {
+      if (step === 'order' || step === 'pay') $('nextLabel').textContent = 'Pay ' + money(amount);
+      else $('nextLabel').textContent = STEP_LABELS[step] || '';
+    }
+    const nextArrow = document.querySelector('#nextBtn [aria-hidden="true"]');
+    if (nextArrow) nextArrow.hidden = (step === 'order' || step === 'pay');
+    const payAgreeWrap = $('payAgreementWrap');
+    const deliveryPromise = $('deliveryPromise');
+    if (payAgreeWrap) payAgreeWrap.hidden = step !== 'pay';
+    if (deliveryPromise) deliveryPromise.hidden = step !== 'pay';
     if ($('stickyAmount')) $('stickyAmount').textContent = money(amount);
     if ($('haulTotal')) $('haulTotal').textContent = money(amount);
     if ($('summaryTotal')) $('summaryTotal').textContent = money(amount);
@@ -1139,6 +1152,7 @@
     }
     if ($('amountBreakdown')) $('amountBreakdown').hidden = !(payableLines().length || state.tip);
     document.querySelectorAll('.live-total').forEach((node) => { node.textContent = money(amount); });
+    if (typeof renderStickyUpsell === 'function') renderStickyUpsell();
     const next = $('nextBtn');
     const submit = $('submitCheckout');
     const users = handles();
@@ -1149,6 +1163,7 @@
       next.hidden = step === 'proof' || step === 'confirm';
       let enabled = true;
       if (step === 'order') enabled = bagOk;
+      if (step === 'pay') enabled = bagOk && !($('payAgreement') && !$('payAgreement').checked);
       if (step === 'contact') enabled = contactOk;
       next.disabled = !enabled || state.submitted;
     }
@@ -1220,6 +1235,8 @@
       return;
     }
     if (step === 'pay') {
+      const agreed = $('payAgreement');
+      if (agreed && !agreed.checked) return stepError('pay', 'Check the box so I know you saw that nothing is charged until I confirm your total.');
       openSelectedProvider();
       goToStep('contact');
       return;
@@ -1249,8 +1266,15 @@
     if (remove) setQty(remove.getAttribute('data-remove'), 0);
     if (removeExtra) setExtra(Number(removeExtra.getAttribute('data-remove-extra')), 0);
   }
+  document.addEventListener('click', (event) => {
+    const btn = event.target.closest('[data-upsell]');
+    if (!btn) return;
+    const offer = currentUpsell();
+    if (offer) offer.apply();
+  });
   $('itemList').addEventListener('click', onBagClick);
   if ($('selectedSummary')) $('selectedSummary').addEventListener('click', onBagClick);
+    if ($('stickyUpsell')) $('stickyUpsell').addEventListener('click', onBagClick);
   $('tipInput').addEventListener('input', (event) => {
     const raw = event.target.value;
     state.tip = raw === '' ? 0 : Math.max(0, Number(raw) || 0);
@@ -1312,6 +1336,24 @@
     openAmazon.addEventListener('click', (event) => {
       event.preventDefault();
       openAmazonPay();
+    });
+  }
+  const payAgreement = $('payAgreement');
+  if (payAgreement) payAgreement.addEventListener('change', updateWizardChrome);
+  const openAgreement = $('openAgreement');
+  const agreementSheet = $('agreementSheet');
+  const closeAgreement = $('closeAgreement');
+  if (openAgreement && agreementSheet) {
+    openAgreement.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (agreementSheet.showModal) agreementSheet.showModal();
+      else agreementSheet.hidden = false;
+    });
+  }
+  if (closeAgreement && agreementSheet) {
+    closeAgreement.addEventListener('click', () => {
+      if (agreementSheet.close) agreementSheet.close();
+      else agreementSheet.hidden = true;
     });
   }
   window.addEventListener('focus', onReturnedFromPay);

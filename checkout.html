@@ -15,32 +15,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/site-nav.css?v=20261121-clean-1">
   <link rel="stylesheet" href="/brand.css?v=20261121-clean-2">
-  <link rel="stylesheet" href="/checkout.css?v=20261121-paytab-1">
+  <link rel="stylesheet" href="/checkout.css?v=20261121-round3-1">
   <link rel="stylesheet" href="/readable.css?v=20261121-type-1">
 </head>
-<body class="kbe-brand candy-counter">
+<body class="kbe-brand candy-counter checkout-page">
 <div class="kbe-backdrop" aria-hidden="true"><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div><div class="tiny-stars"></div></div>
-<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
+<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
   <div class="age-gate-panel">
-    <section id="botGateStep" class="age-gate-step">
-      <span class="age-gate-kicker">QUICK CHECK · STEP 1 OF 2</span>
-      <h1 id="botGateTitle">Verify you’re <em>not a bot.</em></h1>
-      <p id="botGateDescription">Choose the answer that applies, then confirm you’re over 18.</p>
-      <div class="age-gate-actions">
-        <button type="button" id="notBotConfirm">I’m not a bot · Continue</button>
-        <a href="https://www.google.com/" rel="nofollow">I am a bot · Leave</a>
-      </div>
-      <p class="age-gate-note">Quick self-check. This does not use automated bot detection.</p>
-    </section>
-    <section id="ageGateStep" class="age-gate-step" hidden>
-      <span class="age-gate-kicker">ADULTS ONLY · STEP 2 OF 2</span>
+    <section class="age-gate-step">
+      <span class="age-gate-kicker">ADULTS ONLY</span>
       <h1 id="ageGateTitle">Confirm you’re <em>over 18.</em></h1>
       <p id="ageGateDescription">This checkout is for adults only.</p>
       <div class="age-gate-actions">
         <button type="button" id="ageGateConfirm">I’m 18+ · Continue</button>
         <a href="https://www.google.com/" rel="nofollow">I’m under 18 · Leave</a>
       </div>
-      <p class="age-gate-note">Age confirmation is self-reported.</p>
+      <p class="age-gate-note">One tap. Age confirmation is self-reported.</p>
     </section>
   </div>
 </div>
@@ -122,11 +112,11 @@
               <h2 id="payTitle">How do you wanna pay? <span>♡</span></h2>
               <p>Pick your favorite way to pay.</p>
             </div>
-            <div class="payment-grid" id="paymentGrid" role="radiogroup" aria-label="Payment method">
-              <button type="button" class="payment-tile active" data-method="venmo" data-select="venmo" aria-pressed="true"><span class="pay-icon">V</span><span>Venmo</span></button>
-              <button type="button" class="payment-tile" data-method="cashapp" data-select="cashapp" aria-pressed="false"><img class="pay-brand" src="/assets/brand/cashapp-mark.webp" width="48" height="48" alt=""><span>Cash App</span></button>
-              <button type="button" class="payment-tile" data-method="paypal" data-select="paypal" aria-pressed="false"><img class="pay-brand" src="/assets/brand/paypal-mark.webp" width="48" height="48" alt=""><span>PayPal</span></button>
-              <button type="button" class="payment-tile" data-method="amazon_egift" data-select="amazon_egift" aria-pressed="false"><img class="pay-brand pay-brand--wide" src="/assets/brand/amazon.webp" width="120" height="54" alt=""><span>Amazon E-gift</span></button>
+            <div class="payment-rows" id="paymentGrid" role="radiogroup" aria-label="Payment method">
+              <button type="button" class="payment-row active" data-method="venmo" data-select="venmo" aria-pressed="true"><span class="pay-row-name">Venmo</span><span class="pay-row-friction">screenshot</span></button>
+              <button type="button" class="payment-row" data-method="cashapp" data-select="cashapp" aria-pressed="false"><span class="pay-row-name">Cash App</span><span class="pay-row-friction">screenshot</span></button>
+              <button type="button" class="payment-row" data-method="paypal" data-select="paypal" aria-pressed="false"><span class="pay-row-name">PayPal</span></button>
+              <button type="button" class="payment-row" data-method="amazon_egift" data-select="amazon_egift" aria-pressed="false"><span class="pay-row-name">Amazon e-gift</span></button>
             </div>
 
             <div class="payment-detail pay-panel is-on" data-method="venmo">
@@ -247,17 +237,31 @@
       </div>
 
       <div class="wizard-bottom" id="wizardBottom">
+        <div id="stickyUpsell" class="order-upsell" hidden></div>
         <div class="bottom-row">
           <div class="total"><span>Your total</span><strong id="stickyAmount">$0.00</strong></div>
           <div class="step-hint"><span class="heart-mark">♡</span><span id="bottomHint">Your treat is waiting</span></div>
         </div>
+        <div id="payAgreementWrap" class="pay-agreement-wrap" hidden>
+          <label class="checkline" for="payAgreement"><input id="payAgreement" type="checkbox"><span>Nothing is charged until Evie confirms your total. <button type="button" class="btn-text" id="openAgreement">Read the agreement</button></span></label>
+        </div>
         <div class="actions">
           <button type="button" class="back" id="wizardBack" hidden>← Back</button>
-          <button type="button" class="next" id="nextBtn"><span id="nextLabel">Looks good, next ♡</span><span aria-hidden="true">↗</span></button>
+          <button type="button" class="next" id="nextBtn"><span id="nextLabel">Pay $0.00</span><span aria-hidden="true">↗</span></button>
           <button type="submit" class="next" id="submitCheckout" hidden>Send my order <span aria-hidden="true">♡</span></button>
         </div>
+        <p class="delivery-promise" id="deliveryPromise" hidden>Delivered on Telegram/Snap after Evie confirms payment, usually same day.</p>
       </div>
     </form>
+
+    <dialog class="agreement-sheet" id="agreementSheet">
+      <h2>Before you pay</h2>
+      <p>Nothing is charged until Evie confirms your total.</p>
+      <p>Your order is reviewed before it is confirmed. I’ll check the items, the total, and payment, then deliver once that’s verified.</p>
+      <p><a href="/fulfillment.html" target="_blank" rel="noopener noreferrer">Read the full fulfillment terms</a></p>
+      <button type="button" class="next" id="closeAgreement">Got it</button>
+    </dialog>
+
     <p class="under-card"><span>✦</span> All the sparkle. None of the endless scrolling. <span>✦</span></p>
   </section>
 
@@ -300,12 +304,12 @@
 
 <div class="toast" id="toast" role="status"></div>
 <noscript><p style="padding:24px;color:#fff;background:#0b0510">Checkout needs JavaScript so the total and payment links can update.</p></noscript>
-<script src="/age-gate.js?v=20261120-routes-1"></script>
+<script src="/age-gate.js?v=20261121-round3-1"></script>
 <script type="module" src="/supabase/functions/evie-order-request/memos.js?v=20261120-memo-1"></script>
 <script src="/checkout-catalog.js?v=20261121-candy-4"></script>
 <script src="/member-config.js"></script>
 <script src="/order-config.js"></script>
-<script src="/checkout.js?v=20261121-paytab-1"></script>
+<script src="/checkout.js?v=20261121-round3-1"></script>
 <script src="/site-nav.js?v=20261121-clean-1"></script>
 </body>
 </html>
