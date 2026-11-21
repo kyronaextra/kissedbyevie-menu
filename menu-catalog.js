@@ -3,11 +3,11 @@
 // KissedByEvie storefront: this is the single source of truth for item names and prices.
 // Prices marked "from" are minimums; all orders are reviewed before payment.
 const categories=[
-  ["BestSellers","Best sellers"],
-  ["Dropbox","The Dropbox"],
-  ["VIP","VIP Access"],
+  ["Bundles","Bundles"],
+  ["Dropbox","Dropbox"],
+  ["VIP","VIP & GFE"],
   ["Customs","Customs"],
-  ["More","More"]
+  ["More","Live & extras"]
 ];
 const products=[
   {section:'BestSellers',name:'10 pics/vids',price:10,
@@ -131,13 +131,13 @@ categories.forEach(([key,label],i)=>{
  tabs.append(tab);
 });
 // OnlyFans takes visitors to the creator's actual profile, not the shopping bag.
-const onlyfans=el('a','onlyfans-category-link');
+const onlyfans=el('a','onlyfans-quiet');
 onlyfans.href='https://onlyfans.com/kissedbyevie';
 onlyfans.target='_blank';onlyfans.rel='noopener noreferrer';
 onlyfans.setAttribute('aria-label','Open the OnlyFans free trial for Kissed by Evie in a new tab');
 const onlyfansIcon=el('img','onlyfans-brand-icon');
 onlyfansIcon.src='/assets/brand/onlyfans-mark.webp';onlyfansIcon.alt='';onlyfansIcon.width=26;onlyfansIcon.height=26;
-onlyfans.append(onlyfansIcon,el('span','','START MY FREE TRIAL'));
+onlyfans.append(onlyfansIcon,el('span','','Free OnlyFans trial'));
 controls.append(onlyfans);
 function menuAction(p){
   if(p.name==='GFE')return {label:'Try me · $70',variant:'btn-primary'};
@@ -286,77 +286,112 @@ function buildCard(p, section, mood){
   refreshChoices=function(){originalRefresh();syncPayLink();};
   refreshChoices();
   const actions=el('div','menu-actions');
-  actions.append(action,payLink);
+  actions.append(action);
   const buy=el('div','menu-v2-buy');buy.append(priceStack,actions);
   card.append(info,buy);
   return card;
 }
+function findProduct(name){
+  const all=products.filter(p=>p.name===name && !p.promoOnly);
+  if(!all.length)return null;
+  if(name==='Deluxe Dropbox (900+ vault)')return all.find(p=>p.salePrice===55)||all[0];
+  return all[0];
+}
+function productsFor(section){
+  const names={
+    Bundles:['10 pics/vids','20 pics/vids','50 pics/vids','B/G Folder (3 vids)','Dick Rating'],
+    Dropbox:['Deluxe Dropbox (900+ vault)','B/G Folder (3 vids)'],
+    VIP:['VIP 1 Month','VIP 3 Months','GFE'],
+    Customs:['Custom 1-min Video','Custom Photo Set · 5 Photos','Custom Video · 3 Minutes','Same Day Turnaround'],
+    More:['Live Clips · Sent to Your Chat','Moan Your Name','JOI Add-On','Voice Note','Sexting · 10 Minutes','Sexting · 15 Minutes','Sexting · 30 Minutes','Live Snap Show · 2 Minutes','Live Snap Show · 4 Minutes']
+  };
+  return (names[section]||[]).map(findProduct).filter(Boolean);
+}
+
+const showcase=el('section','menu-showcase');
+showcase.setAttribute('aria-labelledby','showcaseHeading');
+showcase.append(el('p','menu-showcase-kicker','Start here'));
+showcase.append(el('h2','menu-showcase-title','The vault, VIP, or just a taste.'));
+const showGrid=el('div','menu-showcase-grid');
+const showItems=[
+  {
+    product:findProduct('Deluxe Dropbox (900+ vault)'),
+    mood:'deluxe',
+    eyebrow:'The vault',
+    badge:'Sale',
+    title:'Deluxe Dropbox',
+    blurb:'900+ in the vault, on sale today.',
+    cta:'Get the vault · $55',
+    href:'/checkout?item=deluxe55&promo=55',
+    mark:{src:'/assets/brand/dropbox-mark.webp',cls:'hero-mark',w:28,h:28}
+  },
+  {
+    product:findProduct('VIP 1 Month'),
+    mood:'vip',
+    eyebrow:'Membership',
+    badge:'VIP · one month',
+    title:'VIP 1 Month',
+    blurb:'One month. Priority messages, casual FaceTimes, and me actually replying.',
+    cta:'Get VIP · $150',
+    href:'/checkout?item=vip1'
+  },
+  {
+    product:findProduct('20 pics/vids'),
+    mood:'sweet',
+    eyebrow:'Just a taste',
+    badge:'',
+    title:'20 pics/vids',
+    blurb:'Twenty. Yes, it’s hard. That’s the point.',
+    cta:'Add for $20',
+    href:'/checkout?item=bundle20',
+    mark:{src:'/assets/charms/cherries.webp',cls:'hero-mark hero-mark--cherries',w:36,h:36}
+  }
+];
+showItems.forEach(function(item){
+  const p=item.product;
+  if(!p)return;
+  const card=el('article','hero-offer hero-offer--'+item.mood);
+  if(item.mark){
+    const img=el('img',item.mark.cls);
+    img.src=item.mark.src;img.alt='';img.width=item.mark.w;img.height=item.mark.h;
+    card.append(img);
+  }
+  card.append(el('p','eyebrow',item.eyebrow));
+  if(item.badge)card.append(el('span','badge',item.badge));
+  card.append(el('h3','',item.title));
+  const onSale=Number.isFinite(p.salePrice);
+  const price=el('p','price',onSale?('$'+p.salePrice): (p.priceDisplay||('$'+p.price)));
+  if(onSale){
+    const was=el('span','was','$'+p.wasPrice);
+    price.append(document.createTextNode(' '),was);
+  }
+  card.append(price);
+  card.append(el('p','blurb',item.blurb));
+  const cta=el('a','hero-cta',item.cta);
+  cta.href=item.href;
+  card.append(cta);
+  showGrid.append(card);
+});
+showcase.append(showGrid);
+root.insertBefore(showcase, controls);
+
 categories.forEach(([section],i)=>{
- const panel=el('div','product-panel menu-v2-panel'+(section==='VIP'?' vip-three':''));
+ const panel=el('div','product-panel menu-v2-panel');
  panel.id='panel-'+section;
  panel.setAttribute('role','tabpanel');
  panel.setAttribute('aria-labelledby','tab-'+section);
  panel.hidden=i!==0;
- const categoryProducts=products.filter(p=>p.section===section && !p.promoOnly);
+ const categoryProducts=productsFor(section);
  if(section==='Customs'){
    const customsIntro=el('div','customs-intro');
    customsIntro.append(el('p','','Tell me the idea. Nothing starts until I agree.'));
    panel.append(customsIntro);
  }
- if(section==='More'){
-   categoryProducts.push(...products.filter(p=>p.section==='VideoCalls'));
- }
- if(section==='BestSellers'){
-   const stage=el('div','hero-stage');
-   const star=el('img','hero-floater hero-floater--star');
-   star.src='/assets/chrome/star_silver.webp';star.alt='';
-   const butterfly=el('img','hero-floater hero-floater--butterfly');
-   butterfly.src='/assets/chrome/butterfly_silver.webp';butterfly.alt='';
-   const swoosh=el('img','hero-floater hero-floater--swoosh');
-   swoosh.src='/assets/chrome/chrome_swoosh_1.webp';swoosh.alt='';
-   const sparkle=el('img','hero-floater hero-floater--sparkle');
-   sparkle.src='/assets/chrome/sparkle.webp';sparkle.alt='';
-   stage.append(star,butterfly,swoosh,sparkle);
-   const slot=el('div','sticker-slot','Telegram sticker slot');
-   slot.setAttribute('data-sticker-slot','telegram-pack');
-   slot.title='Reserved for Evie’s 512×512 Telegram sticker pack. The pack was not in the repo, Dropbox, or Drive.';
-   stage.append(slot);
-   const vip=categoryProducts.find(p=>p.name==='VIP 3 Months');
-   const deluxe=categoryProducts.find(p=>p.name==='Deluxe Dropbox (900+ vault)');
-   const twenty=categoryProducts.find(p=>p.name==='20 pics/vids');
-   if(vip)stage.append(buildCard(vip,section,'hero-vip'));
-   const pair=el('div','hero-pair');
-   if(deluxe)pair.append(buildCard(deluxe,section,'hero-deluxe'));
-   if(twenty)pair.append(buildCard(twenty,section,'hero-sweet'));
-   stage.append(pair);
-   const sticker=el('img','hero-sticker evie-sticker');
-   sticker.src='/assets/stickers/see-menu-sticker.webp';
-   sticker.alt='Evie See Menu sticker';
-   sticker.width=640;sticker.height=640;
-   stage.append(sticker);
-   panel.append(stage);
-   const rest=el('div','menu-calm-grid');
-   const heroNames={'VIP 3 Months':1,'Deluxe Dropbox (900+ vault)':1,'20 pics/vids':1};
-   categoryProducts.filter(p=>!heroNames[p.name]).forEach(p=>rest.append(buildCard(p,section,'calm')));
-   panel.append(rest);
- }else{
-   let videoHeadingAdded=false;
-   const grid=el('div','menu-calm-grid');
-   categoryProducts.forEach(p=>{
-     if(p.section==='VideoCalls'&&!videoHeadingAdded){
-       const videoHeading=el('div','video-call-intro');
-       videoHeading.append(el('h3','','VIDEO CALLS. MY RATES, MY RULES.'),el('p','','Calls are scheduled and approved by me before payment.'));
-       panel.append(videoHeading);
-       videoHeadingAdded=true;
-     }
-     grid.append(buildCard(p,section,'calm'));
-   });
-   panel.append(grid);
-   if(categoryProducts.some(p=>p.name==='Sexting · 30 Minutes')){
-     panel.append(el('div','menu-v2-notes',el('p','','Sexting & live shows are where the mess usually happens. Bring a towel, or don’t. I’m not your mother.')));
-   }
- }
- const list=notes[section]||[];
+ const grid=el('div','menu-calm-grid');
+ categoryProducts.forEach(p=>grid.append(buildCard(p,section,'calm')));
+ panel.append(grid);
+ const noteKey=section==='Bundles'?'BestSellers':section;
+ const list=notes[noteKey]||[];
  if(list.length){
    const note=el('div','menu-v2-notes');
    list.forEach(s=>note.append(el('p','',s)));
