@@ -24,32 +24,22 @@
 <link rel="stylesheet" href="/site-nav.css?v=20261121-clean-1">
 <link rel="stylesheet" href="/brand.css?v=20261121-clean-2">
 <link rel="stylesheet" href="/feed.css?v=20261121-clean-1">
-<link rel="stylesheet" href="/home.css?v=20261121-clean-3">
+<link rel="stylesheet" href="/home.css?v=20261121-round3-1">
 <link rel="stylesheet" href="/readable.css?v=20261121-type-1">
 </head>
 <body class="kbe-brand">
 <div class="kbe-backdrop" aria-hidden="true"><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div><div class="tiny-stars"></div></div>
-<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
+<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
   <div class="age-gate-panel">
-    <section id="botGateStep" class="age-gate-step">
-      <span class="age-gate-kicker">QUICK CHECK · STEP 1 OF 2</span>
-      <h1 id="botGateTitle">Verify you’re <em>not a bot.</em></h1>
-      <p id="botGateDescription">Choose the answer that applies, then confirm you’re over 18.</p>
-      <div class="age-gate-actions">
-        <button type="button" id="notBotConfirm">I’m not a bot · Continue</button>
-        <a href="https://www.google.com/" rel="nofollow">I am a bot · Leave</a>
-      </div>
-      <p class="age-gate-note">Quick self-check. This does not use automated bot detection.</p>
-    </section>
-    <section id="ageGateStep" class="age-gate-step" hidden>
-      <span class="age-gate-kicker">ADULTS ONLY · STEP 2 OF 2</span>
+    <section class="age-gate-step">
+      <span class="age-gate-kicker">ADULTS ONLY</span>
       <h1 id="ageGateTitle">Confirm you’re <em>over 18.</em></h1>
       <p id="ageGateDescription">This site is for adults only.</p>
       <div class="age-gate-actions">
-        <button type="button" id="ageGateConfirm">I’m 18+ · Enter site</button>
+        <button type="button" id="ageGateConfirm">I’m 18+ · Enter</button>
         <a href="https://www.google.com/" rel="nofollow">I’m under 18 · Leave</a>
       </div>
-      <p class="age-gate-note">Age confirmation is self-reported.</p>
+      <p class="age-gate-note">One tap. Age confirmation is self-reported.</p>
     </section>
   </div>
 </div>
@@ -84,29 +74,34 @@
     </div>
     <div class="hero-cards">
       <article class="hero-offer hero-offer--vip">
+        <div class="card-teaser"><img class="card-teaser-img" src="/assets/photos/evie-gallery-15.webp" width="640" height="800" alt="" loading="lazy" decoding="async"></div>
         <p class="eyebrow">Membership</p>
         <span class="badge">VIP · one month</span>
         <h2>VIP 1 Month</h2>
         <p class="price">$150</p>
         <p class="blurb">One month. Priority messages, casual FaceTimes, and me actually replying.</p>
-        <a class="hero-cta" href="/checkout?item=vip1">Get VIP · $150</a>
+        <p class="menu-v2-rule">FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.</p>
+        <a class="hero-cta" href="/menu#boutique">Add · $150</a>
       </article>
       <article class="hero-offer hero-offer--deluxe">
+        <div class="card-teaser"><img class="card-teaser-img" src="/assets/photos/evie-gallery-16.webp" width="640" height="800" alt="" loading="lazy" decoding="async"></div>
         <img class="hero-mark" src="/assets/brand/dropbox-mark.webp" width="28" height="28" alt="">
+        <p class="today-only-banner">Today only: $55 (was $75) + live pics if u pay today</p>
         <p class="eyebrow">The vault</p>
-        <span class="badge">Sale</span>
+        <span class="badge">Today only</span>
         <h2>Deluxe Dropbox</h2>
-        <p class="price">$55 <span class="was">$75</span></p>
-        <p class="blurb">900+ in the vault, on sale today.</p>
-        <a class="hero-cta" href="/checkout?item=deluxe55&amp;promo=55">Get the vault · $55</a>
+        <p class="price">$55 (was $75)</p>
+        <p class="blurb">900+ in the vault. One payment, lifetime access.</p>
+        <a class="hero-cta" href="/menu#boutique">Add · $55</a>
       </article>
       <article class="hero-offer hero-offer--sweet">
+        <div class="card-teaser"><img class="card-teaser-img" src="/assets/photos/evie-gallery-17.webp" width="640" height="800" alt="" loading="lazy" decoding="async"></div>
         <img class="hero-mark hero-mark--cherries" src="/assets/charms/cherries.webp" width="36" height="36" alt="">
         <p class="eyebrow">Just a taste</p>
         <h2>20 pics/vids</h2>
         <p class="price">$20</p>
         <p class="blurb">A little set, if you’re not ready for the vault yet.</p>
-        <a class="hero-cta" href="/checkout?item=bundle20">Add for $20</a>
+        <a class="hero-cta" href="/menu#boutique">Add · $20</a>
       </article>
     </div>
     <div class="home-hero-actions">
@@ -197,7 +192,7 @@
     <a href="/disclosure.html">Disclosure</a>
   </nav>
 </footer>
-<script src="/age-gate.js?v=20261120-routes-1"></script>
+<script src="/age-gate.js?v=20261121-round3-1"></script>
 <script src="/site-nav.js?v=20261121-clean-1"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="/member-config.js"></script>

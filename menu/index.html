@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="/public-gallery.css?v=20261027-gallery-1">
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script defer src="/menu-catalog.js?v=20261121-clean-3"></script>
+<script defer src="/menu-catalog.js?v=20261121-round3-1"></script>
 <script defer src="/app.js?v=20261121-bag-1"></script>
 <script defer src="/vip-terms.js?v=20261030-fulfillment-1"></script>
 <script defer src="/evie-nav.js?v=20261028-explore-1"></script>
@@ -368,27 +368,17 @@ html{scroll-padding-top:56px!important}
 </head>
 <body class="kbe-brand" id="top">
 <div class="kbe-backdrop" aria-hidden="true"><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div><div class="tiny-stars"></div></div>
-<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="botGateTitle" aria-describedby="botGateDescription">
+<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageGateTitle" aria-describedby="ageGateDescription">
   <div class="age-gate-panel">
-    <section id="botGateStep" class="age-gate-step">
-      <span class="age-gate-kicker">QUICK CHECK · STEP 1 OF 2</span>
-      <h1 id="botGateTitle">Verify you’re <em>not a bot.</em></h1>
-      <p id="botGateDescription">Choose the answer that applies, then confirm you’re over 18.</p>
-      <div class="age-gate-actions">
-        <button type="button" id="notBotConfirm">I’m not a bot · Continue</button>
-        <a href="https://www.google.com/" rel="nofollow">I am a bot · Leave</a>
-      </div>
-      <p class="age-gate-note">Quick self-check. This does not use automated bot detection.</p>
-    </section>
-    <section id="ageGateStep" class="age-gate-step" hidden>
-      <span class="age-gate-kicker">ADULTS ONLY · STEP 2 OF 2</span>
+    <section class="age-gate-step">
+      <span class="age-gate-kicker">ADULTS ONLY</span>
       <h1 id="ageGateTitle">Confirm you’re <em>over 18.</em></h1>
       <p id="ageGateDescription">This site is for adults only.</p>
       <div class="age-gate-actions">
-        <button type="button" id="ageGateConfirm">I’m 18+ · Enter site</button>
+        <button type="button" id="ageGateConfirm">I’m 18+ · Enter</button>
         <a href="https://www.google.com/" rel="nofollow">I’m under 18 · Leave</a>
       </div>
-      <p class="age-gate-note">Age confirmation is self-reported.</p>
+      <p class="age-gate-note">One tap. Age confirmation is self-reported.</p>
     </section>
   </div>
 </div>
@@ -430,10 +420,8 @@ html{scroll-padding-top:56px!important}
   <div class="menu-order-panel" id="work-order">
     <p class="eyebrow">SO. ARE YOU READY, OR WHAT?</p>
     <h3>Your picks. Then checkout.</h3>
-    <p>Add what you want. Venmo, Cash App, PayPal, and Amazon e-gift go through checkout, with a screenshot. Apple Pay, Zelle, and crypto stay on this page.</p>
-    <button type="button" class="primary-btn menu-order-button btn btn-primary" id="reviewOrder">Checkout</button>
-    <p id="reviewOrderHint" class="fine-print" aria-live="polite">Add your picks above first. I can’t read your mind.</p>
-    <p class="fine-print"><a href="/checkout">Open the payment page</a> if you already know the total.</p>
+    <p>Add what you want to your bag, then continue to checkout. Venmo, Cash App, PayPal, and Amazon e-gift are there, with a screenshot.</p>
+    <p id="reviewOrderHint" class="fine-print" aria-live="polite">Open your bag when you’re ready.</p>
   </div>
 </section>
 
@@ -444,17 +432,12 @@ html{scroll-padding-top:56px!important}
 <!-- PAYMENT OPTIONS -->
 <section class="payments" id="pay" aria-labelledby="payHeading">
   <h2 id="payHeading">How to pay</h2>
-  <p class="sub">Venmo, Cash App, PayPal, and Amazon e-gift go through <a href="/checkout">checkout</a>, with a payment screenshot. Apple Pay, Zelle, and crypto stay on this page.</p>
-  <p class="sub">For orders over $120, I may limit which payment methods are available because of dispute fraud.</p>
+  <p class="sub">Venmo, Cash App, PayPal, and Amazon e-gift are in checkout, with a payment screenshot. For orders over $120, I may limit which methods are available because of dispute fraud.</p>
   <div class="pay-grid">
-    <span class="pay-chip">Apple Pay</span>
-    <span class="pay-chip">CashApp</span>
     <span class="pay-chip">Venmo</span>
+    <span class="pay-chip">Cash App</span>
     <span class="pay-chip">PayPal</span>
-    <span class="pay-chip">Zelle</span>
-    <span class="pay-chip">USDC crypto</span>
-    <span class="pay-chip">Bitcoin</span>
-    <span class="pay-chip">Amazon e-gift → elviramack7@gmail.com</span>
+    <span class="pay-chip">Amazon e-gift</span>
   </div>
   <details class="crypto-details">
     <summary>Crypto addresses and QR codes</summary>
@@ -595,51 +578,8 @@ html{scroll-padding-top:56px!important}
   });
 })();
 </script>
-<script>
-(function(){
-  var gate=document.getElementById('ageGate');
-  var botStep=document.getElementById('botGateStep');
-  var ageStep=document.getElementById('ageGateStep');
-  var notBot=document.getElementById('notBotConfirm');
-  var confirm=document.getElementById('ageGateConfirm');
-  if(!gate||!botStep||!ageStep||!notBot||!confirm)return;
-  var key='evie-age-confirmed-v2';
-  var pageParts=Array.from(document.body.children).filter(function(node){return node!==gate});
-  function setPageBlocked(blocked){
-    document.body.style.overflow=blocked?'hidden':'';
-    pageParts.forEach(function(node){node.inert=blocked});
-  }
-  var alreadyConfirmed=false;
-  try{alreadyConfirmed=localStorage.getItem(key)==='yes'}catch(_){}
-  if(alreadyConfirmed){gate.hidden=true;setPageBlocked(false);return}
-  setPageBlocked(true);
-  notBot.focus();
-  notBot.addEventListener('click',function(){
-    botStep.hidden=true;
-    ageStep.hidden=false;
-    gate.setAttribute('aria-labelledby','ageGateTitle');
-    gate.setAttribute('aria-describedby','ageGateDescription');
-    confirm.focus();
-  });
-  confirm.addEventListener('click',function(){
-    try{localStorage.setItem(key,'yes')}catch(_){}
-    gate.hidden=true;
-    setPageBlocked(false);
-  });
-  document.addEventListener('keydown',function(event){
-    if(gate.hidden)return;
-    if(event.key==='Escape'){event.preventDefault();event.stopPropagation()}
-    if(event.key==='Tab'){
-      var focusable=Array.from(gate.querySelectorAll('button,a[href]')).filter(function(el){return !el.closest('[hidden]')});
-      var currentIndex=focusable.indexOf(document.activeElement);
-      var nextIndex=event.shiftKey?(currentIndex<=0?focusable.length-1:currentIndex-1):(currentIndex===focusable.length-1?0:currentIndex+1);
-      event.preventDefault();
-      focusable[nextIndex].focus();
-    }
-  },true);
-})();
-</script><link rel="stylesheet" href="/readable.css?v=20261121-type-1">
-<link rel="stylesheet" href="/collectible-menu.css?v=20261121-clean-3">
+<script src="/age-gate.js?v=20261121-round3-1"></script><link rel="stylesheet" href="/readable.css?v=20261121-type-1">
+<link rel="stylesheet" href="/collectible-menu.css?v=20261121-round3-1">
 <link rel="stylesheet" href="/home.css?v=20261121-clean-3">
 </body>
 </html>
