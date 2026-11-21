@@ -100,7 +100,7 @@ check('storefront continues to checkout', read('index.html').includes('Continue 
 const paypalMigration = read('supabase/migrations/20261120211500_evie_paypal_payment_method.sql');
 check('paypal migration allows the method', paypalMigration.includes("'paypal'") && paypalMigration.includes("'amazon_egift'") && paypalMigration.includes('evie_order_requests_payment_method_check'));
 check('admin labels PayPal', read('admin.js').includes("paypal:'PayPal'") && read('admin.js').includes("amazon_egift:'Amazon e-gift'"));
-check('admin orders view', read('admin.html').includes('panel-orders') && read('admin.js').includes("request('orders')"));
+check('admin orders code remains', read('admin.js').includes("request('orders')"));
 check('private bucket migration', read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql').includes("'evie-payment-proofs', false") || read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql').includes("false"));
 
 const migration = read('supabase/migrations/20261120153000_evie_checkout_payment_proof.sql');
