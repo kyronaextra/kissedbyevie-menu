@@ -15,7 +15,7 @@ const catalogContext = {window: {}};
 vm.createContext(catalogContext);
 vm.runInContext(read('checkout-catalog.js'), catalogContext);
 const catalog = catalogContext.window.EVIE_CHECKOUT_CATALOG;
-check('catalog loads', catalog && catalog.items.length === 10);
+check('catalog loads', catalog && catalog.items.length === 11);
 check('paypal link stored', catalog.paypalUrl === 'https://www.paypal.com/qrcodes/p2pqrc/DTBWZFQXN6494');
 
 const fn = read('supabase/functions/evie-order-request/index.ts');
@@ -43,12 +43,12 @@ menuNames.forEach((name) => {
   const known = catalog.aliases[name] || catalog.extras.some((extra) => extra.name === name);
   check('menu maps ' + name, !!known);
 });
-check('menu VIP 3 is 350', menu.includes("name:'VIP 3 Months',price:350"));
+check('menu VIP 3 is 300', menu.includes("name:'VIP 3 Months',price:300"));
 check('menu VIP 1 is 150', menu.includes("name:'VIP 1 Month',price:150"));
-check('menu has no old $300 VIP', !menu.includes('price:300') && !menu.includes('$300'));
+check('menu has no old $350 VIP', !menu.includes('price:350') && !menu.includes('$350'));
 check('menu dropbox is 900+', menu.includes('Deluxe Dropbox (900+ vault)') && !menu.includes('800+'));
-check('checkout VIP 3 is 350', catalog.items.find((item) => item.id === 'vip3').price === 350);
-check('checkout VIP 3 matches the menu price', catalog.items.find((item) => item.id === 'vip3').storefrontPrice === 350);
+check('checkout VIP 3 is 300', catalog.items.find((item) => item.id === 'vip3').price === 300);
+check('checkout VIP 3 matches the menu price', catalog.items.find((item) => item.id === 'vip3').storefrontPrice === 300);
 check('no copy-order button', !read('index.html').includes('id="copyOrder"') && !read('index.html').includes('Dick rate add-on'));
 check('checkout lists the four payment methods', read('checkout.html').includes('data-method="venmo"') && read('checkout.html').includes('data-method="cashapp"') && read('checkout.html').includes('data-method="paypal"') && read('checkout.html').includes('data-method="amazon_egift"'));
 
