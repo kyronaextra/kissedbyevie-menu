@@ -4,7 +4,6 @@
 // Prices marked "from" are minimums; all orders are reviewed before payment.
 const categories=[
   ["Bundles","Bundles"],
-  ["Dropbox","Dropbox"],
   ["VIP","VIP & GFE"],
   ["Customs","Customs"],
   ["More","Live & extras"]
@@ -18,44 +17,45 @@ const products=[
    description:'Fifty pics and vids.'},
   {section:'BestSellers',name:'Deluxe Dropbox (900+ vault)',price:75,salePrice:55,wasPrice:75,group:'vault',badge:'BEST VALUE',
    description:'The whole vault. 900+ pics and videos. One payment, lifetime access.',
-   note:'Sale price $55. Was $75. One Dropbox per order.',bagName:'Deluxe Dropbox Today Promo'},
+   note:'One Dropbox per order.',bagName:'Deluxe Dropbox Today Promo',todayOnly:true},
   {section:'BestSellers',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
    description:'Same 900+ vault, today’s price. This is not an add-on to the $75 Dropbox.'},
   {section:'BestSellers',name:'B/G Folder (3 vids)',price:35,
    description:'Three B/G videos. That’s the folder.'},
   {section:'BestSellers',name:'Dick Rating',price:35,
-   description:'On camera, out loud. $35.'},
+   description:'On camera, out loud.'},
   {section:'BestSellers',name:'Custom 1-min Video',price:50,
-   description:'One minute, your idea. $50.'},
+   description:'One minute, your idea.'},
   {section:'BestSellers',name:'VIP 1 Month',price:150,group:'membership',badge:'VIP · ONE MONTH',
    description:'One month. Priority messages, casual FaceTimes, and me actually replying.',
    features:['One month of VIP','The 900+ vault','Priority messages and calls'],
-   note:'FaceTime eligibility comes with VIP. Checkout charges $150.'},
+   rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
   {section:'BestSellers',name:'VIP 3 Months',price:350,group:'membership',badge:'BEST VALUE',
    description:'Three months. This is the one people actually finish.',
    features:['Three months of VIP','The 900+ vault','Priority messages and calls'],
-   note:'Checkout charges $350 for the three months.'},
+   rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
   {section:'Dropbox',name:'Deluxe Dropbox (900+ vault)',price:75,salePrice:55,wasPrice:75,group:'vault',
    description:'The whole thing. 900+ pics and videos. Lifetime access.',
-   note:'Sale price $55. Was $75. JOI, B/G, solo, clips, and the rest of the vault.',bagName:'Deluxe Dropbox Today Promo',
-   badge:'900+ ITEMS'},
+   note:'One Dropbox per order.',bagName:'Deluxe Dropbox Today Promo',
+   badge:'900+ ITEMS',todayOnly:true},
   {section:'Dropbox',name:'Deluxe Dropbox Today Promo',price:55,group:'vault',badge:'TODAY ONLY',promoOnly:true,
    description:'Same 900+ vault for $55 today.'},
   {section:'Dropbox',name:'B/G Folder (3 vids)',price:35,
    description:'Three B/G videos.'},
   {section:'VIP',name:'VIP 1 Month',price:150,group:'membership',badge:'$150',
    description:'One month of VIP. Priority messages and FaceTime eligibility.',
-   features:['One month','900+ vault','Priority messages and calls']},
+   features:['One month','900+ vault','Priority messages and calls'],
+   rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
   {section:'VIP',name:'VIP 3 Months',price:350,group:'membership',badge:'$350',
    description:'Three months of VIP.',
    features:['Three months','900+ vault','Priority messages and calls'],
-   note:'$350 for the three months.'},
+   rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'},
   {section:'VIP',name:'GFE',price:70,priceDisplay:'$70/mo',group:'membership',
    description:'The starter month. No vault and no explicit calls.',
    features:['Daily Snaps and clips','Priority replies','Casual calls only'],
-   note:'This is not VIP. VIP is $150 for one month or $350 for three.'},
+   note:'This is not VIP, and it does not include the vault.'},
   {section:'Customs',name:'Custom 1-min Video',price:50,
-   description:'One minute, your idea. $50 on the card and at checkout.'},
+   description:'One minute, your idea. Nothing starts until I’ve agreed.'},
   {section:'Customs',name:'Custom Photo Set · 5 Photos',price:45,
    description:'Five photos, exactly what you ask for. Add $7 for each one after that.'},
   {section:'Customs',name:'Custom Video · 3 Minutes',price:60,
@@ -82,17 +82,9 @@ const products=[
    description:'Four minutes, plus a few live pics. Content only, no extended chatting or dirty talk.'}
 ];
 const notes={
-  "BestSellers": [
-    "These card prices are the checkout prices. 10 is $10, 20 is $20, 50 is $50, the vault is $75, B/G is $35, a dick rating is $35, a 1-minute custom is $50, VIP is $150 or $350."
-  ],
-  "Dropbox": [
-    "The 900+ vault is $75. One Dropbox per order."
-  ],
-  "VIP": [
-    "VIP 1 Month is $150. VIP 3 Months is $350. GFE is the separate $70 starter and does not include the vault."
-  ],
+  "Bundles": [],
+  "VIP": [],
   "Customs": [
-    "A custom 1-minute video is $50. A 5-photo set is $45, plus $7 a photo after that. A 3-minute video is $60, plus $15 a minute after that. Rush is $15. Nothing starts until I’ve agreed.",
     "Give me a real idea and I’ll get into it. Tell me what to do or where to aim. I’ll make a real mess and send you the evidence. :)"
   ],
   "More": [
@@ -140,26 +132,10 @@ onlyfansIcon.src='/assets/brand/onlyfans-mark.webp';onlyfansIcon.alt='';onlyfans
 onlyfans.append(onlyfansIcon,el('span','','Free OnlyFans trial'));
 controls.append(onlyfans);
 function menuAction(p){
-  if(p.name==='GFE')return {label:'Try me · $70',variant:'btn-primary'};
-  if(p.name==='20 pics/vids')return {label:'Fine. $20',variant:'btn-primary'};
-  if(p.name==='VIP 1 Month')return {label:'Go VIP · $150',variant:'btn-primary'};
-  if(p.name==='VIP 3 Months')return {label:'Go VIP · $350',variant:'btn-primary'};
-  if(p.name==='Deluxe Dropbox Today Promo'||p.salePrice===55)return {label:'Add to bag',variant:'btn-primary'};
-  if(p.name==='Dick Rating')return {label:'Add · $35',variant:'btn-primary'};
-  if(p.name==='Custom 1-min Video')return {label:'Request this custom',variant:'btn-primary'};
-  if(p.quoteOnly)return {label:'Request a quote',variant:'btn-secondary'};
-  if(p.name==='Evidence Mystery Box')return {label:'Make my mystery box',variant:'btn-spotlight'};
-  if(p.name.startsWith('Evidence Mystery Bag'))return {label:'Choose this evidence bag',variant:'btn-primary'};
- if(p.section==='VideoCalls')return {label:'Request this video call',variant:'btn-primary'};
- if(p.group==='vault')return {label:'Add to bag',variant:'btn-primary'};
-  if(p.name==='Live Clips · Sent to Your Chat')return {label:'Add these clips',variant:'btn-primary'};
-  if(p.name.includes('Live Teasy Snaps'))return {label:'Pick this pack',variant:'btn-primary'};
-  if(p.name.startsWith('Live Snap Show'))return {label:'Choose this live',variant:'btn-primary'};
- if(p.name.includes('Sexting'))return {label:'Choose this session',variant:'btn-primary'};
- if(p.name.includes('Phone Call'))return {label:'Request a call',variant:'btn-secondary'};
- if(p.name.includes('Custom'))return {label:'Request this custom',variant:'btn-primary'};
- if(p.section==='Mid')return {label:'Add this pick',variant:'btn-primary'};
- return {label:'Add to bag',variant:'btn-secondary'};
+  const price=Number.isFinite(p.salePrice)?p.salePrice:p.price;
+  const display=p.priceDisplay||('$'+price);
+  const request=p.section==='Customs'||(p.name&&p.name.includes('Custom'));
+  return {label:(request?'Request · ':'Add · ')+display,variant:'btn-primary'};
 }
 function cardMood(p, section){
   if(section!=='BestSellers')return 'calm';
@@ -168,8 +144,48 @@ function cardMood(p, section){
   if(p.name==='20 pics/vids')return 'hero-sweet';
   return 'calm';
 }
+const TEASERS={
+  'Deluxe Dropbox (900+ vault)':'/assets/photos/evie-gallery-16.webp',
+  'VIP 1 Month':'/assets/photos/evie-gallery-15.webp',
+  'VIP 3 Months':'/assets/photos/evie-gallery-20.webp',
+  '20 pics/vids':'/assets/photos/evie-gallery-17.webp',
+  '10 pics/vids':'/assets/photos/evie-gallery-19.webp',
+  '50 pics/vids':'/assets/photos/evie-gallery-23.webp',
+  'B/G Folder (3 vids)':'/assets/photos/evie-gallery-18.webp',
+  'Dick Rating':'/assets/photos/evie-gallery-08.jpg',
+  'Custom 1-min Video':'/assets/photos/evie-gallery-13.jpg',
+  'Custom Photo Set · 5 Photos':'/assets/photos/evie-gallery-14.jpg',
+  'Custom Video · 3 Minutes':'/assets/photos/evie-gallery-12.jpg',
+  'GFE':'/assets/photos/evie-gallery-15.webp',
+  'Live Clips · Sent to Your Chat':'/assets/photos/evie-gallery-11.jpg',
+  'Moan Your Name':'/assets/photos/evie-gallery-09.jpg',
+  'JOI Add-On':'/assets/photos/evie-gallery-10.jpg',
+  'Voice Note':'/assets/photos/evie-gallery-07.jpg',
+  'Sexting · 10 Minutes':'/assets/photos/evie-gallery-06.jpg',
+  'Sexting · 15 Minutes':'/assets/photos/evie-gallery-05.jpg',
+  'Sexting · 30 Minutes':'/assets/photos/evie-gallery-04.jpg',
+  'Live Snap Show · 2 Minutes':'/assets/photos/evie-gallery-03.jpg',
+  'Live Snap Show · 4 Minutes':'/assets/photos/evie-gallery-02.jpg',
+  'Same Day Turnaround':'/assets/photos/evie-gallery-01.jpg'
+};
+function teaserFor(name){return TEASERS[name]||'/assets/photos/evie-gallery-19.webp'}
+function appendTeaser(card, name){
+  const wrap=el('div','card-teaser');
+  const img=el('img','card-teaser-img');
+  img.src=teaserFor(name);
+  img.alt='';
+  img.loading='lazy';
+  img.decoding='async';
+  img.width=640;img.height=800;
+  wrap.append(img);
+  card.append(wrap);
+}
 function buildCard(p, section, mood){
   const card=el('article','product-card menu-v2-card'+(p.badge?' featured':'')+(mood==='calm'?' card-calm':''));
+  appendTeaser(card,p.name);
+  if(p.todayOnly||p.salePrice===55){
+    card.append(el('p','today-only-banner','Today only: $55 (was $75) + live pics if u pay today'));
+  }
   if(mood==='hero-vip')card.classList.add('hero-card','hero-card--vip');
   if(mood==='hero-deluxe')card.classList.add('hero-card','hero-card--deluxe');
   if(mood==='hero-sweet')card.classList.add('hero-card','hero-card--sweet');
@@ -201,11 +217,14 @@ function buildCard(p, section, mood){
     info.append(list);
   }
   if(p.note)info.append(el('p','menu-v2-fine',p.note));
+  if(p.rule)info.append(el('p','menu-v2-rule',p.rule));
   const onSale=Number.isFinite(p.salePrice);
   const effectivePrice=onSale?p.salePrice:(p.price);
   const amount=el('strong','offer-price',p.priceDisplay||((p.extra?'+':'')+'$'+effectivePrice+(p.from?'+':'')));
   const priceStack=el('div','price-stack');
-  if(onSale)priceStack.append(el('span','offer-was','was $'+p.wasPrice));
+  if(onSale){
+    amount.textContent='$'+p.salePrice+' (was $'+p.wasPrice+')';
+  }
   priceStack.append(amount);
 
   const cta=menuAction(p);
@@ -299,9 +318,8 @@ function findProduct(name){
 }
 function productsFor(section){
   const names={
-    Bundles:['10 pics/vids','20 pics/vids','50 pics/vids','B/G Folder (3 vids)','Dick Rating'],
-    Dropbox:['Deluxe Dropbox (900+ vault)','B/G Folder (3 vids)'],
-    VIP:['VIP 1 Month','VIP 3 Months','GFE'],
+    Bundles:['10 pics/vids','50 pics/vids','B/G Folder (3 vids)','Dick Rating'],
+    VIP:['VIP 3 Months','GFE'],
     Customs:['Custom 1-min Video','Custom Photo Set · 5 Photos','Custom Video · 3 Minutes','Same Day Turnaround'],
     More:['Live Clips · Sent to Your Chat','Moan Your Name','JOI Add-On','Voice Note','Sexting · 10 Minutes','Sexting · 15 Minutes','Sexting · 30 Minutes','Live Snap Show · 2 Minutes','Live Snap Show · 4 Minutes']
   };
@@ -318,11 +336,10 @@ const showItems=[
     product:findProduct('Deluxe Dropbox (900+ vault)'),
     mood:'deluxe',
     eyebrow:'The vault',
-    badge:'Sale',
+    badge:'Today only',
     title:'Deluxe Dropbox',
-    blurb:'900+ in the vault, on sale today.',
-    cta:'Get the vault · $55',
-    href:'/checkout?item=deluxe55&promo=55',
+    blurb:'900+ in the vault. One payment, lifetime access.',
+    banner:'Today only: $55 (was $75) + live pics if u pay today',
     mark:{src:'/assets/brand/dropbox-mark.webp',cls:'hero-mark',w:28,h:28}
   },
   {
@@ -332,8 +349,7 @@ const showItems=[
     badge:'VIP · one month',
     title:'VIP 1 Month',
     blurb:'One month. Priority messages, casual FaceTimes, and me actually replying.',
-    cta:'Get VIP · $150',
-    href:'/checkout?item=vip1'
+    rule:'FaceTimes are reserved for those who have purchased a bundle or got VIP. VIP members only Friday-Sunday.'
   },
   {
     product:findProduct('20 pics/vids'),
@@ -342,8 +358,6 @@ const showItems=[
     badge:'',
     title:'20 pics/vids',
     blurb:'Twenty. Yes, it’s hard. That’s the point.',
-    cta:'Add for $20',
-    href:'/checkout?item=bundle20',
     mark:{src:'/assets/charms/cherries.webp',cls:'hero-mark hero-mark--cherries',w:36,h:36}
   }
 ];
@@ -351,25 +365,31 @@ showItems.forEach(function(item){
   const p=item.product;
   if(!p)return;
   const card=el('article','hero-offer hero-offer--'+item.mood);
+  appendTeaser(card,p.name);
   if(item.mark){
     const img=el('img',item.mark.cls);
     img.src=item.mark.src;img.alt='';img.width=item.mark.w;img.height=item.mark.h;
     card.append(img);
   }
+  if(item.banner)card.append(el('p','today-only-banner',item.banner));
   card.append(el('p','eyebrow',item.eyebrow));
   if(item.badge)card.append(el('span','badge',item.badge));
   card.append(el('h3','',item.title));
   const onSale=Number.isFinite(p.salePrice);
-  const price=el('p','price',onSale?('$'+p.salePrice): (p.priceDisplay||('$'+p.price)));
-  if(onSale){
-    const was=el('span','was','$'+p.wasPrice);
-    price.append(document.createTextNode(' '),was);
-  }
+  const effective=onSale?p.salePrice:p.price;
+  const price=el('p','price',onSale?('$'+p.salePrice+' (was $'+p.wasPrice+')'):(p.priceDisplay||('$'+p.price)));
   card.append(price);
   card.append(el('p','blurb',item.blurb));
-  const cta=el('a','hero-cta',item.cta);
-  cta.href=item.href;
-  card.append(cta);
+  if(item.rule)card.append(el('p','menu-v2-rule',item.rule));
+  const cta=menuAction(p);
+  const btn=el('button','hero-cta offer-btn add-product btn '+cta.variant);
+  btn.type='button';
+  btn.dataset.name=p.bagName||p.name;
+  btn.dataset.price=String(effective);
+  btn.dataset.cta=cta.label;
+  if(p.group)btn.dataset.exclusive=p.group;
+  btn.append(el('span','menu-v2-add-label',cta.label));
+  card.append(btn);
   showGrid.append(card);
 });
 showcase.append(showGrid);
@@ -390,7 +410,7 @@ categories.forEach(([section],i)=>{
  const grid=el('div','menu-calm-grid');
  categoryProducts.forEach(p=>grid.append(buildCard(p,section,'calm')));
  panel.append(grid);
- const noteKey=section==='Bundles'?'BestSellers':section;
+ const noteKey=section;
  const list=notes[noteKey]||[];
  if(list.length){
    const note=el('div','menu-v2-notes');

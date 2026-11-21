@@ -2,11 +2,8 @@
 (function () {
   'use strict';
   var gate = document.getElementById('ageGate');
-  var botStep = document.getElementById('botGateStep');
-  var ageStep = document.getElementById('ageGateStep');
-  var notBot = document.getElementById('notBotConfirm');
   var confirm = document.getElementById('ageGateConfirm');
-  if (!gate || !botStep || !ageStep || !notBot || !confirm) return;
+  if (!gate || !confirm) return;
   var key = 'evie-age-confirmed-v2';
   var pageParts = Array.from(document.body.children).filter(function (node) { return node !== gate; });
   function setPageBlocked(blocked) {
@@ -21,14 +18,7 @@
     return;
   }
   setPageBlocked(true);
-  notBot.focus();
-  notBot.addEventListener('click', function () {
-    botStep.hidden = true;
-    ageStep.hidden = false;
-    gate.setAttribute('aria-labelledby', 'ageGateTitle');
-    gate.setAttribute('aria-describedby', 'ageGateDescription');
-    confirm.focus();
-  });
+  confirm.focus();
   confirm.addEventListener('click', function () {
     try { localStorage.setItem(key, 'yes'); } catch (err) { /* private mode */ }
     gate.hidden = true;
