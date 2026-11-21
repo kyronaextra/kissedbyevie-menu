@@ -524,3 +524,68 @@
   line-height:1.4;
 }
 #boutique .price-stack .offer-price{font-size:1.15rem}
+
+/* Round 5: stacked menu sections — every item visible, jump chips on mobile */
+#boutique .menu-jump{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:8px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  overscroll-behavior-x:contain;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  padding:4px 0 10px;
+  flex:1 1 100%;
+  width:100%;
+  min-width:0;
+}
+#boutique .menu-jump::-webkit-scrollbar{display:none}
+#boutique .menu-jump-chip{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:8px 16px;
+  border-radius:999px;
+  border:1px solid rgba(255,208,234,.35);
+  background:#2a1024;
+  color:#ffe5fa;
+  font:600 13px/1.2 var(--font-sans,inherit);
+  letter-spacing:.04em;
+  text-decoration:none;
+  white-space:nowrap;
+}
+#boutique .menu-jump-chip:hover,
+#boutique .menu-jump-chip:focus-visible{background:#4a1a3a;color:#fff;outline:none}
+#boutique .menu-section{
+  margin:0 0 28px;
+  min-width:0;
+  scroll-margin-top:88px;
+}
+#boutique .menu-section-title{
+  margin:0 0 8px;
+  color:#fff;
+  font:normal clamp(28px,7vw,42px)/1.1 "Italiana",Georgia,serif;
+  letter-spacing:-.03em;
+}
+#boutique .menu-section-notes{
+  margin:0 0 14px;
+}
+#boutique .menu-section-notes p{
+  margin:0 0 8px;
+  color:#ffd0ea;
+  font-size:.95rem;
+  line-height:1.45;
+}
+#boutique .menu-calm-grid .card-teaser{
+  margin:0 0 12px;
+  border-radius:14px;
+  overflow:hidden;
+  aspect-ratio:4/5;
+  max-height:220px;
+}
+@media(min-width:720px){
+  #boutique .menu-calm-grid .card-teaser{max-height:260px}
+}
