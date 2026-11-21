@@ -65,7 +65,7 @@
   letter-spacing:.16em;
   text-transform:uppercase;
 }
-.hero-offer h2{
+.hero-offer h2,.hero-offer h3{
   margin:0;
   font-family:var(--font-display);
   font-style:italic;
