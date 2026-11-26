@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KissedByEvie — Neon UI Preview</title>
+<style>
+:root {
+  --neon-pink: #ff2d9a;
+  --neon-pink-hot: #ff48b9;
+  --neon-cyan: #00f0ff;
+  --neon-cyan-soft: #80efff;
+  --neon-green: #39ff14;
+  --neon-bg: #05020a;
+  --neon-glass: rgba(12, 4, 22, 0.65);
+  --neon-ink: #f8f2ff;
+  --neon-muted: #c4b8d4;
+  --neon-glow-pink: 0 0 12px var(--neon-pink-hot), 0 0 28px color-mix(in srgb, var(--neon-pink-hot) 40%, transparent);
+  --neon-glow-cyan: 0 0 12px var(--neon-cyan), 0 0 28px color-mix(in srgb, var(--neon-cyan) 40%, transparent);
+  --neon-radius: 20px;
+  --neon-radius-pill: 999px;
+}
+[data-theme="cyan"] {
+  --neon-pink: #00f0ff;
+  --neon-pink-hot: #80efff;
+  --neon-cyan: #ff48b9;
+}
+[data-theme="purple"] {
+  --neon-pink: #c084fc;
+  --neon-pink-hot: #e879f9;
+  --neon-cyan: #67e8f9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--neon-bg);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, #2a0a30 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, #0a2030 0%, transparent 40%);
+  color: var(--neon-ink);
+  font: 15px/1.5 system-ui, sans-serif;
+  padding: 24px 16px 60px;
+}
+h1 { text-align: center; font-size: 1.4rem; letter-spacing: 0.1em; margin-bottom: 8px; }
+.note { text-align: center; color: var(--neon-muted); font-size: 13px; margin-bottom: 24px; }
+section { max-width: 900px; margin: 0 auto 32px; }
+h2 { font-size: 0.9rem; letter-spacing: 0.12em; color: var(--neon-muted); margin-bottom: 12px; }
+.neon-live-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--neon-glass); backdrop-filter: blur(16px);
+  border: 1.5px solid var(--neon-pink-hot); border-radius: var(--neon-radius-pill);
+  padding: 10px 16px; box-shadow: var(--neon-glow-pink);
+}
+.neon-live-bar__status { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 0.06em; font-size: 13px; }
+.neon-live-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 8px var(--neon-green); }
+.neon-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.neon-card {
+  background: var(--neon-glass); backdrop-filter: blur(16px) saturate(1.2);
+  border: 1.5px solid var(--neon-pink-hot); border-radius: var(--neon-radius);
+  padding: 20px 16px; text-align: center;
+  box-shadow: var(--neon-glow-pink), inset 0 0 16px color-mix(in srgb, var(--neon-pink-hot) 12%, transparent);
+}
+.neon-card--cyan { border-color: var(--neon-cyan); box-shadow: var(--neon-glow-cyan), inset 0 0 16px color-mix(in srgb, var(--neon-cyan) 12%, transparent); }
+.neon-card__title { font-size: 1.3rem; font-weight: 800; margin: 8px 0 4px; text-shadow: 0 0 10px var(--neon-pink-hot); }
+.neon-card__price { font-size: 1.8rem; font-weight: 800; margin: 4px 0; text-shadow: 0 0 12px var(--neon-pink-hot); }
+.neon-card__sub { font-size: 0.75rem; opacity: 0.8; letter-spacing: 0.08em; margin-bottom: 12px; }
+.neon-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  background: linear-gradient(180deg, var(--neon-pink-hot), color-mix(in srgb, var(--neon-pink) 70%, #000));
+  color: #fff; border: none; border-radius: var(--neon-radius-pill);
+  padding: 10px 20px; font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
+  box-shadow: var(--neon-glow-pink); cursor: pointer; text-decoration: none;
+}
+.neon-btn:hover { filter: brightness(1.15); }
+.neon-btn:focus-visible { outline: 2px solid var(--neon-cyan); outline-offset: 3px; }
+.neon-btn--outline {
+  background: transparent; border: 1.5px solid var(--neon-pink-hot); color: var(--neon-pink-hot);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--neon-pink-hot) 40%, transparent);
+}
+.neon-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.neon-icon-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  background: rgba(10, 4, 20, 0.6);
+  border: 1.5px solid color-mix(in srgb, var(--neon-pink-hot) 60%, transparent);
+  border-radius: 16px; padding: 14px 8px; min-width: 72px;
+  color: var(--neon-pink-hot);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--neon-pink-hot) 30%, transparent);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-decoration: none;
+}
+.neon-icon-btn:hover, .neon-icon-btn:focus-visible {
+  border-color: var(--neon-cyan); color: var(--neon-cyan); box-shadow: var(--neon-glow-cyan); outline: none;
+}
+.neon-socials { display: flex; gap: 10px; justify-content: center; }
+.neon-social {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: #111; border: 1.5px solid color-mix(in srgb, var(--neon-pink-hot) 50%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--neon-pink-hot) 30%, transparent);
+  color: #fff; text-decoration: none; font-weight: 800; font-size: 12px;
+}
+.neon-social:hover, .neon-social:focus-visible {
+  border-color: var(--neon-cyan); box-shadow: var(--neon-glow-cyan); outline: none;
+}
+.theme-switch { display: flex; gap: 8px; justify-content: center; margin-bottom: 24px; }
+.theme-switch button {
+  background: transparent; border: 1px solid var(--neon-muted); color: var(--neon-ink);
+  border-radius: 999px; padding: 6px 14px; cursor: pointer; font-size: 12px;
+}
+.theme-switch button[aria-pressed="true"] { border-color: var(--neon-pink-hot); color: var(--neon-pink-hot); }
+@media (max-width: 700px) { .neon-grid-3 { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<h1>NEON UI PREVIEW</h1>
+<p class="note">Optional preview — not linked from the main menu.</p>
+<div class="theme-switch">
+  <button data-theme="default" aria-pressed="true">Default</button>
+  <button data-theme="cyan" aria-pressed="false">Cyan</button>
+  <button data-theme="purple" aria-pressed="false">Purple</button>
+</div>
+<section>
+  <h2>LIVE BAR</h2>
+  <div class="neon-live-bar">
+    <div class="neon-live-bar__status">
+      <span class="neon-live-dot" aria-hidden="true"></span>
+      LIVE ON STRIPCHAT
+    </div>
+    <a class="neon-btn" href="#">WATCH LIVE →</a>
+  </div>
+</section>
+<section>
+  <h2>OFFER CARDS</h2>
+  <div class="neon-grid-3">
+    <div class="neon-card">
+      <div class="neon-card__title">20 FOR $20</div>
+      <a class="neon-btn" href="#">TRY ME →</a>
+    </div>
+    <div class="neon-card">
+      <div class="neon-card__title">THE VAULT</div>
+      <div class="neon-card__price">$75</div>
+      <a class="neon-btn" href="#">UNLOCK →</a>
+    </div>
+    <div class="neon-card neon-card--cyan">
+      <div class="neon-card__title">VIP</div>
+      <div class="neon-card__price">$150</div>
+      <div class="neon-card__sub">RENEW $60 /MO</div>
+      <a class="neon-btn" href="#">GO VIP →</a>
+    </div>
+  </div>
+</section>
+<section>
+  <h2>ICON BUTTONS</h2>
+  <div class="neon-row">
+    <a class="neon-icon-btn" href="#">CUSTOMS</a>
+    <a class="neon-icon-btn" href="#">GALLERY</a>
+    <a class="neon-icon-btn" href="#">EXTRAS</a>
+    <a class="neon-icon-btn" href="#">MEMBERSHIPS</a>
+    <a class="neon-icon-btn" href="#">MORE</a>
+  </div>
+</section>
+<section>
+  <h2>SOCIALS</h2>
+  <div class="neon-socials">
+    <a class="neon-social" href="#" aria-label="OnlyFans">OF</a>
+    <a class="neon-social" href="#" aria-label="Instagram">IG</a>
+    <a class="neon-social" href="#" aria-label="TikTok">TT</a>
+    <a class="neon-social" href="#" aria-label="Telegram">TG</a>
+  </div>
+</section>
+<section>
+  <h2>OUTLINE BUTTON</h2>
+  <a class="neon-btn neon-btn--outline" href="#">OUTLINE</a>
+</section>
+<script>
+document.querySelectorAll('.theme-switch button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const theme = btn.dataset.theme;
+    document.documentElement.dataset.theme = theme === 'default' ? '' : theme;
+    document.querySelectorAll('.theme-switch button').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    btn.setAttribute('aria-pressed', 'true');
+  });
+});
+</script>
+</body>
+</html>
